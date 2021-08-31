@@ -6,7 +6,7 @@
 #    By: anadege <anadege@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/08/23 15:04:29 by anadege           #+#    #+#              #
-#    Updated: 2021/08/31 16:00:08 by anadege          ###   ########.fr        #
+#    Updated: 2021/08/31 19:47:15 by anadege          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,14 +20,14 @@ NAME = minishell
 
 CC	= cc
 
-CFLAGS	= -Wall -Wextra -Werror
+CFLAGS	= -Wall -Wextra -Werror -g
 
 OBJS	= ${SRCS:.c=.o}
 
 LIB		= -L libft -lft -lreadline
 
 %.o: %.c
-			${CC} -o $@ -c $<
+			${CC} -g -o $@ -c $<
 
 all:		${NAME}
 

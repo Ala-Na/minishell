@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/31 15:39:01 by anadege           #+#    #+#             */
-/*   Updated: 2021/08/31 17:54:32 by anadege          ###   ########.fr       */
+/*   Updated: 2021/08/31 20:31:30 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,35 +17,43 @@
 ** un nouvel element new_elem.
 ** Renvoie -1 en cas d'erreur, 0 sinon.
 */
-int	add_not_existing_elem_to_env(char **env, char *new_elem)
+int	add_not_existing_elem_to_env(char ***env, char *new_elem)
 {
 	char	**tmp_env;
 	int		i;
 	int		j;
 
-	while (env[i])
+	i = 0;
+	while ((*env)[i])
 		i++;
-	tmp_env = malloc(sizeof(*tmp_env) * (i + 1));
+	tmp_env = malloc(sizeof(*tmp_env) * (i + 2));
 	if (!tmp_env)
 		return (-1);
-	tmp_env[i] =  ft_strdup(new_elem);
-	if (!tmp_env[i])
+	j = 0;
+	while (j < i + 2)
 	{
-		free(tmp_env);
-		return (-1);
+		if (env[j])
+			tmp_env[j] = ft_strdup(env[j]);
+		else
+			tmp_env[j] =  ft_strdup(new_elem);
+		if (!tmp_env[j])
+		{
+			free_env(env, j);
+			return (-1);
+		}
+		j++;
 	}
-	i = 0;
-	while (env[i])
-	{
-		tmp_env[i] = env[i];
-		i++;
-	}
-	tmp_env[++i] = NULL;
-	free(env);
+	tmp_env[j] = NULL;
+	free_env(env, 0);
 	env = tmp_env;
 	return (0);
 }
 
+/*
+** Function qui modifie un element de env deja existant (de nom elem_name)
+** et le remplace par new_elem.
+** Retourne -1 en cas d'erreur, 0 sinon.
+*/
 int	add_existing_elem_to_env(char **env, char *new_elem, char *elem_name)
 {
 	int	i;
@@ -58,9 +66,15 @@ int	add_existing_elem_to_env(char **env, char *new_elem, char *elem_name)
 	while (env[elem_pos])
 	{
 		if (ft_strncmp(env[elem_pos], elem_name, ft_strlen(elem_name)))
-
+			break;
 		elem_pos++;
 	}
+	if (elem_pos == i)
+		return (-1);
+	free(env[elem_pos]);
+	env[elem_pos] = ft_strdup(new_elem);
+	if (!env[elem_pos])
+		return (-1);
 	return (0);
 }
 
@@ -135,12 +149,24 @@ void	show_env(t_infos *infos)
 	int	i;
 
 	i = 0;
-	while (infos->env[i])
+	while (infos && infos->env && infos->env[i])
 	{
-		write(1, infos->env[i], ft_strlen(infos->env[i]));
-		write (1, "\n", 1);
+		printf("%i %s\n", i, infos->env[i]);
+		//write(1, infos->env[i], ft_strlen(infos->env[i]));
+		//write (1, "\n", 1);
 		i++;
 	}
+}
+
+void	free_env(char **env)
+{
+	int	i;
+
+	i = 0;
+	while (env[i])
+		free(env[i++]);
+	free(env);
+
 }
 
 /*
@@ -162,7 +188,7 @@ int	save_env(t_infos *infos, char **env)
 	i = 0;
 	while (env[i])
 		i++;
-	tmp_env = malloc(sizeof(*tmp_env) * i);
+	tmp_env = malloc(sizeof(*tmp_env) * (i + 1));
 	if (!tmp_env)
 		return (-1);
 	i = 0;
@@ -180,6 +206,13 @@ int	save_env(t_infos *infos, char **env)
 		}
 		i++;
 	}
+	tmp_env[i] = NULL;
 	infos->env = tmp_env;
+	show_env(infos);
+	add_elem_to_env(infos->env, "lol=12");
+	show_env(infos);
+	//add_elem_to_env(infos->env, "lol=1");
+	//show_env(infos);
+	free_env(infos->env);
 	return (0);
 }

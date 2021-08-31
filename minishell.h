@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 15:55:23 by anadege           #+#    #+#             */
-/*   Updated: 2021/08/31 17:28:45 by anadege          ###   ########.fr       */
+/*   Updated: 2021/08/31 20:30:28 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,12 @@ void	add_line_to_history(int history_fd, char *str);
 
 int		change_directory(char *new_dir_path);
 
+//int		add_not_existing_elem_to_env(char **env, char *new_elem);
+//int		add_existing_elem_to_env(char **env, char *new_elem, char *elem_name);
+//int		add_elem_to_env(char **env, char *new_elem);
 char	*get_env_elem(char **env, char *elem);
+void	show_env(t_infos *infos);
+void	free_env(char **env, int last);
 int		save_env(t_infos *infos, char **env);
 
 

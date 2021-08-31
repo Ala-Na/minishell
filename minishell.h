@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 15:55:23 by anadege           #+#    #+#             */
-/*   Updated: 2021/08/30 17:38:36 by anadege          ###   ########.fr       */
+/*   Updated: 2021/08/31 17:28:45 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,11 @@
 
 #define	PROMPT_MSG "\033[1;38;5;51mPrompt > \033[0m"
 
+typedef struct s_infos
+{
+	char	**env;
+} t_infos ;
+
 void	simplify_prompt_curr_dir(char **prompt);
 char	*get_prompt_curr_dir(void);
 char	*get_prompt(void);
@@ -40,5 +45,9 @@ int		get_previous_history(void);
 void	add_line_to_history(int history_fd, char *str);
 
 int		change_directory(char *new_dir_path);
+
+char	*get_env_elem(char **env, char *elem);
+int		save_env(t_infos *infos, char **env);
+
 
 #endif

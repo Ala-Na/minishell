@@ -6,14 +6,15 @@
 #    By: anadege <anadege@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/08/23 15:04:29 by anadege           #+#    #+#              #
-#    Updated: 2021/08/30 17:26:44 by anadege          ###   ########.fr        #
+#    Updated: 2021/08/31 16:00:08 by anadege          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 SRCS	= ./main.c \
 		  ./cd.c \
 		  ./history.c \
-		  ./prompt.c
+		  ./prompt.c \
+		  ./env.c
 
 NAME = minishell
 

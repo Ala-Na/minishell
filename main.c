@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 14:58:07 by anadege           #+#    #+#             */
-/*   Updated: 2021/08/30 23:47:04 by anadege          ###   ########.fr       */
+/*   Updated: 2021/08/31 15:57:41 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,9 @@ int	main(int argc, char **argv, char **env)
 	char	*str;
 	char	*prompt;
 	int		history_fd;
+	t_infos	infos;
 
+	save_env(&infos, env);
 	history_fd = get_previous_history();
 	while (1)
 	{

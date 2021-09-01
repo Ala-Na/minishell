@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/01 21:56:08 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/01 22:21:41 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/01 22:46:30 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,17 +29,17 @@ int	add_not_existing_elem_to_env(char ***env, char *new_elem, int env_size)
 	while (++j < env_size + 1)
 	{
 		if ((*env)[j])
-			tmp_env[j] = ft_strdup((*env)[j]);
+			tmp_env[j] = (*env)[j];
 		else
 			tmp_env[j] = ft_strdup(new_elem);
 		if (!tmp_env[j])
 		{
-			free_env(tmp_env, j);
+			free(tmp_env);
 			return (-1);
 		}
 	}
 	tmp_env[j] = NULL;
-	free_env(*env, -1);
+	free(*env);
 	*env = tmp_env;
 	return (0);
 }

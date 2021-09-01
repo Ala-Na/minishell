@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 15:55:23 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/01 22:21:12 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/01 22:49:07 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ int		change_directory(char *new_dir_path);
 ** La fonction show_env doit être appelée lorsque le builtin ENV est appelé.
 */
 int		fill_env_with_deletion(char ***env, int elem_pos, int env_size);
-int		delet_elem_from_env(char ***env, char *elem);
+int		delete_elem_from_env(char ***env, char *elem);
 int		add_not_existing_elem_to_env(char ***env, char *new_elem, int env_size);
 int		modify_existing_elem_to_env(char **env, char *new_elem, char *elem_name);
 int		add_elem_to_env(char ***env, char *new_elem);

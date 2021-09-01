@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/01 21:57:01 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/01 22:15:06 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/01 22:47:44 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,17 +30,15 @@ int	fill_env_with_deletion(char ***env, int elem_pos, int env_size)
 	j = 0;
 	while (++i < env_size - 1)
 	{
-		tmp_env[i] = ft_strdup((*env)[j++]);
-		if (!tmp_env[i])
-		{
-			free_env(tmp_env, i);
-			return (-1);
-		}
+		tmp_env[i] = (*env)[j++];
 		if (j == elem_pos)
+		{
+			free((*env)[elem_pos]);
 			j++;
+		}
 	}
 	tmp_env[i] = NULL;
-	free_env(*env, -1);
+	free(*env);
 	*env = tmp_env;
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/30 17:19:27 by anadege           #+#    #+#             */
-/*   Updated: 2021/08/30 17:48:37 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/01 22:05:28 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	simplify_prompt_curr_dir(char **prompt)
 	free(tmp_home);
 }
 
-char	*get_prompt_curr_dir(void)
+char	*get_curr_dir(int prompt)
 {
 	size_t	size_buffer_dir = 512;
 	char	*buffer_dir;
@@ -51,7 +51,8 @@ char	*get_prompt_curr_dir(void)
 			return (NULL);
 		getcwd(buffer_dir, size_buffer_dir - 1);
 	}
-	simplify_prompt_curr_dir(&buffer_dir);
+	if (prompt)
+		simplify_prompt_curr_dir(&buffer_dir);
 	return (buffer_dir);
 }
 

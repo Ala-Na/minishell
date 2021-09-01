@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 15:55:23 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/01 21:43:01 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/01 22:04:56 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,13 +44,16 @@ typedef struct s_infos
 } t_infos ;
 
 /*
-** AFFICHAGE DU PROMPT
+** AFFICHAGE DU PROMPT / BULTIN PWD
 ** Quelques fonctions pour obtenir un affichage "propre" du
 ** prompteur sous le format :
 ** nom_du_prompteur > fichier_courant
+** get_curr_dir permet d'obtenir le dossier courant, et simplifie
+** HOME par ~ lorsque prompt est != 0. Il peut être utilisé pour obtenir
+** le dossier courant lors de l'appel au bultin PWD.
 */
 void	simplify_prompt_curr_dir(char **prompt);
-char	*get_prompt_curr_dir(void);
+char	*get_curr_dir(int prompt);
 char	*get_prompt(void);
 
 /*
@@ -64,6 +67,10 @@ char	*get_prompt(void);
 int		get_previous_history(void);
 void	add_line_to_history(int history_fd, char *str);
 
+/*
+** GESTION BUILTIN CD
+** Attention, n'affiche pas message erreur si mauvais path (à ajouter).
+*/
 int		change_directory(char *new_dir_path);
 
 

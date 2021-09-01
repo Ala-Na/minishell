@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/31 15:39:01 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/01 21:58:25 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/01 22:16:49 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,8 @@ void	show_env(char **env)
 /*
 ** Fonction pour libérer la mémoire allouée pour le tableau **env ainsi
 ** que chacun de ses élements. L'argument last représente le dernier élement
-** du tableau ayant été alloué. S'il est égal à -1, tous les élements sont libérés.
+** du tableau ayant été alloué. S'il est égal à -1, tous les élements sont
+** libérés.
 */
 void	free_env(char **env, int last)
 {
@@ -82,16 +83,19 @@ void	free_env(char **env, int last)
 			free(env[i++]);
 	}
 	free(env);
-
 }
 
 /*
-** Fonction ayant pour visee de sauvegarder les variables d'environnement dans
+** Fonction ayant pour visee de sauvegarder les variables d'environnement 
+** dans
 ** une struture contenant les informations pour le minishell.
-** Autre option : Sauvegarder env dans une liste chainee contenant le nom de l'element
+** Autre option : Sauvegarder env dans une liste chainee contenant le nom de
+** l'element
 ** (ex : PATH), le contenu correspondant et next vers le prochain element.
-** Avantage : Plus propre et evite realloc pour ajouter/supprimer une variable. 
-** Inconvenient : Plus complique a mettre en place et plus long/lent a explorer.
+** Avantage : Plus propre et evite realloc pour ajouter/supprimer une
+** variable. 
+** Inconvenient : Plus complique a mettre en place et plus long/lent a
+** explorer.
 ** Des allocations sont realisees pour pouvoir free sans soucis.
 ** Retourne -1 si erreur, 0 sinon.
 */
@@ -114,10 +118,7 @@ int	save_env(t_infos *infos, char **env)
 		tmp_env[i] = ft_strdup(env[i]);
 		if (!tmp_env[i])
 		{
-			i -= 1;
-			while (i >= 0)
-				free(tmp_env[i--]);
-			free(tmp_env);
+			free_env(tmp_env, i);
 			return (-1);
 		}
 		i++;

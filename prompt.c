@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/30 17:19:27 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/01 22:05:28 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/01 22:23:00 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,11 @@ void	simplify_prompt_curr_dir(char **prompt)
 
 char	*get_curr_dir(int prompt)
 {
-	size_t	size_buffer_dir = 512;
+	size_t	size_buffer_dir;
 	char	*buffer_dir;
 	char	*user;
 
+	size_buffer_dir = 512;
 	buffer_dir = malloc(sizeof(*buffer_dir) * size_buffer_dir);
 	if (!buffer_dir)
 		return (NULL);
@@ -62,7 +63,7 @@ char	*get_prompt(void)
 	char	*tmp_msg;
 	char	*msg;
 
-	curr_dir = get_prompt_curr_dir();
+	curr_dir = get_curr_dir(1);
 	if (!curr_dir)
 		return (NULL);
 	msg = ft_strjoin(PROMPT_MSG, "\033[38;5;31m");

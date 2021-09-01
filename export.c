@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/01 21:56:08 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/01 21:56:54 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/01 22:21:41 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,25 +17,21 @@
 ** un nouvel element new_elem.
 ** Renvoie -1 en cas d'erreur, 0 sinon.
 */
-int	add_not_existing_elem_to_env(char ***env, char *new_elem)
+int	add_not_existing_elem_to_env(char ***env, char *new_elem, int env_size)
 {
 	char	**tmp_env;
-	int		i;
 	int		j;
 
-	i = 0;
-	while ((*env)[i])
-		i++;
-	tmp_env = malloc(sizeof(*tmp_env) * (i + 2));
+	tmp_env = malloc(sizeof(*tmp_env) * (env_size + 2));
 	if (!tmp_env)
 		return (-1);
 	j = -1;
-	while (++j < i + 1)
+	while (++j < env_size + 1)
 	{
 		if ((*env)[j])
 			tmp_env[j] = ft_strdup((*env)[j]);
 		else
-			tmp_env[j] =  ft_strdup(new_elem);
+			tmp_env[j] = ft_strdup(new_elem);
 		if (!tmp_env[j])
 		{
 			free_env(tmp_env, j);
@@ -68,7 +64,7 @@ int	seek_elem_pos(char **env, char *elem_name)
 	while (env[elem_pos])
 	{
 		if (!ft_strncmp(env[elem_pos], elem_name, ft_strlen(elem_name)))
-			break;
+			break ;
 		elem_pos++;
 	}
 	if (elem_pos == i)
@@ -129,17 +125,24 @@ char	*get_elem_name(char *elem)
 ** env.
 ** Renvoie -1 en cas d'erreur, 0 sinon.
 ** ATTENTION : Ne verifie pas la conformite de la string new_elem.
+** Lui passer &infos->env en 1er argument.
 */
 int	add_elem_to_env(char ***env, char *new_elem)
 {
 	char	*elem_name;
+	int		env_size;
 	int		res;
 
+	if (!env || !new_elem)
+		return (-1);
+	env_size = 0;
+	while ((*env)[env_size])
+		env_size++;
 	elem_name = get_elem_name(new_elem);
 	if (!elem_name)
 		return (-1);
 	if (!get_env_elem(*env, elem_name))
-		res = add_not_existing_elem_to_env(env, new_elem);
+		res = add_not_existing_elem_to_env(env, new_elem, env_size);
 	else
 		res = modify_existing_elem_to_env(*env, new_elem, elem_name);
 	free(elem_name);

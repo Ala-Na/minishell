@@ -6,110 +6,11 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/31 15:39:01 by anadege           #+#    #+#             */
-/*   Updated: 2021/08/31 20:31:30 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/01 21:58:25 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-/*
-** Fonction qui augmente la taille du tableau env pour y ajouter
-** un nouvel element new_elem.
-** Renvoie -1 en cas d'erreur, 0 sinon.
-*/
-int	add_not_existing_elem_to_env(char ***env, char *new_elem)
-{
-	char	**tmp_env;
-	int		i;
-	int		j;
-
-	i = 0;
-	while ((*env)[i])
-		i++;
-	tmp_env = malloc(sizeof(*tmp_env) * (i + 2));
-	if (!tmp_env)
-		return (-1);
-	j = 0;
-	while (j < i + 2)
-	{
-		if (env[j])
-			tmp_env[j] = ft_strdup(env[j]);
-		else
-			tmp_env[j] =  ft_strdup(new_elem);
-		if (!tmp_env[j])
-		{
-			free_env(env, j);
-			return (-1);
-		}
-		j++;
-	}
-	tmp_env[j] = NULL;
-	free_env(env, 0);
-	env = tmp_env;
-	return (0);
-}
-
-/*
-** Function qui modifie un element de env deja existant (de nom elem_name)
-** et le remplace par new_elem.
-** Retourne -1 en cas d'erreur, 0 sinon.
-*/
-int	add_existing_elem_to_env(char **env, char *new_elem, char *elem_name)
-{
-	int	i;
-	int	elem_pos;
-
-	i = 0;
-	elem_pos = 0;
-	while (env[i])
-		i++;
-	while (env[elem_pos])
-	{
-		if (ft_strncmp(env[elem_pos], elem_name, ft_strlen(elem_name)))
-			break;
-		elem_pos++;
-	}
-	if (elem_pos == i)
-		return (-1);
-	free(env[elem_pos]);
-	env[elem_pos] = ft_strdup(new_elem);
-	if (!env[elem_pos])
-		return (-1);
-	return (0);
-}
-
-/*
-** Fonction a appeler lorsque le bultin export est en ligne de commande.
-** Va ajouter la nouvelle variable new_elem (format "VAR=value") au tableau
-** env.
-** Renvoie -1 en cas d'erreur, 0 sinon.
-** ATTENTION : Ne verifie pas la conformite de la string new_elem.
-*/
-int	add_elem_to_env(char **env, char *new_elem)
-{
-	char	*elem_name;
-	int		i;
-	int		res;
-
-	i = 0;
-	while (new_elem[i] != '=')
-		i++;
-	elem_name = malloc(sizeof(*elem_name) * (i + 1));
-	if (!elem_name)
-		return (-1);
-	i = 0;
-	while (new_elem[i] != '=')
-	{
-		elem_name[i] = new_elem[i];
-		i++;
-	}
-	elem_name[i] = 0;
-	if (!get_env_elem(env, elem_name))
-		res = add_not_existing_elem_to_env(env, new_elem);
-	else
-		res = add_existing_elem_to_env(env, new_elem, elem_name);
-	return (res);
-}
 
 /*
 ** Fonction retournant la valeur d'environnement correspondant a l'element donne
@@ -143,28 +44,43 @@ char	*get_env_elem(char **env, char *elem)
 /*
 ** Fonction permettant de montrer les variables environnementales.
 ** A appeler lorsque le builtin "env" est entre en ligne de commande.
+** Lui passer infos->env en argument.
 */
-void	show_env(t_infos *infos)
+void	show_env(char **env)
 {
 	int	i;
 
 	i = 0;
-	while (infos && infos->env && infos->env[i])
+	if (!env)
+		return ;
+	while (env[i])
 	{
-		printf("%i %s\n", i, infos->env[i]);
-		//write(1, infos->env[i], ft_strlen(infos->env[i]));
-		//write (1, "\n", 1);
+		write(1, env[i], ft_strlen(env[i]));
+		write (1, "\n", 1);
 		i++;
 	}
 }
 
-void	free_env(char **env)
+/*
+** Fonction pour libérer la mémoire allouée pour le tableau **env ainsi
+** que chacun de ses élements. L'argument last représente le dernier élement
+** du tableau ayant été alloué. S'il est égal à -1, tous les élements sont libérés.
+*/
+void	free_env(char **env, int last)
 {
 	int	i;
 
 	i = 0;
-	while (env[i])
-		free(env[i++]);
+	if (last > 0)
+	{
+		while (i < last)
+			free(env[i++]);
+	}
+	else if (last == -1)
+	{
+		while (env[i])
+			free(env[i++]);
+	}
 	free(env);
 
 }
@@ -208,11 +124,5 @@ int	save_env(t_infos *infos, char **env)
 	}
 	tmp_env[i] = NULL;
 	infos->env = tmp_env;
-	show_env(infos);
-	add_elem_to_env(infos->env, "lol=12");
-	show_env(infos);
-	//add_elem_to_env(infos->env, "lol=1");
-	//show_env(infos);
-	free_env(infos->env);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 15:55:23 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/02 12:00:48 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/02 15:18:32 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,25 @@
 # include <errno.h>
 # include <fcntl.h>
 
-#define	PROMPT_MSG "\033[1;38;5;51mPrompt > \033[0m"
+#define PROMPT_MSG "\033[1;38;5;51mPrompt > \033[0m"
+
+/*
+** Enum utile dans le cas ou la ligne de commande contiendrait
+** un builtin.
+** Ajout d'une valeur LAUNCH dans le cas ou la ligne de commande
+** voudrait lancer un execuable.
+*/
+typedef enum e_builtin
+{
+	NONE,
+	ECHO,
+	CD,
+	PWD,
+	EXPORT,
+	UNSET,
+	ENV,
+	LAUNCH
+} t_builtin ;
 
 /*
 ** MINISHELL INFORMATION STRUCTURE
@@ -100,11 +118,17 @@ int		save_env(t_infos *infos, char **env);
 /*
 ** GESTION EXIT
 */
+int		check_if_exit_or_continue(t_infos *infos);
 int		clean_exit(t_infos *infos);
 
 /*
 ** INTIALISATION MINISHELL
 */
 int	init_minishell(t_infos *infos, char **env);
+
+/*
+** INTERPRETATION LIGNE COMMANDE
+*/
+t_builtin	check_builtin(char *first_elem_cmd_line);
 
 #endif

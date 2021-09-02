@@ -6,7 +6,7 @@
 #    By: anadege <anadege@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/08/23 15:04:29 by anadege           #+#    #+#              #
-#    Updated: 2021/09/02 12:03:09 by anadege          ###   ########.fr        #
+#    Updated: 2021/09/02 15:19:37 by anadege          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,8 +18,8 @@ SRCS	= ./main.c \
 		  ./export.c \
 		  ./unset.c \
 		  ./exit.c \
-		  ./init.c
-
+		  ./init.c \
+		  ./check_builtin.c
 
 NAME = minishell
 

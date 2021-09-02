@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 14:58:07 by anadege           #+#    #+#             */
-/*   Updated: 2021/08/31 15:57:41 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/02 12:09:27 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,35 +14,25 @@
 
 int	main(int argc, char **argv, char **env)
 {
-	char	*str;
-	char	*prompt;
-	int		history_fd;
 	t_infos	infos;
 
-	save_env(&infos, env);
-	history_fd = get_previous_history();
+	if (init_minishell(&infos, env) == -1)
+		return (1);
 	while (1)
 	{
-		prompt = get_prompt();
-		if (!prompt)
+		infos.prompt = get_prompt();
+		if (!infos.prompt)
 			return (1);
-		str = readline(prompt);
-		write(history_fd, str, ft_strlen(str));
-		write(history_fd, "\n", 1);
-		add_history(str);
-		if (!ft_strncmp(str, "exit", 5))
+		infos.curr_cmd = readline(infos.prompt);
+		add_line_to_history(infos.fd_history, infos.curr_cmd);
+		if (!ft_strncmp(infos.curr_cmd, "exit", 5))
 			break;
-		if (str)
-			free(str);
-		if (prompt)
-			free(prompt);
+		if (infos.curr_cmd)
+			free(infos.curr_cmd);
+		if (infos.prompt)
+			free(infos.prompt);
 	}
-	if (str)
-		free(str);
-	if (prompt)
-		free(prompt);
-	rl_clear_history();
-	close(history_fd);
+	clean_exit(&infos);
 	(void)argc;
 	(void)argv;
 	return (0);

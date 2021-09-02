@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 15:55:23 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/01 22:49:07 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/02 12:00:48 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,9 @@
 */
 typedef struct s_infos
 {
+	char	*prompt;
+	char	*curr_cmd;
+	int		fd_history;
 	char	**env;
 } t_infos ;
 
@@ -94,6 +97,14 @@ void	show_env(char **env);
 void	free_env(char **env, int last);
 int		save_env(t_infos *infos, char **env);
 
+/*
+** GESTION EXIT
+*/
+int		clean_exit(t_infos *infos);
 
+/*
+** INTIALISATION MINISHELL
+*/
+int	init_minishell(t_infos *infos, char **env);
 
 #endif

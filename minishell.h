@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 15:55:23 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/02 15:18:32 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/03 17:19:32 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,30 @@ typedef enum e_builtin
 } t_builtin ;
 
 /*
+** Enum pour identifier le type de token stocke dans la
+** structure t_cmd
+*/
+typedef enum e_tokentype
+{
+	UNKNOWN,
+	IDENTIFIER,
+	ASSIGNEMENT,
+	OPERATOR,
+	STRING
+} t_tokentype ;
+
+/*
+** Structure de type liste chainee pour stocker la ligne
+** de commande parsee
+*/
+typedef struct s_token
+{
+	char			*content;
+	t_tokentype		type;
+	struct s_cmd	*next;
+} t_token ;
+
+/*
 ** MINISHELL INFORMATION STRUCTURE
 ** Pour le moment, ne stock que les variables environnementales dans 
 ** un tableau char **env (autre possibilité : stocker dans liste
@@ -62,6 +86,7 @@ typedef struct s_infos
 	char	*curr_cmd;
 	int		fd_history;
 	char	**env;
+	int		last_exit_status;
 } t_infos ;
 
 /*
@@ -130,5 +155,12 @@ int	init_minishell(t_infos *infos, char **env);
 ** INTERPRETATION LIGNE COMMANDE
 */
 t_builtin	check_builtin(char *first_elem_cmd_line);
+
+/*
+** Lexer / parseur
+*/
+int		nbr_pipeline(char *cmd);
+void	sub_nbr_pipeline(char c, int *prev_was_pipe, int *in_string, char *string_char);
+	
 
 #endif

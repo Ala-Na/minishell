@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
+/*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 15:55:23 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/06 15:04:30 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/09/06 17:40:38 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,11 +116,11 @@ int		get_previous_history(void);
 void	add_line_to_history(int history_fd, char *str);
 
 /*
-** GESTION BUILTIN CD & PWD
+** GESTION BUILTIN CD
 ** Attention, n'affiche pas message erreur si mauvais path (à ajouter).
 */
 int		change_directory(char *new_dir_path);
-int		show_current_dir(void);
+
 
 /*
 ** GESTION BUILTINS ENV / EXPORT / UNSET
@@ -159,11 +159,11 @@ int	init_minishell(t_infos *infos, char **env);
 t_builtin	check_builtin(char *first_elem_cmd_line);
 
 /*
-** Lexer / parseur
+** TOKENISER
 */
-t_token		*scan_cmd(char *cmd);
+t_token		*tokenize_cmd(char *cmd, int *syntax_error);
 void		free_token_list_from_extrmity(t_token *tokens, int end);
-t_token		*init_new_token(t_token *prev, char *cmd);
+t_token		*init_new_token(t_token *prev, char *cmd, int *syntax_error);
 int			browse_token(char *begin_token);
 t_tokentype	identify_token_type(char *token, int length);
 

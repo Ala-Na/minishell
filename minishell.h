@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 15:55:23 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/03 17:19:32 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/06 14:01:19 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@
 ** Enum utile dans le cas ou la ligne de commande contiendrait
 ** un builtin.
 ** Ajout d'une valeur LAUNCH dans le cas ou la ligne de commande
-** voudrait lancer un execuable.
+** voudrait lancer un execuable (vraiment utile ?).
 */
 typedef enum e_builtin
 {
@@ -56,7 +56,6 @@ typedef enum e_builtin
 */
 typedef enum e_tokentype
 {
-	UNKNOWN,
 	IDENTIFIER,
 	ASSIGNEMENT,
 	OPERATOR,
@@ -69,9 +68,11 @@ typedef enum e_tokentype
 */
 typedef struct s_token
 {
-	char			*content;
+	char			*token;
+	int				length;
 	t_tokentype		type;
-	struct s_cmd	*next;
+	struct s_token	*prev;
+	struct s_token	*next;
 } t_token ;
 
 /*
@@ -84,9 +85,10 @@ typedef struct s_infos
 {
 	char	*prompt;
 	char	*curr_cmd;
+	t_token	*cmd_tokens;
 	int		fd_history;
 	char	**env;
-	int		last_exit_status;
+	int		last_exit_status; // Pour stocke le last exit status qui peut être appelé avec la variable $?
 } t_infos ;
 
 /*
@@ -159,8 +161,10 @@ t_builtin	check_builtin(char *first_elem_cmd_line);
 /*
 ** Lexer / parseur
 */
-int		nbr_pipeline(char *cmd);
-void	sub_nbr_pipeline(char c, int *prev_was_pipe, int *in_string, char *string_char);
-	
+t_token		*scan_cmd(char *cmd);
+void		free_token_list_from_extrmity(t_toen *tokens, int end);
+t_token		*init_new_token(t_token *prev, char *cmd);
+int			browse_token(char *begin_token);
+t_tokentype	identify_token_type(char *token, int length);
 
 #endif

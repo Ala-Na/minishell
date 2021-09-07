@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 15:55:23 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/07 14:59:07 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/07 15:40:03 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,6 +121,13 @@ void	add_line_to_history(int history_fd, char *str);
 */
 int		change_directory(char *new_dir_path);
 
+/*
+** GESTION BUILTIN ECHO
+** Reçoit directement la string "commande" et la longueur de la commande
+** La gestion de l'option -n se fait directement dans le built-in.
+*/
+int		echo_builtin(char *str, int str_length);
+int		check_n_option(char *str, int str_length, int *option);
 
 /*
 ** GESTION BUILTINS ENV / EXPORT / UNSET

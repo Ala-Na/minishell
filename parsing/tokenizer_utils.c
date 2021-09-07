@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/05 14:12:00 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/07 15:29:53 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/07 11:41:16 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	add_back_token(t_token **tokens, t_token *new)
 ** Return NULL if an error occurs like a string not closed of
 ** two operators following each other.
 */
-t_token	*init_new_token(t_token **tokens, char *cmd, int *syntax_error, char **error_pos)
+t_token	*init_new_token(t_token **tokens, char *cmd, int *syntax_error)
 {
 	t_token	*prev;
 	t_token	*new;
@@ -67,7 +67,7 @@ t_token	*init_new_token(t_token **tokens, char *cmd, int *syntax_error, char **e
 	if (!new)
 		return (NULL);
 	new->token = cmd;
-	new->length = browse_token(cmd, error_pos);
+	new->length = browse_token(cmd);
 	if (new->length == -1)
 	{
 		free(new);
@@ -75,14 +75,11 @@ t_token	*init_new_token(t_token **tokens, char *cmd, int *syntax_error, char **e
 		return (NULL);
 	}
 	new->type = identify_token_type(new->token, new->length);
-	new->next = NULL;
-	new->prev = NULL;
-	if (!*tokens)
-		return (new);
 	prev = *tokens;
-	while (prev && prev->next != NULL)
+	while (prev && prev->next)
 		prev = prev->next;
 	new->prev = prev;
+	new->next = NULL;
 	return (new);
 }
 

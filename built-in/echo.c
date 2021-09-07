@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/07 12:14:01 by hlichir           #+#    #+#             */
-/*   Updated: 2021/09/07 13:15:53 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/09/07 13:27:46 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	check_n_option(char *str, int str_length, int *option)
 
 	i = 4;
 	if (str_length <= i)
-		return (4);	
+		return (4);
 	while (str[i] && ft_iswhitespace(str[i]))
 		i++;
 	if (str_length < i + 2)
@@ -83,7 +83,6 @@ int	echo_builtin(char *str, int str_length)
 		write(1, "\n", 1);
 	return (0);
 }
-
 
 /*int	main(void)
 {

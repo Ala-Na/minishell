@@ -142,3 +142,80 @@ yolo ! \n
 yolo ! ;
 x
 exit
+test
+test a la con
+test a la con !
+test a la con !!!
+test a la con &
+test a la con \
+test a la con " lol
+test a la con " " >> <
+test a la con "truc" >> <
+test a la con >> <
+"truc"
+exit
+lol
+"lol"
+exit
+"lol"
+exit
+"lol"
+exit
+"lol"
+w
+exit
+"lol"
+exit
+"lol"
+exit
+"lol"
+exit
+exit
+"lol"
+exit
+"lol"
+exit
+truc
+truc "lol"
+truc "lol
+truc & 
+truc ;
+truc |
+exit
+essai
+essai "truc"
+essai "truc
+essai $ok
+essai ; ok
+essai \ ok
+essai | ok
+essai | ok |
+exit
+essai | ok |
+essai | ok
+essai \ ok
+essai ; ok
+essai $ok
+essai "truc
+essai "truc"
+essai "truc" >> <
+essai "truc" >> chouette
+exit
+essai "truc" >> chouette |
+exit
+essai "truc" >> chouette |
+exit
+essai "truc" >> chouette |
+exit
+essai "truc" >> chouette |
+exit
+essai "truc" >> chouette |
+essai "truc" >> chouette |
+exit
+essai "truc" >> chouette |
+exit
+essai "truc" >> chouette |
+exit
+exit
+essai "truc" >> chouette |
+exit

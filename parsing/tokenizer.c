@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/05 14:12:00 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/07 15:30:18 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/07 17:17:58 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,12 @@
 /*
 ** Sub-function to browse_token, when token begin with quote.
 */
-int	browse_string(char *begin_token, char stop_char, char **error_pos)
+int	browse_string(char *begin_token, char stop_char, int *syntax_error,
+	char **error_pos)
 {
 	int	i;
 
+	i = 0;
 	while (begin_token[i])
 	{
 		i++;
@@ -27,9 +29,11 @@ int	browse_string(char *begin_token, char stop_char, char **error_pos)
 	}
 	if (begin_token[i] != stop_char)
 	{
+		*syntax_error = -1;
 		*error_pos = begin_token;
 		return (-1);
 	}
+	i++;
 	return (i);
 }
 
@@ -40,7 +44,7 @@ int	browse_string(char *begin_token, char stop_char, char **error_pos)
 ** Doesn't check for any other syntax error except for a string to end 
 ** by the same char it stopped.
 */
-int	browse_token(char *begin_token, char **error_pos)
+int	browse_token(char *begin_token, int *syntax_error, char **error_pos)
 {
 	int		i;
 	char	var_char;
@@ -50,7 +54,8 @@ int	browse_token(char *begin_token, char **error_pos)
 	var_char = 0;
 	operator_char = 0;
 	if (ft_strchr("\"'", begin_token[i]))
-		return (browse_string(begin_token, begin_token[i], error_pos));
+		return (browse_string(begin_token, begin_token[i], syntax_error,
+				error_pos));
 	else if (ft_strchr("|><", begin_token[i]))
 		operator_char = begin_token[i++];
 	else if (begin_token[i] == '$')
@@ -62,7 +67,8 @@ int	browse_token(char *begin_token, char **error_pos)
 		else if (ft_strchr("\"' \t$|><", begin_token[i]))
 			break ;
 	}
-	if (operator_char && ft_strchr("><", operator_char) && operator_char == begin_token[i])
+	if (operator_char && ft_strchr("><", operator_char)
+		&& operator_char == begin_token[i])
 		i++;
 	return (i);
 }
@@ -99,6 +105,24 @@ int	check_operators_and_undefined_char(t_token *curr, t_token *prev,
 	return (0);
 }
 
+t_token	*check_cmd_end_is_not_operator(t_token **tokens,
+	int *syntax_error, char **error_pos)
+{
+	t_token	*last;
+
+	last = *tokens;
+	while (last->next)
+		last = last->next;
+	if (last->type == OPERATOR)
+	{
+		*error_pos = last->token;
+		*syntax_error = -4;
+		free_token_list_from_extremity(last, 1);
+		return (NULL);
+	}
+	return (*tokens);
+}
+
 /*
 ** Function to start parsing/lexing of command line into token.
 ** Return a doubly linked structure t_token where each element
@@ -126,37 +150,36 @@ t_token	*tokenize_cmd(char	*cmd, int *syntax_error, char **error_pos)
 		if (cmd[i] == 0)
 			break ;
 		tmp = init_new_token(&tokens, &cmd[i], syntax_error, error_pos);
-		if (!tmp)
+		if (!tmp || check_operators_and_undefined_char(tmp, tmp->prev,
+				syntax_error, error_pos) < 0)
 		{
 			free_token_list_from_extremity(tokens, 0);
 			return (NULL);
 		}
 		add_back_token(&tokens, tmp);
-		if (check_operators_and_undefined_char(tmp, tmp->prev, syntax_error, error_pos) < 0)
-		{
-			free_token_list_from_extremity(tokens, 0);
-			return (NULL);
-		}
 		i += tmp->length;
 	}
-	return (tokens);
+	return (check_cmd_end_is_not_operator(&tokens, syntax_error, error_pos));
 }
 
-/*// Main to check if tokenizing is fonctionning correctly
+/*
+// Main to check if tokenizing is fonctionning correctly
 int	main(int argc, char **argv)
 {
 	t_token *lst;
 	int		a;
 	char	*error_pos;
 
-	char *cmd = ft_strdup("$machin=truc|chouette>>lol?");
+	char *cmd = ft_strdup("$machin=truc|chouette>>\"lol\"?");
 	lst = tokenize_cmd(cmd, &a, &error_pos);
-	while (lst->next)
+	while (lst && lst->next)
 	{
 		printf("%s of size %i is %i type\n", lst->token, lst->length, lst->type);
 		lst = lst->next;
 	}
-	free_token_list_from_extremity(lst, 1);
+	if (lst)
+		free_token_list_from_extremity(lst, 1);
 	free(cmd);
 	return (0);
-}*/
+}
+*/

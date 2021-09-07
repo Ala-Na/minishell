@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/07 14:43:01 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/07 15:32:06 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/07 16:36:18 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ int	parsing_error(int syntax_error, char *error_pos)
 		printf("minishell : syntax error with consecutive operators found near %c\n", *error_pos);
 	else if (syntax_error == -3)
 		printf("minishell : syntax error with undefined special character %c\n", *error_pos);
+	else if (syntax_error == -4)
+		printf("minishell : syntax error with operator at the end %s\n", error_pos);
 	else
 		printf("minishell : parsing error\n");
 	return (1);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 15:55:23 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/07 14:59:07 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/07 16:12:42 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,6 +121,13 @@ void	add_line_to_history(int history_fd, char *str);
 */
 int		change_directory(char *new_dir_path);
 
+/*
+** GESTION BUILTIN ECHO
+** Reçoit directement la string "commande" et la longueur de la commande
+** La gestion de l'option -n se fait directement dans le built-in.
+*/
+int		echo_builtin(char *str, int str_length);
+int		check_n_option(char *str, int str_length, int *option);
 
 /*
 ** GESTION BUILTINS ENV / EXPORT / UNSET
@@ -164,8 +171,8 @@ t_builtin	check_builtin(char *first_elem_cmd_line);
 t_token		*tokenize_cmd(char *cmd, int *syntax_error, char **error_pos);
 void		free_token_list_from_extremity(t_token *tokens, int end);
 t_token		*init_new_token(t_token **tokens, char *cmd, int *syntax_error, char **error_pos);
-int			browse_string(char *begin_token, char stop_char, char **error_pos);
-int			browse_token(char *begin_token, char **error_pos);
+int			browse_string(char *begin_token, char stop_char, int *syntax_error, char **error_pos);
+int			browse_token(char *begin_token, int *syntax_error, char **error_pos);
 t_tokentype	identify_token_type(char *token, int length);
 int			check_operators_and_undefined_char(t_token *curr, t_token *prev, int *syntax_error, char **error_pos);
 void		add_back_token(t_token **tokens, t_token *new);

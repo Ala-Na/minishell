@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/05 14:12:00 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/07 15:29:53 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/07 17:19:21 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ t_tokentype	identify_token_type(char *token, int length)
 void	add_back_token(t_token **tokens, t_token *new)
 {
 	t_token	*last;
+
 	if (!new)
 		return ;
 	else if (!*tokens)
@@ -58,7 +59,8 @@ void	add_back_token(t_token **tokens, t_token *new)
 ** Return NULL if an error occurs like a string not closed of
 ** two operators following each other.
 */
-t_token	*init_new_token(t_token **tokens, char *cmd, int *syntax_error, char **error_pos)
+t_token	*init_new_token(t_token **tokens, char *cmd,
+	int *syntax_error, char **error_pos)
 {
 	t_token	*prev;
 	t_token	*new;
@@ -67,20 +69,19 @@ t_token	*init_new_token(t_token **tokens, char *cmd, int *syntax_error, char **e
 	if (!new)
 		return (NULL);
 	new->token = cmd;
-	new->length = browse_token(cmd, error_pos);
+	new->length = browse_token(cmd, syntax_error, error_pos);
 	if (new->length == -1)
 	{
 		free(new);
-		*syntax_error = -1; //string not closed
 		return (NULL);
 	}
 	new->type = identify_token_type(new->token, new->length);
-	new->next = NULL;
 	new->prev = NULL;
+	new->next = NULL;
 	if (!*tokens)
 		return (new);
 	prev = *tokens;
-	while (prev && prev->next != NULL)
+	while (prev && prev->next)
 		prev = prev->next;
 	new->prev = prev;
 	return (new);
@@ -93,7 +94,7 @@ t_token	*init_new_token(t_token **tokens, char *cmd, int *syntax_error, char **e
 */
 void	free_token_list_from_extremity(t_token *tokens, int end)
 {
-	t_token *to_free;
+	t_token	*to_free;
 
 	while (tokens)
 	{

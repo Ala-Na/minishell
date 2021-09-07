@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 15:55:23 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/07 11:42:44 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/07 14:59:07 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,14 +159,21 @@ int	init_minishell(t_infos *infos, char **env);
 t_builtin	check_builtin(char *first_elem_cmd_line);
 
 /*
-** TOKENISER
+** TOKENIZER
 */
-t_token		*tokenize_cmd(char *cmd, int *syntax_error);
+t_token		*tokenize_cmd(char *cmd, int *syntax_error, char **error_pos);
 void		free_token_list_from_extremity(t_token *tokens, int end);
-t_token		*init_new_token(t_token **tokens, char *cmd, int *syntax_error);
-int			browse_token(char *begin_token);
+t_token		*init_new_token(t_token **tokens, char *cmd, int *syntax_error, char **error_pos);
+int			browse_string(char *begin_token, char stop_char, char **error_pos);
+int			browse_token(char *begin_token, char **error_pos);
 t_tokentype	identify_token_type(char *token, int length);
-int			check_operators_and_undefined_char(t_token *curr, t_token *prev, int *syntax_error);
+int			check_operators_and_undefined_char(t_token *curr, t_token *prev, int *syntax_error, char **error_pos);
 void		add_back_token(t_token **tokens, t_token *new);
+
+/*
+** PARSING
+*/
+int	parsing_error(int syntax_error, char *error_pos);
+int parse_cmd(t_infos *infos);
 
 #endif

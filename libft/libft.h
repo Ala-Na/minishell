@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elanna <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/12 22:06:44 by elanna            #+#    #+#             */
-/*   Updated: 2021/06/22 15:30:23 by elanna           ###   ########.fr       */
+/*   Updated: 2021/09/07 12:46:15 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,7 @@ unsigned long long		ft_bintodec(unsigned long long bin, int start);
 int						ft_ishexa(int c);
 int						ft_isnumber(char *str);
 int						ft_isprintable(char *str);
+int						ft_iswhitespace(char c);
 
 /*
 ** Following : All prototypes functions for get_next_line-like.

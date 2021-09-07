@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: anadege <marvin@42.fr>                     +#+  +:+       +#+         #
+#    By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/05/26 11:25:33 by anadege           #+#    #+#              #
-#    Updated: 2021/06/22 15:30:48 by elanna           ###   ########.fr        #
+#    Updated: 2021/09/07 12:46:40 by hlichir          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,7 +42,8 @@ SRC = ./ft_atoi.c ./ft_bzero.c ./ft_calloc.c \
 ./ft_dtoa_utils_bonus.c ./ft_dtoa_bonus.c \
 ./ft_ishexa_bonus.c ./ft_putlenstr_fd_bonus.c \
 ./ft_putwstr_fd_bonus.c ./ft_wcrtomb_bonus.c \
-./ft_putlenwstr_fd.c ./ft_isnumber.c ./ft_isprintable.c
+./ft_putlenwstr_fd.c ./ft_isnumber.c ./ft_isprintable.c \
+./ft_iswhitespace.c
 
 
 HEADER = 		../includes

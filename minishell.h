@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 15:55:23 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/06 17:40:38 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/07 11:42:44 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,9 +162,11 @@ t_builtin	check_builtin(char *first_elem_cmd_line);
 ** TOKENISER
 */
 t_token		*tokenize_cmd(char *cmd, int *syntax_error);
-void		free_token_list_from_extrmity(t_token *tokens, int end);
-t_token		*init_new_token(t_token *prev, char *cmd, int *syntax_error);
+void		free_token_list_from_extremity(t_token *tokens, int end);
+t_token		*init_new_token(t_token **tokens, char *cmd, int *syntax_error);
 int			browse_token(char *begin_token);
 t_tokentype	identify_token_type(char *token, int length);
+int			check_operators_and_undefined_char(t_token *curr, t_token *prev, int *syntax_error);
+void		add_back_token(t_token **tokens, t_token *new);
 
 #endif

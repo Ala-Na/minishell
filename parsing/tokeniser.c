@@ -6,34 +6,11 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/05 14:12:00 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/06 16:08:32 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/07 11:45:59 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-
-/*
-** Identify token type an return the corresponding enum.
-*/
-t_tokentype	identify_token_type(char *token, int length)
-{
-	int			i;
-	t_tokentype	tmp_type;
-
-	i = 0;
-	if (token[i] == '"' || token[i] == '\'')
-		return (STRING);
-	else if (ft_strchr("|><", token[i]))
-		return (OPERATOR);
-	tmp_type = IDENTIFIER;
-	while (i < length && token[i])
-	{
-		if (token[i] == '=')
-			tmp_type = ASSIGNEMENT;
-		i++;
-	}
-	return (tmp_type);
-}
+#include "../minishell.h"
 
 /*
 ** Browse a string begin_token until the end of the token.
@@ -57,9 +34,9 @@ int	browse_token(char *begin_token)
 		operator_char = begin_token[i++];
 	while (!operator_char && begin_token[i] && ++i)
 	{
-		if (string_char && (string_char != '$' && begin_token[i] == string_char)
+		if (string_char && ((string_char != '$' && begin_token[i] == string_char)
 			|| (string_char == '$' && !ft_isalnum(begin_token[i])
-				&& begin_token[i] != '_'))
+				&& begin_token[i] != '_')))
 			break ;
 		else if (!string_char && ft_strchr("\"' \t$|><", begin_token[i]))
 			break ;
@@ -72,51 +49,30 @@ int	browse_token(char *begin_token)
 }
 
 /*
-** Function to create and initialize values of a new token
-** placed at the beginning of cmd string.
-** Add this token to a linked list thanks to prev argument.
-** Return NULL if an error occurs like a string not closed of
-** two operators following each other.
+** Check syntax error from tokens
 */
-t_token	*init_new_token(t_token *prev, char *cmd, int *syntax_error)
+int	check_operators_and_undefined_char(t_token *curr, t_token *prev, int *syntax_error)
 {
-	t_token	*new;
+	int	i;
 
-	new = malloc(sizeof(*new));
-	if (!new)
-		return (NULL);
-	new->token = cmd;
-	new->length = browse_token(cmd);
-	if (new->length == -1)
+	i = 0;
+	if (!curr)
+		return (-1);
+	while (curr->type != STRING && curr->token[i])
 	{
-		free(new);
-		*syntax_error = -1; //string not closed
-		return (NULL);
+		if (ft_strchr("\\;&()\n", curr->token[i]))
+		{
+			*syntax_error = -3;
+			return (-1);
+		}
+		i++;
 	}
-	new->type = identify_token_type(new->token, new->length);
-	new->prev = prev;
-	new->next = NULL;
-	return (new);
-}
-
-/*
-** Free list of token from one of it's extremity. If end is equal to 1,
-** start freeing struct from the tail. If end is equal to 0, start
-** freeing fom the head.
-*/
-void	free_token_list_from_extremity(t_token *tokens, int end)
-{
-	t_token *to_free;
-
-	while (tokens)
+	if (prev && curr->type == OPERATOR && prev->type == OPERATOR)
 	{
-		to_free = tokens;
-		if (end)
-			tokens = tokens->prev;
-		else
-			tokens = tokens->next;
-		free(to_free);
+		*syntax_error = -2;
+		return (-1);
 	}
+	return (0);
 }
 
 /*
@@ -145,29 +101,31 @@ t_token	*tokenize_cmd(char	*cmd, int *syntax_error)
 			i++;
 		if (cmd[i] == 0)
 			break ;
-		tmp = init_new_token(tokens, &cmd[i], syntax_error);
+		tmp = init_new_token(&tokens, &cmd[i], syntax_error);
 		if (!tmp)
 		{
-			free_token_list_from_extremity(tokens, 1);
+			free_token_list_from_extremity(tokens, 0);
 			return (NULL);
 		}
-		if (tokens && tmp)
-			tokens->next = tmp;
+		add_back_token(&tokens, tmp);
+		if (check_operators_and_undefined_char(tmp, tmp->prev, syntax_error) < 0)
+		{
+			free_token_list_from_extremity(tokens, 0);
+			return (NULL);
+		}
 		i += tmp->length;
-		tokens = tmp;
 	}
-	while (tokens && tokens->prev)
-		tokens = tokens->prev;
 	return (tokens);
 }
 
-// Main to check if lexing is fonctionning correctly
+// Main to check if tokenizing is fonctionning correctly
 int	main(int argc, char **argv)
 {
 	t_token *lst;
+	int		a;
 
 	char *cmd = ft_strdup("$con=truc|chouette>>><lol?");
-	lst = tokenize_cmd(cmd, NULL);
+	lst = tokenize_cmd(cmd, &a);
 	while (lst)
 	{
 		printf("%s of size %i is %i type\n", lst->token, lst->length, lst->type);

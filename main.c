@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 14:58:07 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/07 15:02:30 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/08 17:10:58 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,8 @@ int	main(int argc, char **argv, char **env)
 			return (1);
 		infos.curr_cmd = readline(infos.prompt);
 		add_line_to_history(infos.fd_history, infos.curr_cmd);
-		printf("parse res : %i\n", parse_cmd(&infos));
+		if (infos.curr_cmd[0] != 0)
+			printf("parse res : %i\n", parse_cmd(&infos));
 		if (check_if_exit_or_continue(&infos) == 1)
 			break ;
 	}

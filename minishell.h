@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 15:55:23 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/07 16:12:42 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/08 15:59:07 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,34 @@ typedef struct s_token
 } t_token ;
 
 /*
+** Enum pour faciliter l'identification de l'operateur suivant la commande.
+*/
+typedef enum e_operator
+{
+	PIPE,
+	LT, // lesser than <
+	LT_DBL, // <<
+	GT, // greter than >
+	GT_DBL // >>
+} t_operator;
+
+/*
+** STRUCTURE DE COMMANDE SIMPLE
+** Structure pour identifier et stocker les différentes informations
+** pour chaque commande "simple" (commandes séparées par des opérateurs).
+*/
+typedef struct s_cmd
+{
+	t_token			*start;
+	t_token			*end;
+	t_operator		next_operator;
+	char			*output;
+	int				return_value;
+	struct s_cmd	*prev;
+	struct s_cmd	*next;
+} t_cmd;
+
+/*
 ** MINISHELL INFORMATION STRUCTURE
 ** Pour le moment, ne stock que les variables environnementales dans 
 ** un tableau char **env (autre possibilité : stocker dans liste
@@ -85,7 +113,8 @@ typedef struct s_infos
 {
 	char	*prompt;
 	char	*curr_cmd;
-	t_token	*cmd_tokens;
+	t_token	*lst_tokens;
+	t_cmd	*lst_cmds;
 	int		fd_history;
 	char	**env;
 	int		last_exit_status; // Pour stocke le last exit status qui peut être appelé avec la variable $?

@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/05 14:12:00 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/07 17:17:58 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/08 15:42:54 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,12 +105,21 @@ int	check_operators_and_undefined_char(t_token *curr, t_token *prev,
 	return (0);
 }
 
-t_token	*check_cmd_end_is_not_operator(t_token **tokens,
+t_token	*check_cmd_extremity_is_not_operator(t_token **tokens,
 	int *syntax_error, char **error_pos)
 {
+	t_token	*first;
 	t_token	*last;
 
+	first = *tokens;
 	last = *tokens;
+	if (first->type == OPERATOR)
+	{
+		*error_pos = first->token;
+		*syntax_error = -5;
+		free_token_list_from_extremity(last, 0);
+		return (NULL);
+	}
 	while (last->next)
 		last = last->next;
 	if (last->type == OPERATOR)
@@ -159,7 +168,7 @@ t_token	*tokenize_cmd(char	*cmd, int *syntax_error, char **error_pos)
 		add_back_token(&tokens, tmp);
 		i += tmp->length;
 	}
-	return (check_cmd_end_is_not_operator(&tokens, syntax_error, error_pos));
+	return (check_cmd_extremity_is_not_operator(&tokens, syntax_error, error_pos));
 }
 
 /*

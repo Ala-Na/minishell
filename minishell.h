@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 15:55:23 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/08 15:59:07 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/09 17:31:13 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@
 # include <readline/history.h>
 # include <errno.h>
 # include <fcntl.h>
+# include <sys/stat.h>
 
 #define PROMPT_MSG "\033[1;38;5;51mPrompt > \033[0m"
 
@@ -211,5 +212,14 @@ void		add_back_token(t_token **tokens, t_token *new);
 */
 int	parsing_error(int syntax_error, char *error_pos);
 int parse_cmd(t_infos *infos);
+
+/*
+** COMMAND EXECUTION
+*/
+char	*get_path(char *filepath, char **env);
+char	*get_absolute_path(char *filepath, char **env, char in_home);
+char	*get_absolute_path_from_path(char *filepath, char *env_var);
+char	*reconstitute_absolute_path(char *env_var, char *filepath);
+int	is_absolute_path(char *filepath);
 
 #endif

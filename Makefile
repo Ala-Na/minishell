@@ -6,7 +6,7 @@
 #    By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/08/23 15:04:29 by anadege           #+#    #+#              #
-#    Updated: 2021/09/07 15:40:35 by anadege          ###   ########.fr        #
+#    Updated: 2021/09/09 17:32:15 by anadege          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,8 @@ SRCS	= ./main.c \
 		  ./parsing/parsing.c \
 		  ./parsing/tokenizer.c \
 		  ./parsing/tokenizer_utils.c \
-		  ./built-in/echo.c
+		  ./built-in/echo.c \
+		  ./exec/seek_bin.c
 
 NAME = minishell
 

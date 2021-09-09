@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/05 14:12:00 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/08 15:42:54 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/09 21:10:04 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,37 +38,35 @@ int	browse_string(char *begin_token, char stop_char, int *syntax_error,
 }
 
 /*
-** Browse a string begin_token until the end of the token.
+** Browse a string token until the end of the token.
 ** Return the token size or -1 if an error occurs (ex: string with
 ** no end).
 ** Doesn't check for any other syntax error except for a string to end 
 ** by the same char it stopped.
 */
-int	browse_token(char *begin_token, int *syntax_error, char **error_pos)
+int	browse_token(char *token, int *syntax_error, char **error_pos)
 {
 	int		i;
 	char	var_char;
-	char	operator_char;
+	char	ope_char;
 
 	i = 0;
 	var_char = 0;
-	operator_char = 0;
-	if (ft_strchr("\"'", begin_token[i]))
-		return (browse_string(begin_token, begin_token[i], syntax_error,
-				error_pos));
-	else if (ft_strchr("|><", begin_token[i]))
-		operator_char = begin_token[i++];
-	else if (begin_token[i] == '$')
-		var_char = 1;
-	while (!operator_char && begin_token[i] && ++i)
+	ope_char = 0;
+	if (ft_strchr("\"'", token[i]))
+		return (browse_string(token, token[i], syntax_error, error_pos));
+	else if (ft_strchr("|><", token[i]))
+		ope_char = token[i++];
+	else if (token[i] == '$' || token[i] == '~')
+		var_char = token[i];
+	while (!ope_char && token[i] && ++i)
 	{
-		if (var_char && !ft_isalnum(begin_token[i]) && begin_token[i] != '_')
+		if (var_char == '$' && !ft_isalnum(token[i]) && token[i] != '_')
 			break ;
-		else if (ft_strchr("\"' \t$|><", begin_token[i]))
+		else if (ft_strchr("\"' \t$|><~", token[i]) || var_char == '~')
 			break ;
 	}
-	if (operator_char && ft_strchr("><", operator_char)
-		&& operator_char == begin_token[i])
+	if (ope_char && ft_strchr("><", ope_char) && ope_char == token[i])
 		i++;
 	return (i);
 }
@@ -179,7 +177,7 @@ int	main(int argc, char **argv)
 	int		a;
 	char	*error_pos;
 
-	char *cmd = ft_strdup("$machin=truc|chouette>>\"lol\"?");
+	char *cmd = ft_strdup("$machin=truc|choue~tte>>\"lol\"?");
 	lst = tokenize_cmd(cmd, &a, &error_pos);
 	while (lst && lst->next)
 	{

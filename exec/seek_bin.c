@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 15:56:39 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/09 17:29:22 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/09 21:39:55 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 */
 int	is_absolute_path(char *filepath)
 {
-	if (!ft_strncmp("~/", filepath, 2))
+	if (!ft_strncmp("~", filepath, 1))
 		return (2);
 	else if (!ft_strncmp("./", filepath, 2) || !ft_strncmp("../", filepath, 3)
 		|| !ft_strncmp("/", filepath, 1))
@@ -100,7 +100,9 @@ char	*get_absolute_path(char *filepath, char **env, char in_home)
 			printf("error : missing variable HOME\n");
 			return (NULL);
 		}
-		path = reconstitute_absolute_path(env_var, filepath);
+		path = env_var;
+		if (ft_strlen(filepath) > 2)
+			path = reconstitute_absolute_path(env_var, &filepath[2]);
 		return (path);
 	}
 	env_var = get_env_elem(env, "PATH");

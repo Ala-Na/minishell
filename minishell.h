@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 15:55:23 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/09 17:31:13 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/10 11:39:49 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -221,5 +221,10 @@ char	*get_absolute_path(char *filepath, char **env, char in_home);
 char	*get_absolute_path_from_path(char *filepath, char *env_var);
 char	*reconstitute_absolute_path(char *env_var, char *filepath);
 int	is_absolute_path(char *filepath);
+
+/*
+** REPLACE VARIABLES
+*/
+void	expand_variables(t_infos *infos);
 
 #endif

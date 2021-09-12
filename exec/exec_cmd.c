@@ -6,12 +6,13 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 15:00:10 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/09 15:56:22 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/12 21:26:56 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/* First try
 int	execute_simple_cmd(t_infos *infos)
 {
 	pid_t	pid;
@@ -35,7 +36,9 @@ int	execute_simple_cmd(t_infos *infos)
 		//Chercher si filename est un chemin absolu. Si non, on le cherche dans PATH
 		if (execve(filename, args, envp) == -1)
 			//print message erreur; //Cas ou execution a echoue, + errno
-		exit(EXIT_FAILURE); //On arrive ici que si execve a échoué, car normalement le child est exit quand execve est successfull
+		exit(EXIT_FAILURE); //On arrive ici que si execve a échoué, car normalement 
+		//le child est exit quand execve est successfull
 	}
 	return (0);
 }
+*/

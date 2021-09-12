@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/11 13:44:45 by hlichir           #+#    #+#             */
-/*   Updated: 2021/09/11 17:56:03 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/09/12 21:28:32 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	sig_handler_function(int signum)
 	{
 		ft_putchar('\n');
 		rl_on_new_line();
-        rl_replace_line("", 0);
+		rl_replace_line("", 0);
 		rl_redisplay();
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/05 14:12:00 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/09 21:10:04 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/12 17:17:36 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,7 +140,7 @@ t_token	*check_cmd_extremity_is_not_operator(t_token **tokens,
 ** (with NULL as previous for the first element and NULL as nest for
 ** the last).
 */
-t_token	*tokenize_cmd(char	*cmd, int *syntax_error, char **error_pos)
+t_token	*tokenize_cmd(char	*cmd, int *syn_err, char **err_pos)
 {
 	t_token	*tokens;
 	t_token	*tmp;
@@ -156,9 +156,9 @@ t_token	*tokenize_cmd(char	*cmd, int *syntax_error, char **error_pos)
 			i++;
 		if (cmd[i] == 0)
 			break ;
-		tmp = init_new_token(&tokens, &cmd[i], syntax_error, error_pos);
+		tmp = init_new_token(&tokens, &cmd[i], syn_err, err_pos);
 		if (!tmp || check_operators_and_undefined_char(tmp, tmp->prev,
-				syntax_error, error_pos) < 0)
+				syn_err, err_pos) < 0)
 		{
 			free_token_list_from_extremity(tokens, 0);
 			return (NULL);
@@ -166,7 +166,7 @@ t_token	*tokenize_cmd(char	*cmd, int *syntax_error, char **error_pos)
 		add_back_token(&tokens, tmp);
 		i += tmp->length;
 	}
-	return (check_cmd_extremity_is_not_operator(&tokens, syntax_error, error_pos));
+	return (check_cmd_extremity_is_not_operator(&tokens, syn_err, err_pos));
 }
 
 /*

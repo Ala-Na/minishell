@@ -6,16 +6,16 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/01 21:56:08 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/06 17:41:55 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/12 17:13:06 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
 /*
-** Fonction qui augmente la taille du tableau env pour y ajouter
-** un nouvel element new_elem.
-** Renvoie -1 en cas d'erreur, 0 sinon.
+** Function which augment the size of env array in order to add a new element
+** new_elem.
+** Return -1 if an error occurs, 0 otherwise.
 */
 int	add_not_existing_elem_to_env(char ***env, char *new_elem, int env_size)
 {
@@ -45,10 +45,10 @@ int	add_not_existing_elem_to_env(char ***env, char *new_elem, int env_size)
 }
 
 /*
-** Fonction pour obtenir la position d'un élement identifié
-** par le nom elem_name dans **env.
-** Renvoie l'index / 'la position dans **env, -1 si env ou
-** elem_name est NULL, -2 si l'élement n'est pas dans **env.
+** Function to obtains the position of an element identified
+** by the name elem_name inside **env.
+** Returns index (or position insided **env) if success, -1 if
+** env or elem_name is NULL, -2 if the element isn't found inside **env.
 */
 int	seek_elem_pos(char **env, char *elem_name)
 {
@@ -73,9 +73,9 @@ int	seek_elem_pos(char **env, char *elem_name)
 }
 
 /*
-** Function qui modifie un element de env deja existant (de nom elem_name)
-** et le remplace par new_elem.
-** Retourne -1 en cas d'erreur, 0 sinon.
+** Function which modify an element elem_name of env which already exist
+** and replace it's value by new_elem/
+** Returns -1 if an error occurs, 0 otherwise.
 */
 int	modify_existing_elem_to_env(char **env, char *new_elem, char *elem_name)
 {
@@ -92,9 +92,9 @@ int	modify_existing_elem_to_env(char **env, char *new_elem, char *elem_name)
 }
 
 /*
-** Fonction d'utilité pour récupérer uniquement la nom d'une variable
-** depuis son format sous la forme "NOM=valeur".
-** Retourne NULL en cas d'erreur.
+** Function which is useful to recuperate only the name of a variable
+** from it's format "NAME=value".
+** Returns NULL if an error occurs.
 */
 char	*get_elem_name(char *elem)
 {
@@ -120,12 +120,12 @@ char	*get_elem_name(char *elem)
 }
 
 /*
-** Fonction a appeler lorsque le bultin export est en ligne de commande.
-** Va ajouter la nouvelle variable new_elem (format "VAR=value") au tableau
+** Function to call when the built in export is inside the command.
+** It adds the new variable new_elem (format "NAME=value") to the array
 ** env.
-** Renvoie -1 en cas d'erreur, 0 sinon.
-** ATTENTION : Ne verifie pas la conformite de la string new_elem.
-** Lui passer &infos->env en 1er argument.
+** Returns -1 if an errors occurs, 0 otherwise.
+** WARNING : Does not check for the conformity of the string new_elem.
+** Must received &infos->env as first argument.
 */
 int	add_elem_to_env(char ***env, char *new_elem)
 {

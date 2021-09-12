@@ -291,3 +291,8 @@ lol test$PWD '$HOME'
 lol test$PWD'$HOME'
 lol tes"t$PWD"'$HOME'
 exit
+lol
+EOF
+< EOF
+tructructructructructructructructructructrucexit
+exit

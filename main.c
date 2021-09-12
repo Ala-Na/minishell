@@ -20,7 +20,6 @@ int	minishell_loop(t_infos *infos)
 		if (!infos->prompt)
 			return (1);
 		infos->curr_cmd = readline(infos->prompt);
-		rl_on_new_line();
 		if (infos->curr_cmd == NULL)
 		{
 			ft_putstr("\033[F");

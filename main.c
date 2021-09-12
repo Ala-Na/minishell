@@ -35,8 +35,6 @@
 
 int	minishell_loop(t_infos *infos)
 {
-	char buf[1];
-	
 	while (1)
 	{
 		infos->prompt = get_prompt();

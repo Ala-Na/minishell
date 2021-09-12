@@ -6,12 +6,22 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 21:45:16 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/09 23:43:07 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/10 15:02:39 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
+/*
+** Function to get the env variable pointed by the beginning of cmd.
+** Return the size difference between the variable and the size it takes inside
+** the original cmd line (ex : for variable lol=1, the difference size returned 
+** $lol of size 4 and it's value 1 of size 1 is -3).
+** It also fill the pointer on string **var with the string value of the 
+** env variable.
+** Return -1 (size of single char $) and fill var with NULL if the variable isn't
+** found or an error occurs.
+*/
 int	get_var(char *cmd, char **var, char **env)
 {
 	int		i;
@@ -41,12 +51,37 @@ int	get_var(char *cmd, char **var, char **env)
 	return (ft_strlen(*var) - i);
 }
 
+/*
+** Sub function of get_cmd 
+*/
+void	add_var(t_infos *infos, char **new_cmd, int *i, int *j)
+{
+	int		k;
+	char	*var;
+	int		var_size;
+
+	k = 0;
+	get_var(&infos->curr_cmd[i[0]], &var, infos->env);
+	var_size = ft_strlen(var);
+	while (k < var_size)
+	{
+		(*new_cmd)[*j] = var[k++];
+		*j += 1;
+	}
+	*i += 1;
+	while (infos->curr_cmd[*i])
+	{
+		if (!ft_isalnum(infos->curr_cmd[*i]) && infos->curr_cmd[*i] != '_')
+			return ;
+		*i += 1;
+	}
+}
+
 void	get_cmd_with_var(t_infos *infos, int new_size)
 {
-	int		i[3];
+	int		i[2];
 	int		ignore;
 	char	*new_cmd;
-	char	*var;
 	int		var_size;
 
 	i[0] = 0;
@@ -62,19 +97,8 @@ void	get_cmd_with_var(t_infos *infos, int new_size)
 		else if (infos->curr_cmd[i[0]] == '\'')
 			ignore = 0;
 		if (infos->curr_cmd[i[0]] == '$' && ignore == 0)
-		{
-			i[2] = 0;
-			get_var(&infos->curr_cmd[i[0]], &var, infos->env);
-			var_size = ft_strlen(var);
-			while (i[2] < var_size)
-				new_cmd[i[1]++] = var[i[2]++];
-			while (infos->curr_cmd[++i[0]])
-			{
-				if (!ft_isalnum(infos->curr_cmd[i[0]]) && infos->curr_cmd[i[0]] != '_')
-					break ;
-			}
-		}
-		else 
+			add_var(infos, &new_cmd, &i[0], &i[1]);
+		else
 			new_cmd[i[1]++] = infos->curr_cmd[i[0]++];
 	}
 	new_cmd[i[1]] = 0;

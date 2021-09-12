@@ -283,3 +283,11 @@ exit
 cool
 petit test $alacon | truc chouette=biduel
 exit
+test
+test $PWD
+test$PWD
+lol test$PWD
+lol test$PWD '$HOME'
+lol test$PWD'$HOME'
+lol tes"t$PWD"'$HOME'
+exit

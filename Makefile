@@ -6,7 +6,7 @@
 #    By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/08/23 15:04:29 by anadege           #+#    #+#              #
-#    Updated: 2021/09/10 11:40:18 by anadege          ###   ########.fr        #
+#    Updated: 2021/09/11 17:59:05 by hlichir          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,8 @@ SRCS	= ./main.c \
 		  ./parsing/get_variables.c \
 		  ./parsing/tokenizer_utils.c \
 		  ./built-in/echo.c \
-		  ./exec/seek_bin.c
+		  ./exec/seek_bin.c \
+		  ./signals.c
 
 NAME = minishell
 
@@ -38,7 +39,7 @@ OBJS	= ${SRCS:.c=.o}
 LIB		= -L libft -lft -lreadline
 
 %.o: %.c
-			${CC} -g -o $@ -c $<
+			${CC} -g -o $@ -c $< 
 
 all:		${NAME}
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 14:58:07 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/08 17:10:58 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/11 17:55:54 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,39 @@
 ** l'historique (cf history.c) et on peut y acceder par le suite en pressant la
 ** fleche du haut.
 */
+
+/*
+** Main séparé en deux fonctions (coucou norminette)
+** Ajout de la gestion du exit quand on clique sur ctrl + d
+** \033[F -> permet de revenir à la ligne précédente affichée sur le terminal
+** pour afficher prompt + "exit" comme sur bash (galère à trouver, mais ça en 
+** vaut la peine héhé)
+*/
+
+int	minishell_loop(t_infos *infos)
+{
+	while (1)
+	{
+		infos->prompt = get_prompt();
+		if (!infos->prompt)
+			return (1);
+		infos->curr_cmd = readline(infos->prompt);
+		if (infos->curr_cmd == NULL)
+		{
+			ft_putstr("\033[F");
+			ft_putstr(infos->prompt);
+			ft_putstr("exit\n");
+			break ;
+		}
+		add_line_to_history(infos->fd_history, infos->curr_cmd);
+		if (infos->curr_cmd[0] != 0)
+			printf("parse res : %i\n", parse_cmd(infos));
+		if (check_if_exit_or_continue(infos) == 1)
+			break ;
+	}
+	return (0);
+}
+
 int	main(int argc, char **argv, char **env)
 {
 	t_infos	infos;
@@ -32,18 +65,9 @@ int	main(int argc, char **argv, char **env)
 	(void)argv;
 	if (init_minishell(&infos, env) == -1)
 		return (1);
-	while (1)
-	{
-		infos.prompt = get_prompt();
-		if (!infos.prompt)
-			return (1);
-		infos.curr_cmd = readline(infos.prompt);
-		add_line_to_history(infos.fd_history, infos.curr_cmd);
-		if (infos.curr_cmd[0] != 0)
-			printf("parse res : %i\n", parse_cmd(&infos));
-		if (check_if_exit_or_continue(&infos) == 1)
-			break ;
-	}
+	handle_signals();
+	if (minishell_loop(&infos) == 1)
+		return (1);
 	clean_exit(&infos);
 	return (0);
 }

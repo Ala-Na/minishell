@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/12 22:06:44 by elanna            #+#    #+#             */
-/*   Updated: 2021/09/07 12:46:15 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/09/11 15:42:34 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,7 @@ int						ft_ishexa(int c);
 int						ft_isnumber(char *str);
 int						ft_isprintable(char *str);
 int						ft_iswhitespace(char c);
+void					ft_putstr(char *str);
 
 /*
 ** Following : All prototypes functions for get_next_line-like.

@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 15:55:23 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/12 21:48:06 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/12 22:16:50 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@
 # include <fcntl.h>
 # include <sys/stat.h>
 
-# define PROMPT_MSG "\033[1;38;5;51mPrompt > \033[0m"
+# define PROMPT_MSG "\001\033[1;38;5;51m\002Prompt > \001\033[0m\002"
 
 /*
 ** Enum useful to check if the command line contains a built in.

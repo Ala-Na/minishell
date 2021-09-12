@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 15:55:23 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/11 17:51:37 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/09/12 21:48:06 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +31,10 @@
 # include <fcntl.h>
 # include <sys/stat.h>
 
-#define PROMPT_MSG "\033[1;38;5;51mPrompt > \033[0m"
+# define PROMPT_MSG "\033[1;38;5;51mPrompt > \033[0m"
 
 /*
-** Enum utile dans le cas ou la ligne de commande contiendrait
-** un builtin.
-** Ajout d'une valeur LAUNCH dans le cas ou la ligne de commande
-** voudrait lancer un execuable (vraiment utile ?).
+** Enum useful to check if the command line contains a built in.
 */
 typedef enum e_builtin
 {
@@ -47,13 +44,11 @@ typedef enum e_builtin
 	PWD,
 	EXPORT,
 	UNSET,
-	ENV,
-	LAUNCH
-} t_builtin ;
+	ENV
+}	t_builtin;
 
 /*
-** Enum pour identifier le type de token stocke dans la
-** structure t_cmd
+** Enum useful to indicate the type of token.
 */
 typedef enum e_tokentype
 {
@@ -61,11 +56,12 @@ typedef enum e_tokentype
 	ASSIGNEMENT,
 	OPERATOR,
 	STRING
-} t_tokentype ;
+}	t_tokentype;
 
 /*
-** Structure de type liste chainee pour stocker la ligne
-** de commande parsee
+** TOKEN STRUCTURE
+** Structure and doubly linked list to stock
+** informations about tokens of a command line.
 */
 typedef struct s_token
 {
@@ -74,24 +70,25 @@ typedef struct s_token
 	t_tokentype		type;
 	struct s_token	*prev;
 	struct s_token	*next;
-} t_token ;
+}	t_token;
 
 /*
-** Enum pour faciliter l'identification de l'operateur suivant la commande.
+** Enum to identify the operator following a simple command.
+** LT (lesser than) = < LT_DBL = << GT (greater than) = > DT_DBL = >>
 */
 typedef enum e_operator
 {
 	PIPE,
-	LT, // lesser than <
-	LT_DBL, // <<
-	GT, // greter than >
-	GT_DBL // >>
-} t_operator;
+	LT,
+	LT_DBL,
+	GT,
+	GT_DBL
+}	t_operator;
 
 /*
-** STRUCTURE DE COMMANDE SIMPLE
-** Structure pour identifier et stocker les différentes informations
-** pour chaque commande "simple" (commandes séparées par des opérateurs).
+** SIMPLE COMMAND STRUCTURE
+** Structure to identify and stock informations for each "simple" command
+** (commands separated by operators).
 */
 typedef struct s_cmd
 {
@@ -102,13 +99,10 @@ typedef struct s_cmd
 	int				return_value;
 	struct s_cmd	*prev;
 	struct s_cmd	*next;
-} t_cmd;
+}	t_cmd;
 
 /*
 ** MINISHELL INFORMATION STRUCTURE
-** Pour le moment, ne stock que les variables environnementales dans 
-** un tableau char **env (autre possibilité : stocker dans liste
-** chaînée).
 */
 typedef struct s_infos
 {
@@ -118,80 +112,81 @@ typedef struct s_infos
 	t_cmd	*lst_cmds;
 	int		fd_history;
 	char	**env;
-	int		last_exit_status; // Pour stocke le last exit status qui peut être appelé avec la variable $?
-} t_infos ;
+	int		last_exit_status;
+}	t_infos;
 
 /*
-** AFFICHAGE DU PROMPT / BULTIN PWD
-** Quelques fonctions pour obtenir un affichage "propre" du
-** prompteur sous le format :
-** nom_du_prompteur > fichier_courant
-** get_curr_dir permet d'obtenir le dossier courant, et simplifie
-** HOME par ~ lorsque prompt est != 0. Il peut être utilisé pour obtenir
-** le dossier courant lors de l'appel au bultin PWD.
+** PROMPT DISPLAY
+** Set of function to display a "clean" prompt under the format :
+** prompt_name > current_directory (with HOME replace by ~).
 */
-void	simplify_prompt_curr_dir(char **prompt);
-char	*get_curr_dir(int prompt);
-char	*get_prompt(void);
+void		simplify_prompt_curr_dir(char **prompt);
+char		*get_curr_dir(int prompt);
+char		*get_prompt(void);
 
 /*
-** GESTION DE L'HISTORIQUE
-** Fonction permettant de récupérer l'historique des appels précédents
-** du programme minishell.
-** Permet de stocker les lignes de commandes dans un fichier minishell_history.
-** Le fichier est lu et chaque ligne est ajoutée à l'historique de readline
-** pour pouvoir y accèder en appuyant sur la flèche du haut.
+** HISTORY MANAGEMENT
+** Set of function to recuperate the history of precedent calls of 
+** minishell programm.
+** History is stocked inside a file named minishell history.
+** Each line of that file is added to readline when minishell is launched.
 */
-int		get_previous_history(void);
-void	add_line_to_history(int history_fd, char *str);
+int			get_previous_history(void);
+void		add_line_to_history(int history_fd, char *str);
 
 /*
-** GESTION BUILTIN CD
-** Attention, n'affiche pas message erreur si mauvais path (à ajouter).
+** BUILT IN CD
+** WARNING : Doesn't check if the path is correctly formated.
 */
-int		change_directory(char *new_dir_path);
+int			change_directory(char *new_dir_path);
 
 /*
-** GESTION BUILTIN ECHO
-** Reçoit directement la string "commande" et la longueur de la commande
-** La gestion de l'option -n se fait directement dans le built-in.
+** BUILT IN ECHO
+** Receive the string "command" and it's size.
+** Check for the option -n is made inside the built-in.
 */
-int		echo_builtin(char *str, int str_length);
-int		check_n_option(char *str, int str_length, int *option);
+int			echo_builtin(char *str, int str_length);
+int			check_n_option(char *str, int str_length, int *option);
 
 /*
-** GESTION BUILTINS ENV / EXPORT / UNSET
-** Reminder : Appeler save_end au début du script du minishell pour stocker les
-** variables d'environnements.
-** La fonction add_elem_to_env doit être appelé lorsque le builtin
-** EXPORT est appelé SOUS CONDITION que le format soit correct.
-** La fonction show_env doit être appelée lorsque le builtin ENV est appelé.
+** BUILT IN ENV / EXPORT / UNSET
+** Reminder : Call save_end at launch of minishell programm in order to
+** stock environmentals variables.
+** The function add_elem_to_env must be called when EXPORT is called IF
+** the format is correct.
+** The function show_env must be called when the built in ENV is called.
+** The function delete_elem_from_env must be called when the built
+** in UNSET is called.
 */
-int		fill_env_with_deletion(char ***env, int elem_pos, int env_size);
-int		delete_elem_from_env(char ***env, char *elem);
-int		add_not_existing_elem_to_env(char ***env, char *new_elem, int env_size);
-int		modify_existing_elem_to_env(char **env, char *new_elem, char *elem_name);
-int		add_elem_to_env(char ***env, char *new_elem);
-char	*get_elem_name(char *elem);
-char	*get_env_elem(char **env, char *elem);
-int		seek_elem_pos(char **env, char *elem_name);
-void	show_env(char **env);
-void	free_env(char **env, int last);
-int		save_env(t_infos *infos, char **env);
+int			fill_env_with_deletion(char ***env, int elem_pos, int env_size);
+int			delete_elem_from_env(char ***env, char *elem);
+int			add_not_existing_elem_to_env(char ***env, char *new_elem,
+				int env_size);
+int			modify_existing_elem_to_env(char **env, char *new_elem,
+				char *elem_name);
+int			add_elem_to_env(char ***env, char *new_elem);
+char		*get_elem_name(char *elem);
+char		*get_env_elem(char **env, char *elem);
+int			seek_elem_pos(char **env, char *elem_name);
+void		show_env(char **env);
+void		free_env(char **env, int last);
+int			save_env(t_infos *infos, char **env);
 
 /*
-** GESTION EXIT
+** EXIT MANAGEMENT
+** WARNING : Proper clean of all allocated memory to check before
+** submitting project.
 */
-int		check_if_exit_or_continue(t_infos *infos);
-int		clean_exit(t_infos *infos);
+int			check_if_exit_or_continue(t_infos *infos);
+int			clean_exit(t_infos *infos);
 
 /*
-** INTIALISATION MINISHELL
+** MINISHELL INTIALIZATION
 */
-int	init_minishell(t_infos *infos, char **env);
+int			init_minishell(t_infos *infos, char **env);
 
 /*
-** INTERPRETATION LIGNE COMMANDE
+** COMMAND LINE INTERPRETER
 */
 t_builtin	check_builtin(char *first_elem_cmd_line);
 
@@ -200,38 +195,48 @@ t_builtin	check_builtin(char *first_elem_cmd_line);
 */
 t_token		*tokenize_cmd(char *cmd, int *syntax_error, char **error_pos);
 void		free_token_list_from_extremity(t_token *tokens, int end);
-t_token		*init_new_token(t_token **tokens, char *cmd, int *syntax_error, char **error_pos);
-int			browse_string(char *begin_token, char stop_char, int *syntax_error, char **error_pos);
-int			browse_token(char *begin_token, int *syntax_error, char **error_pos);
+t_token		*init_new_token(t_token **tokens, char *cmd, int *syntax_error,
+				char **error_pos);
+int			browse_string(char *begin_token, char stop_char, int *syntax_error,
+				char **error_pos);
+int			browse_token(char *begin_token, int *syntax_error,
+				char **error_pos);
 t_tokentype	identify_token_type(char *token, int length);
-int			check_operators_and_undefined_char(t_token *curr, t_token *prev, int *syntax_error, char **error_pos);
+int			check_operators_and_undefined_char(t_token *curr, t_token *prev,
+				int *syntax_error, char **error_pos);
 void		add_back_token(t_token **tokens, t_token *new);
 
 /*
 ** PARSING
 */
-int	parsing_error(int syntax_error, char *error_pos);
-int parse_cmd(t_infos *infos);
+int			parsing_error(int syntax_error, char *error_pos);
+t_cmd		*separate_simple_cmd(t_infos *infos);
+int			check_init_new_cmd(t_cmd **new, t_token *lst_tokens,
+				t_cmd **lst_cmds, int *new_cmd);
+t_cmd		*init_new_cmd(t_token *start, t_cmd **head_lst);
+void		add_back_cmd(t_cmd **cmds, t_cmd *new);
+t_operator	identify_operator(t_token *operator);
+void		free_cmd_list_from_extremity(t_cmd *cmds, int end);
+int			parse_cmd(t_infos *infos);
 
 /*
 ** COMMAND EXECUTION
 */
-char	*get_path(char *filepath, char **env);
-char	*get_absolute_path(char *filepath, char **env, char in_home);
-char	*get_absolute_path_from_path(char *filepath, char *env_var);
-char	*reconstitute_absolute_path(char *env_var, char *filepath);
-int		is_absolute_path(char *filepath);
+char		*get_path(char *filepath, char **env);
+char		*get_absolute_path(char *filepath, char **env, char in_home);
+char		*get_absolute_path_from_path(char *filepath, char *env_var);
+char		*reconstitute_absolute_path(char *env_var, char *filepath);
+int			is_absolute_path(char *filepath);
 
 /*
 ** REPLACE VARIABLES
 */
-void	expand_variables(t_infos *infos);
+void		expand_variables(t_infos *infos);
 
 /*
-** HANGLE SIGNALS
+** SIGNALS HANDLER
 */
-
-void	handle_signals(void);
-void	sig_handler_function(int signum);
+void		handle_signals(void);
+void		sig_handler_function(int signum);
 
 #endif

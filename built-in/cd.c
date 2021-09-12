@@ -6,18 +6,18 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/30 16:59:11 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/06 17:41:13 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/12 16:34:32 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
 /*
-** Fonction pour effectuer un changement de fichier courant.
-** A utiliser lorsque le builtin cd est appele.
-** Utilise la fonction chdir. 
-** Renvoie -1 et affiche errer correspondante en cas
-** d'erreur.
+** Function to change the current directory.
+** To use when the buil in cd is called.
+** Use the function chdir.
+** Return -1 and display corresponding error if an error
+** occurs, 0 otherwise.
 */
 int	change_directory(char *new_dir_path)
 {

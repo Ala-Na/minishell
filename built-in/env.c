@@ -6,19 +6,19 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/31 15:39:01 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/06 17:41:43 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/12 16:56:51 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
 /*
-** Fonction retournant la valeur d'environnement correspondant a l'element donne
-** (ex : Pour HOME, retourne "/home/user42").
-** Fait le meme chose que la fonction getenv mais pour notre environnement ou des
-** variables ont pu etre ajoutee. Il faut lui passer infos->env commme argument
-** pour char **env.
-** Retourne NULL si l'element n'est pas trouve.
+** Function which returns environment's variable corresponding to the given 
+** element (ex : For HOME, returns "/home/user42").
+** Do the same as getenv function but for minishell environment where variables
+** can be added.
+** The argument char **env is infos->env.
+** Returns NULL if the element is not found.
 */
 char	*get_env_elem(char **env, char *elem)
 {
@@ -42,9 +42,9 @@ char	*get_env_elem(char **env, char *elem)
 }
 
 /*
-** Fonction permettant de montrer les variables environnementales.
-** A appeler lorsque le builtin "env" est entre en ligne de commande.
-** Lui passer infos->env en argument.
+** Function to display environment variables.
+** To call when the built in "env" is inside the commande line.
+** Need to received infos->env as argument.
 */
 void	show_env(char **env)
 {
@@ -62,10 +62,10 @@ void	show_env(char **env)
 }
 
 /*
-** Fonction pour libérer la mémoire allouée pour le tableau **env ainsi
-** que chacun de ses élements. L'argument last représente le dernier élement
-** du tableau ayant été alloué. S'il est égal à -1, tous les élements sont
-** libérés.
+** Function to free the allocated memory for the array **env and for each
+** of its element.
+** last argument represents the last element of the array which was allocated.
+** If last is equal to -1, every elements of the array is freed.
 */
 void	free_env(char **env, int last)
 {
@@ -86,18 +86,10 @@ void	free_env(char **env, int last)
 }
 
 /*
-** Fonction ayant pour visee de sauvegarder les variables d'environnement 
-** dans
-** une struture contenant les informations pour le minishell.
-** Autre option : Sauvegarder env dans une liste chainee contenant le nom de
-** l'element
-** (ex : PATH), le contenu correspondant et next vers le prochain element.
-** Avantage : Plus propre et evite realloc pour ajouter/supprimer une
-** variable. 
-** Inconvenient : Plus complique a mettre en place et plus long/lent a
-** explorer.
-** Des allocations sont realisees pour pouvoir free sans soucis.
-** Retourne -1 si erreur, 0 sinon.
+** Function which aim to save environment variables inside a structure
+** containing the minishell's informations.
+** Allocations are realised to free the array without complications.
+** Return -1 if an error occurs, 0 otherwise.
 */
 int	save_env(t_infos *infos, char **env)
 {

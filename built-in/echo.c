@@ -6,26 +6,23 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/07 12:14:01 by hlichir           #+#    #+#             */
-/*   Updated: 2021/09/07 13:27:46 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/09/12 16:42:30 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
 /*
-**	Ces fonctions sont appelées après avoir vérifié que les 4 premières lettres
-**	de str correspondent bien à "echo" et que la 5ème lettre est soit un 
-**	whitespace soit un '\0'.
-** /!\ La fonction echo n'imprime qu'un espace quand elle rencontre un tab
-** (généralisé aux whitespaces (?)) par défaut.
+** Functions to call when the built in echo is correctly called (4 letters = echo
+** followed by a whitespace or '\0') in the string *str.
+** WARNING : echo print a whitespace when a tab is meeted
+** (generalized to blanks ?) by default.
 */
 
 /*
-**	Cette fonction permet de vérifier si l'option n est activée (-n suivi 
-**	d'un whitespace ou d'un '\0') pour modifier la valeur de la variable
-**	option (en pointeur)
-**	Elle renvoit la bonne position dans la string str pour commencer
-**	l'impression des arguments.
+** Function to check if option -n is activated (followed by whitespace or '\0')
+** to modify the value of the argument *option which is a pointer to an int.
+** Returns the position of the first character to display in the string *str.
 */
 int	check_n_option(char *str, int str_length, int *option)
 {
@@ -50,11 +47,11 @@ int	check_n_option(char *str, int str_length, int *option)
 }
 
 /*
-**	La fonciton qui se lance pour exécuter la commande ECHO
-**	-> Vérifie si l'option -n est active ou non
-**	-> Imprime le reste de str en prenant bien en compte la particularité
-**		des whitespaces
-**	-> Cette fontion pourrait très bien être un void (à voir à la fin)
+** Function which is launched when the command contains the built in ECHO.
+** - Check if option -n is activated or not
+** - Display the rest of the string str (without echo and option) while 
+**   checking whitespaces.
+** This function return an int 0 but could return a void.
 */
 int	echo_builtin(char *str, int str_length)
 {
@@ -84,7 +81,8 @@ int	echo_builtin(char *str, int str_length)
 	return (0);
 }
 
-/*int	main(void)
+/* Main to test echo built in
+int	main(void)
 {
 	char *str = "echo -n					la deh					oehie 		,oej,de";
 	

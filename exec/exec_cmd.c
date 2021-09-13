@@ -3,14 +3,50 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 15:00:10 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/12 21:26:56 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/13 17:28:06 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
+
+/*
+**	[ONGOING -> handle assignation done]
+*/
+
+int	main_execution(t_infos *infos)
+{
+	t_cmd	*cmd;
+	t_var	*current;
+
+	cmd = infos->lst_cmds;
+	if (cmd && cmd->start->type == ASSIGNEMENT && cmd->next == NULL)
+		assign_variable(infos, cmd);
+	cmd = cmd->next;
+	while (cmd)
+	{
+		cmd = cmd->next;
+	}
+	return (0);
+}
+
+/*
+**	Bout de code pour vérifer que la liste des varibles est correcte
+**	-> quand on écrit "check var"
+*/
+/*		if(!ft_strncmp(cmd->start->token, "check var", 9))
+		{
+			current = infos->lst_var;
+			while (current)
+			{
+				printf("name: %s\n", current->name);
+				printf("value: %s\n", current->value);
+				current = current->next;
+			}
+		}
+*/
 
 /* First try
 int	execute_simple_cmd(t_infos *infos)

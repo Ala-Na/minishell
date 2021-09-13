@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 15:55:23 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/12 22:16:50 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/13 17:25:36 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,17 @@ typedef struct s_cmd
 }	t_cmd;
 
 /*
+** SIMPLE LINKED LIST TO KEEP THE LIST OF ADDED VARIABLES
+** When a variable is assigned without "export", the list is kept here.
+*/
+typedef struct s_var
+{
+	char			*name;
+	char			*value;
+	struct s_var	*next;
+}	t_var;
+
+/*
 ** MINISHELL INFORMATION STRUCTURE
 */
 typedef struct s_infos
@@ -112,6 +123,7 @@ typedef struct s_infos
 	t_cmd	*lst_cmds;
 	int		fd_history;
 	char	**env;
+	t_var	*lst_var;
 	int		last_exit_status;
 }	t_infos;
 
@@ -238,5 +250,21 @@ void		expand_variables(t_infos *infos);
 */
 void		handle_signals(void);
 void		sig_handler_function(int signum);
+
+/*
+** Handling assignments
+*/
+
+int			assign_variable(t_infos *infos, t_cmd *current_cmd);
+int			add_new_var_to_list(t_infos *infos, char *str);
+int			modify_var_in_list(t_infos *infos, char *str, int *check);
+char		*get_elem_value(char *str);
+int			free_lst_var(t_infos *infos);
+
+/*
+** Execution
+*/
+
+int			main_execution(t_infos *infos);
 
 #endif

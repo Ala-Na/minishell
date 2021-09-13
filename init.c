@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/02 11:52:56 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/13 18:18:42 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/09/13 18:49:54 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,12 @@
 */
 int	init_minishell(t_infos *infos, char **env)
 {	
+	g_exit_status = 0;
 	infos->prompt = NULL;
 	infos->curr_cmd = NULL;
 	infos->lst_var = NULL;
-	add_new_var_to_list(infos, "?=0");
+	if (add_new_var_to_list(infos, "?=0") < 0)
+		return (-1);
 	infos->fd_history = 0;
 	infos->env = NULL;
 	infos->fd_history = get_previous_history();

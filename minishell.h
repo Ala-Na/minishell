@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 15:55:23 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/13 18:23:04 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/09/13 18:48:39 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,12 @@
 # include <sys/stat.h>
 
 # define PROMPT_MSG "\001\033[1;38;5;51m\002Prompt > \001\033[0m\002"
+
+/*
+** Use of one global variable to handle exit_status = 130 when ctrl+c is used
+*/
+
+int					g_exit_status;
 
 /*
 ** Enum useful to check if the command line contains a built in.
@@ -188,6 +194,7 @@ int			save_env(t_infos *infos, char **env);
 ** WARNING : Proper clean of all allocated memory to check before
 ** submitting project.
 */
+int			check_exit_status(t_infos *infos);
 int			check_if_exit_or_continue(t_infos *infos);
 int			clean_exit(t_infos *infos);
 

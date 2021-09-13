@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 15:55:23 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/13 17:25:36 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/09/13 18:23:04 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,6 @@ typedef struct s_infos
 	int		fd_history;
 	char	**env;
 	t_var	*lst_var;
-	int		last_exit_status;
 }	t_infos;
 
 /*

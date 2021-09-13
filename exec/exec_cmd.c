@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 15:00:10 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/13 17:28:06 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/09/13 18:18:32 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,12 @@ int	main_execution(t_infos *infos)
 	t_var	*current;
 
 	cmd = infos->lst_cmds;
-	if (cmd && cmd->start->type == ASSIGNEMENT && cmd->next == NULL)
-		assign_variable(infos, cmd);
-	cmd = cmd->next;
+	if (cmd && cmd->start->type == ASSIGNEMENT)
+	{
+		if (cmd->next == NULL)
+			assign_variable(infos, cmd);
+		cmd = cmd->next;
+	}
 	while (cmd)
 	{
 		cmd = cmd->next;

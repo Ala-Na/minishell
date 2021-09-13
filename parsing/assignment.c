@@ -6,11 +6,11 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/13 16:06:44 by hlichir           #+#    #+#             */
-/*   Updated: 2021/09/13 17:24:33 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/09/13 17:36:00 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 /*
 ** Function to free the linked list of variables if assignments were set!

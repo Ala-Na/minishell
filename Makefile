@@ -6,7 +6,7 @@
 #    By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/08/23 15:04:29 by anadege           #+#    #+#              #
-#    Updated: 2021/09/12 21:18:25 by anadege          ###   ########.fr        #
+#    Updated: 2021/09/13 17:35:39 by hlichir          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,6 +26,8 @@ SRCS	= ./main.c \
 		  ./parsing/get_variables.c \
 		  ./parsing/tokenizer_utils.c \
 		  ./parsing/parsing_utils.c \
+		  ./parsing/assignment.c \
+		  ./exec/exec_cmd.c \
 		  ./exec/seek_bin.c \
 		  ./signals.c
 

@@ -6,11 +6,39 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/31 15:39:01 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/12 16:56:51 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/15 17:21:23 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+/*
+** Function which is useful to recuperate only the name of a variable
+** from it's format "NAME=value".
+** Returns NULL if an error occurs.
+*/
+char	*get_elem_name(char *elem, int size)
+{
+	char	*elem_name;
+	int		i;
+
+	i = 0;
+	if (!elem)
+		return (NULL);
+	while (elem[i] != '=' && i < size)
+		i++;
+	elem_name = malloc(sizeof(*elem_name) * (i + 1));
+	if (!elem_name)
+		return (NULL);
+	i = 0;
+	while (elem[i] != '=' && i < size)
+	{
+		elem_name[i] = elem[i];
+		i++;
+	}
+	elem_name[i] = 0;
+	return (elem_name);
+}
 
 /*
 ** Function which returns environment's variable corresponding to the given 
@@ -39,26 +67,6 @@ char	*get_env_elem(char **env, char *elem)
 		i++;
 	}
 	return (NULL);
-}
-
-/*
-** Function to display environment variables.
-** To call when the built in "env" is inside the commande line.
-** Need to received infos->env as argument.
-*/
-void	show_env(char **env)
-{
-	int	i;
-
-	i = 0;
-	if (!env)
-		return ;
-	while (env[i])
-	{
-		write(1, env[i], ft_strlen(env[i]));
-		write (1, "\n", 1);
-		i++;
-	}
 }
 
 /*

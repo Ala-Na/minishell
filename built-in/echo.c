@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/07 12:14:01 by hlichir           #+#    #+#             */
-/*   Updated: 2021/09/12 16:42:30 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/15 15:56:14 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,26 +24,20 @@
 ** to modify the value of the argument *option which is a pointer to an int.
 ** Returns the position of the first character to display in the string *str.
 */
-int	check_n_option(char *str, int str_length, int *option)
+int	check_n_option(t_token *first)
 {
 	int	i;
 
-	i = 4;
-	if (str_length <= i)
-		return (4);
-	while (str[i] && ft_iswhitespace(str[i]))
-		i++;
-	if (str_length < i + 2)
-		return (i);
-	if (str[i] && str[i] == '-' && str[i + 1] && str[i + 1] == 'n')
+	i = 1;
+	if (!first || first->token[0] != '-')
+		return (0);
+	while (i < first->length)
 	{
-		if (str[i + 2] == '\0' || ft_iswhitespace(str[i + 2]))
-		{
-			*option = 1;
-			return (i + 2);
-		}
+		if (first->token[i] != 'n')
+			return (0);
+		i++;
 	}
-	return (i);
+	return (1);
 }
 
 /*
@@ -53,32 +47,43 @@ int	check_n_option(char *str, int str_length, int *option)
 **   checking whitespaces.
 ** This function return an int 0 but could return a void.
 */
-int	echo_builtin(char *str, int str_length)
+int	echo_builtin(t_cmd *cmd)
 {
-	int	option;
-	int	i;
+	int		option;
+	int		i;
+	t_token	*to_print;
 
-	option = 0;
-	i = check_n_option(str, str_length, &option);
-	while (str[i] && ft_iswhitespace(str[i]))
-		i++;
-	while (str[i] && i < str_length)
+	to_print = cmd->start;
+	option = check_n_option(to_print);
+	if (option)
+		to_print = to_print->next;
+	while (to_print)
 	{
-		if (ft_iswhitespace(str[i]))
-		{
+		i = 0;
+		if (to_print->type == STRING && ++i)
+			to_print->length -= 2;
+		write(1, &to_print->token[i], to_print->length);
+		if (to_print == cmd->end)
+			break ;
+		to_print = to_print->next;
+		if (to_print)
 			write(1, " ", 1);
-			while (str[i] && i < str_length && ft_iswhitespace(str[i]))
-				i++;
-		}
-		else
-		{
-			write(1, str + i, 1);
-			i++;
-		}
 	}
 	if (option == 0)
 		write(1, "\n", 1);
 	return (0);
+}
+
+int	cmd_echo(t_infos *infos, t_cmd *cmd)
+{
+	int		str_size;
+	char	*str_begin;
+
+	if (!infos || !cmd
+		|| ft_strncmp(cmd->start->token, "echo", cmd->start->length))
+		return (-1);
+	cmd->start = cmd->start->next;
+	return (echo_builtin(cmd));
 }
 
 /* Main to test echo built in

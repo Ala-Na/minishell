@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/01 21:57:01 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/12 17:16:04 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/15 21:01:37 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,4 +64,81 @@ int	delete_elem_from_env(char ***env, char *elem_name)
 	while ((*env)[env_size])
 		env_size++;
 	return (fill_env_with_deletion(env, elem_pos, env_size));
+}
+
+int	delete_elem_from_var_lst(t_var **var_lst, char *elem_name)
+{
+	t_var	*prev_var;
+	t_var	*tmp_var;
+	t_var	*curr_var;
+
+	prev_var = NULL;
+	curr_var = *var_lst;
+	while (curr_var)
+	{
+		if (ft_strlen(elem_name) == ft_strlen(curr_var->name)
+			&& !ft_strncmp(elem_name, curr_var->name, ft_strlen(elem_name)))
+		{
+			if (prev_var)
+				prev_var->next = curr_var->next;
+			tmp_var = curr_var;
+			curr_var = curr_var->next;
+			free(tmp_var->name);
+			free(tmp_var->value);
+			free(tmp_var);
+			return (0);
+		}
+		prev_var = curr_var;
+		curr_var = curr_var->next;
+	}
+	return (0);
+}
+
+int	sub_unset_var(t_infos *infos, t_token *to_unset)
+{
+	int		tmp_res;
+	char	*elem_name;
+
+	tmp_res = -1;
+	if (to_unset->type != IDENTIFIER)
+	{
+		write(1, "unset: « ", 10);
+		write(1, to_unset->token, to_unset->length);
+		write(1, " » : not a valid identifier\n", 29);
+	}
+	else
+	{
+		elem_name = get_elem_name(to_unset->token, to_unset->length);
+		if (elem_name && get_env_elem(infos->env, elem_name))
+			tmp_res = delete_elem_from_env(&infos->env, elem_name);
+		else if (elem_name)
+			tmp_res = delete_elem_from_var_lst(&infos->lst_var, elem_name);
+		if (elem_name)
+			free(elem_name);
+	}
+	return (tmp_res);
+}
+
+int	unset_var(t_infos *infos, t_cmd *cmd)
+{
+	t_token	*to_unset;
+	char	*elem_name;
+	int		tmp_res;
+	int		res;
+
+	res = -1;
+	if (!infos || !cmd || ft_strncmp(cmd->start->token,
+			"unset", cmd->start->length))
+		return (-1);
+	to_unset = cmd->start->next;
+	while (to_unset)
+	{
+		tmp_res = sub_unset_var(infos, to_unset);
+		if (tmp_res == 0)
+			res = 0;
+		if (to_unset == cmd->end)
+			break ;
+		to_unset = to_unset->next;
+	}
+	return (res);
 }

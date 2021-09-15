@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/13 16:06:44 by hlichir           #+#    #+#             */
-/*   Updated: 2021/09/13 18:20:47 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/09/15 16:31:17 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,14 +60,14 @@ char	*get_elem_value(char *str)
 }
 
 /*
-**	Function to modify the value of an assigned variable
+** Function to modify the value of an assigned variable
 */
 int	modify_var_in_list(t_infos *infos, char *str, int *check)
 {
 	t_var	*current;
 	char	*tmp_name;
 
-	tmp_name = get_elem_name(str);
+	tmp_name = get_elem_name(str, ft_strlen(str));
 	if (!tmp_name)
 		return (0);
 	current = infos->lst_var;
@@ -92,7 +92,7 @@ int	modify_var_in_list(t_infos *infos, char *str, int *check)
 }
 
 /*
-**	Function to add a new variable to the linked list of assigned variables.
+** Function to add a new variable to the linked list of assigned variables.
 */
 int	add_new_var_to_list(t_infos *infos, char *str)
 {
@@ -105,7 +105,7 @@ int	add_new_var_to_list(t_infos *infos, char *str)
 	new = malloc(sizeof(t_var));
 	if (!new)
 		return (-1);
-	new->name = get_elem_name(str);
+	new->name = get_elem_name(str, ft_strlen(str));
 	new->value = get_elem_value(str);
 	if (!new->name || !new->value)
 		return (-1);
@@ -118,8 +118,8 @@ int	add_new_var_to_list(t_infos *infos, char *str)
 }
 
 /*
-**	Function that handle the assignation of a variable. Called when needed :
-**	Token type = ASSIGNMENT & no other command after that.
+** Function that handle the assignation of a variable. Called when needed :
+** Token type = ASSIGNMENT & no other command after that.
 */
 int	assign_variable(t_infos *infos, t_cmd *current_cmd)
 {

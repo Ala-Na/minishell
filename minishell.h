@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 15:55:23 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/13 18:48:39 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/09/15 21:03:05 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ typedef enum e_builtin
 typedef enum e_tokentype
 {
 	IDENTIFIER,
-	ASSIGNEMENT,
+	ASSIGNMENT,
 	OPERATOR,
 	STRING
 }	t_tokentype;
@@ -156,14 +156,21 @@ void		add_line_to_history(int history_fd, char *str);
 ** WARNING : Doesn't check if the path is correctly formated.
 */
 int			change_directory(char *new_dir_path);
+int			cmd_change_directory(t_infos *infos, t_cmd *cmd);
 
 /*
 ** BUILT IN ECHO
 ** Receive the string "command" and it's size.
 ** Check for the option -n is made inside the built-in.
 */
-int			echo_builtin(char *str, int str_length);
-int			check_n_option(char *str, int str_length, int *option);
+int			echo_builtin(t_cmd *cmd);
+int			check_n_option(t_token *first);
+int			cmd_echo(t_infos *infos, t_cmd *cmd);
+
+/*
+** BUILT IN PWD
+*/
+int			show_current_dir(void);
 
 /*
 ** BUILT IN ENV / EXPORT / UNSET
@@ -177,15 +184,20 @@ int			check_n_option(char *str, int str_length, int *option);
 */
 int			fill_env_with_deletion(char ***env, int elem_pos, int env_size);
 int			delete_elem_from_env(char ***env, char *elem);
+int			delete_elem_from_var_lst(t_var **var_lst, char *elem_name);
+int			sub_unset_var(t_infos *infos, t_token *to_unset);
+int			unset_var(t_infos *infos, t_cmd *cmd);
 int			add_not_existing_elem_to_env(char ***env, char *new_elem,
-				int env_size);
+				int elem_size, int env_size);
 int			modify_existing_elem_to_env(char **env, char *new_elem,
-				char *elem_name);
-int			add_elem_to_env(char ***env, char *new_elem);
-char		*get_elem_name(char *elem);
+				int elem_size, char *elem_name);
+int			add_elem_to_env(t_cmd *cmd, char ***env);
+int			sub_add_elem_to_env(t_cmd *cmd, char ***env,
+				t_token *new_elem, int env_size);
+char		*get_elem_name(char *elem, int size);
 char		*get_env_elem(char **env, char *elem);
 int			seek_elem_pos(char **env, char *elem_name);
-void		show_env(char **env);
+int			show_env(t_cmd *cmd, char **env, int export);
 void		free_env(char **env, int last);
 int			save_env(t_infos *infos, char **env);
 
@@ -247,9 +259,20 @@ char		*reconstitute_absolute_path(char *env_var, char *filepath);
 int			is_absolute_path(char *filepath);
 
 /*
+** CHECK FOR BUILTIN OR LAUNCH COMMAND
+*/
+int			launch_cmd(t_infos *infos, t_cmd *cmd);
+t_builtin	check_builtin(char *first_elem);
+
+/*
 ** REPLACE VARIABLES
 */
 void		expand_variables(t_infos *infos);
+int			get_var(char *cmd, char **var, char **env, t_var *var_lst);
+void		sub_get_var(char **var, char *elem_name,
+				char **env, t_var *var_lst);
+void		add_var(t_infos *infos, char **new_cmd, int *i, int *j);
+void		get_cmd_with_var(t_infos *infos, int new_size);
 
 /*
 ** SIGNALS HANDLER
@@ -260,7 +283,7 @@ void		sig_handler_function(int signum);
 /*
 ** Handling assignments
 */
-
+int			check_assignment(t_infos *infos, t_cmd *cmd);
 int			assign_variable(t_infos *infos, t_cmd *current_cmd);
 int			add_new_var_to_list(t_infos *infos, char *str);
 int			modify_var_in_list(t_infos *infos, char *str, int *check);
@@ -270,7 +293,6 @@ int			free_lst_var(t_infos *infos);
 /*
 ** Execution
 */
-
 int			main_execution(t_infos *infos);
 
 #endif

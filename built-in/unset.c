@@ -6,16 +6,16 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/01 21:57:01 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/06 17:42:18 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/12 17:16:04 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
 /*
-** Sous-fonction de delete_elem_from_env, permettant le remplacement
-** du tableau ***env par un nouveau tableau avec une case de moinsi (env_size), 
-** et sautant l'element en position elem_pos.
+** Sub function of delete_elem_from_env, which permits the replacment of **env
+** array by a new array minus one case (env_size), while skipping the element
+** to delete in position elem_pos.
 */
 int	fill_env_with_deletion(char ***env, int elem_pos, int env_size)
 {
@@ -44,11 +44,11 @@ int	fill_env_with_deletion(char ***env, int elem_pos, int env_size)
 }
 
 /*
-** Fonction pour la suppression d'une variable environnementale
-** lorsque le builtin unset est appelé.
-** ATTENTION : Ne vérifie pas le conformité du nom elem_name
-** (ex : ne doit pas contenir de =).
-** Lui passer &infos->env comme 1er argument.
+** Function to suppress an environmental variable when unset
+** built in is called.
+** WARNING : Does not check the conformity of the name elem_name
+** (should not be an assignment with an '=').
+** Must receive &infos->env as first argument.
 */
 int	delete_elem_from_env(char ***env, char *elem_name)
 {

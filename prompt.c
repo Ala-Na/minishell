@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/08/30 17:19:27 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/01 22:23:00 by anadege          ###   ########.fr       */
+/*   Created: 2021/09/12 21:48:31 by anadege           #+#    #+#             */
+/*   Updated: 2021/09/12 22:17:14 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,11 +66,11 @@ char	*get_prompt(void)
 	curr_dir = get_curr_dir(1);
 	if (!curr_dir)
 		return (NULL);
-	msg = ft_strjoin(PROMPT_MSG, "\033[38;5;31m");
+	msg = ft_strjoin(PROMPT_MSG, "\001\033[38;5;31m\002");
 	tmp_msg = ft_strjoin(msg, curr_dir);
 	free(curr_dir);
 	free(msg);
-	msg = ft_strjoin(tmp_msg, " \033[0m");
+	msg = ft_strjoin(tmp_msg, " \001\033[0m\002");
 	free(tmp_msg);
 	return (msg);
 }

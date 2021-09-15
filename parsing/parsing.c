@@ -6,28 +6,77 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/07 14:43:01 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/07 15:32:06 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/12 21:25:50 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
 /*
-** Penser à free infos avant exit
+** Subfunction of separate_simple_cmd function.
+** Initialize the new element new, check if it returned NULL
+** or not (free struct lst_cmds if an error occurs) and call
+** the function add_back_cmd.
+** Return -1 if an error occurs or 0 otherwise.
 */
-int	parsing_error(int syntax_error, char *error_pos)
+int	check_init_new_cmd(t_cmd **new, t_token *lst_tokens,
+		t_cmd **lst_cmds, int *new_cmd)
 {
-	if (syntax_error == -1)
-		printf("minishell : syntax error with unclosed quotes %s\n", error_pos);
-	else if (syntax_error == -2)
-		printf("minishell : syntax error with consecutive operators found near %c\n", *error_pos);
-	else if (syntax_error == -3)
-		printf("minishell : syntax error with undefined special character %c\n", *error_pos);
-	else
-		printf("minishell : parsing error\n");
-	return (1);
+	*new = NULL;
+	*new = init_new_cmd(lst_tokens, lst_cmds);
+	if (!*new)
+	{
+		free_cmd_list_from_extremity(*lst_cmds, 0);
+		return (-1);
+	}
+	*new_cmd = 0;
+	add_back_cmd(lst_cmds, *new);
+	return (0);
 }
 
+/*
+** Function which browse the t_tokens linked list infos->lst_tokens
+** and separate it inside a t_cmds structure depending on operators.
+** Returns NULL if an errors occurs, the t_cmd structure lst_cmds otherwise.
+*/
+t_cmd	*separate_simple_cmd(t_infos *infos)
+{
+	t_cmd	*new;
+	t_cmd	*lst_cmds;
+	t_token	*lst_tokens;
+	int		new_cmd;
+
+	new_cmd = 1;
+	lst_cmds = NULL;
+	lst_tokens = infos->lst_tokens;
+	while (lst_tokens)
+	{
+		if (lst_tokens->type != OPERATOR && new_cmd
+			&& check_init_new_cmd(&new, lst_tokens, &lst_cmds, &new_cmd) == -1)
+			return (NULL);
+		else if (lst_tokens->type == OPERATOR)
+		{
+			new->end = lst_tokens->prev;
+			new->next_operator = identify_operator(lst_tokens);
+			new_cmd = 1;
+		}
+		else
+			new->end = lst_tokens;
+		lst_tokens = lst_tokens->next;
+	}
+	return (lst_cmds);
+}
+
+/*
+** Function to parse the command line received.
+** First, a tokenization is made and sytnax errors are checked. Infos are
+** stocked inside a t_token structure.
+** Then, a cutting by operators is made to get a linked list of simple commands.
+** The function return 1 if an error occurs, 0 otherwise.
+** WARNING : Returns value for error may be changed accordingly to the error
+** occuring.
+** Delete lines for print_tokens and print_cmds (test purpose only)
+*/
 int	parse_cmd(t_infos *infos)
 {
 	int		syntax_error;
@@ -35,8 +84,15 @@ int	parse_cmd(t_infos *infos)
 
 	syntax_error = 0;
 	error_pos = NULL;
-	infos->cmd_tokens = tokenize_cmd(infos->curr_cmd, &syntax_error, &error_pos);
-	if (!infos->cmd_tokens || syntax_error < 0)
+	expand_variables(infos);
+	infos->lst_tokens = tokenize_cmd(infos->curr_cmd, &syntax_error,
+			&error_pos);
+	if (!infos->lst_tokens || syntax_error < 0)
 		return (parsing_error(syntax_error, error_pos));
+	infos->lst_cmds = separate_simple_cmd(infos);
+	if (!infos->lst_cmds)
+		return (parsing_error(0, NULL));
+	free_cmd_list_from_extremity(infos->lst_cmds, 0);
+	free_token_list_from_extremity(infos->lst_tokens, 0);
 	return (0);
 }

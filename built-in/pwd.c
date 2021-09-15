@@ -6,23 +6,23 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/06 14:50:47 by hlichir           #+#    #+#             */
-/*   Updated: 2021/09/06 17:42:05 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/12 16:32:56 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
 /*
-** Fonction pour afficher dans quel dossier on se trouve. 
-** À appeler pour le commande pwd.
-** Retourne -1 s'il y a une erreur & 0 si tout se passe bien.
+** Function to display in which directory we are.
+** To call for pwd built.
+** Return -1 if an error occurs, 0 if not.
 */
 int	show_current_dir(void)
 {
-    char	*str;
-    char	buffer[1024];
+	char	*str;
+	char	buffer[1024];
 
-    str = getcwd(buffer, 1024);
+	str = getcwd(buffer, 1024);
 	if (!str)
 	{
 		str = strerror(errno);

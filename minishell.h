@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 15:55:23 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/12 22:16:50 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/13 18:48:39 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,12 @@
 # include <sys/stat.h>
 
 # define PROMPT_MSG "\001\033[1;38;5;51m\002Prompt > \001\033[0m\002"
+
+/*
+** Use of one global variable to handle exit_status = 130 when ctrl+c is used
+*/
+
+int					g_exit_status;
 
 /*
 ** Enum useful to check if the command line contains a built in.
@@ -102,6 +108,17 @@ typedef struct s_cmd
 }	t_cmd;
 
 /*
+** SIMPLE LINKED LIST TO KEEP THE LIST OF ADDED VARIABLES
+** When a variable is assigned without "export", the list is kept here.
+*/
+typedef struct s_var
+{
+	char			*name;
+	char			*value;
+	struct s_var	*next;
+}	t_var;
+
+/*
 ** MINISHELL INFORMATION STRUCTURE
 */
 typedef struct s_infos
@@ -112,7 +129,7 @@ typedef struct s_infos
 	t_cmd	*lst_cmds;
 	int		fd_history;
 	char	**env;
-	int		last_exit_status;
+	t_var	*lst_var;
 }	t_infos;
 
 /*
@@ -177,6 +194,7 @@ int			save_env(t_infos *infos, char **env);
 ** WARNING : Proper clean of all allocated memory to check before
 ** submitting project.
 */
+int			check_exit_status(t_infos *infos);
 int			check_if_exit_or_continue(t_infos *infos);
 int			clean_exit(t_infos *infos);
 
@@ -238,5 +256,21 @@ void		expand_variables(t_infos *infos);
 */
 void		handle_signals(void);
 void		sig_handler_function(int signum);
+
+/*
+** Handling assignments
+*/
+
+int			assign_variable(t_infos *infos, t_cmd *current_cmd);
+int			add_new_var_to_list(t_infos *infos, char *str);
+int			modify_var_in_list(t_infos *infos, char *str, int *check);
+char		*get_elem_value(char *str);
+int			free_lst_var(t_infos *infos);
+
+/*
+** Execution
+*/
+
+int			main_execution(t_infos *infos);
 
 #endif

@@ -6,7 +6,7 @@
 #    By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/08/23 15:04:29 by anadege           #+#    #+#              #
-#    Updated: 2021/09/13 17:35:39 by hlichir          ###   ########.fr        #
+#    Updated: 2021/09/15 17:23:36 by anadege          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,15 +18,17 @@ SRCS	= ./main.c \
 		  ./built-in/export.c \
 		  ./built-in/unset.c \
 		  ./built-in/echo.c \
+		  ./built-in/check_builtin.c \
+		  ./built-in/env_utils.c \
 		  ./exit.c \
 		  ./init.c \
-		  ./built-in/check_builtin.c \
 		  ./parsing/parsing.c \
 		  ./parsing/tokenizer.c \
 		  ./parsing/get_variables.c \
 		  ./parsing/tokenizer_utils.c \
 		  ./parsing/parsing_utils.c \
 		  ./parsing/assignment.c \
+		  ./parsing/before_assignment.c \
 		  ./exec/exec_cmd.c \
 		  ./exec/seek_bin.c \
 		  ./signals.c

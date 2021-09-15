@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/05 14:12:00 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/09 21:10:55 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/15 12:01:59 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ t_tokentype	identify_token_type(char *token, int length)
 	while (i < length && token[i])
 	{
 		if (token[i] == '=')
-			tmp_type = ASSIGNEMENT;
+			tmp_type = ASSIGNMENT;
 		i++;
 	}
 	return (tmp_type);

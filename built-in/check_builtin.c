@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/02 14:46:17 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/12 16:49:04 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/15 17:44:59 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,28 +19,43 @@
 t_builtin	check_builtin(char	*first_elem)
 {
 	if (!ft_strncmp(first_elem, "echo", 4) && (first_elem[4] == ' '
-			|| first_elem[4] == '\t'))
+			|| first_elem[4] == '\t' || first_elem[4] == 0))
 		return (ECHO);
 	else if (!ft_strncmp(first_elem, "cd", 2) && (first_elem[2] == ' '
-			|| first_elem[2] == '\t'))
+			|| first_elem[2] == '\t' || first_elem[2] == 0))
 		return (CD);
 	else if (!ft_strncmp(first_elem, "pwd", 3) && (first_elem[3] == ' '
-			|| first_elem[3] == '\t'))
+			|| first_elem[3] == '\t' || first_elem[3] == 0))
 		return (PWD);
 	else if (!ft_strncmp(first_elem, "export", 6) && (first_elem[6] == ' '
-			|| first_elem[6] == '\t'))
+			|| first_elem[6] == '\t' || first_elem[6] == 0))
 		return (EXPORT);
 	else if (!ft_strncmp(first_elem, "unset", 5) && (first_elem[5] == ' '
-			|| first_elem[5] == '\t'))
+			|| first_elem[5] == '\t' || first_elem[5] == 0))
 		return (UNSET);
 	else if (!ft_strncmp(first_elem, "env", 3) && (first_elem[3] == ' '
-			|| first_elem[3] == '\t'))
+			|| first_elem[3] == '\t' || first_elem[3] == 0))
 		return (ENV);
 	return (NONE);
 }
 
 /*
-** PREVOIR FONCTION POUR ENVOYER 1ER ELEMENT DE LA LIGNE
-** DE COMMANDE DANS CHECK_BUILTIN
-** SINON, RENVOYER ERREUR POUR "COMMAND NOT FOUND".
+** FONCTION A REMPLIR AU FUR ET A MESURE
 */
+int	launch_cmd(t_infos *infos, t_cmd *cmd)
+{
+	t_builtin	builtin;
+
+	if (!cmd || !cmd->start)
+		return (-1);
+	builtin = check_builtin(cmd->start->token);
+	if (builtin == CD)
+		return (cmd_change_directory(infos, cmd));
+	else if (builtin == ECHO)
+		return (cmd_echo(infos, cmd));
+	else if (builtin == ENV)
+		return (show_env(cmd, infos->env, 0));
+	else if (builtin == EXPORT)
+		return (add_elem_to_env(cmd, &infos->env));
+	return (0);
+}

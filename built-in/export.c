@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/01 21:56:08 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/12 17:13:06 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/15 17:44:17 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@
 ** new_elem.
 ** Return -1 if an error occurs, 0 otherwise.
 */
-int	add_not_existing_elem_to_env(char ***env, char *new_elem, int env_size)
+int	add_not_existing_elem_to_env(char ***env, char *new_elem, int elem_size,
+		int env_size)
 {
 	char	**tmp_env;
 	int		j;
@@ -31,7 +32,7 @@ int	add_not_existing_elem_to_env(char ***env, char *new_elem, int env_size)
 		if ((*env)[j])
 			tmp_env[j] = (*env)[j];
 		else
-			tmp_env[j] = ft_strdup(new_elem);
+			tmp_env[j] = ft_strndup(new_elem, elem_size);
 		if (!tmp_env[j])
 		{
 			free(tmp_env);
@@ -77,7 +78,8 @@ int	seek_elem_pos(char **env, char *elem_name)
 ** and replace it's value by new_elem/
 ** Returns -1 if an error occurs, 0 otherwise.
 */
-int	modify_existing_elem_to_env(char **env, char *new_elem, char *elem_name)
+int	modify_existing_elem_to_env(char **env, char *new_elem, int elem_size,
+		char *elem_name)
 {
 	int	elem_pos;
 
@@ -85,38 +87,34 @@ int	modify_existing_elem_to_env(char **env, char *new_elem, char *elem_name)
 	if (elem_pos < 0)
 		return (-1);
 	free(env[elem_pos]);
-	env[elem_pos] = ft_strdup(new_elem);
+	env[elem_pos] = ft_strndup(new_elem, elem_size);
 	if (!env[elem_pos])
 		return (-1);
 	return (0);
 }
 
-/*
-** Function which is useful to recuperate only the name of a variable
-** from it's format "NAME=value".
-** Returns NULL if an error occurs.
-*/
-char	*get_elem_name(char *elem)
+int	sub_add_elem_to_env(t_cmd *cmd, char ***env, t_token *new_elem,
+		int env_size)
 {
+	int		res;
 	char	*elem_name;
-	int		i;
 
-	i = 0;
-	if (!elem)
-		return (NULL);
-	while (elem[i] != '=')
-		i++;
-	elem_name = malloc(sizeof(*elem_name) * (i + 1));
-	if (!elem_name)
-		return (NULL);
-	i = 0;
-	while (elem[i] != '=')
+	elem_name = NULL;
+	res = -1;
+	if (new_elem->type == ASSIGNMENT)
 	{
-		elem_name[i] = elem[i];
-		i++;
+		elem_name = get_elem_name(new_elem->token, new_elem->length);
+		if (!elem_name)
+			return (-1);
+		if (!get_env_elem(*env, elem_name))
+			res = add_not_existing_elem_to_env(env, new_elem->token,
+					new_elem->length, env_size);
+		else
+			res = modify_existing_elem_to_env(*env, new_elem->token,
+					new_elem->length, elem_name);
+		free(elem_name);
 	}
-	elem_name[i] = 0;
-	return (elem_name);
+	return (res);
 }
 
 /*
@@ -127,24 +125,30 @@ char	*get_elem_name(char *elem)
 ** WARNING : Does not check for the conformity of the string new_elem.
 ** Must received &infos->env as first argument.
 */
-int	add_elem_to_env(char ***env, char *new_elem)
+int	add_elem_to_env(t_cmd *cmd, char ***env)
 {
-	char	*elem_name;
+	t_token	*new_elem;
 	int		env_size;
+	int		tmp_res;
 	int		res;
 
-	if (!env || !new_elem)
+	if (!env || !cmd || !cmd->start)
 		return (-1);
+	new_elem = cmd->start->next;
 	env_size = 0;
-	while ((*env)[env_size])
-		env_size++;
-	elem_name = get_elem_name(new_elem);
-	if (!elem_name)
-		return (-1);
-	if (!get_env_elem(*env, elem_name))
-		res = add_not_existing_elem_to_env(env, new_elem, env_size);
-	else
-		res = modify_existing_elem_to_env(*env, new_elem, elem_name);
-	free(elem_name);
+	res = -1;
+	while (new_elem)
+	{
+		while ((*env)[env_size])
+			env_size++;
+		tmp_res = sub_add_elem_to_env(cmd, env, new_elem, env_size);
+		if (tmp_res == 0)
+			res = 0;
+		if (new_elem == cmd->end)
+			break ;
+		new_elem = new_elem->next;
+	}
+	if (res == -1)
+		show_env(cmd, *env, 1);
 	return (res);
 }

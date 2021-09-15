@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/15 16:19:55 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/15 17:40:17 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/15 21:02:21 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,4 +30,3 @@ char	*ft_strndup(const char *s, const int size)
 		dest[i++] = 0;
 	return (dest);
 }
-

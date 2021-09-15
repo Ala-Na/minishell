@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 15:55:23 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/15 17:05:42 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/15 21:03:05 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,6 +168,11 @@ int			check_n_option(t_token *first);
 int			cmd_echo(t_infos *infos, t_cmd *cmd);
 
 /*
+** BUILT IN PWD
+*/
+int			show_current_dir(void);
+
+/*
 ** BUILT IN ENV / EXPORT / UNSET
 ** Reminder : Call save_end at launch of minishell programm in order to
 ** stock environmentals variables.
@@ -179,12 +184,16 @@ int			cmd_echo(t_infos *infos, t_cmd *cmd);
 */
 int			fill_env_with_deletion(char ***env, int elem_pos, int env_size);
 int			delete_elem_from_env(char ***env, char *elem);
+int			delete_elem_from_var_lst(t_var **var_lst, char *elem_name);
+int			sub_unset_var(t_infos *infos, t_token *to_unset);
+int			unset_var(t_infos *infos, t_cmd *cmd);
 int			add_not_existing_elem_to_env(char ***env, char *new_elem,
 				int elem_size, int env_size);
 int			modify_existing_elem_to_env(char **env, char *new_elem,
 				int elem_size, char *elem_name);
 int			add_elem_to_env(t_cmd *cmd, char ***env);
-int			sub_add_elem_to_env(t_cmd *cmd, char ***env, t_token *new_elem, int env_size);
+int			sub_add_elem_to_env(t_cmd *cmd, char ***env,
+				t_token *new_elem, int env_size);
 char		*get_elem_name(char *elem, int size);
 char		*get_env_elem(char **env, char *elem);
 int			seek_elem_pos(char **env, char *elem_name);
@@ -259,6 +268,11 @@ t_builtin	check_builtin(char *first_elem);
 ** REPLACE VARIABLES
 */
 void		expand_variables(t_infos *infos);
+int			get_var(char *cmd, char **var, char **env, t_var *var_lst);
+void		sub_get_var(char **var, char *elem_name,
+				char **env, t_var *var_lst);
+void		add_var(t_infos *infos, char **new_cmd, int *i, int *j);
+void		get_cmd_with_var(t_infos *infos, int new_size);
 
 /*
 ** SIGNALS HANDLER
@@ -279,7 +293,6 @@ int			free_lst_var(t_infos *infos);
 /*
 ** Execution
 */
-
 int			main_execution(t_infos *infos);
 
 #endif

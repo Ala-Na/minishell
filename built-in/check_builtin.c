@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/02 14:46:17 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/15 17:44:59 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/15 20:59:20 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ t_builtin	check_builtin(char	*first_elem)
 
 /*
 ** FONCTION A REMPLIR AU FUR ET A MESURE
+** Warning ; Pour le moment, lance les assignements
+** sans prendre en compte ce qu'il y a derrière.
 */
 int	launch_cmd(t_infos *infos, t_cmd *cmd)
 {
@@ -57,5 +59,11 @@ int	launch_cmd(t_infos *infos, t_cmd *cmd)
 		return (show_env(cmd, infos->env, 0));
 	else if (builtin == EXPORT)
 		return (add_elem_to_env(cmd, &infos->env));
+	else if (builtin == PWD)
+		return (show_current_dir());
+	else if (builtin == UNSET)
+		return (unset_var(infos, cmd));
+	else if (cmd->start->type == ASSIGNMENT)
+		return (check_assignment(infos, cmd));
 	return (0);
 }

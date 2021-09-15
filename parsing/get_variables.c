@@ -6,11 +6,28 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 21:45:16 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/10 15:02:39 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/15 20:39:30 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+void	sub_get_var(char **var, char *elem_name, char **env, t_var *var_lst)
+{
+	*var = get_env_elem(env, elem_name);
+	if (!*var)
+	{
+		while (var_lst)
+		{
+			if (!ft_strncmp(var_lst->name, elem_name, ft_strlen(elem_name)))
+			{
+				*var = var_lst->value;
+				return ;
+			}
+			var_lst = var_lst->next;
+		}
+	}
+}
 
 /*
 ** Function to get the env variable pointed by the beginning of cmd.
@@ -22,10 +39,10 @@
 ** Return -1 (size of single char $) and fill var with NULL if the variable isn't
 ** found or an error occurs.
 */
-int	get_var(char *cmd, char **var, char **env)
+int	get_var(char *cmd, char **var, char **env, t_var *var_lst)
 {
 	int		i;
-	char	*env_elem;
+	char	*elem_name;
 
 	i = 0;
 	if (cmd[i++] != '$')
@@ -40,14 +57,14 @@ int	get_var(char *cmd, char **var, char **env)
 		i++;
 	}
 	if (i > 1)
-		env_elem = ft_substr(cmd, 1, i - 1);
-	if (i <= 1 || !env_elem)
+		elem_name = ft_substr(cmd, 1, i - 1);
+	if (i <= 1 || !elem_name)
 	{
 		*var = NULL;
 		return (-1);
 	}
-	*var = get_env_elem(env, env_elem);
-	free(env_elem);
+	sub_get_var(var, elem_name, env, var_lst);
+	free(elem_name);
 	return (ft_strlen(*var) - i);
 }
 
@@ -61,7 +78,7 @@ void	add_var(t_infos *infos, char **new_cmd, int *i, int *j)
 	int		var_size;
 
 	k = 0;
-	get_var(&infos->curr_cmd[i[0]], &var, infos->env);
+	get_var(&infos->curr_cmd[i[0]], &var, infos->env, infos->lst_var);
 	var_size = ft_strlen(var);
 	while (k < var_size)
 	{
@@ -123,7 +140,8 @@ void	expand_variables(t_infos *infos)
 		else if (infos->curr_cmd[i] == '\'' && ignore == 1)
 			ignore = 0;
 		else if (infos->curr_cmd[i] == '$')
-			new_size += get_var(&infos->curr_cmd[i], &var, infos->env);
+			new_size += get_var(&infos->curr_cmd[i], &var, infos->env,
+					infos->lst_var);
 		i++;
 	}
 	new_size += i;

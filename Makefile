@@ -6,7 +6,7 @@
 #    By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/08/23 15:04:29 by anadege           #+#    #+#              #
-#    Updated: 2021/09/15 17:23:36 by anadege          ###   ########.fr        #
+#    Updated: 2021/09/15 17:50:11 by anadege          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,6 +20,7 @@ SRCS	= ./main.c \
 		  ./built-in/echo.c \
 		  ./built-in/check_builtin.c \
 		  ./built-in/env_utils.c \
+		  ./built-in/pwd.c \
 		  ./exit.c \
 		  ./init.c \
 		  ./parsing/parsing.c \

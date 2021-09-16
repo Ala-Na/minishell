@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/30 17:16:26 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/16 11:13:32 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/16 17:24:58 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	get_previous_history(void)
 	char	*str;
 
 	str = NULL;
-	fd = open("./minishell_history", O_RDWR | O_APPEND | O_CREAT,
+	fd = open("./history/minishell_history", O_RDWR | O_APPEND | O_CREAT,
 			S_IRWXG | S_IRWXU);
 	if (fd == -1)
 		return (fd);

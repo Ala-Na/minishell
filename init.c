@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/02 11:52:56 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/13 18:49:54 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/09/16 17:31:15 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ int	init_minishell(t_infos *infos, char **env)
 	g_exit_status = 0;
 	infos->prompt = NULL;
 	infos->curr_cmd = NULL;
+	infos->lst_tokens = NULL;
+	infos->lst_cmds = NULL;
 	infos->lst_var = NULL;
 	if (add_new_var_to_list(infos, "?=0") < 0)
 		return (-1);

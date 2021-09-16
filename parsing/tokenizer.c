@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/05 14:12:00 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/16 17:48:32 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/16 17:56:57 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ int	browse_token(char *token, int *syntax_error, char **error_pos)
 /*
 ** Check syntax error from tokens.
 ** WARNING : Does not consider "special case" like <> >| |> |< >>| |>>.
-** Consider \ ; & ( ) and \n [ ] as undefined special characters.
+** Consider \ ; & ( ) and \n [ ] * as undefined special characters.
 */
 int	check_operators_and_undefined_char(t_token *curr, t_token *prev,
 		int *syntax_error, char **error_pos)
@@ -86,7 +86,7 @@ int	check_operators_and_undefined_char(t_token *curr, t_token *prev,
 		return (-1);
 	while (curr->type != STRING && curr->token[i])
 	{
-		if (ft_strchr("\\;&()\n[]", curr->token[i]))
+		if (ft_strchr("\\;&()\n[]*", curr->token[i]))
 		{
 			*syntax_error = -3;
 			*error_pos = &curr->token[i];

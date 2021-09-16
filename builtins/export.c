@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/01 21:56:08 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/16 16:00:13 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/16 16:24:24 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,23 +98,24 @@ int	sub_add_elem_to_env(t_infos *infos, t_token *new_elem,
 {
 	int		res;
 	char	*elem_name;
+	int		i;
 
 	elem_name = NULL;
 	res = -1;
-	if (new_elem->type == ASSIGNMENT)
-	{
-		elem_name = get_elem_name(new_elem->token, new_elem->length);
-		if (!elem_name)
-			return (-1);
-		delete_elem_from_var_lst(&infos->lst_var, elem_name);
-		if (!get_env_elem(infos->env, elem_name))
-			res = add_not_existing_elem_to_env(&infos->env, new_elem->token,
-					new_elem->length, env_size);
-		else
-			res = modify_existing_elem_to_env(infos->env, new_elem->token,
-					new_elem->length, elem_name);
-		free(elem_name);
-	}
+	i = 0;
+	if (new_elem->type != ASSIGNMENT)
+		return (0);
+	elem_name = get_elem_name(new_elem->token, new_elem->length);
+	if (!elem_name)
+		return (-1);
+	delete_elem_from_var_lst(&infos->lst_var, elem_name);
+	if (!get_env_elem(infos->env, elem_name))
+		res = add_not_existing_elem_to_env(&infos->env, new_elem->token,
+				new_elem->length, env_size);
+	else
+		res = modify_existing_elem_to_env(infos->env, new_elem->token,
+				new_elem->length, elem_name);
+	free(elem_name);
 	return (res);
 }
 

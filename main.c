@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 14:58:07 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/16 17:51:59 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/16 18:23:28 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,12 @@ int	minishell_loop(t_infos *infos)
 {
 	while (1)
 	{
-		if (check_exit_status(infos) < 0)
-			return (1);
 		infos->prompt = get_prompt();
 		if (!infos->prompt)
 			return (1);
 		infos->curr_cmd = readline(infos->prompt);
+		if (check_exit_status(infos) < 0)
+			return (1);
 		if (infos->curr_cmd == NULL)
 		{
 			ft_putstr("\033[F");

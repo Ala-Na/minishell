@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/13 16:06:44 by hlichir           #+#    #+#             */
-/*   Updated: 2021/09/16 15:51:27 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/16 18:22:02 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ int	modify_var_in_list(t_infos *infos, char *str, int *check)
 		}
 		current = current->next;
 	}
-	if (*check == 0)
+	if (check && *check == 0)
 		free(tmp_name);
 	return (0);
 }

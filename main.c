@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 14:58:07 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/15 21:04:53 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/16 17:09:59 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 void	fun_test(t_infos *infos)
 {
 	printf("parse res : %i\n", parse_cmd(infos));
+	if (!infos->curr_cmd || infos->curr_cmd[0] == 0)
+		return ;
 	launch_cmd(infos, infos->lst_cmds);
 	free_cmd_list_from_extremity(infos->lst_cmds, 0);
 	free_token_list_from_extremity(infos->lst_tokens, 0);
@@ -41,9 +43,7 @@ int	minishell_loop(t_infos *infos)
 		}
 		add_line_to_history(infos->fd_history, infos->curr_cmd);
 		if (infos->curr_cmd[0] != 0)
-		{
 			fun_test(infos);
-		}
 		if (check_if_exit_or_continue(infos) == 1)
 			break ;
 	}

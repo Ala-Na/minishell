@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/02 11:40:02 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/13 18:50:21 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/09/16 17:50:57 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,14 @@ int	check_if_exit_or_continue(t_infos *infos)
 		free(infos->curr_cmd);
 	if (infos->prompt)
 		free(infos->prompt);
+	if (infos->lst_cmds)
+		free_cmd_list_from_extremity(infos->lst_cmds, 0);
+	if (infos->lst_tokens)
+		free_token_list_from_extremity(infos->lst_tokens, 0);
+	infos->curr_cmd = NULL;
+	infos->prompt = NULL;
+	infos->lst_cmds = NULL;
+	infos->lst_tokens = NULL;
 	return (0);
 }
 
@@ -57,6 +65,10 @@ int	clean_exit(t_infos *infos)
 		free_env(infos->env, -1);
 	if (infos->prompt)
 		free(infos->prompt);
+	if (infos->lst_tokens)
+		free_token_list_from_extremity(infos->lst_tokens, 0);
+	if (infos->lst_cmds)
+		free_cmd_list_from_extremity(infos->lst_cmds, 0);
 	if (infos->lst_var)
 		free_lst_var(infos);
 	rl_clear_history();

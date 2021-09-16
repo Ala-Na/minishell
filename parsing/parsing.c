@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/07 14:43:01 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/15 14:40:18 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/16 17:08:16 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,8 @@ int	parse_cmd(t_infos *infos)
 	syntax_error = 0;
 	error_pos = NULL;
 	expand_variables(infos);
+	if (infos->curr_cmd[0] == 0 || !infos->curr_cmd)
+		return (0);
 	infos->lst_tokens = tokenize_cmd(infos->curr_cmd, &syntax_error,
 			&error_pos);
 	if (!infos->lst_tokens || syntax_error < 0)

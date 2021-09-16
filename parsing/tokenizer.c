@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/05 14:12:00 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/12 17:17:36 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/16 16:53:27 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,16 +111,16 @@ t_token	*check_cmd_extremity_is_not_operator(t_token **tokens,
 
 	first = *tokens;
 	last = *tokens;
-	if (first->type == OPERATOR)
+	if (first && first->type == OPERATOR)
 	{
 		*error_pos = first->token;
 		*syntax_error = -5;
 		free_token_list_from_extremity(last, 0);
 		return (NULL);
 	}
-	while (last->next)
+	while (last && last->next)
 		last = last->next;
-	if (last->type == OPERATOR)
+	if (last && last->type == OPERATOR)
 	{
 		*error_pos = last->token;
 		*syntax_error = -4;

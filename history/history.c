@@ -6,11 +6,11 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/30 17:16:26 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/02 12:10:01 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/16 11:13:32 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 /*
 ** Fonction qui va ouvrir le fichier minishell_history, ajouter chaque

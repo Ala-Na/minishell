@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 15:55:23 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/15 21:03:05 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/16 16:00:22 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -191,9 +191,9 @@ int			add_not_existing_elem_to_env(char ***env, char *new_elem,
 				int elem_size, int env_size);
 int			modify_existing_elem_to_env(char **env, char *new_elem,
 				int elem_size, char *elem_name);
-int			add_elem_to_env(t_cmd *cmd, char ***env);
-int			sub_add_elem_to_env(t_cmd *cmd, char ***env,
-				t_token *new_elem, int env_size);
+int			add_elem_to_env(t_infos *infos, t_cmd *cmd);
+int			sub_add_elem_to_env(t_infos *infos, t_token *new_elem,
+				int env_size);
 char		*get_elem_name(char *elem, int size);
 char		*get_env_elem(char **env, char *elem);
 int			seek_elem_pos(char **env, char *elem_name);

@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/01 21:56:08 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/15 20:56:16 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/16 16:00:13 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ int	modify_existing_elem_to_env(char **env, char *new_elem, int elem_size,
 	return (0);
 }
 
-int	sub_add_elem_to_env(t_cmd *cmd, char ***env, t_token *new_elem,
+int	sub_add_elem_to_env(t_infos *infos, t_token *new_elem,
 		int env_size)
 {
 	int		res;
@@ -106,11 +106,12 @@ int	sub_add_elem_to_env(t_cmd *cmd, char ***env, t_token *new_elem,
 		elem_name = get_elem_name(new_elem->token, new_elem->length);
 		if (!elem_name)
 			return (-1);
-		if (!get_env_elem(*env, elem_name))
-			res = add_not_existing_elem_to_env(env, new_elem->token,
+		delete_elem_from_var_lst(&infos->lst_var, elem_name);
+		if (!get_env_elem(infos->env, elem_name))
+			res = add_not_existing_elem_to_env(&infos->env, new_elem->token,
 					new_elem->length, env_size);
 		else
-			res = modify_existing_elem_to_env(*env, new_elem->token,
+			res = modify_existing_elem_to_env(infos->env, new_elem->token,
 					new_elem->length, elem_name);
 		free(elem_name);
 	}
@@ -125,23 +126,23 @@ int	sub_add_elem_to_env(t_cmd *cmd, char ***env, t_token *new_elem,
 ** WARNING : Does not check for the conformity of the string new_elem.
 ** Must received &infos->env as first argument.
 */
-int	add_elem_to_env(t_cmd *cmd, char ***env)
+int	add_elem_to_env(t_infos *infos, t_cmd *cmd)
 {
 	t_token	*new_elem;
 	int		env_size;
 	int		tmp_res;
 	int		res;
 
-	if (!env || !cmd || !cmd->start)
+	if (!infos->env || !cmd || !cmd->start)
 		return (-1);
 	new_elem = cmd->start->next;
 	env_size = 0;
 	res = -1;
 	while (new_elem)
 	{
-		while ((*env)[env_size])
+		while ((infos->env)[env_size])
 			env_size++;
-		tmp_res = sub_add_elem_to_env(cmd, env, new_elem, env_size);
+		tmp_res = sub_add_elem_to_env(infos, new_elem, env_size);
 		if (tmp_res == 0)
 			res = 0;
 		if (new_elem == cmd->end)
@@ -149,6 +150,6 @@ int	add_elem_to_env(t_cmd *cmd, char ***env)
 		new_elem = new_elem->next;
 	}
 	if (res == -1)
-		show_env(cmd, *env, 1);
+		show_env(cmd, infos->env, 1);
 	return (res);
 }

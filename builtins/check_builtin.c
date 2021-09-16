@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/02 14:46:17 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/15 20:59:20 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/16 16:01:47 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	launch_cmd(t_infos *infos, t_cmd *cmd)
 	else if (builtin == ENV)
 		return (show_env(cmd, infos->env, 0));
 	else if (builtin == EXPORT)
-		return (add_elem_to_env(cmd, &infos->env));
+		return (add_elem_to_env(infos, cmd));
 	else if (builtin == PWD)
 		return (show_current_dir());
 	else if (builtin == UNSET)

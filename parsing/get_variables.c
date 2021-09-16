@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_variables.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 21:45:16 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/15 20:39:30 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/16 18:00:56 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	get_var(char *cmd, char **var, char **env, t_var *var_lst)
 	}
 	while (cmd[i])
 	{
-		if (!ft_isalnum(cmd[i]) && cmd[i] != '_')
+		if (!ft_isalnum(cmd[i]) && cmd[i] != '_' && cmd[i] != '?')
 			break ;
 		i++;
 	}
@@ -88,7 +88,8 @@ void	add_var(t_infos *infos, char **new_cmd, int *i, int *j)
 	*i += 1;
 	while (infos->curr_cmd[*i])
 	{
-		if (!ft_isalnum(infos->curr_cmd[*i]) && infos->curr_cmd[*i] != '_')
+		if (!ft_isalnum(infos->curr_cmd[*i]) && infos->curr_cmd[*i] != '_' \
+			&& infos->curr_cmd[*i] != '?')
 			return ;
 		*i += 1;
 	}
@@ -165,5 +166,4 @@ int main(int argc, char **argv, char **env)
 		free(infos.env[i++]);
 	free(infos.env);
 	return (0);
-}
 */

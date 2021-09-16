@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/05 14:12:00 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/16 16:53:27 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/16 17:48:32 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,7 @@ int	check_operators_and_undefined_char(t_token *curr, t_token *prev,
 		{
 			*syntax_error = -3;
 			*error_pos = &curr->token[i];
+			free(curr);
 			return (-1);
 		}
 		i++;
@@ -98,6 +99,7 @@ int	check_operators_and_undefined_char(t_token *curr, t_token *prev,
 	{
 		*syntax_error = -2;
 		*error_pos = prev->token;
+		free(curr);
 		return (-1);
 	}
 	return (0);

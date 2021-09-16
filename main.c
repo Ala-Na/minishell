@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 14:58:07 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/16 17:09:59 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/16 17:51:59 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,13 @@
 
 void	fun_test(t_infos *infos)
 {
-	printf("parse res : %i\n", parse_cmd(infos));
+	int	res;
+
+	res = parse_cmd(infos);
+	printf("parse res : %i\n", res);
 	if (!infos->curr_cmd || infos->curr_cmd[0] == 0)
 		return ;
 	launch_cmd(infos, infos->lst_cmds);
-	free_cmd_list_from_extremity(infos->lst_cmds, 0);
-	free_token_list_from_extremity(infos->lst_tokens, 0);
-	infos->lst_cmds = NULL;
-	infos->lst_tokens = NULL;
 }
 
 int	minishell_loop(t_infos *infos)

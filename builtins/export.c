@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/01 21:56:08 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/17 14:40:04 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/09/17 23:17:42 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,7 @@
 ** new_elem.
 ** Return -1 if an error occurs, 0 otherwise.
 */
-int	add_not_existing_elem_to_env(char ***env, char *new_elem, int elem_size,
-		int env_size)
+int	add_not_existing_elem_to_env(char ***env, t_token *new_elem, int env_size)
 {
 	char	**tmp_env;
 	int		j;
@@ -32,7 +31,7 @@ int	add_not_existing_elem_to_env(char ***env, char *new_elem, int elem_size,
 		if ((*env)[j])
 			tmp_env[j] = (*env)[j];
 		else
-			tmp_env[j] = ft_strndup(new_elem, elem_size);
+			tmp_env[j] = ft_strndup(new_elem->token, new_elem->length);
 		if (!tmp_env[j])
 		{
 			free(tmp_env);
@@ -81,17 +80,17 @@ int	seek_elem_pos(char **env, char *elem_name)
 ** and replace it's value by new_elem/
 ** Returns -1 if an error occurs, 0 otherwise.
 */
-int	modify_existing_elem_to_env(t_infos *infos, char *new_elem, int elem_size,
+int	modify_existing_elem_to_env(t_infos *infos, char **env, t_token *new_elem,
 		char *elem_name)
 {
 	int	elem_pos;
 
-	elem_pos = seek_elem_pos((infos->env), elem_name);
+	elem_pos = seek_elem_pos(env, elem_name);
 	if (elem_pos < 0)
 		return (-1);
-	free((infos->env)[elem_pos]);
-	(infos->env)[elem_pos] = ft_strndup(new_elem, elem_size);
-	if (!(infos->env)[elem_pos])
+	free(env[elem_pos]);
+	env[elem_pos] = ft_strndup(new_elem->token, new_elem->length);
+	if (!env[elem_pos])
 		return (error_exit_status("Memory allocation error", infos, "?=1"));
 	return (0);
 }
@@ -113,11 +112,11 @@ int	sub_add_elem_to_env(t_infos *infos, t_token *new_elem,
 		return (error_exit_status("Memory allocation error", infos, "?=1"));
 	delete_elem_from_var_lst(&infos->lst_var, elem_name);
 	if (!get_env_elem(infos->env, elem_name))
-		res = add_not_existing_elem_to_env(&infos->env, new_elem->token,
-				new_elem->length, env_size);
+		res = add_not_existing_elem_to_env(&infos->env, new_elem,
+				env_size);
 	else
-		res = modify_existing_elem_to_env(infos, new_elem->token,
-				new_elem->length, elem_name);
+		res = modify_existing_elem_to_env(infos, infos->env, new_elem,
+				elem_name);
 	free(elem_name);
 	if (res == 0)
 		*ptr_res = 0;
@@ -141,6 +140,8 @@ int	add_elem_to_env(t_infos *infos, t_cmd *cmd)
 
 	if (!infos->env || !cmd || !cmd->start)
 		return (error_exit_status("Error!", infos, "?=1"));
+	if (cmd->start == cmd->end)
+		return (show_env(infos, cmd, 1));
 	new_elem = cmd->start->next;
 	env_size = 0;
 	res = -1;
@@ -153,8 +154,6 @@ int	add_elem_to_env(t_infos *infos, t_cmd *cmd)
 			break ;
 		new_elem = new_elem->next;
 	}
-	if (res == -1)
-		show_env(infos, cmd, 1);
 	if (modify_var_in_list(infos, "?=0", NULL) < 0)
 		return (error_exit_status("Memory allocation error", infos, "?=1"));
 	return (res);

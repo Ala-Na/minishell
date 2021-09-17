@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 15:55:23 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/20 15:20:45 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/09/21 12:06:12 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,10 +189,10 @@ int			delete_elem_from_env(char ***env, char *elem);
 int			delete_elem_from_var_lst(t_var **var_lst, char *elem_name);
 int			sub_unset_var(t_infos *infos, t_token *to_unset);
 int			unset_var(t_infos *infos, t_cmd *cmd);
-int			add_not_existing_elem_to_env(char ***env, char *new_elem,
-				int elem_size, int env_size);
-int			modify_existing_elem_to_env(t_infos *infos, char *new_elem,
-				int elem_size, char *elem_name);
+int			add_not_existing_elem_to_env(char ***env, t_token *new_elem,
+				int env_size);
+int			modify_existing_elem_to_env(t_infos *infos, char **env,
+				t_token *new_elem, char *elem_name);
 int			add_elem_to_env(t_infos *infos, t_cmd *cmd);
 int			sub_add_elem_to_env(t_infos *infos, t_token *new_elem,
 				int env_size, int *ptr_res);
@@ -296,12 +296,12 @@ char		*get_elem_value(char *str);
 int			free_lst_var(t_infos *infos);
 
 /*
-** Execution
+** EXECUTION
 */
 int			main_execution(t_infos *infos);
 
 /*
-**	Redirections
+** REDIRECTIONS
 */
 int			check_redirections(t_infos *infos, t_cmd *cmd);
 int			handle_multiple_redirections(t_infos *infos, t_cmd **cmd);
@@ -312,5 +312,12 @@ int			double_left_redirect(t_infos *infos, t_cmd *cmd, t_cmd *cmd_next);
 int			check_if_end(char **str, char *end, char c, int i);
 int			extract_file(int fd, t_cmd *cmd);
 char		*extract_name_in_string(t_cmd *cmd);
+
+/*
+** MANAGEMENT OF ENV FOR EXECUTION
+*/
+int			add_elem_to_exec_env(t_infos *infos, char ***exec_env,
+				t_token *new_elem);
+int			copy_env(t_infos *infos, char **env, char ***cpy_env);
 
 #endif

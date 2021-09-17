@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 15:55:23 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/17 14:41:12 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/09/17 15:39:32 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,7 @@ typedef struct s_cmd
 	t_token			*start;
 	t_token			*end;
 	t_operator		next_operator;
+	char			*input;
 	char			*output;
 	int				return_value;
 	struct s_cmd	*prev;
@@ -209,7 +210,7 @@ int			save_env(t_infos *infos, char **env);
 ** submitting project.
 */
 int			set_g_status_to_error(int status);
-int			error_exit_status(char *str, t_infos *infos, char *new_status);
+//int			error_exit_status(char *str, t_infos *infos, char *new_status);
 int			check_exit_status(t_infos *infos);
 int			check_if_exit_or_continue(t_infos *infos);
 int			clean_exit(t_infos *infos);

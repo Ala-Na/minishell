@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_builtin.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/02 14:46:17 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/16 16:01:47 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/17 14:30:34 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,18 +49,18 @@ int	launch_cmd(t_infos *infos, t_cmd *cmd)
 	t_builtin	builtin;
 
 	if (!cmd || !cmd->start)
-		return (-1);
+		return (error_exit_status("Error!", infos, "?=1"));
 	builtin = check_builtin(cmd->start->token);
 	if (builtin == CD)
 		return (cmd_change_directory(infos, cmd));
 	else if (builtin == ECHO)
 		return (cmd_echo(infos, cmd));
 	else if (builtin == ENV)
-		return (show_env(cmd, infos->env, 0));
+		return (show_env(infos, cmd, 0));
 	else if (builtin == EXPORT)
 		return (add_elem_to_env(infos, cmd));
 	else if (builtin == PWD)
-		return (show_current_dir());
+		return (show_current_dir(infos, cmd));
 	else if (builtin == UNSET)
 		return (unset_var(infos, cmd));
 	else if (cmd->start->type == ASSIGNMENT)

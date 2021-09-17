@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/07 14:43:01 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/12 21:17:23 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/17 11:11:20 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ void	free_cmd_list_from_extremity(t_cmd *cmds, int end)
 			cmds = cmds->prev;
 		else
 			cmds = cmds->next;
+		if (to_free->output)
+			free(to_free->output);
 		free(to_free);
 	}
 }

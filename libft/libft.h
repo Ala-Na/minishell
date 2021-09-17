@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/12 22:06:44 by elanna            #+#    #+#             */
-/*   Updated: 2021/09/15 16:21:26 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/17 11:20:29 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,9 @@ int						ft_isnumber(char *str);
 int						ft_isprintable(char *str);
 int						ft_iswhitespace(char c);
 void					ft_putstr(char *str);
+void					ft_puterr(char *str, int newline);
+char					*ft_strnjoin(char const *s1, char const *s2,
+							int length);
 
 /*
 ** Following : All prototypes functions for get_next_line-like.

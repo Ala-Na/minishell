@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 15:55:23 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/16 16:00:22 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/17 14:41:12 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,7 +155,7 @@ void		add_line_to_history(int history_fd, char *str);
 ** BUILT IN CD
 ** WARNING : Doesn't check if the path is correctly formated.
 */
-int			change_directory(char *new_dir_path);
+int			change_directory(t_infos *infos, char *new_dir_path);
 int			cmd_change_directory(t_infos *infos, t_cmd *cmd);
 
 /*
@@ -163,14 +163,15 @@ int			cmd_change_directory(t_infos *infos, t_cmd *cmd);
 ** Receive the string "command" and it's size.
 ** Check for the option -n is made inside the built-in.
 */
-int			echo_builtin(t_cmd *cmd);
+int			echo_builtin(t_infos *infos, t_cmd *cmd);
+int			echo_builtin_loop(t_infos *infos, t_cmd *cmd, t_token *tmp, int i);
 int			check_n_option(t_token *first);
 int			cmd_echo(t_infos *infos, t_cmd *cmd);
 
 /*
 ** BUILT IN PWD
 */
-int			show_current_dir(void);
+int			show_current_dir(t_infos *infos, t_cmd *cmd);
 
 /*
 ** BUILT IN ENV / EXPORT / UNSET
@@ -189,15 +190,16 @@ int			sub_unset_var(t_infos *infos, t_token *to_unset);
 int			unset_var(t_infos *infos, t_cmd *cmd);
 int			add_not_existing_elem_to_env(char ***env, char *new_elem,
 				int elem_size, int env_size);
-int			modify_existing_elem_to_env(char **env, char *new_elem,
+int			modify_existing_elem_to_env(t_infos *infos, char *new_elem,
 				int elem_size, char *elem_name);
 int			add_elem_to_env(t_infos *infos, t_cmd *cmd);
 int			sub_add_elem_to_env(t_infos *infos, t_token *new_elem,
-				int env_size);
+				int env_size, int *ptr_res);
 char		*get_elem_name(char *elem, int size);
 char		*get_env_elem(char **env, char *elem);
 int			seek_elem_pos(char **env, char *elem_name);
-int			show_env(t_cmd *cmd, char **env, int export);
+int			show_env(t_infos *infos, t_cmd *cmd, int export);
+int			show_env_for_export(t_infos *infos, t_cmd *cmd, char **env, int i);
 void		free_env(char **env, int last);
 int			save_env(t_infos *infos, char **env);
 
@@ -206,6 +208,8 @@ int			save_env(t_infos *infos, char **env);
 ** WARNING : Proper clean of all allocated memory to check before
 ** submitting project.
 */
+int			set_g_status_to_error(int status);
+int			error_exit_status(char *str, t_infos *infos, char *new_status);
 int			check_exit_status(t_infos *infos);
 int			check_if_exit_or_continue(t_infos *infos);
 int			clean_exit(t_infos *infos);

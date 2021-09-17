@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/01 21:57:01 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/15 21:01:37 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/17 14:40:32 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	fill_env_with_deletion(char ***env, int elem_pos, int env_size)
 
 	tmp_env = malloc(sizeof(*tmp_env) * (env_size));
 	if (!tmp_env)
-		return (-1);
+		return (set_g_status_to_error(1));
 	i = -1;
 	j = 0;
 	while (++i < env_size - 1)
@@ -59,7 +59,7 @@ int	delete_elem_from_env(char ***env, char *elem_name)
 	if (elem_pos == -2)
 		return (0);
 	else if (elem_pos == -1)
-		return (-1);
+		return (set_g_status_to_error(1));
 	env_size = 0;
 	while ((*env)[env_size])
 		env_size++;
@@ -129,7 +129,7 @@ int	unset_var(t_infos *infos, t_cmd *cmd)
 	res = -1;
 	if (!infos || !cmd || ft_strncmp(cmd->start->token,
 			"unset", cmd->start->length))
-		return (-1);
+		return (error_exit_status("Error", infos, "?=1"));
 	to_unset = cmd->start->next;
 	while (to_unset)
 	{
@@ -140,5 +140,7 @@ int	unset_var(t_infos *infos, t_cmd *cmd)
 			break ;
 		to_unset = to_unset->next;
 	}
+	if (modify_var_in_list(infos, "?=0", NULL) < 0)
+		return (error_exit_status("Memory allocation error", infos, "?=1"));
 	return (res);
 }

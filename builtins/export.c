@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/01 21:56:08 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/16 16:24:24 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/17 14:40:04 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	add_not_existing_elem_to_env(char ***env, char *new_elem, int elem_size,
 
 	tmp_env = malloc(sizeof(*tmp_env) * (env_size + 2));
 	if (!tmp_env)
-		return (-1);
+		return (set_g_status_to_error(1));
 	j = -1;
 	while (++j < env_size + 1)
 	{
@@ -36,7 +36,7 @@ int	add_not_existing_elem_to_env(char ***env, char *new_elem, int elem_size,
 		if (!tmp_env[j])
 		{
 			free(tmp_env);
-			return (-1);
+			return (set_g_status_to_error(1));
 		}
 	}
 	tmp_env[j] = NULL;
@@ -59,7 +59,10 @@ int	seek_elem_pos(char **env, char *elem_name)
 	i = 0;
 	elem_pos = 0;
 	if (!env || !elem_name)
+	{
+		g_exit_status = 1;
 		return (-1);
+	}
 	while (env[i])
 		i++;
 	while (env[elem_pos])
@@ -78,23 +81,23 @@ int	seek_elem_pos(char **env, char *elem_name)
 ** and replace it's value by new_elem/
 ** Returns -1 if an error occurs, 0 otherwise.
 */
-int	modify_existing_elem_to_env(char **env, char *new_elem, int elem_size,
+int	modify_existing_elem_to_env(t_infos *infos, char *new_elem, int elem_size,
 		char *elem_name)
 {
 	int	elem_pos;
 
-	elem_pos = seek_elem_pos(env, elem_name);
+	elem_pos = seek_elem_pos((infos->env), elem_name);
 	if (elem_pos < 0)
 		return (-1);
-	free(env[elem_pos]);
-	env[elem_pos] = ft_strndup(new_elem, elem_size);
-	if (!env[elem_pos])
-		return (-1);
+	free((infos->env)[elem_pos]);
+	(infos->env)[elem_pos] = ft_strndup(new_elem, elem_size);
+	if (!(infos->env)[elem_pos])
+		return (error_exit_status("Memory allocation error", infos, "?=1"));
 	return (0);
 }
 
 int	sub_add_elem_to_env(t_infos *infos, t_token *new_elem,
-		int env_size)
+		int env_size, int *ptr_res)
 {
 	int		res;
 	char	*elem_name;
@@ -107,15 +110,17 @@ int	sub_add_elem_to_env(t_infos *infos, t_token *new_elem,
 		return (0);
 	elem_name = get_elem_name(new_elem->token, new_elem->length);
 	if (!elem_name)
-		return (-1);
+		return (error_exit_status("Memory allocation error", infos, "?=1"));
 	delete_elem_from_var_lst(&infos->lst_var, elem_name);
 	if (!get_env_elem(infos->env, elem_name))
 		res = add_not_existing_elem_to_env(&infos->env, new_elem->token,
 				new_elem->length, env_size);
 	else
-		res = modify_existing_elem_to_env(infos->env, new_elem->token,
+		res = modify_existing_elem_to_env(infos, new_elem->token,
 				new_elem->length, elem_name);
 	free(elem_name);
+	if (res == 0)
+		*ptr_res = 0;
 	return (res);
 }
 
@@ -135,7 +140,7 @@ int	add_elem_to_env(t_infos *infos, t_cmd *cmd)
 	int		res;
 
 	if (!infos->env || !cmd || !cmd->start)
-		return (-1);
+		return (error_exit_status("Error!", infos, "?=1"));
 	new_elem = cmd->start->next;
 	env_size = 0;
 	res = -1;
@@ -143,14 +148,14 @@ int	add_elem_to_env(t_infos *infos, t_cmd *cmd)
 	{
 		while ((infos->env)[env_size])
 			env_size++;
-		tmp_res = sub_add_elem_to_env(infos, new_elem, env_size);
-		if (tmp_res == 0)
-			res = 0;
+		tmp_res = sub_add_elem_to_env(infos, new_elem, env_size, &res);
 		if (new_elem == cmd->end)
 			break ;
 		new_elem = new_elem->next;
 	}
 	if (res == -1)
-		show_env(cmd, infos->env, 1);
+		show_env(infos, cmd, 1);
+	if (modify_var_in_list(infos, "?=0", NULL) < 0)
+		return (error_exit_status("Memory allocation error", infos, "?=1"));
 	return (res);
 }

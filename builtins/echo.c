@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/07 12:14:01 by hlichir           #+#    #+#             */
-/*   Updated: 2021/09/17 11:28:04 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/09/17 15:02:08 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,6 @@ int	echo_builtin(t_infos *infos, t_cmd *cmd)
 		cmd->output = ft_strjoin(cmd->output, "\n");
 	if (modify_var_in_list(infos, "?=0", NULL) < 0)
 		return (error_exit_status("Memory allocation error", infos, "?=1"));
-	printf("%s", cmd->output);
 	return (0);
 }
 

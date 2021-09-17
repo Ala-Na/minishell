@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 15:55:23 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/17 14:41:12 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/09/17 23:30:21 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -188,10 +188,10 @@ int			delete_elem_from_env(char ***env, char *elem);
 int			delete_elem_from_var_lst(t_var **var_lst, char *elem_name);
 int			sub_unset_var(t_infos *infos, t_token *to_unset);
 int			unset_var(t_infos *infos, t_cmd *cmd);
-int			add_not_existing_elem_to_env(char ***env, char *new_elem,
-				int elem_size, int env_size);
-int			modify_existing_elem_to_env(t_infos *infos, char *new_elem,
-				int elem_size, char *elem_name);
+int			add_not_existing_elem_to_env(char ***env, t_token *new_elem,
+				int env_size);
+int			modify_existing_elem_to_env(t_infos *infos, char **env,
+				t_token *new_elem, char *elem_name);
 int			add_elem_to_env(t_infos *infos, t_cmd *cmd);
 int			sub_add_elem_to_env(t_infos *infos, t_token *new_elem,
 				int env_size, int *ptr_res);
@@ -298,5 +298,12 @@ int			free_lst_var(t_infos *infos);
 ** Execution
 */
 int			main_execution(t_infos *infos);
+
+/*
+** MANAGMENT OF ENV FOR EXECUTION
+*/
+int			add_elem_to_exec_env(t_infos *infos, char ***exec_env,
+				t_token *new_elem);
+int			copy_env(t_infos *infos, char **env, char ***cpy_env);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 15:55:23 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/24 14:13:15 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/24 14:14:21 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -306,7 +306,7 @@ char		**get_exec_args(t_infos *infos, t_cmd *cmd, t_token *exec_token);
 int			get_args_nbr(t_cmd *cmd, t_token *exec_token);
 
 /*
-**	Redirections
+** REDIRECTIONS
 */
 int			check_redirections(t_infos *infos, t_cmd *cmd);
 int			handle_multiple_redirections(t_infos *infos, t_cmd **cmd);

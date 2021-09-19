@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 15:55:23 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/24 14:08:37 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/24 14:10:04 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -255,7 +255,7 @@ void		free_cmd_list_from_extremity(t_cmd *cmds, int end);
 int			parse_cmd(t_infos *infos);
 
 /*
-** COMMAND EXECUTION
+** GET FILE FULL PATH
 */
 char		*get_path(char *filepath, char **env);
 char		*get_absolute_path(char *filepath, char **env, char in_home);
@@ -286,7 +286,7 @@ void		handle_signals(void);
 void		sig_handler_function(int signum);
 
 /*
-** Handling assignments
+** ASSIGNMENTS HANDLING
 */
 int			check_assignment(t_infos *infos, t_cmd *cmd);
 int			assign_variable(t_infos *infos, t_cmd *current_cmd);
@@ -296,9 +296,11 @@ char		*get_elem_value(char *str);
 int			free_lst_var(t_infos *infos);
 
 /*
-** Execution
+** COMMANDS EXECUTION
 */
-int			main_execution(t_infos *infos);
+t_token		*move_to_exec(t_infos *infos, t_cmd *cmd, char ***exec_env);
+char		*get_exec_path(t_infos *infos, t_cmd *cmd, char ***exec_cmd);
+int			execute_simple_cmd(t_infos *infos);
 
 /*
 **	Redirections
@@ -318,6 +320,8 @@ char		*extract_name_in_string(t_cmd *cmd);
 */
 int			add_elem_to_exec_env(t_infos *infos, char ***exec_env,
 				t_token *new_elem);
-int			copy_env(t_infos *infos, char **env, char ***cpy_env);
+int			get_exec_env_diff_size(t_infos *infos, t_cmd *cmd);
+int			copy_env(t_infos *infos, char **env, char ***cpy_env,
+				int cpy_diff_size);
 
 #endif

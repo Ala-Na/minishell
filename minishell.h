@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 15:55:23 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/19 23:28:40 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/20 16:29:19 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -297,9 +297,12 @@ int			free_lst_var(t_infos *infos);
 /*
 ** COMMANDS EXECUTION
 */
-t_token		*move_to_exec(t_infos *infos, t_cmd *cmd, char ***exec_env);
-char		*get_exec_path(t_infos *infos, t_cmd *cmd, char ***exec_cmd);
 int			execute_simple_cmd(t_infos *infos);
+char		*get_exec_path(t_infos *infos, t_cmd *cmd, char ***exec_env,
+				t_token **exec_token);
+t_token		*move_to_exec(t_infos *infos, t_cmd *cmd, char ***exec_env);
+char		**get_exec_args(t_infos *infos, t_cmd *cmd, t_token *exec_token);
+int			get_args_nbr(t_cmd *cmd, t_token *exec_token);
 
 /*
 ** MANAGEMENT OF ENV FOR EXECUTION

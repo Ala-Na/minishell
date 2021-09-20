@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/02 11:40:02 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/17 14:22:42 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/09/20 17:09:55 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,12 @@ int	error_exit_status(char *str, t_infos *infos, char *new_status)
 {
 	if (modify_var_in_list(infos, new_status, NULL) < 0)
 	{
-		ft_puterr("Memory allocation error", 1);
+		if (str)
+			ft_puterr("Memory allocation error", 1);
 		return (-1);
 	}
-	ft_puterr(str, 1);
+	if (str)
+		ft_puterr(str, 1);
 	return (-1);
 }
 

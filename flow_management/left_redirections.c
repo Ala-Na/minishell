@@ -6,12 +6,39 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/17 14:56:38 by hlichir           #+#    #+#             */
-/*   Updated: 2021/09/17 15:59:01 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/09/20 14:07:23 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
+/*
+** Sub-function for single_left_redirect
+** Read the file to extract the input
+*/
+int	extract_file(int fd, t_cmd *cmd)
+{
+	char	*str;
+
+	cmd->input = ft_strdup("");
+	if (!cmd->input)
+		return (-1);
+	while (get_next_line(fd, &str) > 0)
+	{
+		cmd->input = ft_strjoin(cmd->input, str);
+		if (!cmd->input)
+			return (-1);
+		cmd->input = ft_strjoin(cmd->input, "\n");
+		if (!cmd->input)
+			return (-1);
+		free(str);
+	}
+	return (0);
+}
+
+/*
+** Function to handle the redirection "<"
+*/
 int	single_left_redirect(t_infos *infos, t_cmd *cmd)
 {
 	int		fd;
@@ -19,41 +46,78 @@ int	single_left_redirect(t_infos *infos, t_cmd *cmd)
 
 	if (cmd->next_operator != LT)
 		return (error_exit_status("Error on <", infos, "?=1"));
-	str = ft_str dndup(cmd->next->start->token, cmd->next->start->length);
+	str = extract_name_in_string(cmd->next);
 	if (!str)
 		return (error_exit_status("Malloc error!", infos, "?=1"));
-	fd = open(str);
+	fd = open(str, O_RDWR);
 	free(str);
 	if (fd < 0)
 		return (error_exit_status(strerror(errno), infos, "?=1"));
-	cmd->input = ft_strdup("");
-	if (!cmd->input)
-		return (error_exit_status("Malloc error", infos, "?=1"));
-	while (get_next_line(fd, &str) > 0)
-	{
-		cmd->input = ft_strjoin(cmd->input, str);
-		if (!cmd->input)
-			return (error_exit_status("Malloc error", infos, "?=1"));
-		free(str);
-	}
-	if (modify_var_in_list(infos, "?=0", NULL) < 0)
+	if (extract_file(fd, cmd) < 0)
 		return (error_exit_status("Malloc error", infos, "?=1"));
 	return (0);
 }
 
 /*
-** Hind => a coder
+** Sub-function for double_left_redirect
+** Check if the string "end" was written
 */
-/*int	double_left_redirect(t_infos *infos, t_cmd *cmd)
+int	check_if_end(char **str, char *end, char c, int i)
 {
-	int		fd;
-	char	buffer[4096];
+	char	*tmp;
+	int		start_pos;
+
+	if (c != '\n')
+		return (0);
+	start_pos = 0;
+	while ((*str)[i])
+	{
+		if ((*str)[i] == '\n' && (*str)[i + 1])
+			start_pos = i + 1;
+		i++;
+	}
+	tmp = ft_strdup(*str + start_pos);
+	if (!tmp)
+		return (-1);
+	if (!ft_strncmp(tmp, end, ft_max(ft_strlen(tmp) - 1, ft_strlen(end))))
+	{
+		*str = ft_strndup(*str, ft_strlen(*str) - ft_strlen(tmp));
+		free(tmp);
+		return (1);
+	}
+	free(tmp);
+	write(1, "> ", 2);
+	return (0);
+}
+
+/*
+** Function to handle the redirection "<<"
+*/
+int	double_left_redirect(t_infos *infos, t_cmd *cmd)
+{
+	char	buffer[1];
+	char	*str;
 	char	*end_str;
 
 	if (cmd->next_operator != LT_DBL)
 		return (error_exit_status("Error on <<", infos, "?=1"));
-	end_str = ft_strndup(cmd->next->start->token, cmd->next->start->length);
-	if (modify_var_in_list(infos, "?=0", NULL) < 0)
+	end_str = extract_name_in_string(cmd->next);
+	printf("%s\n", end_str);
+	str = ft_strdup("");
+	if (!end_str || !str)
 		return (error_exit_status("Malloc error", infos, "?=1"));
+	write(1, "> ", 2);
+	while (read(1, buffer, 1) > 0)
+	{
+		str = ft_strnjoin(str, buffer, 1);
+		if (!str)
+			return (error_exit_status("Malloc error", infos, "?=1"));
+		if (check_if_end(&str, end_str, buffer[0], 0) > 0)
+			break ;
+	}
+	cmd->input = ft_strdup(str);
+	if (!cmd->input)
+		return (error_exit_status("Malloc error", infos, "?=1"));
+	free(str);
 	return (0);
-}*/
+}

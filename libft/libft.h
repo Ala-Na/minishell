@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/12 22:06:44 by elanna            #+#    #+#             */
-/*   Updated: 2021/09/17 11:20:29 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/09/20 13:42:45 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,6 +122,7 @@ void					ft_putstr(char *str);
 void					ft_puterr(char *str, int newline);
 char					*ft_strnjoin(char const *s1, char const *s2,
 							int length);
+size_t					ft_max(size_t n1, size_t n2);
 
 /*
 ** Following : All prototypes functions for get_next_line-like.

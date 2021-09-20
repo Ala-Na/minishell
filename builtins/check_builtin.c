@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/02 14:46:17 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/17 14:30:34 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/09/20 15:37:08 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,9 @@ int	launch_cmd(t_infos *infos, t_cmd *cmd)
 		return (show_current_dir(infos, cmd));
 	else if (builtin == UNSET)
 		return (unset_var(infos, cmd));
-	else if (cmd->start->type == ASSIGNMENT)
+	else if (cmd->next_operator == -1)
+		return (execute_simple_cmd(infos));
+	else if (cmd->start->type == ASSIGNMENT) // Créer conditions pour check que seulement assignements
 		return (check_assignment(infos, cmd));
 	return (0);
 }

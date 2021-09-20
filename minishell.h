@@ -6,7 +6,11 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 15:55:23 by anadege           #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2021/09/24 14:16:56 by anadege          ###   ########.fr       */
+=======
+/*   Updated: 2021/09/21 12:11:05 by anadege          ###   ########.fr       */
+>>>>>>> Errors to correct (child minishell to exit properly)
 /*                                                                            */
 /* ************************************************************************** */
 

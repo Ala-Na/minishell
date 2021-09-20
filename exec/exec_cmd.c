@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 15:00:10 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/20 17:07:40 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/20 21:00:59 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ t_token	*move_to_exec(t_infos *infos, t_cmd *cmd, char ***exec_env)
 {
 	int	diff_exec_env_size;
 
+	*exec_env = NULL;
 	diff_exec_env_size = get_exec_env_diff_size(infos, cmd);
 	if (diff_exec_env_size < 0 ||
 			copy_env(infos, infos->env, exec_env, diff_exec_env_size) < 0)
@@ -111,6 +112,8 @@ char	*get_exec_path(t_infos *infos, t_cmd *cmd, char ***exec_env, t_token **exec
 	full_path = get_path(path, *exec_env);
 	if (!full_path)
 		error_exit_status(NULL, infos, "?=1");
+	if (path && full_path != path)
+		free(path);
 	return (full_path);
 }
 
@@ -122,6 +125,7 @@ char	*get_exec_path(t_infos *infos, t_cmd *cmd, char ***exec_env, t_token **exec
 int	execute_simple_cmd(t_infos *infos)
 {
 	pid_t	pid;
+	int		res;
 	int		wstatus;
 	char	*exec_path;
 	char	**exec_elems[2];
@@ -139,12 +143,25 @@ int	execute_simple_cmd(t_infos *infos)
 	{
 		exec_path = get_exec_path(infos, infos->lst_cmds, &exec_elems[0], &exec_token);
 		if (!exec_path || !exec_elems[0])
+		{
+			if (exec_elems[0])
+				free_env(exec_elems[0], -1);
 			return (-1);
+		}
 		exec_elems[1] = get_exec_args(infos, infos->lst_cmds, exec_token);
 		if (!exec_elems[1])
+		{
+			free(exec_path);
+			free_env(exec_elems[0], -1);
 			return (error_exit_status("error", infos, "?=1"));
+		}
 		if (execve(exec_path, exec_elems[1], exec_elems[0]) == -1)
+		{
+			free(exec_path);
+			free_env(exec_elems[0], -1);
+			free_env(exec_elems[1], -1);
 			return (error_exit_status(strerror(errno), infos, "?=1"));
+		}
 		free(exec_path);
 		free_env(exec_elems[0], -1);
 		free_env(exec_elems[1], -1);

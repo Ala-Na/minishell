@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 15:56:39 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/20 16:05:50 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/20 20:58:51 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,11 +123,7 @@ char	*get_path(char *filepath, char **env)
 	else if (res == 1)
 		path = get_absolute_path(filepath, env, 0);
 	if (path && !stat(path, &buf))
-	{
-		if (filepath != path)
-			free(filepath);
 		return (path);
-	}
 	printf("error : %s not found\n", filepath);
 	if (path)
 		free(path);

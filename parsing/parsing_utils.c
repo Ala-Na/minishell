@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/07 14:43:01 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/17 11:11:20 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/09/17 15:40:22 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ void	free_cmd_list_from_extremity(t_cmd *cmds, int end)
 			cmds = cmds->next;
 		if (to_free->output)
 			free(to_free->output);
+		if (to_free->input)
+			free(to_free->input);
 		free(to_free);
 	}
 }
@@ -90,6 +92,7 @@ t_cmd	*init_new_cmd(t_token *start, t_cmd **head_lst)
 	new->start = start;
 	new->end = start;
 	new->next_operator = -1;
+	new->input = NULL;
 	new->output = NULL;
 	new->return_value = 0;
 	new->next = NULL;

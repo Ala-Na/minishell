@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+         #
+#    By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/08/23 15:04:29 by anadege           #+#    #+#              #
-#    Updated: 2021/09/16 11:15:08 by anadege          ###   ########.fr        #
+#    Updated: 2021/09/20 15:16:20 by hlichir          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,7 +32,10 @@ SRCS	= ./main.c \
 		  ./parsing/assignment_complementary.c \
 		  ./exec/exec_cmd.c \
 		  ./exec/seek_bin.c \
-		  ./signals.c
+		  ./signals.c \
+		  ./flow_management/right_redirections.c \
+		  ./flow_management/left_redirections.c \
+		  ./flow_management/redirections.c
 
 NAME = minishell
 
@@ -63,4 +66,3 @@ fclean: 	clean
 re:			fclean all
 
 .PHONY: all clean re
-

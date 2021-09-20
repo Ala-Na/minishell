@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 15:55:23 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/17 14:41:12 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/09/20 15:20:45 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,7 @@ typedef struct s_cmd
 	t_token			*start;
 	t_token			*end;
 	t_operator		next_operator;
+	char			*input;
 	char			*output;
 	int				return_value;
 	struct s_cmd	*prev;
@@ -298,5 +299,18 @@ int			free_lst_var(t_infos *infos);
 ** Execution
 */
 int			main_execution(t_infos *infos);
+
+/*
+**	Redirections
+*/
+int			check_redirections(t_infos *infos, t_cmd *cmd);
+int			handle_multiple_redirections(t_infos *infos, t_cmd **cmd);
+int			single_right_redirect(t_infos *infos, t_cmd *cmd);
+int			double_right_redirect(t_infos *infos, t_cmd *cmd);
+int			single_left_redirect(t_infos *infos, t_cmd *cmd, t_cmd *cmd_next);
+int			double_left_redirect(t_infos *infos, t_cmd *cmd, t_cmd *cmd_next);
+int			check_if_end(char **str, char *end, char c, int i);
+int			extract_file(int fd, t_cmd *cmd);
+char		*extract_name_in_string(t_cmd *cmd);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/17 14:56:38 by hlichir           #+#    #+#             */
-/*   Updated: 2021/09/20 14:06:37 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/09/20 14:53:43 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,6 @@ int	single_right_redirect(t_infos *infos, t_cmd *cmd)
 	int		fd;
 	char	*filename;
 
-	if (cmd->next_operator != GT)
-		return (error_exit_status("Error on >", infos, "?=1"));
 	filename = extract_name_in_string(cmd->next);
 	if (!filename)
 		return (error_exit_status("Malloc error!", infos, "?=1"));
@@ -50,6 +48,12 @@ int	single_right_redirect(t_infos *infos, t_cmd *cmd)
 		return (error_exit_status("Error on fd!", infos, "?=1"));
 	ft_putstr_fd(cmd->output, fd);
 	close(fd);
+	if (cmd->next->next_operator != -1)
+	{
+		cmd->next->output = ft_strdup(cmd->output);
+		if (!cmd->next->output)
+			return (error_exit_status("Malloc error!", infos, "?=1"));
+	}
 	return (0);
 }
 
@@ -63,8 +67,6 @@ int	double_right_redirect(t_infos *infos, t_cmd *cmd)
 	int		fd;
 	char	*filename;
 
-	if (cmd->next_operator != GT_DBL)
-		return (error_exit_status("Error on >>", infos, "?=1"));
 	filename = extract_name_in_string(cmd->next);
 	if (!filename)
 		return (error_exit_status("Malloc error!", infos, "?=1"));
@@ -74,5 +76,11 @@ int	double_right_redirect(t_infos *infos, t_cmd *cmd)
 		return (error_exit_status("Error on fd!", infos, "?=1"));
 	ft_putstr_fd(cmd->output, fd);
 	close(fd);
+	if (cmd->next->next_operator != -1)
+	{
+		cmd->next->output = ft_strdup(cmd->output);
+		if (!cmd->next->output)
+			return (error_exit_status("Malloc error!", infos, "?=1"));
+	}
 	return (0);
 }

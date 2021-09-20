@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/17 14:56:38 by hlichir           #+#    #+#             */
-/*   Updated: 2021/09/20 14:07:23 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/09/20 15:03:30 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,33 +20,35 @@ int	extract_file(int fd, t_cmd *cmd)
 {
 	char	*str;
 
-	cmd->input = ft_strdup("");
 	if (!cmd->input)
-		return (-1);
+	{
+		cmd->input = ft_strdup("");
+		if (!cmd->input)
+			return (-1);
+	}
 	while (get_next_line(fd, &str) > 0)
 	{
 		cmd->input = ft_strjoin(cmd->input, str);
 		if (!cmd->input)
 			return (-1);
+		free(str);
 		cmd->input = ft_strjoin(cmd->input, "\n");
 		if (!cmd->input)
 			return (-1);
-		free(str);
 	}
+	close(fd);
 	return (0);
 }
 
 /*
 ** Function to handle the redirection "<"
 */
-int	single_left_redirect(t_infos *infos, t_cmd *cmd)
+int	single_left_redirect(t_infos *infos, t_cmd *cmd, t_cmd *cmd_next)
 {
 	int		fd;
 	char	*str;
 
-	if (cmd->next_operator != LT)
-		return (error_exit_status("Error on <", infos, "?=1"));
-	str = extract_name_in_string(cmd->next);
+	str = extract_name_in_string(cmd_next);
 	if (!str)
 		return (error_exit_status("Malloc error!", infos, "?=1"));
 	fd = open(str, O_RDWR);
@@ -93,16 +95,13 @@ int	check_if_end(char **str, char *end, char c, int i)
 /*
 ** Function to handle the redirection "<<"
 */
-int	double_left_redirect(t_infos *infos, t_cmd *cmd)
+int	double_left_redirect(t_infos *infos, t_cmd *cmd, t_cmd *cmd_next)
 {
 	char	buffer[1];
 	char	*str;
 	char	*end_str;
 
-	if (cmd->next_operator != LT_DBL)
-		return (error_exit_status("Error on <<", infos, "?=1"));
-	end_str = extract_name_in_string(cmd->next);
-	printf("%s\n", end_str);
+	end_str = extract_name_in_string(cmd_next);
 	str = ft_strdup("");
 	if (!end_str || !str)
 		return (error_exit_status("Malloc error", infos, "?=1"));
@@ -115,7 +114,10 @@ int	double_left_redirect(t_infos *infos, t_cmd *cmd)
 		if (check_if_end(&str, end_str, buffer[0], 0) > 0)
 			break ;
 	}
-	cmd->input = ft_strdup(str);
+	if (!cmd->input)
+		cmd->input = ft_strdup("");
+	if (cmd->input)
+		cmd->input = ft_strjoin(cmd->input, str);
 	if (!cmd->input)
 		return (error_exit_status("Malloc error", infos, "?=1"));
 	free(str);

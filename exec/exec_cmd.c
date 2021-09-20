@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 15:00:10 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/15 12:02:17 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/20 15:15:04 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,13 @@ int	main_execution(t_infos *infos)
 			assign_variable(infos, cmd);
 		cmd = cmd->next;
 	}
-	while (cmd)
+	check_redirections(infos, cmd);
+	while (cmd->next)
 	{
 		cmd = cmd->next;
 	}
+	if (cmd->output)
+		ft_putstr(cmd->output);
 	return (0);
 }
 

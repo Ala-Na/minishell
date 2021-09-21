@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/15 11:48:01 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/17 14:33:29 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/09/21 14:05:41 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@ int	check_assignment(t_infos *infos, t_cmd *cmd)
 	if (!var_name)
 		return (-1);
 	if (get_env_elem(infos->env, var_name) != NULL)
-		res = modify_existing_elem_to_env(infos,
-				cmd->start->token, cmd->start->length, var_name);
+		res = modify_existing_elem_to_env(infos, infos->env,
+				cmd->start, var_name);
 	else
 		res = assign_variable(infos, cmd);
 	free(var_name);

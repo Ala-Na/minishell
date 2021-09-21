@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/02 14:46:17 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/20 15:37:08 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/21 14:37:18 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ t_builtin	check_builtin(char	*first_elem)
 ** FONCTION A REMPLIR AU FUR ET A MESURE
 ** Warning ; Pour le moment, lance les assignements
 ** sans prendre en compte ce qu'il y a derrière.
+** Warning : IL FAUT CREER FONCTION POUR VERIFIER SI QUE ASSIGNMENTS
+** OU SI CMD 
 */
 int	launch_cmd(t_infos *infos, t_cmd *cmd)
 {
@@ -65,7 +67,7 @@ int	launch_cmd(t_infos *infos, t_cmd *cmd)
 		return (unset_var(infos, cmd));
 	else if (cmd->next_operator == -1)
 		return (execute_simple_cmd(infos));
-	else if (cmd->start->type == ASSIGNMENT) // Créer conditions pour check que seulement assignements
+	else if (cmd->start->type == ASSIGNMENT)
 		return (check_assignment(infos, cmd));
 	return (0);
 }

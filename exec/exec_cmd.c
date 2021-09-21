@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 15:00:10 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/21 11:24:48 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/21 11:27:18 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,12 @@
 /*
 ** Function to free arguments of execve command, previously set.
 */
-void	free_child_exec_var(char *exec_path, char **exec_env, char **exec_args)
+void	free_child_exec_var(t_infos *infos, char *exec_path, char **exec_env,
+			char **exec_args)
 {
 	if (exec_path)
 		free(exec_path);
-	if (exec_env)
+	if (exec_env && exec_env != infos->env)
 		free_env(exec_env, -1);
 	if (exec_args)
 		free_env(exec_args, -1);
@@ -41,21 +42,21 @@ int	child_execution(t_infos *infos)
 	exec_path = get_exec_path(infos, infos->lst_cmds, &exec_env, &exec_token);
 	if (!exec_path || !exec_env)
 	{
-		free_child_exec_var(NULL, exec_env, NULL);
+		free_child_exec_var(infos, NULL, exec_env, NULL);
 		return (-1);
 	}
 	exec_args = get_exec_args(infos, infos->lst_cmds, exec_token);
 	if (!exec_args)
 	{
-		free_child_exec_var(exec_path, exec_env, NULL);
+		free_child_exec_var(infos, exec_path, exec_env, NULL);
 		return (error_exit_status("error", infos, "?=1"));
 	}
 	if (execve(exec_path, exec_args, exec_env) == -1)
 	{
-		free_child_exec_var(exec_path, exec_env, exec_args);
+		free_child_exec_var(infos, exec_path, exec_env, exec_args);
 		return (error_exit_status(strerror(errno), infos, "?=1"));
 	}
-	free_child_exec_var(exec_path, exec_env, exec_args);
+	free_child_exec_var(infos, exec_path, exec_env, exec_args);
 	exit(1);
 	return (-1);
 }

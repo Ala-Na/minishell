@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   test.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/09/21 14:35:42 by anadege           #+#    #+#             */
+/*   Updated: 2021/09/21 14:35:52 by anadege          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-int main(int argc, char **args, char **env)
+int	main(int argc, char **args, char **env)
 {
 	int	env_elems;
 	int	args_elems;

@@ -6,7 +6,7 @@
 #    By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/08/23 15:04:29 by anadege           #+#    #+#              #
-#    Updated: 2021/09/20 15:34:24 by anadege          ###   ########.fr        #
+#    Updated: 2021/09/21 11:20:45 by anadege          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,6 +33,7 @@ SRCS	= ./main.c \
 		  ./exec/exec_cmd.c \
 		  ./exec/seek_bin.c \
 		  ./exec/set_env_exec.c \
+		  ./exec/get_cmd_args.c \
 		  ./signals.c
 
 NAME = minishell

@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 15:55:23 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/20 16:29:19 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/21 11:20:02 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -309,6 +309,9 @@ int			get_args_nbr(t_cmd *cmd, t_token *exec_token);
 */
 int			add_elem_to_exec_env(t_infos *infos, char ***exec_env,
 				t_token *new_elem);
+int			child_execution(t_infos *infos);
+void		free_child_exec_var(char *exec_path, char **exec_env,
+				char **exec_args);
 int			get_exec_env_diff_size(t_infos *infos, t_cmd *cmd);
 int			copy_env(t_infos *infos, char **env, char ***cpy_env,
 				int cpy_diff_size);

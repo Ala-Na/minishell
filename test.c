@@ -8,7 +8,10 @@ int main(int argc, char **args, char **env)
 	env_elems = 0;
 	args_elems = 0;
 	while (env[env_elems])
+	{
+		printf("%s\n", env[env_elems]);
 		env_elems++;
+	}
 	printf("Process received %i env elems.\n", env_elems);
 	while (args[args_elems])
 	{

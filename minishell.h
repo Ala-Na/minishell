@@ -6,11 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 15:55:23 by anadege           #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2021/09/24 14:16:56 by anadege          ###   ########.fr       */
-=======
-/*   Updated: 2021/09/21 12:11:05 by anadege          ###   ########.fr       */
->>>>>>> Errors to correct (child minishell to exit properly)
+/*   Updated: 2021/09/24 14:22:06 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -328,8 +324,8 @@ char		*extract_name_in_string(t_cmd *cmd);
 int			add_elem_to_exec_env(t_infos *infos, char ***exec_env,
 				t_token *new_elem);
 int			child_execution(t_infos *infos);
-void		free_child_exec_var(t_infos *infos, char *exec_path,
-				char **exec_env, char **exec_args);
+void		free_child_exec_var(char *exec_path, char **exec_env,
+				char **exec_args);
 int			get_exec_env_diff_size(t_infos *infos, t_cmd *cmd);
 int			copy_env(t_infos *infos, char **env, char ***cpy_env,
 				int cpy_diff_size);

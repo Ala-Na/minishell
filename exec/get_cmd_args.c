@@ -6,7 +6,11 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/21 11:03:41 by anadege           #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2021/09/21 11:29:30 by anadege          ###   ########.fr       */
+=======
+/*   Updated: 2021/09/21 11:05:58 by anadege          ###   ########.fr       */
+>>>>>>> Exec functions norminized but still exit pb
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,11 +82,16 @@ t_token	*move_to_exec(t_infos *infos, t_cmd *cmd, char ***exec_env)
 
 	*exec_env = NULL;
 	diff_exec_env_size = get_exec_env_diff_size(infos, cmd);
+<<<<<<< HEAD
 	if (diff_exec_env_size < 0)
 		return (NULL);
 	else if (diff_exec_env_size == 0)
 		*exec_env = infos->env;
 	else if (copy_env(infos, infos->env, exec_env, diff_exec_env_size) < 0)
+=======
+	if (diff_exec_env_size < 0
+		|| copy_env(infos, infos->env, exec_env, diff_exec_env_size) < 0)
+>>>>>>> Exec functions norminized but still exit pb
 		return (NULL);
 	while (cmd->start->type == ASSIGNMENT)
 	{

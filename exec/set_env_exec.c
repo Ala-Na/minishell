@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/17 16:53:57 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/20 17:05:09 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/21 11:04:32 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	add_elem_to_exec_env(t_infos *infos, char ***exec_env, t_token *new_elem)
 	}
 	else
 		res = modify_existing_elem_to_env(infos, *exec_env, new_elem,
-			elem_name);
+				elem_name);
 	free(elem_name);
 	return (res);
 }

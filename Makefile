@@ -6,7 +6,7 @@
 #    By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/08/23 15:04:29 by anadege           #+#    #+#              #
-#    Updated: 2021/09/21 12:12:27 by anadege          ###   ########.fr        #
+#    Updated: 2021/09/21 14:07:24 by anadege          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,10 +32,9 @@ SRCS	= ./main.c \
 		  ./parsing/assignment_complementary.c \
 		  ./exec/exec_cmd.c \
 		  ./exec/seek_bin.c \
-		  ./signals.c \
 		  ./flow_management/right_redirections.c \
 		  ./flow_management/left_redirections.c \
-		  ./flow_management/redirections.c
+		  ./flow_management/redirections.c \
 		  ./exec/set_env_exec.c \
 		  ./exec/get_cmd_args.c \
 		  ./signals.c
@@ -58,7 +57,6 @@ all:		${NAME}
 ${NAME}:	${OBJS}
 			make -C libft
 			${CC} ${CFLAGS} -o ${NAME} ${OBJS} ${LIB}
-
 
 clean:
 			@rm -f ${OBJS}

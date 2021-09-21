@@ -3,84 +3,85 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
+/*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 15:00:10 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/20 15:15:04 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/09/21 11:27:18 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
 /*
-**	[ONGOING -> handle assignation done]
+** Function to free arguments of execve command, previously set.
 */
-
-int	main_execution(t_infos *infos)
+void	free_child_exec_var(t_infos *infos, char *exec_path, char **exec_env,
+			char **exec_args)
 {
-	t_cmd	*cmd;
-	t_var	*current;
-
-	cmd = infos->lst_cmds;
-	if (cmd && cmd->start->type == ASSIGNMENT)
-	{
-		if (cmd->next == NULL)
-			assign_variable(infos, cmd);
-		cmd = cmd->next;
-	}
-	check_redirections(infos, cmd);
-	while (cmd->next)
-	{
-		cmd = cmd->next;
-	}
-	if (cmd->output)
-		ft_putstr(cmd->output);
-	return (0);
+	if (exec_path)
+		free(exec_path);
+	if (exec_env && exec_env != infos->env)
+		free_env(exec_env, -1);
+	if (exec_args)
+		free_env(exec_args, -1);
 }
 
 /*
-**	Bout de code pour vérifer que la liste des varibles est correcte
-**	-> quand on écrit "check var"
+** Function for child execution calling execve function after set up of
+** differents execve arguments.
+** Child should normally end inside the execve function. If not, we 
+** arrive at the end of the function where an exit failure is issued.
 */
-/*		if(!ft_strncmp(cmd->start->token, "check var", 9))
-		{
-			current = infos->lst_var;
-			while (current)
-			{
-				printf("name: %s\n", current->name);
-				printf("value: %s\n", current->value);
-				current = current->next;
-			}
-		}
-*/
+int	child_execution(t_infos *infos)
+{
+	char	*exec_path;
+	char	**exec_env;
+	char	**exec_args;
+	t_token	*exec_token;
 
-/* First try
+	exec_path = get_exec_path(infos, infos->lst_cmds, &exec_env, &exec_token);
+	if (!exec_path || !exec_env)
+	{
+		free_child_exec_var(infos, NULL, exec_env, NULL);
+		return (-1);
+	}
+	exec_args = get_exec_args(infos, infos->lst_cmds, exec_token);
+	if (!exec_args)
+	{
+		free_child_exec_var(infos, exec_path, exec_env, NULL);
+		return (error_exit_status("error", infos, "?=1"));
+	}
+	if (execve(exec_path, exec_args, exec_env) == -1)
+	{
+		free_child_exec_var(infos, exec_path, exec_env, exec_args);
+		return (error_exit_status(strerror(errno), infos, "?=1"));
+	}
+	free_child_exec_var(infos, exec_path, exec_env, exec_args);
+	exit(1);
+	return (-1);
+}
+
+/*
+** exec_elems[0] is equivalent to executable environmentals variables.
+** exec_elems[1] is equivalent to executable arguments.
+** WARNING : Value of ? may need to be modified in case of errors.
+*/
 int	execute_simple_cmd(t_infos *infos)
 {
 	pid_t	pid;
 	int		wstatus;
 
 	pid = fork();
-	if (pid < 0) // Cas où fork a foiré
-		return (-1); //erreur fork, cf errno
+	if (pid < 0)
+		return (error_exit_status(strerror(errno), infos, "?=1"));
 	else if (pid > 0)
 	{
-		//On est dans le parent
 		waitpid(pid, &wstatus, 0);
 		kill(pid, SIGTERM);
 	}
 	else
 	{
-		//On est dans l'enfant
-		//Besoin de : transformer arguments en char* passé en 2nd argument
-		//+ vérifier si builtin et si cas, aller directement dans fonction
-		//du builtin
-		//Chercher si filename est un chemin absolu. Si non, on le cherche dans PATH
-		if (execve(filename, args, envp) == -1)
-			//print message erreur; //Cas ou execution a echoue, + errno
-		exit(EXIT_FAILURE); //On arrive ici que si execve a échoué, car normalement 
-		//le child est exit quand execve est successfull
+		return (child_execution(infos));
 	}
 	return (0);
 }
-*/

@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 15:55:23 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/20 15:20:45 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/09/21 14:39:45 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,10 +189,10 @@ int			delete_elem_from_env(char ***env, char *elem);
 int			delete_elem_from_var_lst(t_var **var_lst, char *elem_name);
 int			sub_unset_var(t_infos *infos, t_token *to_unset);
 int			unset_var(t_infos *infos, t_cmd *cmd);
-int			add_not_existing_elem_to_env(char ***env, char *new_elem,
-				int elem_size, int env_size);
-int			modify_existing_elem_to_env(t_infos *infos, char *new_elem,
-				int elem_size, char *elem_name);
+int			add_not_existing_elem_to_env(char ***env, t_token *new_elem,
+				int env_size);
+int			modify_existing_elem_to_env(t_infos *infos, char **env,
+				t_token *new_elem, char *elem_name);
 int			add_elem_to_env(t_infos *infos, t_cmd *cmd);
 int			sub_add_elem_to_env(t_infos *infos, t_token *new_elem,
 				int env_size, int *ptr_res);
@@ -255,7 +255,7 @@ void		free_cmd_list_from_extremity(t_cmd *cmds, int end);
 int			parse_cmd(t_infos *infos);
 
 /*
-** COMMAND EXECUTION
+** GET FILE FULL PATH
 */
 char		*get_path(char *filepath, char **env);
 char		*get_absolute_path(char *filepath, char **env, char in_home);
@@ -286,7 +286,7 @@ void		handle_signals(void);
 void		sig_handler_function(int signum);
 
 /*
-** Handling assignments
+** ASSIGNMENTS HANDLING
 */
 int			check_assignment(t_infos *infos, t_cmd *cmd);
 int			assign_variable(t_infos *infos, t_cmd *current_cmd);
@@ -296,12 +296,17 @@ char		*get_elem_value(char *str);
 int			free_lst_var(t_infos *infos);
 
 /*
-** Execution
+** COMMANDS EXECUTION
 */
-int			main_execution(t_infos *infos);
+int			execute_simple_cmd(t_infos *infos);
+char		*get_exec_path(t_infos *infos, t_cmd *cmd, char ***exec_env,
+				t_token **exec_token);
+t_token		*move_to_exec(t_infos *infos, t_cmd *cmd, char ***exec_env);
+char		**get_exec_args(t_infos *infos, t_cmd *cmd, t_token *exec_token);
+int			get_args_nbr(t_cmd *cmd, t_token *exec_token);
 
 /*
-**	Redirections
+** REDIRECTIONS
 */
 int			check_redirections(t_infos *infos, t_cmd *cmd);
 int			handle_multiple_redirections(t_infos *infos, t_cmd **cmd);
@@ -312,5 +317,17 @@ int			double_left_redirect(t_infos *infos, t_cmd *cmd, t_cmd *cmd_next);
 int			check_if_end(char **str, char *end, char c, int i);
 int			extract_file(int fd, t_cmd *cmd);
 char		*extract_name_in_string(t_cmd *cmd);
+
+/*
+** MANAGEMENT OF ENV FOR EXECUTION
+*/
+int			add_elem_to_exec_env(t_infos *infos, char ***exec_env,
+				t_token *new_elem);
+int			child_execution(t_infos *infos);
+void		free_child_exec_var(t_infos *infos, char *exec_path,
+				char **exec_env, char **exec_args);
+int			get_exec_env_diff_size(t_infos *infos, t_cmd *cmd);
+int			copy_env(t_infos *infos, char **env, char ***cpy_env,
+				int cpy_diff_size);
 
 #endif

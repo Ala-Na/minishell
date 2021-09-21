@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 15:56:39 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/09 21:39:55 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/20 20:58:51 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,6 @@ char	*reconstitute_absolute_path(char *env_var, char *filepath)
 	tmp = ft_strjoin(env_var, "/");
 	path = ft_strjoin(tmp, filepath);
 	free(tmp);
-	if (!path)
-		printf("error while getting path\n");
 	return (path);
 }
 
@@ -63,10 +61,7 @@ char	*get_absolute_path_from_path(char *filepath, char *env_var)
 	i = 0;
 	paths = ft_split(env_var, ':');
 	if (!paths)
-	{
-		printf("error while getting path\n");
 		return (NULL);
-	}
 	while (paths[i])
 	{
 		path = reconstitute_absolute_path(paths[i], filepath);
@@ -96,10 +91,7 @@ char	*get_absolute_path(char *filepath, char **env, char in_home)
 	{
 		env_var = get_env_elem(env, "HOME");
 		if (!env_var)
-		{
-			printf("error : missing variable HOME\n");
 			return (NULL);
-		}
 		path = env_var;
 		if (ft_strlen(filepath) > 2)
 			path = reconstitute_absolute_path(env_var, &filepath[2]);
@@ -107,10 +99,7 @@ char	*get_absolute_path(char *filepath, char **env, char in_home)
 	}
 	env_var = get_env_elem(env, "PATH");
 	if (!env_var)
-	{
-		printf("error : missing variable PATH\n");
 		return (NULL);
-	}
 	return (get_absolute_path_from_path(filepath, env_var));
 }
 
@@ -134,11 +123,7 @@ char	*get_path(char *filepath, char **env)
 	else if (res == 1)
 		path = get_absolute_path(filepath, env, 0);
 	if (path && !stat(path, &buf))
-	{
-		if (filepath != path)
-			free(filepath);
 		return (path);
-	}
 	printf("error : %s not found\n", filepath);
 	if (path)
 		free(path);

@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 14:58:07 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/20 15:14:34 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/09/21 14:39:57 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ void	fun_test(t_infos *infos)
 	if (!infos->curr_cmd || infos->curr_cmd[0] == 0)
 		return ;
 	launch_cmd(infos, infos->lst_cmds);
-	main_execution(infos);
+	if (infos->lst_cmds && infos->lst_cmds->output)
+		printf("%s\n", infos->lst_cmds->output);
 }
 
 int	minishell_loop(t_infos *infos)

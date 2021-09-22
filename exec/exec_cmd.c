@@ -6,23 +6,11 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 15:00:10 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/22 16:46:26 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/22 21:11:36 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-int	main_execution(t_infos *infos)
-{
-	t_cmd	*cmd;
-	t_var	*current;
-
-	cmd = infos->lst_cmds;
-	if (cmd && cmd->start->type == ASSIGNMENT)
-	{
-		
-	}
-}
 
 /*
 ** Function to free arguments of execve command, previously set.

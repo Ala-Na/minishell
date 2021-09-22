@@ -6,11 +6,11 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/22 17:28:50 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/22 20:57:48 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/22 21:15:34 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 /*
 ** Function to start launch of a simple command.
@@ -49,7 +49,7 @@ int	launch_simple_cmd(t_infos *infos)
 	if (builtin == -1)
 		return (-1);
 	else if (builtin != NONE)
-		return (launch_builtin(infos, infos->lst_cmds, first_non_assignment));
+		return (launch_builtin(infos, infos->lst_cmds, builtin));
 	return (execute_simple_cmd(infos));
 }
 

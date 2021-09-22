@@ -6,11 +6,11 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/02 11:40:02 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/20 17:09:55 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/22 16:54:45 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 /*
 ** Function to set g_exit_status to error
@@ -25,16 +25,24 @@ int	set_g_status_to_error(int status)
 **	Function to update the exit status in case of an error!
 **	exit(1) => an error happened 
 */
-int	error_exit_status(char *str, t_infos *infos, char *new_status)
+int	error_exit_status(char *str, int str_is_alloc, t_infos *infos, char *new_status)
 {
 	if (modify_var_in_list(infos, new_status, NULL) < 0)
 	{
 		if (str)
+		{
 			ft_puterr("Memory allocation error", 1);
+			if (str_is_alloc)
+				free(str);
+		}
 		return (-1);
 	}
 	if (str)
+	{
 		ft_puterr(str, 1);
+		if (str_is_alloc)
+			free(str);
+	}
 	return (-1);
 }
 

@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/01 21:56:08 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/17 23:17:42 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/22 14:36:35 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ int	modify_existing_elem_to_env(t_infos *infos, char **env, t_token *new_elem,
 	free(env[elem_pos]);
 	env[elem_pos] = ft_strndup(new_elem->token, new_elem->length);
 	if (!env[elem_pos])
-		return (error_exit_status("Memory allocation error", infos, "?=1"));
+		return (error_exit_status("memory allocation error", 0, infos, "?=1"));
 	return (0);
 }
 
@@ -109,7 +109,7 @@ int	sub_add_elem_to_env(t_infos *infos, t_token *new_elem,
 		return (0);
 	elem_name = get_elem_name(new_elem->token, new_elem->length);
 	if (!elem_name)
-		return (error_exit_status("Memory allocation error", infos, "?=1"));
+		return (error_exit_status("memory allocation error", 0, infos, "?=1"));
 	delete_elem_from_var_lst(&infos->lst_var, elem_name);
 	if (!get_env_elem(infos->env, elem_name))
 		res = add_not_existing_elem_to_env(&infos->env, new_elem,
@@ -139,7 +139,7 @@ int	add_elem_to_env(t_infos *infos, t_cmd *cmd)
 	int		res;
 
 	if (!infos->env || !cmd || !cmd->start)
-		return (error_exit_status("Error!", infos, "?=1"));
+		return (error_exit_status("Error!", 0, infos, "?=1"));
 	if (cmd->start == cmd->end)
 		return (show_env(infos, cmd, 1));
 	new_elem = cmd->start->next;
@@ -155,6 +155,6 @@ int	add_elem_to_env(t_infos *infos, t_cmd *cmd)
 		new_elem = new_elem->next;
 	}
 	if (modify_var_in_list(infos, "?=0", NULL) < 0)
-		return (error_exit_status("Memory allocation error", infos, "?=1"));
+		return (error_exit_status("memory allocation error", 0, infos, "?=1"));
 	return (res);
 }

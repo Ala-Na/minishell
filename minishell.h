@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 15:55:23 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/24 14:22:48 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/24 14:26:36 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,6 +134,12 @@ typedef struct s_infos
 }	t_infos;
 
 /*
+** FUNCTIONS INSIDE MAIN
+*/
+int			minishell_loop(t_infos *infos);
+void		parse_and_execute(t_infos *infos);
+
+/*
 ** PROMPT DISPLAY
 ** Set of function to display a "clean" prompt under the format :
 ** prompt_name > current_directory (with HOME replace by ~).
@@ -210,10 +216,11 @@ int			save_env(t_infos *infos, char **env);
 ** submitting project.
 */
 int			set_g_status_to_error(int status);
-int			error_exit_status(char *str, t_infos *infos, char *new_status);
+int			error_exit_status(char *str, int str_is_alloc, t_infos *infos, char *new_status);
 int			check_exit_status(t_infos *infos);
 int			check_if_exit_or_continue(t_infos *infos);
 int			clean_exit(t_infos *infos);
+void		modify_exit_value_variable(t_infos *infos, int new_value);
 
 /*
 ** MINISHELL INTIALIZATION
@@ -266,7 +273,7 @@ int			is_absolute_path(char *filepath);
 /*
 ** CHECK FOR BUILTIN OR LAUNCH COMMAND
 */
-int			launch_cmd(t_infos *infos, t_cmd *cmd);
+int			launch_builtin(t_infos *infos, t_cmd *cmd, t_token *cmd_token);
 t_builtin	check_builtin(char *first_elem);
 
 /*
@@ -288,15 +295,24 @@ void		sig_handler_function(int signum);
 /*
 ** ASSIGNMENTS HANDLING
 */
-int			check_assignment(t_infos *infos, t_cmd *cmd);
-int			assign_variable(t_infos *infos, t_cmd *current_cmd);
+int			do_assignment(t_infos *infos, t_token *token);
+int			assign_variable_to_list(t_infos *infos, t_token *current_token);
 int			add_new_var_to_list(t_infos *infos, char *str);
 int			modify_var_in_list(t_infos *infos, char *str, int *check);
 char		*get_elem_value(char *str);
 int			free_lst_var(t_infos *infos);
 
 /*
-** COMMANDS EXECUTION
+** LAUNCH
+*/
+int			launch_cmds(t_infos *infos);
+int			check_if_pipes(t_infos *infos);
+int			check_assignments(t_infos *infos, t_cmd *cmd);
+int			is_only_assignments(t_cmd *cmd);
+int			launch_simple_cmd(t_infos *infos);
+
+/*
+** SIMPLE COMMAND EXECUTION
 */
 int			execute_simple_cmd(t_infos *infos);
 char		*get_exec_path(t_infos *infos, t_cmd *cmd, char ***exec_env,
@@ -323,10 +339,10 @@ char		*extract_name_in_string(t_cmd *cmd);
 */
 int			add_elem_to_exec_env(t_infos *infos, char ***exec_env,
 				t_token *new_elem);
-int			child_execution(t_infos *infos);
+void		child_execution(t_infos *infos);
 void		free_child_exec_var(t_infos *infos, char *exec_path,
 				char **exec_env, char **exec_args);
-int			get_exec_env_diff_size(t_infos *infos, t_cmd *cmd);
+int			get_exec_env_diff_size(t_infos *infos, t_cmd *cmd, int *modif);
 int			copy_env(t_infos *infos, char **env, char ***cpy_env,
 				int cpy_diff_size);
 

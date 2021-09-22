@@ -6,21 +6,20 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 14:58:07 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/24 14:13:38 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/24 14:26:19 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	fun_test(t_infos *infos)
+void	parse_and_execute(t_infos *infos)
 {
 	int	res;
 
 	res = parse_cmd(infos);
-	printf("parse res : %i\n", res);
-	if (!infos->curr_cmd || infos->curr_cmd[0] == 0)
+	if (res != 0 || !infos->curr_cmd || infos->curr_cmd[0] == 0)
 		return ;
-	launch_cmd(infos, infos->lst_cmds);
+	launch_cmds(infos);
 	if (infos->lst_cmds && infos->lst_cmds->output)
 		printf("%s\n", infos->lst_cmds->output);
 }
@@ -44,7 +43,7 @@ int	minishell_loop(t_infos *infos)
 		}
 		add_line_to_history(infos->fd_history, infos->curr_cmd);
 		if (infos->curr_cmd[0] != 0)
-			fun_test(infos);
+			parse_and_execute(infos);
 		if (check_if_exit_or_continue(infos) == 1)
 			break ;
 	}

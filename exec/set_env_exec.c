@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/17 16:53:57 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/21 11:04:32 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/21 16:18:09 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	add_elem_to_exec_env(t_infos *infos, char ***exec_env, t_token *new_elem)
 ** Function to calculate the positive difference between minishell
 ** env and executable env.
 */
-int	get_exec_env_diff_size(t_infos *infos, t_cmd *cmd)
+int	get_exec_env_diff_size(t_infos *infos, t_cmd *cmd, int *modif)
 {
 	t_token	*curr_token;
 	char	**env;
@@ -60,6 +60,7 @@ int	get_exec_env_diff_size(t_infos *infos, t_cmd *cmd)
 	char	*elem_name;
 
 	diff_size = 0;
+	*modif = 0;
 	env = infos->env;
 	curr_token = cmd->start;
 	while (curr_token->type == ASSIGNMENT)
@@ -69,6 +70,8 @@ int	get_exec_env_diff_size(t_infos *infos, t_cmd *cmd)
 			return (-1);
 		if (!get_env_elem(env, elem_name))
 			diff_size++;
+		else
+			*modif = 1;
 		free(elem_name);
 		curr_token = curr_token->next;
 	}

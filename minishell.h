@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
+/*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/08/23 15:55:23 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/24 14:26:36 by anadege          ###   ########.fr       */
+/*   Created: 2021/09/24 14:27:18 by anadege           #+#    #+#             */
+/*   Updated: 2021/09/24 14:27:21 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -273,7 +273,7 @@ int			is_absolute_path(char *filepath);
 /*
 ** CHECK FOR BUILTIN OR LAUNCH COMMAND
 */
-int			launch_builtin(t_infos *infos, t_cmd *cmd, t_token *cmd_token);
+int			launch_builtin(t_infos *infos, t_cmd *cmd, t_builtin builtin);
 t_builtin	check_builtin(char *first_elem);
 
 /*

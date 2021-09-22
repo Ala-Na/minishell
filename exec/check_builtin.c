@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/02 14:46:17 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/24 14:25:39 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/24 14:27:42 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,11 +46,10 @@ t_builtin	check_builtin(char	*first_elem)
 ** Warning : IL FAUT CREER FONCTION POUR VERIFIER SI QUE ASSIGNMENTS
 ** OU SI CMD 
 */
-int	launch_builtin(t_infos *infos, t_cmd *cmd)
+int	launch_builtin(t_infos *infos, t_cmd *cmd, t_builtin builtin)
 {
-	t_builtin	builtin;
 
-	if (!cmd)
+	if (!infos || !cmd)
 		return (error_exit_status("Error!", 0, infos, "?=1"));
 	if (builtin == CD)
 		return (cmd_change_directory(infos, cmd));

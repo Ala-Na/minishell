@@ -6,11 +6,11 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/22 16:53:14 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/22 21:01:20 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/22 21:09:49 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 /*
 ** Function to check if the assignment variable already exist inside **env.
@@ -31,7 +31,7 @@ int	do_assignment(t_infos *infos, t_token *token)
 		res = modify_existing_elem_to_env(infos, infos->env,
 				token, var_name);
 	else
-		res = assign_variable(infos, token);
+		res = assign_variable_to_list(infos, token);
 	free(var_name);
 	return (res);
 }

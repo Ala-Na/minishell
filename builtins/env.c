@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/31 15:39:01 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/20 16:44:00 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/22 14:35:26 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ int	save_env(t_infos *infos, char **env)
 		i++;
 	tmp_env = malloc(sizeof(*tmp_env) * (i + 1));
 	if (!tmp_env)
-		return (error_exit_status("Malloc error", infos, "?=1"));
+		return (error_exit_status("malloc error", 0, infos, "?=1"));
 	i = 0;
 	while (env[i])
 	{
@@ -123,7 +123,7 @@ int	save_env(t_infos *infos, char **env)
 		if (!tmp_env[i])
 		{
 			free_env(tmp_env, i);
-			return (error_exit_status("Malloc error", infos, "?=1"));
+			return (error_exit_status("malloc error", 0, infos, "?=1"));
 		}
 		i++;
 	}

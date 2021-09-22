@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/30 16:59:11 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/17 11:20:41 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/09/22 14:34:17 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,10 @@ int	change_directory(t_infos *infos, char *new_dir_path)
 	if (chdir(new_dir_path) == -1)
 	{
 		str = strerror(errno);
-		return (error_exit_status(str, infos, "?=126"));
+		return (error_exit_status(str, 0, infos, "?=126"));
 	}
 	if (modify_var_in_list(infos, "?=0", NULL) < 0)
-		return (error_exit_status("Memory allocation error", infos, "?=1"));
+		return (error_exit_status("memory allocation error", 0, infos, "?=1"));
 	return (0);
 }
 
@@ -49,14 +49,14 @@ int	cmd_change_directory(t_infos *infos, t_cmd *cmd)
 	i = -1;
 	if (!infos || !cmd
 		|| ft_strncmp(cmd->start->token, "cd", cmd->start->length))
-		return (error_exit_status("Something went wrong (cd)", infos, "?=1"));
+		return (error_exit_status("something went wrong (cd)", 0, infos, "?=1"));
 	if (cmd->start == cmd->end)
 	{
 		home_path = get_env_elem(infos->env, "HOME");
 		return (change_directory(infos, home_path));
 	}
 	if (cmd->start->next != cmd->end)
-		return (error_exit_status("cd : too many arguments", infos, "?=2"));
+		return (error_exit_status("cd : too many arguments", 0, infos, "?=2"));
 	while (++i < cmd->end->length && i < 4097)
 		dir_path[i] = cmd->end->token[i];
 	dir_path[i] = 0;

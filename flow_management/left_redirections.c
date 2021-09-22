@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/17 14:56:38 by hlichir           #+#    #+#             */
-/*   Updated: 2021/09/20 15:03:30 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/09/22 14:42:46 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,13 +50,13 @@ int	single_left_redirect(t_infos *infos, t_cmd *cmd, t_cmd *cmd_next)
 
 	str = extract_name_in_string(cmd_next);
 	if (!str)
-		return (error_exit_status("Malloc error!", infos, "?=1"));
+		return (error_exit_status("Malloc error!", 0, infos, "?=1"));
 	fd = open(str, O_RDWR);
 	free(str);
 	if (fd < 0)
-		return (error_exit_status(strerror(errno), infos, "?=1"));
+		return (error_exit_status(strerror(errno), 0, infos, "?=1"));
 	if (extract_file(fd, cmd) < 0)
-		return (error_exit_status("Malloc error", infos, "?=1"));
+		return (error_exit_status("Malloc error", 0, infos, "?=1"));
 	return (0);
 }
 
@@ -104,13 +104,13 @@ int	double_left_redirect(t_infos *infos, t_cmd *cmd, t_cmd *cmd_next)
 	end_str = extract_name_in_string(cmd_next);
 	str = ft_strdup("");
 	if (!end_str || !str)
-		return (error_exit_status("Malloc error", infos, "?=1"));
+		return (error_exit_status("Malloc error", 0, infos, "?=1"));
 	write(1, "> ", 2);
 	while (read(1, buffer, 1) > 0)
 	{
 		str = ft_strnjoin(str, buffer, 1);
 		if (!str)
-			return (error_exit_status("Malloc error", infos, "?=1"));
+			return (error_exit_status("Malloc error", 0, infos, "?=1"));
 		if (check_if_end(&str, end_str, buffer[0], 0) > 0)
 			break ;
 	}
@@ -119,7 +119,7 @@ int	double_left_redirect(t_infos *infos, t_cmd *cmd, t_cmd *cmd_next)
 	if (cmd->input)
 		cmd->input = ft_strjoin(cmd->input, str);
 	if (!cmd->input)
-		return (error_exit_status("Malloc error", infos, "?=1"));
+		return (error_exit_status("Malloc error", 0, infos, "?=1"));
 	free(str);
 	return (0);
 }

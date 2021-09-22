@@ -6,11 +6,23 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 15:00:10 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/21 11:27:18 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/22 16:46:26 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+int	main_execution(t_infos *infos)
+{
+	t_cmd	*cmd;
+	t_var	*current;
+
+	cmd = infos->lst_cmds;
+	if (cmd && cmd->start->type == ASSIGNMENT)
+	{
+		
+	}
+}
 
 /*
 ** Function to free arguments of execve command, previously set.
@@ -32,7 +44,7 @@ void	free_child_exec_var(t_infos *infos, char *exec_path, char **exec_env,
 ** Child should normally end inside the execve function. If not, we 
 ** arrive at the end of the function where an exit failure is issued.
 */
-int	child_execution(t_infos *infos)
+void	child_execution(t_infos *infos)
 {
 	char	*exec_path;
 	char	**exec_env;
@@ -43,22 +55,22 @@ int	child_execution(t_infos *infos)
 	if (!exec_path || !exec_env)
 	{
 		free_child_exec_var(infos, NULL, exec_env, NULL);
-		return (-1);
+		exit(1);
 	}
 	exec_args = get_exec_args(infos, infos->lst_cmds, exec_token);
 	if (!exec_args)
 	{
 		free_child_exec_var(infos, exec_path, exec_env, NULL);
-		return (error_exit_status("error", infos, "?=1"));
+		exit(1);
 	}
 	if (execve(exec_path, exec_args, exec_env) == -1)
 	{
 		free_child_exec_var(infos, exec_path, exec_env, exec_args);
-		return (error_exit_status(strerror(errno), infos, "?=1"));
+		printf("Errno value is %i\n", errno);
+		exit (errno);
 	}
 	free_child_exec_var(infos, exec_path, exec_env, exec_args);
 	exit(1);
-	return (-1);
 }
 
 /*
@@ -68,20 +80,35 @@ int	child_execution(t_infos *infos)
 */
 int	execute_simple_cmd(t_infos *infos)
 {
-	pid_t	pid;
+	pid_t	child_pid;
 	int		wstatus;
+	int		res;
 
-	pid = fork();
-	if (pid < 0)
-		return (error_exit_status(strerror(errno), infos, "?=1"));
-	else if (pid > 0)
+	child_pid = fork();
+	if (child_pid < 0)
+		return (error_exit_status(strerror(errno), 0, infos, "?=1"));
+	else if (child_pid > 0)
 	{
-		waitpid(pid, &wstatus, 0);
-		kill(pid, SIGTERM);
+		res = waitpid(child_pid, &wstatus, 0);
+		if (res == -1)
+		{
+			ft_puterr(strerror(errno), 2);
+			modify_exit_value_variable(infos, errno);
+		}
+		else if (WIFEXITED(wstatus))
+			modify_exit_value_variable(infos, WEXITSTATUS(wstatus));
+		else if (WIFSIGNALED(wstatus))
+		{
+			if (WTERMSIG(wstatus) == SIGSEGV)
+			{
+				ft_puterr("Segfault", 2);
+				modify_exit_value_variable(infos, 137);
+			}
+			else
+				modify_exit_value_variable(infos, WTERMSIG(wstatus));
+		}
 	}
 	else
-	{
-		return (child_execution(infos));
-	}
+		child_execution(infos);
 	return (0);
 }

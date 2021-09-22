@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/15 17:18:48 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/17 14:30:58 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/09/22 14:39:30 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,24 +18,24 @@ int	show_env_for_export(t_infos *infos, t_cmd *cmd, char **env, int i)
 
 	j = 0;
 	if (!cmd->output)
-		return (error_exit_status("Memory allocation error", infos, "?=1"));
+		return (error_exit_status("Memory allocation error", 0, infos, "?=1"));
 	cmd->output = ft_strjoin(cmd->output, "declare -x ");
 	if (!cmd->output)
-		return (error_exit_status("Memory allocation error", infos, "?=1"));
+		return (error_exit_status("Memory allocation error", 0, infos, "?=1"));
 	while (env[i][j] != '=' && env[i][j])
 		j++;
 	cmd->output = ft_strjoin(cmd->output, env[i]);
 	if (!cmd->output)
-		return (error_exit_status("Memory allocation error", infos, "?=1"));
+		return (error_exit_status("Memory allocation error", 0, infos, "?=1"));
 	cmd->output = ft_strjoin(cmd->output, "=\"");
 	if (!cmd->output)
-		return (error_exit_status("Memory allocation error", infos, "?=1"));
+		return (error_exit_status("Memory allocation error", 0, infos, "?=1"));
 	cmd->output = ft_strjoin(cmd->output, &env[i][j]);
 	if (!cmd->output)
-		return (error_exit_status("Memory allocation error", infos, "?=1"));
+		return (error_exit_status("Memory allocation error", 0, infos, "?=1"));
 	cmd->output = ft_strjoin(cmd->output, "\"\n");
 	if (!cmd->output)
-		return (error_exit_status("Memory allocation error", infos, "?=1"));
+		return (error_exit_status("Memory allocation error", 0, infos, "?=1"));
 	return (0);
 }
 
@@ -59,10 +59,10 @@ int	show_env_loop(t_infos *infos, t_cmd *cmd, int export)
 			cmd->output = ft_strnjoin(cmd->output, (infos->env)[i], \
 				ft_strlen((infos->env)[i]));
 			if (!cmd->output)
-				return (error_exit_status("Malloc error", infos, "?=1"));
+				return (error_exit_status("Malloc error", 0, infos, "?=1"));
 			cmd->output = ft_strjoin(cmd->output, "\n");
 			if (!cmd->output)
-				return (error_exit_status("Malloc error", infos, "?=1"));
+				return (error_exit_status("Malloc error", 0, infos, "?=1"));
 		}
 		i++;
 	}
@@ -77,10 +77,10 @@ int	show_env_loop(t_infos *infos, t_cmd *cmd, int export)
 int	show_env(t_infos *infos, t_cmd *cmd, int export)
 {
 	if (!infos->env || !cmd)
-		return (error_exit_status("Error!", infos, "?=1"));
+		return (error_exit_status("Error!", 0, infos, "?=1"));
 	cmd->output = ft_strdup("");
 	if (!cmd->output)
-		return (error_exit_status("Memory allocation error", infos, "?=1"));
+		return (error_exit_status("Memory allocation error", 0, infos, "?=1"));
 	if (!export && cmd->start != cmd->end)
 	{
 		ft_puterr("env : take no options or arguments", 1);
@@ -90,6 +90,6 @@ int	show_env(t_infos *infos, t_cmd *cmd, int export)
 	if (show_env_loop(infos, cmd, export) < 0)
 		return (-1);
 	if (modify_var_in_list(infos, "?=0", NULL) < 0)
-		return (error_exit_status("Memory allocation error", infos, "?=1"));
+		return (error_exit_status("Memory allocation error", 0, infos, "?=1"));
 	return (0);
 }

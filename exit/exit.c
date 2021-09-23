@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/02 11:40:02 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/22 16:54:45 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/23 15:43:28 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	check_exit_status(t_infos *infos)
 	}
 	else if (g_exit_status == 1)
 	{
-		if (modify_var_in_list(infos, "?=130", NULL) < 0)
+		if (modify_var_in_list(infos, "?=1", NULL) < 0)
 			return (-1);
 	}
 	else if (g_exit_status == 127)

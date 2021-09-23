@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/30 16:59:11 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/22 14:34:17 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/23 17:23:17 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	cmd_change_directory(t_infos *infos, t_cmd *cmd)
 	i = -1;
 	if (!infos || !cmd
 		|| ft_strncmp(cmd->start->token, "cd", cmd->start->length))
-		return (error_exit_status("something went wrong (cd)", 0, infos, "?=1"));
+		return (error_exit_status("Error (cd)", 0, infos, "?=1"));
 	if (cmd->start == cmd->end)
 	{
 		home_path = get_env_elem(infos->env, "HOME");

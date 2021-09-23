@@ -6,14 +6,17 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/20 14:13:23 by hlichir           #+#    #+#             */
-/*   Updated: 2021/09/20 15:18:17 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/09/23 17:11:23 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	check_redirections(t_infos *infos, t_cmd *cmd)
+int	check_output_redirections(t_infos *infos)
 {
+	t_cmd	*cmd;
+
+	cmd = infos->lst_cmds;
 	while (cmd)
 	{
 		if (cmd->next_operator == GT && cmd->next)
@@ -26,7 +29,19 @@ int	check_redirections(t_infos *infos, t_cmd *cmd)
 			if (double_right_redirect(infos, cmd) < 0)
 				return (-1);
 		}
-		else if ((cmd->next_operator == LT || cmd->next_operator == LT_DBL) \
+		cmd = cmd->next;
+	}
+	return (0);
+}
+
+int	check_input_redirections(t_infos *infos)
+{
+	t_cmd	*cmd;
+
+	cmd = infos->lst_cmds;
+	while (cmd)
+	{
+		if ((cmd->next_operator == LT || cmd->next_operator == LT_DBL) \
 			&& cmd->next)
 		{
 			if (handle_multiple_redirections(infos, &cmd) < 0)

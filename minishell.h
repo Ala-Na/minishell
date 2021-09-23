@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 15:55:23 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/22 21:15:11 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/23 17:22:56 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -216,7 +216,8 @@ int			save_env(t_infos *infos, char **env);
 ** submitting project.
 */
 int			set_g_status_to_error(int status);
-int			error_exit_status(char *str, int str_is_alloc, t_infos *infos, char *new_status);
+int			error_exit_status(char *str, int str_is_alloc, t_infos *infos, \
+				char *new_status);
 int			check_exit_status(t_infos *infos);
 int			check_if_exit_or_continue(t_infos *infos);
 int			clean_exit(t_infos *infos);
@@ -320,11 +321,13 @@ char		*get_exec_path(t_infos *infos, t_cmd *cmd, char ***exec_env,
 t_token		*move_to_exec(t_infos *infos, t_cmd *cmd, char ***exec_env);
 char		**get_exec_args(t_infos *infos, t_cmd *cmd, t_token *exec_token);
 int			get_args_nbr(t_cmd *cmd, t_token *exec_token);
+int			get_arg_loop(t_cmd **cmd, t_token **curr_token);
 
 /*
 ** REDIRECTIONS
 */
-int			check_redirections(t_infos *infos, t_cmd *cmd);
+int			check_input_redirections(t_infos *infos);
+int			check_output_redirections(t_infos *infos);
 int			handle_multiple_redirections(t_infos *infos, t_cmd **cmd);
 int			single_right_redirect(t_infos *infos, t_cmd *cmd);
 int			double_right_redirect(t_infos *infos, t_cmd *cmd);

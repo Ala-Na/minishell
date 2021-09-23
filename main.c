@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 14:58:07 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/22 21:05:44 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/23 17:21:59 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,20 @@
 
 void	parse_and_execute(t_infos *infos)
 {
-	int	res;
+	int		res;
+	t_cmd	*final_cmd;
 
 	res = parse_cmd(infos);
 	if (res != 0 || !infos->curr_cmd || infos->curr_cmd[0] == 0)
 		return ;
+	check_input_redirections(infos);
 	launch_cmds(infos);
-	if (infos->lst_cmds && infos->lst_cmds->output)
-		printf("%s\n", infos->lst_cmds->output);
+	check_output_redirections(infos);
+	final_cmd = infos->lst_cmds;
+	while (final_cmd->next)
+		final_cmd = final_cmd->next;
+	if (final_cmd->output)
+		printf("%s", final_cmd->output);
 }
 
 int	minishell_loop(t_infos *infos)

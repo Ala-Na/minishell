@@ -3,35 +3,56 @@
 /*                                                        :::      ::::::::   */
 /*   get_cmd_args.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/21 11:03:41 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/22 16:52:07 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/23 17:24:34 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
 /*
+** sub_function to check if the loop should continue for both "get_args_nbr"
+** & get_exec_args funcions.
+*/
+int	get_arg_loop(t_cmd **cmd, t_token **curr_token)
+{
+	if (*curr_token == (*cmd)->end)
+	{
+		if ((*cmd)->next_operator == -1 || (*cmd)->next_operator == PIPE)
+			return (-1);
+		else
+		{
+			*cmd = (*cmd)->next;
+			*curr_token = (*curr_token)->next->next;
+		}
+	}
+	return (0);
+}
+
+/*
 ** Function which returns the number of executable arguments.
 ** The number is at least of 1 (for filename).
 */
-int	get_args_nbr(t_cmd *cmd, t_token *exec_token)
+int	get_args_nbr(t_cmd *first_cmd, t_token *exec_token)
 {
 	int		nbr_args;
 	t_token	*curr_token;
+	t_cmd	*cmd;
 
 	nbr_args = 1;
 	curr_token = exec_token;
+	cmd = first_cmd;
 	if (curr_token == cmd->end)
 		return (1);
 	curr_token = curr_token->next;
-	while (curr_token)
+	while (cmd && curr_token)
 	{
 		nbr_args++;
-		if (curr_token == cmd->end)
+		if (get_arg_loop(&cmd, &curr_token) < 0)
 			break ;
-		curr_token = curr_token->next;
+		curr_token = (curr_token)->next;
 	}
 	return (nbr_args);
 }
@@ -42,26 +63,28 @@ int	get_args_nbr(t_cmd *cmd, t_token *exec_token)
 ** Arguments are non-NULL (execept if error) as it contains at least
 ** the filename (or executable path).
 */
-char	**get_exec_args(t_infos *infos, t_cmd *cmd, t_token *exec_token)
+char	**get_exec_args(t_infos *infos, t_cmd *first_cmd, t_token *exec_token)
 {
 	t_token	*curr_token;
+	t_cmd	*cmd;
 	char	**exec_args;
 	int		nbr_args;
 	int		i;
 
 	i = 0;
 	curr_token = exec_token;
-	nbr_args = get_args_nbr(cmd, exec_token);
+	nbr_args = get_args_nbr(first_cmd, exec_token);
 	exec_args = malloc(sizeof(*exec_args) * (nbr_args + 1));
 	if (!exec_args)
 		return (NULL);
-	while (curr_token)
+	cmd = first_cmd;
+	while (cmd && curr_token)
 	{
 		exec_args[i] = ft_strndup(curr_token->token, curr_token->length);
 		i++;
-		if (curr_token == cmd->end)
+		if (get_arg_loop(&cmd, &curr_token) < 0)
 			break ;
-		curr_token = curr_token->next;
+		curr_token = (curr_token)->next;
 	}
 	exec_args[i] = NULL;
 	return (exec_args);
@@ -118,11 +141,11 @@ char	*get_exec_path(t_infos *infos, t_cmd *cmd, char ***exec_env,
 	full_path = get_path(path, *exec_env);
 	if (!full_path)
 		error_exit_status(ft_strjoin(path, " : command not found"),
-				1, infos, "?=127");
+			1, infos, "?=127");
 	else if (!stat(full_path, &buf) && !(buf.st_mode & S_IXUSR))
 	{
 		error_exit_status(ft_strjoin(path, " : permission denied"),
-				1, infos, "?=126");
+			1, infos, "?=126");
 		if (full_path != path)
 			free(full_path);
 		full_path = NULL;

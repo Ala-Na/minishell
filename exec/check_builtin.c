@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/02 14:46:17 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/21 14:40:25 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/22 21:14:44 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,13 +46,11 @@ t_builtin	check_builtin(char	*first_elem)
 ** Warning : IL FAUT CREER FONCTION POUR VERIFIER SI QUE ASSIGNMENTS
 ** OU SI CMD 
 */
-int	launch_cmd(t_infos *infos, t_cmd *cmd)
+int	launch_builtin(t_infos *infos, t_cmd *cmd, t_builtin builtin)
 {
-	t_builtin	builtin;
 
-	if (!cmd || !cmd->start)
-		return (error_exit_status("Error!", infos, "?=1"));
-	builtin = check_builtin(cmd->start->token);
+	if (!infos || !cmd)
+		return (error_exit_status("Error!", 0, infos, "?=1"));
 	if (builtin == CD)
 		return (cmd_change_directory(infos, cmd));
 	else if (builtin == ECHO)
@@ -65,9 +63,5 @@ int	launch_cmd(t_infos *infos, t_cmd *cmd)
 		return (show_current_dir(infos, cmd));
 	else if (builtin == UNSET)
 		return (unset_var(infos, cmd));
-	else if (cmd->next_operator == -1)
-		return (execute_simple_cmd(infos));
-	else if (cmd->start->type == ASSIGNMENT)
-		return (check_assignment(infos, cmd));
-	return (0);
+	return (1);
 }

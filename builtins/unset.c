@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/01 21:57:01 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/17 14:40:32 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/09/22 14:37:07 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,7 @@ int	unset_var(t_infos *infos, t_cmd *cmd)
 	res = -1;
 	if (!infos || !cmd || ft_strncmp(cmd->start->token,
 			"unset", cmd->start->length))
-		return (error_exit_status("Error", infos, "?=1"));
+		return (error_exit_status("Error", 0, infos, "?=1"));
 	to_unset = cmd->start->next;
 	while (to_unset)
 	{
@@ -141,6 +141,6 @@ int	unset_var(t_infos *infos, t_cmd *cmd)
 		to_unset = to_unset->next;
 	}
 	if (modify_var_in_list(infos, "?=0", NULL) < 0)
-		return (error_exit_status("Memory allocation error", infos, "?=1"));
+		return (error_exit_status("Memory allocation error", 0, infos, "?=1"));
 	return (res);
 }

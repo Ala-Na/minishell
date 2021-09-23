@@ -6,38 +6,40 @@
 #    By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/08/23 15:04:29 by anadege           #+#    #+#              #
-#    Updated: 2021/09/21 14:40:44 by anadege          ###   ########.fr        #
+#    Updated: 2021/09/22 21:02:20 by anadege          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 SRCS	= ./main.c \
-		  ./history/history.c \
+		  ./init.c \
 		  ./prompt.c \
+		  ./signals.c \
+		  ./history/history.c \
 		  ./builtins/cd.c \
 		  ./builtins/env.c \
 		  ./builtins/export.c \
 		  ./builtins/unset.c \
 		  ./builtins/echo.c \
-		  ./builtins/check_builtin.c \
 		  ./builtins/env_utils.c \
 		  ./builtins/pwd.c \
-		  ./exit.c \
-		  ./init.c \
+		  ./exit/exit.c \
+		  ./exit/exit_status.c \
 		  ./parsing/parsing.c \
 		  ./parsing/tokenizer.c \
 		  ./parsing/get_variables.c \
 		  ./parsing/tokenizer_utils.c \
 		  ./parsing/parsing_utils.c \
-		  ./parsing/assignment.c \
-		  ./parsing/assignment_complementary.c \
+		  ./exec/assignment.c \
 		  ./exec/exec_cmd.c \
 		  ./exec/seek_bin.c \
-		  ./flow_management/right_redirections.c \
-		  ./flow_management/left_redirections.c \
-		  ./flow_management/redirections.c \
+		  ./exec/check_assignments.c \
+		  ./exec/launch_cmds.c \
+		  ./exec/check_builtin.c \
 		  ./exec/set_env_exec.c \
 		  ./exec/get_cmd_args.c \
-		  ./signals.c
+		  ./flow_management/right_redirections.c \
+		  ./flow_management/left_redirections.c \
+		  ./flow_management/redirections.c 
 
 NAME = minishell
 
@@ -57,6 +59,7 @@ all:		${NAME}
 ${NAME}:	${OBJS}
 			make -C libft
 			${CC} ${CFLAGS} -o ${NAME} ${OBJS} ${LIB}
+			@rm -f ${OBJS}
 
 clean:
 			@rm -f ${OBJS}

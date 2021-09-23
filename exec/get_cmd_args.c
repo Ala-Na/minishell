@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/21 11:03:41 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/21 11:29:30 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/22 16:52:07 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,12 +75,13 @@ char	**get_exec_args(t_infos *infos, t_cmd *cmd, t_token *exec_token)
 t_token	*move_to_exec(t_infos *infos, t_cmd *cmd, char ***exec_env)
 {
 	int	diff_exec_env_size;
+	int	modif;
 
 	*exec_env = NULL;
-	diff_exec_env_size = get_exec_env_diff_size(infos, cmd);
+	diff_exec_env_size = get_exec_env_diff_size(infos, cmd, &modif);
 	if (diff_exec_env_size < 0)
 		return (NULL);
-	else if (diff_exec_env_size == 0)
+	else if (diff_exec_env_size == 0 && modif == 0)
 		*exec_env = infos->env;
 	else if (copy_env(infos, infos->env, exec_env, diff_exec_env_size) < 0)
 		return (NULL);
@@ -106,8 +107,9 @@ t_token	*move_to_exec(t_infos *infos, t_cmd *cmd, char ***exec_env)
 char	*get_exec_path(t_infos *infos, t_cmd *cmd, char ***exec_env,
 		t_token **exec_token)
 {
-	char	*path;
-	char	*full_path;
+	char		*path;
+	char		*full_path;
+	struct stat	buf;
 
 	*exec_token = move_to_exec(infos, cmd, exec_env);
 	if (!*exec_token)
@@ -115,8 +117,17 @@ char	*get_exec_path(t_infos *infos, t_cmd *cmd, char ***exec_env,
 	path = ft_strndup((*exec_token)->token, (*exec_token)->length);
 	full_path = get_path(path, *exec_env);
 	if (!full_path)
-		error_exit_status(NULL, infos, "?=1");
-	if (path && full_path != path)
+		error_exit_status(ft_strjoin(path, " : command not found"),
+				1, infos, "?=127");
+	else if (!stat(full_path, &buf) && !(buf.st_mode & S_IXUSR))
+	{
+		error_exit_status(ft_strjoin(path, " : permission denied"),
+				1, infos, "?=126");
+		if (full_path != path)
+			free(full_path);
+		full_path = NULL;
+	}
+	if (path && (!full_path || full_path != path))
 		free(path);
 	return (full_path);
 }

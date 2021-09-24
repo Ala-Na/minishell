@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   launch_cmds.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
+/*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/22 17:28:50 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/23 17:28:30 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/09/24 22:18:38 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,8 @@ int	launch_cmds(t_infos *infos)
 {
 	int	pipes;
 
+	if (!ft_strncmp(infos->curr_cmd, "exit", 5))
+		return (0);
 	pipes = check_if_pipes(infos);
 	if (pipes == -1)
 		return (-1);

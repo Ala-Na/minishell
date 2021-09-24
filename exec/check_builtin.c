@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/02 14:46:17 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/23 17:23:48 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/09/26 01:20:10 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@
 */
 t_builtin	check_builtin(char	*first_elem)
 {
+	if (!first_elem)
+		return (return_error(1, "something went wrong", 0, -1));
 	if (!ft_strncmp(first_elem, "echo", 4) && (first_elem[4] == ' '
 			|| first_elem[4] == '\t' || first_elem[4] == 0))
 		return (ECHO);
@@ -49,7 +51,7 @@ t_builtin	check_builtin(char	*first_elem)
 int	launch_builtin(t_infos *infos, t_cmd *cmd, t_builtin builtin)
 {
 	if (!infos || !cmd)
-		return (error_exit_status("Error!", 0, infos, "?=1"));
+		return (return_error(1, "something went wrong", 0, -1));
 	if (builtin == CD)
 		return (cmd_change_directory(infos, cmd));
 	else if (builtin == ECHO)
@@ -62,5 +64,5 @@ int	launch_builtin(t_infos *infos, t_cmd *cmd, t_builtin builtin)
 		return (show_current_dir(infos, cmd));
 	else if (builtin == UNSET)
 		return (unset_var(infos, cmd));
-	return (1);
+	return (return_error(1, "something went wrong", 0, -1));
 }

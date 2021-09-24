@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/21 15:27:47 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/23 20:23:02 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/24 12:09:11 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,33 +17,43 @@
 ** new_value integer value.
 ** Call the function add_new_var_to_list.
 */
-void	modify_exit_value_variable(t_infos *infos, int new_value)
+int	modify_exit_value_variable(t_infos *infos, int new_value)
 {
 	char	*full_var;
 	char	*value;
-	t_var	*current;
+	t_var	*curr_lst_var;
 
-	current = infos->lst_var;
+	curr_lst_var = infos->lst_var;
 	value = ft_itoa(new_value);
 	if (!value)
-		return ;
-	while (current)
 	{
-		if (!ft_strncmp(current->name, "?", ft_strlen(current->name)))
+		perror("memory allocation error\n");
+		return (-1);
+	}
+	while (curr_lst_var)
+	{
+		if (!ft_strncmp(curr_lst_var->name, "?", 2))
 		{
-			free(current->value);
-			current->value = value;
-			return ;
+			free(curr_lst_var->value);
+			curr_lst_var->value = value;
+			return (0);
 		}
-		current = current->next;
+		curr_lst_var = curr_lst_var->next;
 	}
 	full_var = ft_strjoin("?=", value);
 	if (!full_var)
 	{
+		perror("memory allocation error\n");
 		free(value);
-		return ;
+		return (-1);
 	}
-	add_new_var_to_list(infos, full_var);
+	if (add_new_var_to_list(infos, full_var) < 0)
+	{
+		perror("memory allocation error\n");
+		return (-1);
+	}
+	free(full_var);
+	return (0);
 }
 
 /*
@@ -65,7 +75,7 @@ int	error_exit_status(char *str, int str_is_alloc, t_infos *infos, char *new_sta
 	{
 		if (str)
 		{
-			ft_puterr("Memory allocation error", 1);
+			ft_puterr("memory allocation error", 1);
 			if (str_is_alloc)
 				free(str);
 		}

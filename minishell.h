@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 15:55:23 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/23 16:22:57 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/24 11:29:48 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -220,7 +220,7 @@ int			error_exit_status(char *str, int str_is_alloc, t_infos *infos, char *new_s
 int			check_for_signal(t_infos *infos);
 void		clean_to_continue(t_infos *infos);
 int			clean_exit(t_infos *infos);
-void		modify_exit_value_variable(t_infos *infos, int new_value);
+int			modify_exit_value_variable(t_infos *infos, int new_value);
 
 /*
 ** MINISHELL INTIALIZATION

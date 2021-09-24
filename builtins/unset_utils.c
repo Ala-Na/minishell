@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/01 21:57:01 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/24 22:03:42 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/09/24 22:07:46 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,5 +51,5 @@ int	check_validity_token(t_token *token)
 		i++;
 	if (i == l)
 		return (0);
-	return (invalid_token_print(token));	
+	return (invalid_token_print(token));
 }

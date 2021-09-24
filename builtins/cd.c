@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/30 16:59:11 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/24 17:06:28 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/24 21:36:24 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ int	change_directory(t_infos *infos, char *new_dir_path)
 {
 	char	*str;
 
+	if (!infos || !new_dir_path)
+		return (return_error(1, "something went wrong", 0, -1));
 	if (chdir(new_dir_path) == -1)
 	{
 		str = strerror(errno);
@@ -58,7 +60,7 @@ int	cmd_change_directory(t_infos *infos, t_cmd *cmd)
 			return (return_error(1, "cd: « HOME » not defined", 0, -1));
 		return (change_directory(infos, home_path));
 	}
-	if (cmd->start->next != cmd->end)
+	if (cmd->start->next && cmd->start->next != cmd->end)
 		return (return_error(1, "cd: too many arguments", 0, -1));
 	while (++i < cmd->end->length && i < 4097)
 		dir_path[i] = cmd->end->token[i];

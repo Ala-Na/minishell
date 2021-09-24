@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/06 14:50:47 by hlichir           #+#    #+#             */
-/*   Updated: 2021/09/23 15:25:16 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/24 23:08:10 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,14 @@ int	show_current_dir(t_infos *infos, t_cmd *cmd)
 	if (!str)
 	{
 		str = strerror(errno);
-		return (error_exit_status(str, 0, infos, "?=1"));
+		str = ft_strjoin("pwd : ", str);
+		if (!str)
+			return(return_error(1, "memory allocation error", 0, -1));
+		return (return_error(1, str, 1, -1));
 	}
-	cmd->output = ft_strdup(str);
+	cmd->output = ft_strjoin(str, "\n");
+	free(str);
 	if (!cmd->output)
-		return (error_exit_status("Memory allocation error", 0, infos, "?=1"));
-	cmd->output = ft_strjoin(cmd->output, "\n");
-	if (modify_var_in_list(infos, "?=0", NULL) < 0)
-		return (error_exit_status("Memory allocation error", 0, infos, "?=1"));
-	printf("%s", cmd->output);
+			return(return_error(1, "memory allocation error", 0, -1));
 	return (0);
 }

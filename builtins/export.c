@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/01 21:56:08 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/24 17:15:30 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/24 22:56:04 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ int	add_not_existing_elem_to_env(char ***env, t_token *new_elem, int env_size)
 	char	**tmp_env;
 	int		j;
 
+	if (!*env || !new_elem)
+		return (return_error(1, "something went wrong", 0, -1));
 	tmp_env = malloc(sizeof(*tmp_env) * (env_size + 2));
 	if (!tmp_env)
 		return (return_error(1, "memory allocation error", 0, -1));
@@ -104,6 +106,8 @@ int	sub_add_elem_to_env(t_infos *infos, t_token *new_elem,
 	elem_name = NULL;
 	res = -1;
 	i = 0;
+	if (!infos || !new_elem)
+		return (return_error(1, "something went wrong", 0, -1));
 	if (new_elem->type != ASSIGNMENT)
 		return (0);
 	elem_name = get_elem_name(new_elem->token, new_elem->length);
@@ -139,8 +143,6 @@ int	add_elem_to_env(t_infos *infos, t_cmd *cmd)
 
 	if (!infos->env || !cmd || !cmd->start)
 		return (return_error(1, "something went wrong", 0, -1));
-	if (cmd->start == cmd->end)
-		return (show_env(infos, cmd, 1));
 	new_elem = cmd->start->next;
 	env_size = 0;
 	res = -1;
@@ -148,10 +150,13 @@ int	add_elem_to_env(t_infos *infos, t_cmd *cmd)
 	{
 		while ((infos->env)[env_size])
 			env_size++;
-		tmp_res = sub_add_elem_to_env(infos, new_elem, env_size, &res);
+		if (tmp_res = sub_add_elem_to_env(infos, new_elem, env_size, &res) < 0)
+			return (-1);
 		if (new_elem == cmd->end)
 			break ;
 		new_elem = new_elem->next;
 	}
+	if (res == -1)
+		return (show_env(infos, cmd, 1));
 	return (res);
 }

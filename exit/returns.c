@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/23 16:14:03 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/23 16:21:29 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/24 11:52:41 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 int	return_error(int exit_value, char *error_msg, int msg_is_alloc,
 		int return_value)
 {
-	if (g_exit_status != 0)
+	if (g_exit_status != 0 || g_exit_status != -1)
 	{
 		g_exit_status == exit_value;
 		if (error_msg)

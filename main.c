@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 14:58:07 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/24 14:28:11 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/24 14:29:01 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 /*
 ** Function to free allocated memory to prepare the next loop.
-** Set g_exit_status at 0.
+** Set g_exit_status at -1 (initial state).
 */
 void	clean_to_continue(t_infos *infos)
 {
@@ -78,7 +78,7 @@ int	minishell_loop(t_infos *infos)
 			return (1);
 		else if (!infos->curr_cmd)
 		{
-			ft_putstr("exit\n");
+			write(1, "exit\n", 5);
 			break ;
 		}
 		add_line_to_history(infos->fd_history, infos->curr_cmd);
@@ -86,6 +86,8 @@ int	minishell_loop(t_infos *infos)
 			break ;
 		if (infos->curr_cmd[0] != 0)
 			parse_and_execute(infos);
+		if (modify_exit_value_variable(infos, g_exit_status) < 0)
+			return (1);
 		clean_to_continue(infos);
 	}
 	write(1, "exit\n", 5);

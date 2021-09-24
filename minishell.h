@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 15:55:23 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/24 14:29:17 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/24 14:31:24 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -335,7 +335,7 @@ int			extract_file(int fd, t_cmd *cmd);
 char		*extract_name_in_string(t_cmd *cmd);
 
 /*
-** MANAGMENT OF ENV FOR EXECUTION
+** MANAGEMENT OF ENV FOR EXECUTION
 */
 int			add_elem_to_exec_env(t_infos *infos, char ***exec_env,
 				t_token *new_elem);

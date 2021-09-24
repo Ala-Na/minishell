@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_assignments.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/22 16:53:14 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/22 21:09:49 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/23 17:24:50 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ int	do_assignment(t_infos *infos, t_token *token)
 int	is_only_assignments(t_cmd *cmd)
 {
 	t_token	*current;
+
 	if (!cmd)
 		return (-1);
 	current = cmd->start;

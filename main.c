@@ -41,16 +41,22 @@ void	clean_to_continue(t_infos *infos)
 */
 void	parse_and_execute(t_infos *infos)
 {
-	int	res;
+	int		res;
+	t_cmd	*final_cmd;
 
 	if (!infos->curr_cmd || ft_isblanks(infos->curr_cmd) == 1)
 		return ;
 	res = parse_cmd(infos);
 	if (res != 0)
 		return ;
+	check_input_redirections(infos);
 	launch_cmds(infos);
-	if (infos->lst_cmds && infos->lst_cmds->output)
-		printf("%s\n", infos->lst_cmds->output);
+	check_output_redirections(infos);
+	final_cmd = infos->lst_cmds;
+	while (final_cmd->next)
+		final_cmd = final_cmd->next;
+	if (final_cmd->output)
+		printf("%s", final_cmd->output);
 }
 
 /*

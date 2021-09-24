@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/02 14:46:17 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/24 14:32:07 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/23 17:23:48 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ t_builtin	check_builtin(char	*first_elem)
 */
 int	launch_builtin(t_infos *infos, t_cmd *cmd, t_builtin builtin)
 {
-
 	if (!infos || !cmd)
 		return (error_exit_status("Error!", 0, infos, "?=1"));
 	if (builtin == CD)

@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/21 11:03:41 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/25 23:17:09 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/09/25 23:18:24 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	get_arg_loop(t_cmd **cmd, t_token **curr_token)
 			return (-1);
 		else
 		{
-			while((*cmd) && (*cmd)->next_operator != -1 && \
+			while ((*cmd) && (*cmd)->next_operator != -1 && \
 				(*cmd)->next_operator != PIPE)
 			{
 				*cmd = (*cmd)->next;

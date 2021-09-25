@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_cmd_args.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
+/*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/21 11:03:41 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/23 17:24:34 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/09/25 21:51:10 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,20 @@
 */
 int	get_arg_loop(t_cmd **cmd, t_token **curr_token)
 {
+	printf("cmd op: %d - %s\n", (*cmd)->next_operator, (*cmd)->start->token);
+	printf("token : %s - l : %d\n", (*curr_token)->token, (*curr_token)->length);
 	if (*curr_token == (*cmd)->end)
 	{
 		if ((*cmd)->next_operator == -1 || (*cmd)->next_operator == PIPE)
 			return (-1);
 		else
 		{
-			*cmd = (*cmd)->next;
-			*curr_token = (*curr_token)->next->next;
+			while((*cmd) && (*cmd)->next_operator != -1 && \
+				(*cmd)->next_operator != PIPE)
+			{
+				*cmd = (*cmd)->next;
+				*curr_token = (*curr_token)->next->next;
+			}
 		}
 	}
 	return (0);
@@ -81,6 +87,7 @@ char	**get_exec_args(t_infos *infos, t_cmd *first_cmd, t_token *exec_token)
 	while (cmd && curr_token)
 	{
 		exec_args[i] = ft_strndup(curr_token->token, curr_token->length);
+		printf(">>> args: %s\n", exec_args[i]);
 		i++;
 		if (get_arg_loop(&cmd, &curr_token) < 0)
 			break ;

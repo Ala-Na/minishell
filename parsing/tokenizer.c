@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/05 14:12:00 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/16 17:56:57 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/24 15:29:47 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ int	browse_string(char *begin_token, char stop_char, int *syntax_error,
 	int	i;
 
 	i = 0;
+	if (!begin_token || !stop_char)
+		return (-1);
 	while (begin_token[i])
 	{
 		i++;
@@ -53,6 +55,8 @@ int	browse_token(char *token, int *syntax_error, char **error_pos)
 	i = 0;
 	var_char = 0;
 	ope_char = 0;
+	if (!token)
+		return (-1);
 	if (ft_strchr("\"'", token[i]))
 		return (browse_string(token, token[i], syntax_error, error_pos));
 	else if (ft_strchr("|><", token[i]))

@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 15:00:10 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/22 21:11:36 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/26 00:29:23 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,26 +39,31 @@ void	child_execution(t_infos *infos)
 	char	**exec_args;
 	t_token	*exec_token;
 
+	if (!infos || !infos->lst_cmds)
+	{
+		return_error(1, "something went wrong", 0, 0);
+		exit(g_exit_status);
+	}
 	exec_path = get_exec_path(infos, infos->lst_cmds, &exec_env, &exec_token);
 	if (!exec_path || !exec_env)
 	{
 		free_child_exec_var(infos, NULL, exec_env, NULL);
-		exit(1);
+		exit(g_exit_status);
 	}
 	exec_args = get_exec_args(infos, infos->lst_cmds, exec_token);
 	if (!exec_args)
 	{
 		free_child_exec_var(infos, exec_path, exec_env, NULL);
-		exit(1);
+		exit(g_exit_status);
 	}
 	if (execve(exec_path, exec_args, exec_env) == -1)
 	{
 		free_child_exec_var(infos, exec_path, exec_env, exec_args);
-		printf("Errno value is %i\n", errno);
-		exit (errno);
+		return_error(126, strerror(errno), 0, 0);
+		exit(g_exit_status);
 	}
 	free_child_exec_var(infos, exec_path, exec_env, exec_args);
-	exit(1);
+	exit(g_exit_status);
 }
 
 /*
@@ -73,28 +78,17 @@ int	execute_simple_cmd(t_infos *infos)
 	int		res;
 
 	child_pid = fork();
-	if (child_pid < 0)
-		return (error_exit_status(strerror(errno), 0, infos, "?=1"));
+	if (child_pid == -1)
+		return (return_error(1, "fork failed", 0, -1));
 	else if (child_pid > 0)
 	{
 		res = waitpid(child_pid, &wstatus, 0);
 		if (res == -1)
-		{
-			ft_puterr(strerror(errno), 2);
-			modify_exit_value_variable(infos, errno);
-		}
+			return (return_error(1, strerror(errno), 0, -1));
 		else if (WIFEXITED(wstatus))
-			modify_exit_value_variable(infos, WEXITSTATUS(wstatus));
+			return (return_value(WEXITSTATUS(wstatus), 0));
 		else if (WIFSIGNALED(wstatus))
-		{
-			if (WTERMSIG(wstatus) == SIGSEGV)
-			{
-				ft_puterr("Segfault", 2);
-				modify_exit_value_variable(infos, 137);
-			}
-			else
-				modify_exit_value_variable(infos, WTERMSIG(wstatus));
-		}
+			return (return_signal(WTERMSIG(wstatus), 0));
 	}
 	else
 		child_execution(infos);

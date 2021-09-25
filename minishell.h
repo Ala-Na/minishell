@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 15:55:23 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/24 21:54:22 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/09/26 01:26:52 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -209,6 +209,7 @@ char		*get_env_elem(char **env, char *elem);
 int			seek_elem_pos(char **env, char *elem_name);
 int			show_env(t_infos *infos, t_cmd *cmd, int export);
 int			show_env_for_export(t_infos *infos, t_cmd *cmd, char **env, int i);
+int			join_for_export_env(t_cmd *cmd, char *to_add, int size);
 void		free_env(char **env, int last);
 int			save_env(t_infos *infos, char **env);
 
@@ -346,8 +347,8 @@ char		*extract_name_in_string(t_cmd *cmd);
 int			add_elem_to_exec_env(t_infos *infos, char ***exec_env,
 				t_token *new_elem);
 void		child_execution(t_infos *infos);
-void		free_child_exec_var(t_infos *infos, char *exec_path,
-				char **exec_env, char **exec_args);
+void		free_child_exec_var(t_infos *infos, char *exec_path, char **exec_env,
+				char **exec_args);
 int			get_exec_env_diff_size(t_infos *infos, t_cmd *cmd, int *modif);
 int			copy_env(t_infos *infos, char **env, char ***cpy_env,
 				int cpy_diff_size);
@@ -357,5 +358,7 @@ int			copy_env(t_infos *infos, char **env, char ***cpy_env,
 */
 int			return_error(int exit_status, char *error_msg, int msg_is_alloc,
 				int return_value);
+int			return_value(int exit_status, int in_pipe);
+int			return_signal(int signal_value, int in_pipe);
 
 #endif

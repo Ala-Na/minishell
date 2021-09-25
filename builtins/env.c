@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/31 15:39:01 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/22 14:35:26 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/24 17:08:18 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,16 @@ char	*get_elem_name(char *elem, int size)
 
 	i = 0;
 	if (!elem)
+	{
+		return_error(1, "something went wrong", 0, 0);
 		return (NULL);
+	}
 	while (elem[i] != '=' && i < size)
 		i++;
 	elem_name = malloc(sizeof(*elem_name) * (i + 1));
 	if (!elem_name)
 	{
-		ft_puterr("Memory allocation error\n", 0);
-		g_exit_status = 1;
+		return_error(1, "memory allocation error", 0, 0);
 		return (NULL);
 	}
 	i = 0;
@@ -114,7 +116,7 @@ int	save_env(t_infos *infos, char **env)
 		i++;
 	tmp_env = malloc(sizeof(*tmp_env) * (i + 1));
 	if (!tmp_env)
-		return (error_exit_status("malloc error", 0, infos, "?=1"));
+		return (return_error(1, "memory allocation error", 0, -1));
 	i = 0;
 	while (env[i])
 	{
@@ -123,7 +125,7 @@ int	save_env(t_infos *infos, char **env)
 		if (!tmp_env[i])
 		{
 			free_env(tmp_env, i);
-			return (error_exit_status("malloc error", 0, infos, "?=1"));
+			return (return_error(1, "memory allocation error", 0, -1));
 		}
 		i++;
 	}

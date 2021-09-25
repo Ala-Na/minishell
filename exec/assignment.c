@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/13 16:06:44 by hlichir           #+#    #+#             */
-/*   Updated: 2021/09/22 17:11:59 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/26 00:19:55 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,13 +44,18 @@ char	*get_elem_value(char *str)
 
 	i = 0;
 	j = 0;
+	if (!str)
+	{
+		return_error(1, "something went wrong", 0, 0);
+		return (NULL);
+	}
 	while (str[i] && str[i] != '=')
 		i++;
 	i++;
 	dest = malloc(sizeof(char) * (ft_strlen(str + i) + 1));
 	if (!dest)
 	{
-		g_exit_status = 1;
+		return_error(1, "memory allocation error", 0, 0);
 		return (NULL);
 	}
 	while (str[i + j])
@@ -72,7 +77,7 @@ int	modify_var_in_list(t_infos *infos, char *str, int *check)
 
 	tmp_name = get_elem_name(str, ft_strlen(str));
 	if (!tmp_name)
-		return (error_exit_status("Memory allocation error", 0, infos, "?=1"));
+		return (-1);
 	current = infos->lst_var;
 	while (current)
 	{
@@ -82,7 +87,7 @@ int	modify_var_in_list(t_infos *infos, char *str, int *check)
 			current->value = get_elem_value(str);
 			free(tmp_name);
 			if (!current->value)
-				return (error_exit_status("Malloc error", 0, infos, "?=1"));
+				return (-1);
 			if (check)
 				*check = 1;
 			break ;
@@ -107,11 +112,16 @@ int	add_new_var_to_list(t_infos *infos, char *str)
 		current = current->next;
 	new = malloc(sizeof(t_var));
 	if (!new)
-		return (error_exit_status("Memory allocation error", 0, infos, "?=1"));
+		return (return_error(1, "memory allocation error", 0, -1));
 	new->name = get_elem_name(str, ft_strlen(str));
+	if (!new->name)
+		return (-1);
 	new->value = get_elem_value(str);
-	if (!new->name || !new->value)
-		return (error_exit_status("Memory allocation error", 0, infos, "?=1"));
+	if (!new->value)
+	{
+		free(new->name);
+		return (-1);
+	}
 	new->next = NULL;
 	if (current == NULL)
 		infos->lst_var = new;
@@ -134,7 +144,7 @@ int	assign_variable_to_list(t_infos *infos, t_token *current_token)
 	check = 0;
 	str = malloc(sizeof(char) * (current_token->length + 1));
 	if (!str)
-		return (error_exit_status("Memory allocation error", 0, infos, "?=1"));
+		return (return_error(1, "memory allocation error", 0, -1));
 	while (i < current_token->length)
 	{
 		str[i] = (current_token->token)[i];
@@ -142,11 +152,11 @@ int	assign_variable_to_list(t_infos *infos, t_token *current_token)
 	}
 	str[i] = 0;
 	if (modify_var_in_list(infos, str, &check) < 0)
-		return (error_exit_status("Memory allocation error", 0, infos, "?=1"));
+		return (-1);
 	if (check == 0)
 	{
 		if (add_new_var_to_list(infos, str) < 0)
-			return (error_exit_status("Malloc error", 0, infos, "?=1"));
+			return (-1);
 	}
 	free(str);
 	return (0);

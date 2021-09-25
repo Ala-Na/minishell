@@ -6,45 +6,11 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/02 11:40:02 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/23 16:32:34 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/26 01:20:32 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-/*
-** Function to set g_exit_status to error
-*/
-int	set_g_status_to_error(int status)
-{
-	g_exit_status = status;
-	return (-1);
-}
-
-/*
-**	Function to update the exit status in case of an error!
-**	exit(1) => an error happened 
-*/
-int	error_exit_status(char *s, int s_is_alloc, t_infos *infos, char *nw_status)
-{
-	if (modify_var_in_list(infos, nw_status, NULL) < 0)
-	{
-		if (s)
-		{
-			ft_puterr("Memory allocation error", 1);
-			if (s_is_alloc)
-				free(s);
-		}
-		return (-1);
-	}
-	if (s)
-	{
-		ft_puterr(s, 1);
-		if (s_is_alloc)
-			free(s);
-	}
-	return (-1);
-}
 
 /*
 **	Function to change the exit status to 130 when ctrl+c is used!

@@ -6,18 +6,11 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/07 12:14:01 by hlichir           #+#    #+#             */
-/*   Updated: 2021/09/22 14:38:01 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/24 21:51:04 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-/*
-** Functions to call when the built in echo is correctly called (4 letters = echo
-** followed by a whitespace or '\0') in the string *str.
-** WARNING : echo print a whitespace when a tab is meeted
-** (generalized to blanks ?) by default.
-*/
 
 /*
 ** Function to check if option -n is activated (followed by whitespace or '\0')
@@ -31,12 +24,8 @@ int	check_n_option(t_token *first)
 	i = 1;
 	if (!first || first->token[0] != '-')
 		return (0);
-	while (i < first->length)
-	{
-		if (first->token[i] != 'n')
-			return (0);
-		i++;
-	}
+	if (first->token[1] != 'n')
+		return (0);
 	return (1);
 }
 
@@ -45,21 +34,27 @@ int	check_n_option(t_token *first)
 */
 int	echo_builtin_loop(t_infos *infos, t_cmd *cmd, t_token *tmp, int i)
 {
+	char	*new;
+
 	while (tmp)
 	{
 		if (tmp->type == STRING && ++i)
 			tmp->length -= 2;
-		cmd->output = ft_strnjoin(cmd->output, &tmp->token[i], tmp->length);
+		new = ft_strnjoin(cmd->output, &tmp->token[i], tmp->length);
+		free(cmd->output);
+		cmd->output = new;
 		if (!cmd->output)
-			return (error_exit_status("Malloc error", 0, infos, "?=1"));
+			return (return_error(1, "memory allocation error", 0, -1));
 		if (tmp == cmd->end)
 			break ;
 		tmp = tmp->next;
 		if (tmp)
 		{
-			cmd->output = ft_strjoin(cmd->output, " ");
+			new = ft_strjoin(cmd->output, " ");
+			free(cmd->output);
+			cmd->output = new;
 			if (!cmd->output)
-				return (error_exit_status("Malloc error", 0, infos, "?=1"));
+				return (return_error(1, "memory allocation error", 0, -1));
 		}
 	}
 	return (0);
@@ -74,33 +69,44 @@ int	echo_builtin_loop(t_infos *infos, t_cmd *cmd, t_token *tmp, int i)
 */
 int	echo_builtin(t_infos *infos, t_cmd *cmd)
 {
-	int		option;
+	int		n_option;
 	int		i;
 	t_token	*tmp;
+	char	*new;
 
 	i = 0;
 	tmp = cmd->start;
-	option = check_n_option(tmp);
-	if (option)
+	n_option = check_n_option(tmp);
+	if (n_option)
 		tmp = tmp->next;
 	cmd->output = ft_strdup("");
 	if (echo_builtin_loop(infos, cmd, tmp, i) < 0)
 		return (-1);
-	if (option == 0)
-		cmd->output = ft_strjoin(cmd->output, "\n");
-	if (modify_var_in_list(infos, "?=0", NULL) < 0)
-		return (error_exit_status("Memory allocation error", 0, infos, "?=1"));
+	if (n_option == 0)
+	{
+		new = ft_strjoin(cmd->output, "\n");
+		free(cmd->output);
+		cmd->output = new;
+	}
+	if (!cmd->output)
+		return (return_error(1, "malloc allocation error", 0, -1));
 	return (0);
 }
 
+/*
+** Functions to call when the built in echo is correctly called (4 letters = echo
+** followed by a whitespace or '\0') in the string *str.
+** WARNING : echo print a whitespace when a tab is meeted
+** (generalized to blanks ?) by default.
+*/
 int	cmd_echo(t_infos *infos, t_cmd *cmd)
 {
 	int		str_size;
 	char	*str_begin;
 
-	if (!infos || !cmd
+	if (!infos || !cmd || !cmd->start
 		|| ft_strncmp(cmd->start->token, "echo", cmd->start->length))
-		return (error_exit_status("Error!", 0, infos, "?=1"));
+		return (return_error(1, "something went wrong", 0, -1));
 	cmd->start = cmd->start->next;
 	return (echo_builtin(infos, cmd));
 }

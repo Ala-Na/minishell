@@ -196,7 +196,7 @@ int			delete_elem_from_var_lst(t_var **var_lst, char *elem_name);
 int			sub_unset_var(t_infos *infos, t_token *to_unset);
 int			unset_var(t_infos *infos, t_cmd *cmd);
 int			check_validity_token(t_token *token);
-int			invalid_token_print(t_token *token);
+int			invalid_unset_token(t_token *token);
 int			add_not_existing_elem_to_env(char ***env, t_token *new_elem,
 				int env_size);
 int			modify_existing_elem_to_env(t_infos *infos, char **env,

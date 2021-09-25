@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_cmd_args.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
+/*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/21 11:03:41 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/23 17:24:34 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/09/25 23:10:17 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,12 @@ int	get_arg_loop(t_cmd **cmd, t_token **curr_token)
 			return (-1);
 		else
 		{
-			*cmd = (*cmd)->next;
-			*curr_token = (*curr_token)->next->next;
+			while((*cmd) && (*cmd)->next_operator != -1 && \
+				(*cmd)->next_operator != PIPE)
+			{
+				*cmd = (*cmd)->next;
+				*curr_token = (*curr_token)->next->next;
+			}
 		}
 	}
 	return (0);

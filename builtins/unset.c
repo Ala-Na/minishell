@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
+/*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/01 21:57:01 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/22 14:37:07 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/24 22:03:44 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,22 +100,13 @@ int	sub_unset_var(t_infos *infos, t_token *to_unset)
 	char	*elem_name;
 
 	tmp_res = -1;
-	if (to_unset->type != IDENTIFIER)
-	{
-		write(1, "unset: « ", 10);
-		write(1, to_unset->token, to_unset->length);
-		write(1, " » : not a valid identifier\n", 29);
-	}
-	else
-	{
-		elem_name = get_elem_name(to_unset->token, to_unset->length);
-		if (elem_name && get_env_elem(infos->env, elem_name))
-			tmp_res = delete_elem_from_env(&infos->env, elem_name);
-		else if (elem_name)
-			tmp_res = delete_elem_from_var_lst(&infos->lst_var, elem_name);
-		if (elem_name)
-			free(elem_name);
-	}
+	elem_name = get_elem_name(to_unset->token, to_unset->length);
+	if (elem_name && get_env_elem(infos->env, elem_name))
+		tmp_res = delete_elem_from_env(&infos->env, elem_name);
+	else if (elem_name)
+		tmp_res = delete_elem_from_var_lst(&infos->lst_var, elem_name);
+	if (elem_name)
+		free(elem_name);
 	return (tmp_res);
 }
 
@@ -133,6 +124,8 @@ int	unset_var(t_infos *infos, t_cmd *cmd)
 	to_unset = cmd->start->next;
 	while (to_unset)
 	{
+		if (check_validity_token(to_unset) < 0)
+			return (-1);
 		tmp_res = sub_unset_var(infos, to_unset);
 		if (tmp_res == 0)
 			res = 0;

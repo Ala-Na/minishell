@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: anadege <anadege@student.42.fr>            +#+  +:+       +#+         #
+#    By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/08/23 15:04:29 by anadege           #+#    #+#              #
-#    Updated: 2021/09/24 14:32:18 by anadege          ###   ########.fr        #
+#    Updated: 2021/09/24 22:05:12 by hlichir          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,6 +19,7 @@ SRCS	= ./main.c \
 		  ./builtins/env.c \
 		  ./builtins/export.c \
 		  ./builtins/unset.c \
+		  ./builtins/unset_utils.c \
 		  ./builtins/echo.c \
 		  ./builtins/env_utils.c \
 		  ./builtins/pwd.c \

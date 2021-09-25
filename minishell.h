@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
+/*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 15:55:23 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/23 17:22:56 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/09/24 14:31:24 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -216,12 +216,13 @@ int			save_env(t_infos *infos, char **env);
 ** submitting project.
 */
 int			set_g_status_to_error(int status);
+int			check_for_signal(t_infos *infos);
+void		clean_to_continue(t_infos *infos);
 int			error_exit_status(char *str, int str_is_alloc, t_infos *infos, \
 				char *new_status);
 int			check_exit_status(t_infos *infos);
-int			check_if_exit_or_continue(t_infos *infos);
 int			clean_exit(t_infos *infos);
-void		modify_exit_value_variable(t_infos *infos, int new_value);
+int			modify_exit_value_variable(t_infos *infos, int new_value);
 
 /*
 ** MINISHELL INTIALIZATION
@@ -348,5 +349,11 @@ void		free_child_exec_var(t_infos *infos, char *exec_path,
 int			get_exec_env_diff_size(t_infos *infos, t_cmd *cmd, int *modif);
 int			copy_env(t_infos *infos, char **env, char ***cpy_env,
 				int cpy_diff_size);
+
+/*
+** EXIT STATUS
+*/
+int			return_error(int exit_status, char *error_msg, int msg_is_alloc,
+				int return_value);
 
 #endif

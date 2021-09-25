@@ -15,12 +15,19 @@
 /*
 ** Function used to print when a invalid identifier is encountered.
 */
-int	invalid_token_print(t_token *token)
+int	invalid_unset_token(t_token *token)
 {
-	write(2, "unset: « ", 10);
-	write(2, token->token, token->length);
-	write(2, " » : not a valid identifier\n", 29);
-	return (-1);
+	char	*tmp;
+	char	*str;
+	
+	tmp = ft_strnjoin("unset: « ", token->token, token->length);
+	if (!tmp)
+		return (return_error(1, "memory allocation error", 0, -1));
+	str = ft_strjoin(tmp, " » : not a valid identifier");
+	free(tmp);
+	if (!str)
+		return (return_error(1, "memory allocation error", 0, -1));
+	return (return_error(1, str, 1, -1));
 }
 
 /*
@@ -45,11 +52,11 @@ int	check_validity_token(t_token *token)
 	while (i < l && (token->token[i] == '_' || ft_isdigit(token->token[i])))
 		i++;
 	if (i == l)
-		return (invalid_token_print(token));
+		return (invalid_unset_token(token));
 	i = 0;
 	while (i < l && (token->token[i] == '_' || ft_isalnum(token->token[i])))
 		i++;
 	if (i == l)
 		return (0);
-	return (invalid_token_print(token));
+	return (invalid_unset_token(token));
 }

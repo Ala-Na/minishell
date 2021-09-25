@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/17 16:53:57 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/21 16:18:09 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/25 23:26:55 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	add_elem_to_exec_env(t_infos *infos, char ***exec_env, t_token *new_elem)
 	int		res;
 
 	if (!infos || !(*exec_env) || !new_elem)
-		return (-1);
+		return (return_error(1, "something went wrong", 0, -1));
 	i = 0;
 	res = -1;
 	while ((*exec_env)[i])
@@ -38,7 +38,7 @@ int	add_elem_to_exec_env(t_infos *infos, char ***exec_env, t_token *new_elem)
 	{
 		(*exec_env)[i] = ft_strndup(new_elem->token, new_elem->length);
 		if (!(*exec_env)[i])
-			return (-1);
+			return (return_error(1, "memory allocation error", 0, -1));
 		res = 0;
 	}
 	else
@@ -61,6 +61,8 @@ int	get_exec_env_diff_size(t_infos *infos, t_cmd *cmd, int *modif)
 
 	diff_size = 0;
 	*modif = 0;
+	if (!infos || !cmd || !cmd->start || !infos->env)
+		return (return_error(1, "something went wrong", 0, -1));
 	env = infos->env;
 	curr_token = cmd->start;
 	while (curr_token->type == ASSIGNMENT)
@@ -90,11 +92,13 @@ int	copy_env(t_infos *infos, char **env, char ***cpy_env, int cpy_diff_size)
 	int		y;
 
 	y = 0;
+	if (!infos || !env)
+		return (return_error(1, "something went wrong", 0, -1));
 	while (env && env[y])
 		y++;
 	*cpy_env = malloc(sizeof(**cpy_env) * (y + 1 + cpy_diff_size));
 	if (!*cpy_env)
-		return (-1);
+		return (return_error(1, "memory allocation error", 0, -1));
 	i = 0;
 	while (env[i])
 	{
@@ -102,7 +106,7 @@ int	copy_env(t_infos *infos, char **env, char ***cpy_env, int cpy_diff_size)
 		if (!(*cpy_env)[i])
 		{
 			free_env(*cpy_env, i);
-			return (-1);
+			return (return_error(1, "memory allocation error", 0, -1));
 		}
 		i++;
 	}

@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 15:00:10 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/22 21:11:36 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/25 23:16:05 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,9 @@ void	free_child_exec_var(t_infos *infos, char *exec_path, char **exec_env,
 		free_env(exec_env, -1);
 	if (exec_args)
 		free_env(exec_args, -1);
+	if (exec_path && infos->lst_cmds->input)
+		if (unlink("./tmp_file") < 0)
+			perror(strerror(errno));
 }
 
 /*
@@ -32,7 +35,7 @@ void	free_child_exec_var(t_infos *infos, char *exec_path, char **exec_env,
 ** Child should normally end inside the execve function. If not, we 
 ** arrive at the end of the function where an exit failure is issued.
 */
-void	child_execution(t_infos *infos)
+void	child_execution(t_infos *infos, int fds[2])
 {
 	char	*exec_path;
 	char	**exec_env;
@@ -51,7 +54,7 @@ void	child_execution(t_infos *infos)
 		free_child_exec_var(infos, exec_path, exec_env, NULL);
 		exit(1);
 	}
-	if (execve(exec_path, exec_args, exec_env) == -1)
+	else if (execve(exec_path, exec_args, exec_env) == -1)
 	{
 		free_child_exec_var(infos, exec_path, exec_env, exec_args);
 		printf("Errno value is %i\n", errno);
@@ -71,6 +74,7 @@ int	execute_simple_cmd(t_infos *infos)
 	pid_t	child_pid;
 	int		wstatus;
 	int		res;
+	int		fds[2];
 
 	child_pid = fork();
 	if (child_pid < 0)
@@ -97,6 +101,10 @@ int	execute_simple_cmd(t_infos *infos)
 		}
 	}
 	else
-		child_execution(infos);
+	{
+		if (pipe(fds) == -1)
+			return (error_exit_status("Error on pipes\n", 1, infos, "?=1"));
+		child_execution(infos, fds);
+	}
 	return (0);
 }

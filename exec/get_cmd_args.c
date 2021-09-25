@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/21 11:03:41 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/25 23:10:17 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/09/25 23:17:09 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,8 @@ char	**get_exec_args(t_infos *infos, t_cmd *first_cmd, t_token *exec_token)
 		curr_token = (curr_token)->next;
 	}
 	exec_args[i] = NULL;
+	if (check_add_input(infos, &exec_args, nbr_args) < 0)
+		return (NULL);
 	return (exec_args);
 }
 

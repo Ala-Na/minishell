@@ -6,7 +6,7 @@
 #    By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/08/23 15:04:29 by anadege           #+#    #+#              #
-#    Updated: 2021/09/24 22:05:12 by hlichir          ###   ########.fr        #
+#    Updated: 2021/09/25 23:15:33 by hlichir          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,6 +38,7 @@ SRCS	= ./main.c \
 		  ./exec/check_builtin.c \
 		  ./exec/set_env_exec.c \
 		  ./exec/get_cmd_args.c \
+		  ./exec/input_as_args.c \
 		  ./flow_management/right_redirections.c \
 		  ./flow_management/left_redirections.c \
 		  ./flow_management/redirections.c 

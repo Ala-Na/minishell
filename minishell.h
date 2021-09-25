@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 15:55:23 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/24 21:54:22 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/09/25 23:13:46 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -324,6 +324,8 @@ t_token		*move_to_exec(t_infos *infos, t_cmd *cmd, char ***exec_env);
 char		**get_exec_args(t_infos *infos, t_cmd *cmd, t_token *exec_token);
 int			get_args_nbr(t_cmd *cmd, t_token *exec_token);
 int			get_arg_loop(t_cmd **cmd, t_token **curr_token);
+int			check_add_input(t_infos *infos, char ***exec_args, int nbr_args);
+int			add_tmp_file_to_args(char ***exec_args);
 
 /*
 ** REDIRECTIONS
@@ -337,6 +339,7 @@ int			single_left_redirect(t_infos *infos, t_cmd *cmd, t_cmd *cmd_next);
 int			double_left_redirect(t_infos *infos, t_cmd *cmd, t_cmd *cmd_next);
 int			check_if_end(char **str, char *end, char c, int i);
 int			extract_file(int fd, t_cmd *cmd);
+int			file_error_input(t_cmd *cmd, char *str);
 char		*extract_name_in_string(t_cmd *cmd);
 
 /*
@@ -344,7 +347,7 @@ char		*extract_name_in_string(t_cmd *cmd);
 */
 int			add_elem_to_exec_env(t_infos *infos, char ***exec_env,
 				t_token *new_elem);
-void		child_execution(t_infos *infos);
+void		child_execution(t_infos *infos, int fd[2]);
 void		free_child_exec_var(t_infos *infos, char *exec_path,
 				char **exec_env, char **exec_args);
 int			get_exec_env_diff_size(t_infos *infos, t_cmd *cmd, int *modif);

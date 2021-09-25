@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/02 11:52:56 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/23 14:46:38 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/24 11:55:33 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 */
 int	init_minishell(t_infos *infos, char **env)
 {	
-	g_exit_status = 0;
+	g_exit_status = -1;
 	infos->prompt = NULL;
 	infos->curr_cmd = NULL;
 	infos->lst_tokens = NULL;

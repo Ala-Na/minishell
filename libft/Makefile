@@ -45,7 +45,7 @@ SRC = ./ft_atoi.c ./ft_bzero.c ./ft_calloc.c \
 ./ft_putlenwstr_fd.c ./ft_isnumber.c ./ft_isprintable.c \
 ./ft_iswhitespace.c ./ft_putstr.c ./ft_strndup.c \
 ./ft_puterr.c ./ft_strnjoin.c ./ft_max.c \
-./ft_isblanks.c
+./ft_isblanks.c ./ft_strjoin_free.c
 
 
 HEADER = 		../includes

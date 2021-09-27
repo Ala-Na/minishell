@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_cmd_args.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/21 11:03:41 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/26 01:25:03 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/27 12:14:51 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,13 +59,14 @@ int	get_args_nbr(t_cmd *first_cmd, t_token *exec_token)
 	while (cmd && curr_token)
 	{
 		nbr_args++;
-		loop = get_arg_loop(&cmd, &curr_token);
+		loop = get_arg_loop(&cmd, &curr_token);vim 
 		if (loop > 0)
 			break ;
 		else if (loop < 0)
 			return (-1);
 		curr_token = (curr_token)->next;
 	}
+	printf("nbr_arg: %d\n", nbr_args);
 	return (nbr_args);
 }
 
@@ -119,7 +120,10 @@ char	**get_exec_args(t_infos *infos, t_cmd *first_cmd, t_token *exec_token)
 	}
 	exec_args[i] = NULL;
 	if (check_add_input(infos, &exec_args, nbr_args) < 0)
+	{
+		return_error(1, "error while exporting file content", 0, 0);
 		return (NULL);
+	}
 	return (exec_args);
 }
 

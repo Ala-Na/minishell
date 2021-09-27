@@ -6,12 +6,31 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/20 14:13:23 by hlichir           #+#    #+#             */
-/*   Updated: 2021/09/23 17:11:23 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/09/27 12:10:46 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
+void	adapt_final_output(t_infos *infos)
+{
+	t_cmd	*cmd;
+
+	cmd = infos->lst_cmds;
+	while (cmd)
+	{
+		if (cmd->next_operator == LT || cmd->next_operator == LT_DBL)
+		{
+			if (cmd->next && cmd->output)
+				cmd->next->output = ft_strdup(cmd->output);
+		}
+		cmd = cmd->next;
+	}
+}
+
+/*
+** Comment to do
+*/
 int	check_output_redirections(t_infos *infos)
 {
 	t_cmd	*cmd;
@@ -31,9 +50,13 @@ int	check_output_redirections(t_infos *infos)
 		}
 		cmd = cmd->next;
 	}
+//	adapt_final_output(infos);
 	return (0);
 }
 
+/*
+** Comment to do
+*/
 int	check_input_redirections(t_infos *infos)
 {
 	t_cmd	*cmd;
@@ -52,6 +75,9 @@ int	check_input_redirections(t_infos *infos)
 	return (0);
 }
 
+/*
+** Comment to do
+*/
 int	handle_multiple_redirections(t_infos *infos, t_cmd **cmd)
 {
 	t_cmd	*current;

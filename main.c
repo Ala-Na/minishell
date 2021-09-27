@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 14:58:07 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/26 01:25:22 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/27 11:37:59 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ int	main(int argc, char **argv, char **env)
 	(void)argc;
 	(void)argv;
 	if (init_minishell(&infos, env) == -1)
-		return (1);
+		return (return_error(1, "Fatal error on initialization!", 0, 1));
 	handle_signals();
 	return_value = minishell_loop(&infos);
 	clean_exit(&infos);

@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 15:00:10 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/27 11:31:12 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/27 12:11:04 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ int	execute_simple_cmd(t_infos *infos)
 	pid_t	child_pid;
 	int		wstatus;
 	int		res;
+	char	*str;
 
 	child_pid = fork();
 	if (child_pid == -1)
@@ -86,8 +87,8 @@ int	execute_simple_cmd(t_infos *infos)
 		if (infos->lst_cmds->input)
 			if (unlink("./tmp_file") < 0)
 			{
-				perror(strerror(errno));
-				return (return_error(1, "unlink failed", 0, -1));
+				str = ft_strjoin("unlink : ", strerror(errno));
+				return (return_error(1, str, 1, -1));
 			}
 		if (res == -1)
 			return (return_error(1, strerror(errno), 0, -1));

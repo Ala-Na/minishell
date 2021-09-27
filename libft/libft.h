@@ -124,6 +124,7 @@ char					*ft_strnjoin(char const *s1, char const *s2,
 							int length);
 size_t					ft_max(size_t n1, size_t n2);
 int						ft_isblanks(char *str);
+char					*ft_strjoin_free(char *s1, char *s2, int free_s1, int free_s2);
 
 /*
 ** Following : All prototypes functions for get_next_line-like.

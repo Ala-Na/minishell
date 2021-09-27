@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 15:55:23 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/25 23:13:46 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/09/26 01:26:52 by anadege          ###   ########.fr       *
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -196,7 +196,7 @@ int			delete_elem_from_var_lst(t_var **var_lst, char *elem_name);
 int			sub_unset_var(t_infos *infos, t_token *to_unset);
 int			unset_var(t_infos *infos, t_cmd *cmd);
 int			check_validity_token(t_token *token);
-int			invalid_token_print(t_token *token);
+int			invalid_unset_token(t_token *token);
 int			add_not_existing_elem_to_env(char ***env, t_token *new_elem,
 				int env_size);
 int			modify_existing_elem_to_env(t_infos *infos, char **env,
@@ -209,6 +209,7 @@ char		*get_env_elem(char **env, char *elem);
 int			seek_elem_pos(char **env, char *elem_name);
 int			show_env(t_infos *infos, t_cmd *cmd, int export);
 int			show_env_for_export(t_infos *infos, t_cmd *cmd, char **env, int i);
+int			join_for_export_env(t_cmd *cmd, char *to_add, int size);
 void		free_env(char **env, int last);
 int			save_env(t_infos *infos, char **env);
 
@@ -218,12 +219,13 @@ int			save_env(t_infos *infos, char **env);
 ** submitting project.
 */
 int			set_g_status_to_error(int status);
+int			check_for_signal(t_infos *infos);
+void		clean_to_continue(t_infos *infos);
 int			error_exit_status(char *str, int str_is_alloc, t_infos *infos, \
 				char *new_status);
 int			check_exit_status(t_infos *infos);
-int			check_if_exit_or_continue(t_infos *infos);
 int			clean_exit(t_infos *infos);
-void		modify_exit_value_variable(t_infos *infos, int new_value);
+int			modify_exit_value_variable(t_infos *infos, int new_value);
 
 /*
 ** MINISHELL INTIALIZATION
@@ -347,11 +349,19 @@ char		*extract_name_in_string(t_cmd *cmd);
 */
 int			add_elem_to_exec_env(t_infos *infos, char ***exec_env,
 				t_token *new_elem);
-void		child_execution(t_infos *infos, int fd[2]);
 void		free_child_exec_var(t_infos *infos, char *exec_path,
 				char **exec_env, char **exec_args);
+void		child_execution(t_infos *infos);
 int			get_exec_env_diff_size(t_infos *infos, t_cmd *cmd, int *modif);
 int			copy_env(t_infos *infos, char **env, char ***cpy_env,
 				int cpy_diff_size);
+
+/*
+** EXIT STATUS
+*/
+int			return_error(int exit_status, char *error_msg, int msg_is_alloc,
+				int return_value);
+int			return_value(int exit_status, int in_pipe);
+int			return_signal(int signal_value, int in_pipe);
 
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   launch_cmds.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/22 17:28:50 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/24 22:18:38 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/09/24 17:14:46 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,21 +28,21 @@ int	launch_simple_cmd(t_infos *infos)
 	t_builtin	builtin;
 
 	if (!infos || !infos->lst_cmds || !infos->lst_cmds->start)
-		return (-1);
+		return (return_error(1, "something went wrong", 0, -1));
 	assignments = check_assignments(infos, infos->lst_cmds);
 	if (assignments == 1)
 		return (0);
 	else if (assignments == -1)
 		return (-1);
 	first_non_assignment = infos->lst_cmds->start;
-	while (first_non_assignment->type == ASSIGNMENT)
+	while (first_non_assignment && first_non_assignment->type == ASSIGNMENT)
 	{
 		first_non_assignment = first_non_assignment->next;
 		if (first_non_assignment == infos->lst_cmds->end)
 			break ;
 	}
-	if (first_non_assignment->type == ASSIGNMENT)
-		return (-1);
+	if (!first_non_assignment || first_non_assignment->type == ASSIGNMENT)
+		return (return_error(1, "something went wrong", 0, -1));
 	builtin = check_builtin(first_non_assignment->token);
 	if (builtin == -1)
 		return (-1);
@@ -82,12 +82,13 @@ int	launch_cmds(t_infos *infos)
 {
 	int	pipes;
 
-	if (!ft_strncmp(infos->curr_cmd, "exit", 5))
-		return (0);
+	if (!infos)
+		return(return_error(1, "something went wrong", 0, -1));
 	pipes = check_if_pipes(infos);
 	if (pipes == -1)
-		return (-1);
+		return (return_error(1, "something went wrong", 0, -1));
 	else if (pipes == 0)
 		return (launch_simple_cmd(infos));
+	//return (launch_pipes(...));
 	return (0);
 }

@@ -1,34 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   test.c                                             :+:      :+:    :+:   */
+/*   ft_isblanks.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/09/21 14:35:42 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/24 14:31:01 by anadege          ###   ########.fr       */
+/*   Created: 2021/09/23 16:28:16 by anadege           #+#    #+#             */
+/*   Updated: 2021/09/23 16:30:59 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-int	main(int argc, char **args, char **env)
+int	ft_isblanks(char *str)
 {
-	int	env_elems;
-	int	args_elems;
+	int	i;
 
-	env_elems = 0;
-	args_elems = 0;
-	while (env[env_elems])
+	i = 0;
+	while (str[i])
 	{
-		printf("%s\n", env[env_elems]);
-		env_elems++;
+		if (str[i] != ' ' && str[i] != '\t' && str[i] != '\n')
+			return (0);
+		i++;
 	}
-	printf("Process received %i env elems.\n", env_elems);
-	while (args[args_elems])
-	{
-		printf("%i arg is %s.\n", args_elems, args[args_elems]);
-		args_elems++;
-	}
-	return (0);
+	return (1);
 }

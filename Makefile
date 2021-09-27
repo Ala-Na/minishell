@@ -6,7 +6,7 @@
 #    By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/08/23 15:04:29 by anadege           #+#    #+#              #
-#    Updated: 2021/09/25 23:15:33 by hlichir          ###   ########.fr        #
+#    Updated: 2021/09/26 01:19:31 by anadege          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,6 +25,7 @@ SRCS	= ./main.c \
 		  ./builtins/pwd.c \
 		  ./exit/exit.c \
 		  ./exit/exit_status.c \
+		  ./exit/returns.c \
 		  ./parsing/parsing.c \
 		  ./parsing/tokenizer.c \
 		  ./parsing/get_variables.c \

@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/07 14:43:01 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/17 15:40:22 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/09/26 00:21:20 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,7 @@ t_cmd	*init_new_cmd(t_token *start, t_cmd **head_lst)
 */
 int	parsing_error(int syntax_error, char *error_pos)
 {
+	g_exit_status = 1;
 	if (syntax_error <= -1 && syntax_error >= -5)
 		printf("minishell : syntax error with ");
 	if (syntax_error == -1)

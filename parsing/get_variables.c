@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 21:45:16 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/16 18:21:53 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/09/24 15:44:02 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,18 +101,24 @@ void	get_cmd_with_var(t_infos *infos, int new_size)
 	int		ignore;
 	char	*new_cmd;
 	int		var_size;
+	int		dbl;
 
 	i[0] = 0;
 	i[1] = 0;
 	ignore = 0;
+	dbl = 0;
 	new_cmd = malloc(sizeof(*new_cmd) * (new_size + 1));
 	if (!new_cmd)
 		return ;
 	while (infos->curr_cmd[i[0]])
 	{
-		if (infos->curr_cmd[i[0]] == '\'' && ignore == 0)
+		if (infos->curr_cmd[i[0]]== '"' && dbl == 0 && ignore == 0)
+			dbl = 1;
+		else if (infos->curr_cmd[i[0]] == '"' && dbl == 1 && ignore == 0)
+			dbl = 0;
+		else if (infos->curr_cmd[i[0]] == '\'' && ignore == 0 && dbl == 0)
 			ignore = 1;
-		else if (infos->curr_cmd[i[0]] == '\'')
+		else if (infos->curr_cmd[i[0]] == '\'' && ignore == 1 && dbl == 0)
 			ignore = 0;
 		if (infos->curr_cmd[i[0]] == '$' && ignore == 0)
 			add_var(infos, &new_cmd, &i[0], &i[1]);
@@ -130,17 +136,23 @@ void	expand_variables(t_infos *infos)
 	char	*var;
 	int		new_size;
 	int		ignore;
+	int		dbl;
 
 	i = 0;
 	new_size = 0;
 	ignore = 0;
+	dbl = 0;
 	while (infos->curr_cmd[i])
 	{
-		if (infos->curr_cmd[i] == '\'' && ignore == 0)
+		if (infos->curr_cmd[i] == '"' && dbl == 0 && ignore == 0)
+			dbl = 1;
+		else if (infos->curr_cmd[i] == '"' && dbl == 1 && ignore == 0)
+			dbl = 0;
+		else if (infos->curr_cmd[i] == '\'' && ignore == 0 && dbl == 0)
 			ignore = 1;
-		else if (infos->curr_cmd[i] == '\'' && ignore == 1)
+		else if (infos->curr_cmd[i] == '\'' && ignore == 1 && dbl == 0)
 			ignore = 0;
-		else if (infos->curr_cmd[i] == '$')
+		else if (infos->curr_cmd[i] == '$' && ignore == 0)
 			new_size += get_var(&infos->curr_cmd[i], &var, infos->env,
 					infos->lst_var);
 		i++;

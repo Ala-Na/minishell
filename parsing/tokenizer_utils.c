@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/05 14:12:00 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/16 16:51:58 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/24 15:33:06 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,10 @@ t_tokentype	identify_token_type(char *token, int length)
 	return (tmp_type);
 }
 
+/*
+** Function to add new t_token element to the end of 
+** a t_token list.
+*/
 void	add_back_token(t_token **tokens, t_token *new)
 {
 	t_token	*last;

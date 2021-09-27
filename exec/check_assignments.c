@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/22 16:53:14 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/23 17:24:50 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/09/24 17:13:47 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	do_assignment(t_infos *infos, t_token *token)
 	int		res;
 
 	if (!infos || !token || token->type != ASSIGNMENT)
-		return (-1);
+		return (return_error(1, "something went wrong", 0, -1));
 	var_name = get_elem_name(token->token, token->length);
 	if (!var_name)
 		return (-1);
@@ -45,11 +45,9 @@ int	is_only_assignments(t_cmd *cmd)
 {
 	t_token	*current;
 
-	if (!cmd)
-		return (-1);
+	if (!cmd || ! cmd->start)
+		return (return_error(1, "something went wrong", 0, -1));
 	current = cmd->start;
-	if (!current)
-		return (-1);
 	while (current && current->type == ASSIGNMENT)
 	{
 		if (current == cmd->end)

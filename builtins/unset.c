@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/01 21:57:01 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/24 22:03:44 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/09/26 01:23:56 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	fill_env_with_deletion(char ***env, int elem_pos, int env_size)
 
 	tmp_env = malloc(sizeof(*tmp_env) * (env_size));
 	if (!tmp_env)
-		return (set_g_status_to_error(1));
+		return (return_error(1, "memory allocation error", 0, -1));
 	i = -1;
 	j = 0;
 	while (++i < env_size - 1)
@@ -55,11 +55,13 @@ int	delete_elem_from_env(char ***env, char *elem_name)
 	int		env_size;
 	int		elem_pos;
 
+	if (!*env || !elem_name)
+		return (return_error(1, "something went wrong", 0, -1));
 	elem_pos = seek_elem_pos(*env, elem_name);
 	if (elem_pos == -2)
 		return (0);
 	else if (elem_pos == -1)
-		return (set_g_status_to_error(1));
+		return (-1);
 	env_size = 0;
 	while ((*env)[env_size])
 		env_size++;
@@ -72,6 +74,8 @@ int	delete_elem_from_var_lst(t_var **var_lst, char *elem_name)
 	t_var	*tmp_var;
 	t_var	*curr_var;
 
+	if (!*var_lst || !elem_name)
+		return (return_error(1, "something went wrong", 0, -1));
 	prev_var = NULL;
 	curr_var = *var_lst;
 	while (curr_var)
@@ -98,8 +102,11 @@ int	sub_unset_var(t_infos *infos, t_token *to_unset)
 {
 	int		tmp_res;
 	char	*elem_name;
+	char	*tmp;
 
 	tmp_res = -1;
+	if (!infos || !to_unset)
+		return (return_error(1, "something went wrong", 0, -1));
 	elem_name = get_elem_name(to_unset->token, to_unset->length);
 	if (elem_name && get_env_elem(infos->env, elem_name))
 		tmp_res = delete_elem_from_env(&infos->env, elem_name);
@@ -115,25 +122,21 @@ int	unset_var(t_infos *infos, t_cmd *cmd)
 	t_token	*to_unset;
 	char	*elem_name;
 	int		tmp_res;
-	int		res;
 
-	res = -1;
 	if (!infos || !cmd || ft_strncmp(cmd->start->token,
 			"unset", cmd->start->length))
-		return (error_exit_status("Error", 0, infos, "?=1"));
+		return (return_error(1, "something went wrong", 0, -1));
 	to_unset = cmd->start->next;
 	while (to_unset)
 	{
 		if (check_validity_token(to_unset) < 0)
 			return (-1);
 		tmp_res = sub_unset_var(infos, to_unset);
-		if (tmp_res == 0)
-			res = 0;
+		if (tmp_res < 0)
+			return (-1);
 		if (to_unset == cmd->end)
 			break ;
 		to_unset = to_unset->next;
 	}
-	if (modify_var_in_list(infos, "?=0", NULL) < 0)
-		return (error_exit_status("Memory allocation error", 0, infos, "?=1"));
-	return (res);
+	return (0);
 }

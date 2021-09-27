@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/17 14:56:38 by hlichir           #+#    #+#             */
-/*   Updated: 2021/09/22 14:41:58 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/27 11:59:31 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,18 +41,21 @@ int	single_right_redirect(t_infos *infos, t_cmd *cmd)
 
 	filename = extract_name_in_string(cmd->next);
 	if (!filename)
-		return (error_exit_status("Malloc error!", 0, infos, "?=1"));
+		return (return_error(1, "memory allocation error", 0, -1));
 	fd = open(filename, O_RDWR | O_TRUNC | O_CREAT, S_IRWXG | S_IRWXU);
-	free(filename);
 	if (fd < 0)
-		return (error_exit_status("Error on fd!", 0, infos, "?=1"));
+	{
+		filename = ft_strjoin_free("error while opening ", filename, 0, 1);
+		return (return_error(1, filename, 1, -1));
+	}
+	free(filename);
 	ft_putstr_fd(cmd->output, fd);
 	close(fd);
 	if (cmd->next->next_operator != -1)
 	{
 		cmd->next->output = ft_strdup(cmd->output);
 		if (!cmd->next->output)
-			return (error_exit_status("Malloc error!", 0, infos, "?=1"));
+			return (return_error(1, "memory allocation error", 0, -1));
 	}
 	return (0);
 }
@@ -69,18 +72,21 @@ int	double_right_redirect(t_infos *infos, t_cmd *cmd)
 
 	filename = extract_name_in_string(cmd->next);
 	if (!filename)
-		return (error_exit_status("Malloc error!", 0, infos, "?=1"));
+		return (return_error(1, "memory allocation error", 0, -1));
 	fd = open(filename, O_RDWR | O_APPEND | O_CREAT, S_IRWXG | S_IRWXU);
-	free(filename);
 	if (fd < 0)
-		return (error_exit_status("Error on fd!", 0, infos, "?=1"));
+	{
+		filename = ft_strjoin_free("error while opening ", filename, 0, 1);
+		return (return_error(1, filename, 1, -1));
+	}
+	free(filename);
 	ft_putstr_fd(cmd->output, fd);
 	close(fd);
 	if (cmd->next->next_operator != -1)
 	{
 		cmd->next->output = ft_strdup(cmd->output);
 		if (!cmd->next->output)
-			return (error_exit_status("Malloc error!", 0, infos, "?=1"));
+			return (return_error(1, "memory allocation error", 0, -1));
 	}
 	return (0);
 }

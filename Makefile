@@ -39,6 +39,7 @@ SRCS	= ./main.c \
 		  ./exec/check_builtin.c \
 		  ./exec/set_env_exec.c \
 		  ./exec/get_cmd_args.c \
+		  ./exec/input_as_args.c \
 		  ./flow_management/right_redirections.c \
 		  ./flow_management/left_redirections.c \
 		  ./flow_management/redirections.c 

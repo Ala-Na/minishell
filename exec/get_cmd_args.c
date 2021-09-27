@@ -26,7 +26,7 @@ int	get_arg_loop(t_cmd **cmd, t_token **curr_token)
 			return (1);
 		else
 		{
-			while((*cmd) && (*cmd)->next_operator != -1 && \
+			while ((*cmd) && (*cmd)->next_operator != -1 && \
 				(*cmd)->next_operator != PIPE)
 			{
 				*cmd = (*cmd)->next;
@@ -118,6 +118,8 @@ char	**get_exec_args(t_infos *infos, t_cmd *first_cmd, t_token *exec_token)
 		curr_token = (curr_token)->next;
 	}
 	exec_args[i] = NULL;
+	if (check_add_input(infos, &exec_args, nbr_args) < 0)
+		return (NULL);
 	return (exec_args);
 }
 

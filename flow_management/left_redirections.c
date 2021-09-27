@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   left_redirections.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
+/*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/17 14:56:38 by hlichir           #+#    #+#             */
-/*   Updated: 2021/09/22 14:42:46 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/25 23:13:23 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,26 @@ int	extract_file(int fd, t_cmd *cmd)
 }
 
 /*
+** Commen to do
+*/
+int	file_error_input(t_cmd *cmd, char *str)
+{
+	cmd->input = ft_strdup(str);
+	if (!(cmd->input))
+		return (-1);
+	cmd->input = ft_strjoin(cmd->input, ": ");
+	if (!(cmd->input))
+		return (-1);
+	cmd->input = ft_strjoin(cmd->input, strerror(errno));
+	if (!(cmd->input))
+		return (-1);
+	cmd->input = ft_strjoin(cmd->input, "\n");
+	if (!(cmd->input))
+		return (-1);
+	return (0);
+}
+
+/*
 ** Function to handle the redirection "<"
 */
 int	single_left_redirect(t_infos *infos, t_cmd *cmd, t_cmd *cmd_next)
@@ -52,9 +72,12 @@ int	single_left_redirect(t_infos *infos, t_cmd *cmd, t_cmd *cmd_next)
 	if (!str)
 		return (error_exit_status("Malloc error!", 0, infos, "?=1"));
 	fd = open(str, O_RDWR);
-	free(str);
 	if (fd < 0)
-		return (error_exit_status(strerror(errno), 0, infos, "?=1"));
+	{
+		file_error_input(cmd, str);
+		return (error_exit_status(NULL, 0, infos, "?=1"));
+	}
+	free(str);
 	if (extract_file(fd, cmd) < 0)
 		return (error_exit_status("Malloc error", 0, infos, "?=1"));
 	return (0);

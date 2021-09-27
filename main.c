@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 14:58:07 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/26 01:25:22 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/27 11:41:37 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,10 +78,10 @@ int	minishell_loop(t_infos *infos)
 	{
 		infos->prompt = get_prompt();
 		if (!infos->prompt)
-			return (1);
+			return (return_error(1, "minshell : fatal error", 0, 1));
 		infos->curr_cmd = readline(infos->prompt);
 		if (check_for_signal(infos) < 0)
-			return (1);
+			return (return_error(1, "minshell : fatal error", 0, 1));
 		else if (!infos->curr_cmd)
 		{
 			write(1, "exit\n", 5);
@@ -93,7 +93,7 @@ int	minishell_loop(t_infos *infos)
 		if (infos->curr_cmd[0] != 0)
 			parse_and_execute(infos);
 		if (modify_exit_value_variable(infos, g_exit_status) < 0)
-			return (1);
+			return (return_error(1, "minshell : fatal error", 0, 1));
 		clean_to_continue(infos);
 	}
 	write(1, "exit\n", 5);
@@ -116,7 +116,7 @@ int	main(int argc, char **argv, char **env)
 	(void)argc;
 	(void)argv;
 	if (init_minishell(&infos, env) == -1)
-		return (1);
+		return (return_error(1, "minshell : fatal error", 0, 1));
 	handle_signals();
 	return_value = minishell_loop(&infos);
 	clean_exit(&infos);

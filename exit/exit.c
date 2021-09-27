@@ -6,35 +6,11 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/02 11:40:02 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/26 01:20:32 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/27 11:35:54 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-/*
-**	Function to change the exit status to 130 when ctrl+c is used!
-*/
-int	check_exit_status(t_infos *infos)
-{
-	if (g_exit_status == 130)
-	{
-		if (modify_var_in_list(infos, "?=130", NULL) < 0)
-			return (-1);
-	}
-/*	else if (g_exit_status == 1)
-	{
-		if (modify_var_in_list(infos, "?=1", NULL) < 0)
-			return (-1);
-	}
-	else if (g_exit_status == 127)
-	{
-		if (modify_var_in_list(infos, "?=127", NULL) < 0)
-			return (-1);
-	}*/
-	g_exit_status = 0;
-	return (0);
-}
 
 /*
 ** Function to free all allocated memory before leaving minishell.

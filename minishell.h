@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 15:55:23 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/26 01:26:52 by anadege          ###   ########.fr       *
+/*   Updated: 2021/09/27 11:42:14 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -218,12 +218,8 @@ int			save_env(t_infos *infos, char **env);
 ** WARNING : Proper clean of all allocated memory to check before
 ** submitting project.
 */
-int			set_g_status_to_error(int status);
 int			check_for_signal(t_infos *infos);
 void		clean_to_continue(t_infos *infos);
-int			error_exit_status(char *str, int str_is_alloc, t_infos *infos, \
-				char *new_status);
-int			check_exit_status(t_infos *infos);
 int			clean_exit(t_infos *infos);
 int			modify_exit_value_variable(t_infos *infos, int new_value);
 

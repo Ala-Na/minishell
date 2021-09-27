@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_cmd_args.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
+/*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/21 11:03:41 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/27 12:14:51 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/09/27 16:00:13 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int	get_args_nbr(t_cmd *first_cmd, t_token *exec_token)
 	while (cmd && curr_token)
 	{
 		nbr_args++;
-		loop = get_arg_loop(&cmd, &curr_token);vim 
+		loop = get_arg_loop(&cmd, &curr_token);
 		if (loop > 0)
 			break ;
 		else if (loop < 0)

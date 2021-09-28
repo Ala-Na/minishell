@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/22 17:28:50 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/24 17:14:46 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/27 21:40:27 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,5 @@ int	launch_cmds(t_infos *infos)
 		return (return_error(1, "something went wrong", 0, -1));
 	else if (pipes == 0)
 		return (launch_simple_cmd(infos));
-	//return (launch_pipes(...));
-	return (0);
+	return (launch_pipes_cmds(infos));
 }

@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 15:55:23 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/27 11:42:14 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/28 11:28:28 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -311,6 +311,7 @@ int			check_if_pipes(t_infos *infos);
 int			check_assignments(t_infos *infos, t_cmd *cmd);
 int			is_only_assignments(t_cmd *cmd);
 int			launch_simple_cmd(t_infos *infos);
+int			launch_pipes_cmds(t_infos *infos);
 
 /*
 ** SIMPLE COMMAND EXECUTION
@@ -347,7 +348,7 @@ int			add_elem_to_exec_env(t_infos *infos, char ***exec_env,
 				t_token *new_elem);
 void		free_child_exec_var(t_infos *infos, char *exec_path,
 				char **exec_env, char **exec_args);
-void		child_execution(t_infos *infos);
+void		child_execution(t_infos *infos, t_cmd *exec_cmd);
 int			get_exec_env_diff_size(t_infos *infos, t_cmd *cmd, int *modif);
 int			copy_env(t_infos *infos, char **env, char ***cpy_env,
 				int cpy_diff_size);

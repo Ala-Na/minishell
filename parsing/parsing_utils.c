@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/07 14:43:01 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/26 00:21:20 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/28 14:42:50 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,17 +17,19 @@
 ** start freeing struct from the tail. If end is equal to 0, start
 ** freeing fom the head.
 */
-void	free_cmd_list_from_extremity(t_cmd *cmds, int end)
+void	free_cmd_list_from_extremity(t_cmd **cmds, int end)
 {
 	t_cmd	*to_free;
 
-	while (cmds)
+	if (!cmds || !*cmds)
+		return ;
+	while (*cmds)
 	{
-		to_free = cmds;
+		to_free = *cmds;
 		if (end)
-			cmds = cmds->prev;
+			*cmds = (*cmds)->prev;
 		else
-			cmds = cmds->next;
+			*cmds = (*cmds)->next;
 		if (to_free->output)
 			free(to_free->output);
 		if (to_free->input)
@@ -94,9 +96,10 @@ t_cmd	*init_new_cmd(t_token *start, t_cmd **head_lst)
 	new->next_operator = -1;
 	new->input = NULL;
 	new->output = NULL;
-	new->return_value = 0;
 	new->next = NULL;
 	new->prev = NULL;
+	new->fd_input = 0;
+	new->fd_output = 1;
 	if (!*head_lst)
 		return (new);
 	prev = *head_lst;

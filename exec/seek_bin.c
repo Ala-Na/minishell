@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 15:56:39 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/26 00:33:30 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/28 14:56:34 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,8 @@ char	*get_absolute_path_from_path(char *filepath, char *env_var)
 			free(path);
 		path = NULL;
 	}
+	while (paths[i])
+		free(paths[i++]);
 	free(paths);
 	return (path);
 }

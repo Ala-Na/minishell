@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/21 11:03:41 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/26 01:25:03 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/28 14:50:50 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,7 +150,7 @@ t_token	*move_to_exec(t_infos *infos, t_cmd *cmd, char ***exec_env)
 	{
 		if (add_elem_to_exec_env(infos, exec_env, cmd->start) < 0)
 		{
-			free_env(*exec_env, -1);
+			free_env(exec_env, -1);
 			return (NULL);
 		}
 		if (cmd->start == cmd->end)

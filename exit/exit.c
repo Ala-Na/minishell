@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/02 11:40:02 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/27 11:35:54 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/28 14:51:29 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,13 @@ int	clean_exit(t_infos *infos)
 	if (infos->curr_cmd)
 		free(infos->curr_cmd);
 	if (infos->env)
-		free_env(infos->env, -1);
+		free_env(&infos->env, -1);
 	if (infos->prompt)
 		free(infos->prompt);
 	if (infos->lst_tokens)
-		free_token_list_from_extremity(infos->lst_tokens, 0);
+		free_token_list_from_extremity(&infos->lst_tokens, 0);
 	if (infos->lst_cmds)
-		free_cmd_list_from_extremity(infos->lst_cmds, 0);
+		free_cmd_list_from_extremity(&infos->lst_cmds, 0);
 	if (infos->lst_var)
 		free_lst_var(infos);
 	rl_clear_history();

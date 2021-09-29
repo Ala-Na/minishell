@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/07 14:43:01 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/24 15:36:21 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/28 14:39:08 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	check_init_new_cmd(t_cmd **new, t_token *lst_tokens,
 	*new = init_new_cmd(lst_tokens, lst_cmds);
 	if (!*new)
 	{
-		free_cmd_list_from_extremity(*lst_cmds, 0);
+		free_cmd_list_from_extremity(lst_cmds, 0);
 		return (-1);
 	}
 	*new_cmd = 0;

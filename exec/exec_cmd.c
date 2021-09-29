@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 15:00:10 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/28 11:27:14 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/28 15:12:04 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,14 @@
 /*
 ** Function to free arguments of execve command, previously set.
 */
-void	free_child_exec_var(t_infos *infos, char *exec_path, char **exec_env,
-			char **exec_args)
+void	free_child_exec_var(t_infos *infos, char **exec_path, char ***exec_env,
+			char ***exec_args)
 {
-	if (exec_path)
-		free(exec_path);
-	if (exec_env && exec_env != infos->env)
+	if (exec_path && *exec_path)
+		free(*exec_path);
+	if (exec_env && *exec_env && *exec_env != infos->env)
 		free_env(exec_env, -1);
-	if (exec_args)
+	if (exec_args && *exec_args)
 		free_env(exec_args, -1);
 }
 
@@ -47,22 +47,22 @@ void	child_execution(t_infos *infos, t_cmd *exec_cmd)
 	exec_path = get_exec_path(infos, exec_cmd, &exec_env, &exec_token);
 	if (!exec_path || !exec_env)
 	{
-		free_child_exec_var(infos, NULL, exec_env, NULL);
+		free_child_exec_var(infos, NULL, &exec_env, NULL);
 		exit(g_exit_status);
 	}
 	exec_args = get_exec_args(infos, exec_cmd, exec_token);
 	if (!exec_args)
 	{
-		free_child_exec_var(infos, exec_path, exec_env, NULL);
+		free_child_exec_var(infos, &exec_path, &exec_env, NULL);
 		exit(g_exit_status);
 	}
 	else if (execve(exec_path, exec_args, exec_env) == -1)
 	{
-		free_child_exec_var(infos, exec_path, exec_env, exec_args);
+		free_child_exec_var(infos, &exec_path, &exec_env, &exec_args);
 		return_error(126, strerror(errno), 0, 0);
 		exit(g_exit_status);
 	}
-	free_child_exec_var(infos, exec_path, exec_env, exec_args);
+	free_child_exec_var(infos, &exec_path, &exec_env, &exec_args);
 	exit(g_exit_status);
 }
 

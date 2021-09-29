@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/05 14:12:00 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/24 15:33:06 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/28 14:41:19 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,17 +96,19 @@ t_token	*init_new_token(t_token **tokens, char *cmd,
 ** start freeing struct from the tail. If end is equal to 0, start
 ** freeing fom the head.
 */
-void	free_token_list_from_extremity(t_token *tokens, int end)
+void	free_token_list_from_extremity(t_token **tokens, int end)
 {
 	t_token	*to_free;
 
-	while (tokens)
+	if (!tokens || !*tokens)
+		return ;
+	while (*tokens)
 	{
-		to_free = tokens;
+		to_free = *tokens;
 		if (end)
-			tokens = tokens->prev;
+			*tokens = (*tokens)->prev;
 		else
-			tokens = tokens->next;
+			*tokens = (*tokens)->next;
 		free(to_free);
 	}
 }

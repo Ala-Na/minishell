@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 15:55:23 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/28 11:28:28 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/29 13:48:41 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,9 +101,10 @@ typedef struct s_cmd
 	t_token			*start;
 	t_token			*end;
 	t_operator		next_operator;
+	int				fd_input;
+	int				fd_output;
 	char			*input;
 	char			*output;
-	int				return_value;
 	struct s_cmd	*prev;
 	struct s_cmd	*next;
 }	t_cmd;
@@ -210,7 +211,7 @@ int			seek_elem_pos(char **env, char *elem_name);
 int			show_env(t_infos *infos, t_cmd *cmd, int export);
 int			show_env_for_export(t_infos *infos, t_cmd *cmd, char **env, int i);
 int			join_for_export_env(t_cmd *cmd, char *to_add, int size);
-void		free_env(char **env, int last);
+void		free_env(char ***env, int last);
 int			save_env(t_infos *infos, char **env);
 
 /*
@@ -237,7 +238,7 @@ t_builtin	check_builtin(char *first_elem_cmd_line);
 ** TOKENIZER
 */
 t_token		*tokenize_cmd(char *cmd, int *syntax_error, char **error_pos);
-void		free_token_list_from_extremity(t_token *tokens, int end);
+void		free_token_list_from_extremity(t_token **tokens, int end);
 t_token		*init_new_token(t_token **tokens, char *cmd, int *syntax_error,
 				char **error_pos);
 int			browse_string(char *begin_token, char stop_char, int *syntax_error,
@@ -259,7 +260,7 @@ int			check_init_new_cmd(t_cmd **new, t_token *lst_tokens,
 t_cmd		*init_new_cmd(t_token *start, t_cmd **head_lst);
 void		add_back_cmd(t_cmd **cmds, t_cmd *new);
 t_operator	identify_operator(t_token *operator);
-void		free_cmd_list_from_extremity(t_cmd *cmds, int end);
+void		free_cmd_list_from_extremity(t_cmd **cmds, int end);
 int			parse_cmd(t_infos *infos);
 
 /*
@@ -311,7 +312,7 @@ int			check_if_pipes(t_infos *infos);
 int			check_assignments(t_infos *infos, t_cmd *cmd);
 int			is_only_assignments(t_cmd *cmd);
 int			launch_simple_cmd(t_infos *infos);
-int			launch_pipes_cmds(t_infos *infos);
+int			launch_pipes_cmds(t_infos *infos, t_cmd *cmd, int prev_pipe[2], int nbr_pipes);
 
 /*
 ** SIMPLE COMMAND EXECUTION
@@ -346,8 +347,8 @@ char		*extract_name_in_string(t_cmd *cmd);
 */
 int			add_elem_to_exec_env(t_infos *infos, char ***exec_env,
 				t_token *new_elem);
-void		free_child_exec_var(t_infos *infos, char *exec_path,
-				char **exec_env, char **exec_args);
+void		free_child_exec_var(t_infos *infos, char **exec_path,
+				char ***exec_env, char ***exec_args);
 void		child_execution(t_infos *infos, t_cmd *exec_cmd);
 int			get_exec_env_diff_size(t_infos *infos, t_cmd *cmd, int *modif);
 int			copy_env(t_infos *infos, char **env, char ***cpy_env,

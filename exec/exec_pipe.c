@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/27 17:16:19 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/29 14:51:16 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/29 21:00:37 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,47 +14,73 @@
 
 #define WRITE_SIDE 1
 #define READ_SIDE 0
+#define UNSET -1
 
 /*
 **
 */
 void	pipe_loop(t_infos *infos, t_cmd *cmd, int prev_pipe[2], int **child_pids, int i)
 {
-	int		fd[2];
+	int		new_pid;
+	int		pipe_fd[2];
 	int		wstatus;
 	int		res;
+	int		prev_fd[2];
 
+	prev_fd[READ_SIDE] = UNSET;
+	prev_fd[WRITE_SIDE] = UNSET;
 	if (!infos || !cmd)
 	{
 		return_error(1, "something went wrong", 0, 0);
 		exit(g_exit_status);
 	}
-	if (pipe(fd) == -1)
+	while (cmd)
 	{
-		return_error(1, "pipe failed", 0, 0);
-		exit(g_exit_status);
-	}
-	(*child_pids)[i] = fork();
-	if ((*child_pids)[i] == -1)
-	{
-		return_error(1, "fork failed", 0, 0);
-		exit(g_exit_status);
-	}
-	else if ((*child_pids)[i] == 0)
-	{
-		close(fd[1]);
-		dup2(fd[0], 0);
-		close(fd[0]);
-		if (cmd->next)
-			pipe_loop(infos, cmd->next, fd, child_pids, i + 1);
-		child_execution(infos, cmd);
-	}
-	else
-	{
-		close(fd[0]);
-		if (prev_pipe)
-			dup2(fd[1], 1);
-		close(fd[1]);
+		if (pipe(pipe_fd) == -1)
+		{
+			return_error(1, "pipe failed", 0, 0);
+			exit(g_exit_status);
+		}
+		new_pid = fork();
+		if (new_pid == -1)
+		{
+			return_error(1, "fork failed", 0, 0);
+			exit(g_exit_status);
+		}
+		else if (new_pid == 0)
+		{
+			if (prev_fd[READ_SIDE] != UNSET || prev_fd[WRITE_SIDE] != UNSET)
+			{
+				close(prev_fd[WRITE_SIDE]);
+				dup2(prev_fd[READ_SIDE], STDIN_FILENO);
+				close(prev_fd[READ_SIDE]);
+			}
+			if (cmd->next)
+			{
+				close(pipe_fd[READ_SIDE]);
+				dup2(pipe_fd[WRITE_SIDE], STDOUT_FILENO);
+				close(pipe_fd[WRITE_SIDE]);
+			}
+			child_execution(infos, cmd);
+		}
+		else
+		{
+			(*child_pids)[i] = new_pid; 
+			if (prev_fd[READ_SIDE] != UNSET && prev_fd[WRITE_SIDE] != UNSET)
+			{
+				close(prev_fd[READ_SIDE]);
+				close(prev_fd[WRITE_SIDE]);
+				prev_fd[READ_SIDE] = UNSET;
+				prev_fd[WRITE_SIDE] = UNSET;
+			}
+			if (cmd->next)
+			{
+				prev_fd[READ_SIDE] = pipe_fd[READ_SIDE];
+				prev_fd[WRITE_SIDE] = pipe_fd[WRITE_SIDE];
+			}
+			cmd = cmd->next;
+			i++;
+		}
 	}
 }
 

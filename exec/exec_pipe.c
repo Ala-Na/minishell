@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/27 17:16:19 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/29 14:43:03 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/29 14:51:16 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,7 @@ void	pipe_loop(t_infos *infos, t_cmd *cmd, int prev_pipe[2], int **child_pids, i
 	else if ((*child_pids)[i] == 0)
 	{
 		close(fd[1]);
-		if (prev_pipe)
-			dup2(prev_pipe[0], 0);
+		dup2(fd[0], 0);
 		close(fd[0]);
 		if (cmd->next)
 			pipe_loop(infos, cmd->next, fd, child_pids, i + 1);
@@ -53,7 +52,7 @@ void	pipe_loop(t_infos *infos, t_cmd *cmd, int prev_pipe[2], int **child_pids, i
 	else
 	{
 		close(fd[0]);
-		if (cmd->next)
+		if (prev_pipe)
 			dup2(fd[1], 1);
 		close(fd[1]);
 	}

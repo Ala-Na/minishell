@@ -6,11 +6,21 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/23 16:14:03 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/26 00:30:31 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/30 16:48:10 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+void	return_pipeline(int last_child_status)
+{
+	if (g_exit_status != 0 || last_child_status == 0)
+		return ;
+	if (WIFEXITED(last_child_status))
+		return_value(WEXITSTATUS(last_child_status));
+	else if (WIFSIGNALED(last_child_status))
+		return_signal(WIFSIGNALED(last_child_status));
+}
 
 /*
 ** Function to display error message, modify value of g_exit_status and return
@@ -37,13 +47,10 @@ int	return_error(int exit_value, char *error_msg, int msg_is_alloc,
 ** exit_value is WEXITSTATUS(wstatus).
 ** g_exit_status is set to 255 if exit_value is superior to 255 or inferior to 0
 ** (non valid exit value).
-** As in a pipeline, the exit value is the value of the last command, in_pipe is
-** a supplementary check to avoid modification of g_exit_status when an error 
-** occurs.
 */
-int	return_value(int exit_value, int in_pipe)
+int	return_value(int exit_value)
 {
-	if (g_exit_status == 0 || in_pipe == 1)
+	if (g_exit_status == 0 && exit_value != 0)
 	{
 		if (exit_value > 255 || exit_value < 0)
 			g_exit_status = 255;
@@ -57,11 +64,11 @@ int	return_value(int exit_value, int in_pipe)
 ** Function which set g_exit_status to the corresponding value when 
 ** a signal is encounted.
 */
-int	return_signal(int signal_value, int in_pipe)
+int	return_signal(int signal_value)
 {
 	int	exit_value;
 
-	if (g_exit_status == 0 || in_pipe == 1)
+	if (g_exit_status == 0)
 	{
 		exit_value = signal_value + 128;
 		g_exit_status = exit_value;

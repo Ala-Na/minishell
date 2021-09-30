@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 15:55:23 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/30 13:28:25 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/30 16:48:15 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -360,7 +360,8 @@ int			copy_env(t_infos *infos, char **env, char ***cpy_env,
 */
 int			return_error(int exit_status, char *error_msg, int msg_is_alloc,
 				int return_value);
-int			return_value(int exit_status, int in_pipe);
-int			return_signal(int signal_value, int in_pipe);
+int			return_value(int exit_status);
+int			return_signal(int signal_value);
+void		return_pipeline(int last_child_status);
 
 #endif

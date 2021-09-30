@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 14:58:07 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/27 11:41:37 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/28 15:02:20 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,9 @@ void	clean_to_continue(t_infos *infos)
 	if (infos->prompt)
 		free(infos->prompt);
 	if (infos->lst_cmds)
-		free_cmd_list_from_extremity(infos->lst_cmds, 0);
+		free_cmd_list_from_extremity(&infos->lst_cmds, 0);
 	if (infos->lst_tokens)
-		free_token_list_from_extremity(infos->lst_tokens, 0);
+		free_token_list_from_extremity(&infos->lst_tokens, 0);
 	infos->curr_cmd = NULL;
 	infos->prompt = NULL;
 	infos->lst_cmds = NULL;

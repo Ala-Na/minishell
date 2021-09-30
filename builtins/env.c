@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/31 15:39:01 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/24 17:08:18 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/28 14:38:33 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,22 +81,24 @@ char	*get_env_elem(char **env, char *elem)
 ** last argument represents the last element of the array which was allocated.
 ** If last is equal to -1, every elements of the array is freed.
 */
-void	free_env(char **env, int last)
+void	free_env(char ***env, int last)
 {
 	int	i;
 
 	i = 0;
+	if (!env || !*env)
+		return ;
 	if (last > 0)
 	{
-		while (i < last)
-			free(env[i++]);
+		while (env && *env && (*env)[i] && i < last)
+			free((*env)[i++]);
 	}
 	else if (last == -1)
 	{
-		while (env[i])
-			free(env[i++]);
+		while (env && *env && (*env)[i])
+			free((*env)[i++]);
 	}
-	free(env);
+	free(*env);
 }
 
 /*
@@ -124,7 +126,7 @@ int	save_env(t_infos *infos, char **env)
 		tmp_env[i] = ft_strdup(env[i]);
 		if (!tmp_env[i])
 		{
-			free_env(tmp_env, i);
+			free_env(&tmp_env, i);
 			return (return_error(1, "memory allocation error", 0, -1));
 		}
 		i++;

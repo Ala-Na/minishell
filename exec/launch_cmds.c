@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/22 17:28:50 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/24 17:14:46 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/29 13:47:58 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,17 +61,19 @@ int	launch_simple_cmd(t_infos *infos)
 int	check_if_pipes(t_infos *infos)
 {
 	t_cmd	*curr_cmd;
+	int		nbr_pipes;
 
 	if (!infos || !infos->lst_cmds)
 		return (-1);
 	curr_cmd = infos->lst_cmds;
+	nbr_pipes = 0;
 	while (curr_cmd)
 	{
 		if (curr_cmd->next_operator == PIPE)
-			return (1);
+			nbr_pipes += 1;
 		curr_cmd = curr_cmd->next;
 	}
-	return (0);
+	return (nbr_pipes);
 }
 
 /*
@@ -80,15 +82,14 @@ int	check_if_pipes(t_infos *infos)
 */
 int	launch_cmds(t_infos *infos)
 {
-	int	pipes;
+	int	nbr_pipes;
 
 	if (!infos)
 		return(return_error(1, "something went wrong", 0, -1));
-	pipes = check_if_pipes(infos);
-	if (pipes == -1)
+	nbr_pipes = check_if_pipes(infos);
+	if (nbr_pipes == -1)
 		return (return_error(1, "something went wrong", 0, -1));
-	else if (pipes == 0)
+	else if (nbr_pipes == 0)
 		return (launch_simple_cmd(infos));
-	//return (launch_pipes(...));
-	return (0);
+	return (launch_pipes_cmds(infos, infos->lst_cmds, NULL, nbr_pipes));
 }

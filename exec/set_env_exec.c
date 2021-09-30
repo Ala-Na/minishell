@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/17 16:53:57 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/25 23:26:55 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/28 14:50:17 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ int	copy_env(t_infos *infos, char **env, char ***cpy_env, int cpy_diff_size)
 		(*cpy_env)[i] = ft_strdup(env[i]);
 		if (!(*cpy_env)[i])
 		{
-			free_env(*cpy_env, i);
+			free_env(cpy_env, i);
 			return (return_error(1, "memory allocation error", 0, -1));
 		}
 		i++;

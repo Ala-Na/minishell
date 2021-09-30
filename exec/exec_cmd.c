@@ -94,9 +94,9 @@ int	execute_simple_cmd(t_infos *infos)
 		if (res == -1)
 			return (return_error(1, strerror(errno), 0, -1));
 		else if (WIFEXITED(wstatus))
-			return (return_value(WEXITSTATUS(wstatus), 0));
+			return (return_value(WEXITSTATUS(wstatus)));
 		else if (WIFSIGNALED(wstatus))
-			return (return_signal(WTERMSIG(wstatus), 0));
+			return (return_signal(WTERMSIG(wstatus)));
 	}
 	else
 		child_execution(infos, infos->lst_cmds);

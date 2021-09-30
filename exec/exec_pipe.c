@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/27 17:16:19 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/30 16:49:36 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/30 17:05:09 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,33 +86,6 @@ int	pipe_parent_fd_manipulation(t_infos *infos, t_cmd *cmd, int pipe_fd[2],
 }
 
 /*
-** Function to get next command in pipeline.
-** Returns NULL if the previous command was the last of the pipeline
-** or in case of error.
-*/
-t_cmd	*get_next_cmd(t_cmd *cmd)
-{
-	t_cmd	*next_cmd;
-
-	if (!cmd)
-	{
-		return_error(1, "something went wrong", 0, 0);
-		return (NULL);
-	}
-	next_cmd = cmd;
-	while (next_cmd)
-	{
-		if (next_cmd->next_operator == PIPE || next_cmd->next_operator == -1)
-			break ;
-		next_cmd = next_cmd->next;
-	}
-	if (next_cmd->next_operator == -1)
-		return (NULL);
-	next_cmd = next_cmd->next;
-	return (next_cmd);
-}
-
-/*
 ** Loop function for pipelines. It creates a pipe for each command and then
 ** fork. Command is executed in child.
 */
@@ -145,8 +118,6 @@ int	pipe_loop(t_infos *infos, t_cmd *cmd, int **child_pids, int i)
 	return (0);
 }
 
-
-
 /*
 ** Function to call when a command line contains at least 1 pipe.
 ** Wait for all child_pids.
@@ -172,19 +143,5 @@ int	launch_pipes_cmds(t_infos *infos, t_cmd *cmd, int nbr_pipes)
 		free(child_pids);
 		return (-1);
 	}
-	i = 0;
-	while (i < nbr_pipes + 1)
-	{
-		if (child_pids[i] != 0)
-			res = waitpid(child_pids[i], &wstatus, 0);
-		if (res == -1)
-		{
-			free(child_pids);
-			return (return_error(1, strerror(errno), 0, -1));
-		}
-		i++;
-	}
-	return_pipeline(wstatus);
-	free(child_pids);
-	return (0);
+	return (wait_for_pipeline_childs(infos, nbr_pipes, &child_pids));
 }

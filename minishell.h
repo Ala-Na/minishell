@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 15:55:23 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/30 16:48:15 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/30 17:02:00 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -313,7 +313,6 @@ int			check_assignments(t_infos *infos, t_cmd *cmd);
 int			is_only_assignments(t_cmd *cmd);
 int			launch_simple_cmd(t_infos *infos, t_cmd *cmd, int from_pipe);
 int			assignments_management(t_infos *infos, t_cmd *cmd, t_token **exec_token);
-int			launch_pipes_cmds(t_infos *infos, t_cmd *cmd, int nbr_pipes);
 
 /*
 ** SIMPLE COMMAND EXECUTION
@@ -363,5 +362,12 @@ int			return_error(int exit_status, char *error_msg, int msg_is_alloc,
 int			return_value(int exit_status);
 int			return_signal(int signal_value);
 void		return_pipeline(int last_child_status);
+
+/*
+** PIPELINE
+*/
+int			launch_pipes_cmds(t_infos *infos, t_cmd *cmd, int nbr_pipes);
+int			wait_for_pipeline_childs(t_infos *infos, int nbr_pipes, pid_t **child_pids);
+t_cmd		*get_next_cmd(t_cmd *cmd);
 
 #endif

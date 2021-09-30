@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/22 17:28:50 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/30 15:14:50 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/30 17:06:36 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ int	launch_cmds(t_infos *infos)
 	int	nbr_pipes;
 
 	if (!infos)
-		return(return_error(1, "something went wrong", 0, -1));
+		return (return_error(1, "something went wrong", 0, -1));
 	nbr_pipes = check_if_pipes(infos);
 	if (nbr_pipes == -1)
 		return (return_error(1, "something went wrong", 0, -1));

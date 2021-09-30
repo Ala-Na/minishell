@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
+/*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/06 14:50:47 by hlichir           #+#    #+#             */
-/*   Updated: 2021/09/24 23:08:10 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/30 21:08:21 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,8 @@ int	show_current_dir(t_infos *infos, t_cmd *cmd)
 			return(return_error(1, "memory allocation error", 0, -1));
 		return (return_error(1, str, 1, -1));
 	}
-	cmd->output = ft_strjoin(str, "\n");
+	write(1, str, ft_strlen(str));
+	write(1, "\n", 1);
 	free(str);
-	if (!cmd->output)
-			return(return_error(1, "memory allocation error", 0, -1));
 	return (0);
 }

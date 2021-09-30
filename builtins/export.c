@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
+/*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/01 21:56:08 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/24 22:56:04 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/30 20:53:50 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,8 +108,6 @@ int	sub_add_elem_to_env(t_infos *infos, t_token *new_elem,
 	i = 0;
 	if (!infos || !new_elem)
 		return (return_error(1, "something went wrong", 0, -1));
-	if (new_elem->type != ASSIGNMENT)
-		return (0);
 	elem_name = get_elem_name(new_elem->token, new_elem->length);
 	if (!elem_name)
 		return (-1);
@@ -150,7 +148,8 @@ int	add_elem_to_env(t_infos *infos, t_cmd *cmd)
 	{
 		while ((infos->env)[env_size])
 			env_size++;
-		if (tmp_res = sub_add_elem_to_env(infos, new_elem, env_size, &res) < 0)
+		tmp_res = sub_add_elem_to_env(infos, new_elem, env_size, &res);
+		if (tmp_res < 0)
 			return (-1);
 		if (new_elem == cmd->end)
 			break ;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
+/*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/07 12:14:01 by hlichir           #+#    #+#             */
-/*   Updated: 2021/09/30 13:49:44 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/30 20:43:15 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,9 @@ int	check_n_option(t_token *first)
 	i = 1;
 	if (!first || first->token[0] != '-')
 		return (0);
-	if (first->token[1] != 'n')
+	while (i < first->length && first->token[i] == 'n')
+		i++;
+	if (i != first->length)
 		return (0);
 	return (1);
 }
@@ -40,24 +42,32 @@ int	echo_builtin_loop(t_infos *infos, t_cmd *cmd, t_token *tmp, int i)
 	{
 		if (tmp->type == STRING && ++i)
 			tmp->length -= 2;
-		new = ft_strnjoin(cmd->output, &tmp->token[i], tmp->length);
-		free(cmd->output);
-		cmd->output = new;
-		if (!cmd->output)
-			return (return_error(1, "memory allocation error", 0, -1));
+		write(1, &tmp->token[i], tmp->length);
 		if (tmp == cmd->end)
 			break ;
 		tmp = tmp->next;
 		if (tmp)
-		{
-			new = ft_strjoin(cmd->output, " ");
-			free(cmd->output);
-			cmd->output = new;
-			if (!cmd->output)
-				return (return_error(1, "memory allocation error", 0, -1));
-		}
+			write(1, " ", 1);
 	}
 	return (0);
+}
+
+void	skip_n_option(t_token **tmp)
+{
+	int	i;
+
+	*tmp = (*tmp)->next;
+	i = 1;
+	while (*tmp)
+	{
+		if (!(*tmp) || (*tmp)->token[0] != '-')
+			break ;
+		while (i < (*tmp)->length && (*tmp)->token[i] == 'n')
+			i++;
+		if (i != (*tmp)->length)
+			break ;
+		*tmp = (*tmp)->next;
+	}
 }
 
 /*
@@ -78,18 +88,11 @@ int	echo_builtin(t_infos *infos, t_cmd *cmd)
 	tmp = cmd->start;
 	n_option = check_n_option(tmp);
 	if (n_option)
-		tmp = tmp->next;
-	cmd->output = ft_strdup("");
+		skip_n_option(&tmp);
 	if (echo_builtin_loop(infos, cmd, tmp, i) < 0)
 		return (-1);
 	if (n_option == 0)
-	{
-		new = ft_strjoin(cmd->output, "\n");
-		free(cmd->output);
-		cmd->output = new;
-	}
-	if (!cmd->output)
-		return (return_error(1, "malloc allocation error", 0, -1));
+		write(1, "\n", 1);
 	return (0);
 }
 
@@ -110,12 +113,3 @@ int	cmd_echo(t_infos *infos, t_cmd *cmd)
 	cmd->start = cmd->start->next;
 	return (echo_builtin(infos, cmd));
 }
-
-/* Main to test echo built in
-int	main(void)
-{
-	char *str = "echo -n					la deh					oehie 		,oej,de";
-	
-	echo_builtin(str, ft_strlen(str));
-	return (0);
-}*/

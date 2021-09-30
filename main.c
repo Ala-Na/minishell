@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
+/*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 14:58:07 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/30 17:49:16 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/09/30 21:09:34 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,6 @@ void	parse_and_execute(t_infos *infos)
 	final_cmd = infos->lst_cmds;
 	while (final_cmd->next)
 		final_cmd = final_cmd->next;
-	if (final_cmd->output)
-		printf("%s", final_cmd->output);
 }
 
 /*

@@ -3,52 +3,56 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
+/*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/15 17:18:48 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/24 22:39:44 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/30 21:07:09 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	join_for_export_env(t_cmd *cmd, char *to_add, int size)
-{
-	char	*fusion;
-
-	if (!cmd || !cmd->output || !to_add)
-		return (return_error(1, "something went wrong", 0, -1));
-	if (size)
-		fusion = ft_strnjoin(cmd->output, to_add, size);
-	else
-		fusion = ft_strjoin(cmd->output, to_add);
-	free(cmd->output);
-	if (!fusion)
-		return (return_error(1, "memory allocation error", 0, -1));
-	cmd->output = fusion;
-	return (0);
-}
-
 int	show_env_for_export(t_infos *infos, t_cmd *cmd, char **env, int i)
 {
 	int		j;
-	char	*tmp;
+	int		exist;
 
 	j = 0;
-	if (!infos || !env || !cmd || !cmd->output)
+	exist = 0;
+	if (!infos || !env || !cmd)
 		return (return_error(1, "something went wrong", 0, -1));
 	while (env[i][j])
 	{
 		if (env[i][j++] == '=')
+		{
+			exist = 1;
 			break ;
+		}
 	}
-	if (join_for_export_env(cmd, "declare -x ", 0) < 0
-			|| join_for_export_env(cmd, env[i], j) < 0
-			|| join_for_export_env(cmd, "\"", 0) < 0
-			|| join_for_export_env(cmd, &env[i][j], 0) < 0
-			|| join_for_export_env(cmd, "\"\n", 0) < 0)
-		return (-1);
+	write(1, "declare -x ", ft_strlen("declare -x "));
+	write(1, env[i], j);
+	if (exist)
+	{
+		write(1, "\"", 1);
+		write(1, &env[i][j], ft_strlen(env[i]) - j);
+		write(1, "\"", 1);
+	}
+	write(1, "\n", 1);
 	return (0);
+}
+
+int	check_for_assignment(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == '=')
+			return (1);
+		i++;
+	}
+	return (0); 
 }
 
 /*
@@ -56,11 +60,11 @@ int	show_env_for_export(t_infos *infos, t_cmd *cmd, char **env, int i)
 */
 int	show_env_loop(t_infos *infos, t_cmd *cmd, int export)
 {
-	int		i;
-	char	*tmp;
+	int	i;
+	int	exist;
 
 	i = 0;
-	if (!infos || !infos->env || !cmd || !cmd->output)
+	if (!infos || !infos->env || !cmd)
 		return (return_error(1, "something went wrong", 0, -1));
 	while ((infos->env)[i])
 	{
@@ -71,15 +75,12 @@ int	show_env_loop(t_infos *infos, t_cmd *cmd, int export)
 		}
 		else
 		{
-			tmp = ft_strnjoin(cmd->output, (infos->env)[i], \
-				ft_strlen((infos->env)[i]));
-			free(cmd->output);
-			if (!tmp)
-				return (return_error(1, "memory allocation error", 0, -1));
-			cmd->output = ft_strjoin(tmp, "\n");
-			free(tmp);
-			if (!cmd->output)
-				return (return_error(1, "memory allocation error", 0, -1));
+			exist = check_for_assignment((infos->env)[i]);
+			if (exist)
+			{
+				write(1, (infos->env)[i], ft_strlen((infos->env)[i]));
+				write(1, "\n", 1);
+			}
 		}
 		i++;
 	}
@@ -95,9 +96,6 @@ int	show_env(t_infos *infos, t_cmd *cmd, int export)
 {
 	if (!infos || !infos->env || !cmd)
 		return (return_error(1, "something went wrong", 0, -1));
-	cmd->output = ft_strdup("");
-	if (!cmd->output)
-		return (return_error(1, "memory allocation error", 0, -1));
 	if (!export && cmd->start != cmd->end)
 		return (return_error(127, "env : take no options or arguments", 0, -1));
 	if (show_env_loop(infos, cmd, export) < 0)

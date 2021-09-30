@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
+/*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 15:55:23 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/30 18:03:06 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/30 21:15:07 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,8 +103,6 @@ typedef struct s_cmd
 	t_operator		next_operator;
 	int				fd_input;
 	int				fd_output;
-	char			*input;
-	char			*output;
 	struct s_cmd	*prev;
 	struct s_cmd	*next;
 }	t_cmd;

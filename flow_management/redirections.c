@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
+/*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 12:59:47 by hlichir           #+#    #+#             */
-/*   Updated: 2021/09/30 17:52:35 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/09/30 20:31:20 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ int	add_input(t_cmd **cmd, t_cmd *curr)
 	if (curr->next_operator == LT_DBL && curr->next)
 	{
 		fd = extract_input_from_stdin(curr, 1);
-		if (fd < 0)
+		if (fd <= 0)
 			return (-1);
 		if (add_fd_to_cmd(cmd, fd, 0))
 			return (-1);		

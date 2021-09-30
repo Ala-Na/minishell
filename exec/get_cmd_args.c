@@ -66,7 +66,7 @@ int	sub_get_args(t_infos *infos, t_cmd *cmd, t_token *exec_token,
 		}
 		exec_token = exec_token->next;
 	}
-	(*exec_args[i]) = NULL;
+	(*exec_args)[i] = NULL;
 	return (0);
 }
 

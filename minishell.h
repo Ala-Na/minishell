@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 15:55:23 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/29 13:48:41 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/30 13:28:25 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -311,8 +311,9 @@ int			launch_cmds(t_infos *infos);
 int			check_if_pipes(t_infos *infos);
 int			check_assignments(t_infos *infos, t_cmd *cmd);
 int			is_only_assignments(t_cmd *cmd);
-int			launch_simple_cmd(t_infos *infos);
-int			launch_pipes_cmds(t_infos *infos, t_cmd *cmd, int prev_pipe[2], int nbr_pipes);
+int			launch_simple_cmd(t_infos *infos, t_cmd *cmd, int from_pipe);
+int			assignments_management(t_infos *infos, t_cmd *cmd, t_token **exec_token);
+int			launch_pipes_cmds(t_infos *infos, t_cmd *cmd, int nbr_pipes);
 
 /*
 ** SIMPLE COMMAND EXECUTION

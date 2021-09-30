@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   file_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
+/*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 15:22:22 by hlichir           #+#    #+#             */
-/*   Updated: 2021/09/30 17:19:41 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/09/30 22:34:49 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,5 +60,20 @@ int	check_file(char	*filename)
 		return (-1);
 	if (close(fd) < 0)
 		return (return_error(1, "Error while closing file", 0, -1));
+	return (0);
+}
+
+/*
+**	Sub-function of input_utils to fil tmp_file.
+*/
+int	fill_tmp_file(char **str, int fill_str, int *fd)
+{
+	if (fill_str)
+	{
+		*fd = open("tmp_file", O_RDWR | O_TRUNC | O_CREAT, S_IRWXG | S_IRWXU);
+		if (*fd < 0)
+			return (return_error(1, strerror(errno), 0, -1));
+		ft_putstr_fd(*str, *fd);
+	}
 	return (0);
 }

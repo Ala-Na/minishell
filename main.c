@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 14:58:07 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/30 21:09:34 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/09/30 22:44:42 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 void	clean_to_continue(t_infos *infos)
 {
 	char	*str;
-	
+
 	g_exit_status = -1;
 	if (infos->curr_cmd)
 		free(infos->curr_cmd);
@@ -47,7 +47,6 @@ void	clean_to_continue(t_infos *infos)
 ** First : Check if curr_cmd is only filled with blanks.
 ** If not, parsing is done. If parsing is correct, command is launched.
 ** The output is then printed.
-** WARNING : DELETE 2 LASTS LINES AFTER OUTPUT SUPPRESSED.
 */
 void	parse_and_execute(t_infos *infos)
 {

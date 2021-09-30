@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   redirect.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/27 16:36:41 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/30 12:08:37 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/30 21:41:50 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int main(int argc, char **argv, char **env)
+int	main(int argc, char **argv, char **env)
 {
 	char	*input_file = "main.c";
 	char	*output_file = "1";
@@ -24,7 +24,7 @@ int main(int argc, char **argv, char **env)
 	if (dup2(fd_input, 0) < 0)
 		printf("error\n");
 	dup2(fd_output, 1);
-	dup2(fd_ouput, 2);
+	dup2(fd_output, 2);
 	close(fd_input);
 	close(fd_output);
 	execve(cat, args, env);

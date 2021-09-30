@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 12:59:47 by hlichir           #+#    #+#             */
-/*   Updated: 2021/09/30 20:31:20 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/09/30 22:55:58 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	add_fd_to_cmd(t_cmd **cmd, int fd, int is_output)
 			if (close((*cmd)->fd_input) < 0)
 				return (return_error(1, strerror(errno), 0, -1));
 		}
-		(*cmd)->fd_input = fd;	
+		(*cmd)->fd_input = fd;
 	}
 	return (0);
 }
@@ -69,7 +69,7 @@ int	add_output(t_cmd **cmd, t_cmd *curr)
 		if (add_fd_to_cmd(cmd, fd, 1))
 			return (-1);
 	}
-	return(0);
+	return (0);
 }
 
 /*
@@ -83,7 +83,7 @@ int	add_output(t_cmd **cmd, t_cmd *curr)
 int	add_input(t_cmd **cmd, t_cmd *curr)
 {
 	int		fd;
-	
+
 	if (curr->next_operator == LT && curr->next)
 	{
 		fd = get_fd(curr);
@@ -98,10 +98,11 @@ int	add_input(t_cmd **cmd, t_cmd *curr)
 		if (fd <= 0)
 			return (-1);
 		if (add_fd_to_cmd(cmd, fd, 0))
-			return (-1);		
+			return (-1);
 	}
 	return (0);
 }
+
 /*
 ** Check all the command until it arrives at the end (next_operqtor = - 1)
 ** 	or encounters a pipe.
@@ -110,8 +111,8 @@ int	add_input(t_cmd **cmd, t_cmd *curr)
 int	add_redirections(t_cmd *cmd)
 {
 	t_cmd	*curr;
-	int		fd;	
-	
+	int		fd;
+
 	curr = cmd;
 	while (curr && curr->next_operator != -1 && curr->next_operator != PIPE)
 	{
@@ -127,5 +128,5 @@ int	add_redirections(t_cmd *cmd)
 	if (cmd->fd_input > 1)
 		if (dup2(cmd->fd_input, 0) < 0)
 			return (return_error(1, strerror(errno), 0, -1));
-	return(0);
+	return (0);
 }

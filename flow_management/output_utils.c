@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   output_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
+/*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 13:26:21 by hlichir           #+#    #+#             */
-/*   Updated: 2021/09/30 17:27:24 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/09/30 21:46:24 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 */
 int	create_new_file(t_cmd *curr)
 {
-	int 	fd;
+	int		fd;
 	char	*filename;
 
 	filename = extract_name_in_string(curr->next);
@@ -32,7 +32,6 @@ int	create_new_file(t_cmd *curr)
 	}
 	free(filename);
 	return (fd);
-
 }
 
 /*

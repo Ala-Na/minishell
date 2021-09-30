@@ -311,8 +311,9 @@ int			launch_cmds(t_infos *infos);
 int			check_if_pipes(t_infos *infos);
 int			check_assignments(t_infos *infos, t_cmd *cmd);
 int			is_only_assignments(t_cmd *cmd);
-int			launch_simple_cmd(t_infos *infos);
-int			launch_pipes_cmds(t_infos *infos, t_cmd *cmd, int prev_pipe[2], int nbr_pipes);
+int			launch_simple_cmd(t_infos *infos, t_cmd *cmd, int from_pipe);
+int			assignments_management(t_infos *infos, t_cmd *cmd, t_token **exec_token);
+int			launch_pipes_cmds(t_infos *infos, t_cmd *cmd, int nbr_pipes);
 
 /*
 ** SIMPLE COMMAND EXECUTION
@@ -364,7 +365,8 @@ int			copy_env(t_infos *infos, char **env, char ***cpy_env,
 */
 int			return_error(int exit_status, char *error_msg, int msg_is_alloc,
 				int return_value);
-int			return_value(int exit_status, int in_pipe);
-int			return_signal(int signal_value, int in_pipe);
+int			return_value(int exit_status);
+int			return_signal(int signal_value);
+void		return_pipeline(int last_child_status);
 
 #endif

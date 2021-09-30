@@ -6,20 +6,32 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/23 16:14:03 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/30 16:48:10 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/30 17:14:35 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
+/*
+** Function to set g_exit_status with value of pipeline.
+*/
 void	return_pipeline(int last_child_status)
 {
-	if (g_exit_status != 0 || last_child_status == 0)
+	if (last_child_status == 0)
 		return ;
 	if (WIFEXITED(last_child_status))
 		return_value(WEXITSTATUS(last_child_status));
 	else if (WIFSIGNALED(last_child_status))
 		return_signal(WIFSIGNALED(last_child_status));
+}
+
+/*
+** Function which call return_error but return NULL instead of return_value.
+*/
+char	*return_null_error(int exit_value, char *error_msg, int msg_is_alloc)
+{
+	return_error(exit_value, error_msg, msg_is_alloc, 0);
+	return (NULL);
 }
 
 /*

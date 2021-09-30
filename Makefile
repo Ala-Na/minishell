@@ -44,6 +44,8 @@ SRCS	= ./main.c \
 		  ./flow_management/file_utils.c \
 		  ./flow_management/input_utils.c \
 		  ./flow_management/output_utils.c
+		  ./exec/get_args_utils.c \
+		  ./exec/exec_pipe_utils.c 
 
 NAME = minishell
 

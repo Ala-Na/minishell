@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 14:58:07 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/28 15:02:20 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/30 17:49:16 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@
 */
 void	clean_to_continue(t_infos *infos)
 {
+	char	*str;
+	
 	g_exit_status = -1;
 	if (infos->curr_cmd)
 		free(infos->curr_cmd);
@@ -27,6 +29,14 @@ void	clean_to_continue(t_infos *infos)
 		free_cmd_list_from_extremity(&infos->lst_cmds, 0);
 	if (infos->lst_tokens)
 		free_token_list_from_extremity(&infos->lst_tokens, 0);
+	if (check_file("./tmp_file") == 0)
+	{
+		if (unlink("./tmp_file") < 0)
+		{
+			str = ft_strjoin("unlink : ", strerror(errno));
+			return_error(1, str, 1, -1);
+		}
+	}
 	infos->curr_cmd = NULL;
 	infos->prompt = NULL;
 	infos->lst_cmds = NULL;
@@ -49,9 +59,7 @@ void	parse_and_execute(t_infos *infos)
 	res = parse_cmd(infos);
 	if (res != 0)
 		return ;
-	check_input_redirections(infos);
 	launch_cmds(infos);
-	check_output_redirections(infos);
 	final_cmd = infos->lst_cmds;
 	while (final_cmd->next)
 		final_cmd = final_cmd->next;

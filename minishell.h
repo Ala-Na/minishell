@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 15:55:23 by anadege           #+#    #+#             */
 /*   Updated: 2021/09/30 18:03:06 by anadege          ###   ########.fr       */
@@ -330,17 +330,22 @@ int			add_tmp_file_to_args(char ***exec_args);
 /*
 ** REDIRECTIONS
 */
-int			check_input_redirections(t_infos *infos);
-int			check_output_redirections(t_infos *infos);
-int			handle_multiple_redirections(t_infos *infos, t_cmd **cmd);
-int			single_right_redirect(t_infos *infos, t_cmd *cmd);
-int			double_right_redirect(t_infos *infos, t_cmd *cmd);
-int			single_left_redirect(t_infos *infos, t_cmd *cmd, t_cmd *cmd_next);
-int			double_left_redirect(t_infos *infos, t_cmd *cmd, t_cmd *cmd_next);
-int			check_if_end(char **str, char *end, char c, int i);
-int			extract_file(int fd, t_cmd *cmd);
-int			file_error_input(t_cmd *cmd, char *str);
+
+int			add_redirections(t_cmd *cmd);
+int			add_input(t_cmd **cmd, t_cmd *curr);
+int			add_output(t_cmd **cmd, t_cmd *curr);
+int			add_fd_to_cmd(t_cmd **cmd, int fd, int is_output);
 char		*extract_name_in_string(t_cmd *cmd);
+int			file_error_input(char *filename, char **tmp);
+int			check_file(char	*filename);
+int			append_to_file(t_cmd *curr);
+int			create_new_file(t_cmd *curr);
+int			extract_input_from_stdin(t_cmd *curr, int fill_str);
+int			create_tmp_file(t_cmd *curr, char *end_str, char *str, \
+				int fill_str);
+int			check_if_end(char **str, char *end, char c, int i);
+int 		get_fd(t_cmd *curr);
+int			display_next_lt_dbl(t_cmd *cmd);
 
 /*
 ** MANAGEMENT OF ENV FOR EXECUTION

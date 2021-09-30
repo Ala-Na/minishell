@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 15:56:39 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/28 14:56:34 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/30 17:19:47 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,20 +37,14 @@ char	*reconstitute_absolute_path(char *env_var, char *filepath)
 	char	*tmp;
 
 	if (!env_var || !filepath)
-	{
-		return_error(1, "something went wrong", 0, 0);
-		return (NULL);
-	}
+		return (return_null_error(1, "something went wrong", 0));
 	tmp = ft_strjoin(env_var, "/");
 	if (!tmp)
-	{
-		return_error(1, "memory allocation error", 0, 0);
-		return (NULL);
-	}
+		return (return_null_error(1, "memory allocation error", 0));
 	path = ft_strjoin(tmp, filepath);
 	free(tmp);
 	if (!path)
-		return_error(1, "memory allocation error", 0, 0);
+		return (return_null_error(1, "memory allocation error", 0));
 	return (path);
 }
 
@@ -69,10 +63,7 @@ char	*get_absolute_path_from_path(char *filepath, char *env_var)
 	i = 0;
 	paths = ft_split(env_var, ':');
 	if (!paths)
-	{
-		return_error(1, "memory allocation error", 0, 0);
-		return (NULL);
-	}
+		return (return_null_error(1, "memory allocation error", 0));
 	while (paths[i])
 	{
 		path = reconstitute_absolute_path(paths[i], filepath);
@@ -102,18 +93,12 @@ char	*get_absolute_path(char *filepath, char **env, char in_home)
 	char	*tmp;
 
 	if (!filepath || !env)
-	{
-		return_error(1, "something went wrong", 0, 0);
-		return (NULL);
-	}
+		return (return_null_error(1, "something went wrong", 0));
 	if (in_home)
 	{
 		env_var = get_env_elem(env, "HOME");
 		if (!env_var)
-		{
-			return_error(1, "variable $HOME missing", 0, 0);
-			return (NULL);
-		}
+			return (return_null_error(1, "variable $HOME missing", 0));
 		path = env_var;
 		if (ft_strlen(filepath) > 2)
 			path = reconstitute_absolute_path(env_var, &filepath[2]);
@@ -121,10 +106,7 @@ char	*get_absolute_path(char *filepath, char **env, char in_home)
 	}
 	env_var = get_env_elem(env, "PATH");
 	if (!env_var)
-	{
-		return_error(1, "variable $PATH missing", 0, 0);
-		return (NULL);
-	}
+		return (return_null_error(1, "variable $PATH missing", 0));
 	return (get_absolute_path_from_path(filepath, env_var));
 }
 
@@ -142,10 +124,7 @@ char	*get_path(char *filepath, char **env)
 
 	path = filepath;
 	if (!path || !env)
-	{
-		return_error(1, "something went wrong", 0, 0);
-		return (NULL);
-	}
+		return (return_null_error(1, "something went wrong", 0));
 	res = is_absolute_path(filepath);
 	if (res == 2)
 		path = get_absolute_path(filepath, env, 1);

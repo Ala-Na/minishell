@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 15:00:10 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/30 13:26:37 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/30 18:04:26 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 /*
 ** Function to free arguments of execve command, previously set.
 */
-void	free_child_exec_var(t_infos *infos, char **exec_path, char ***exec_env,
-			char ***exec_args)
+void	free_child_exec_var_and_exit(t_infos *infos, char **exec_path,
+			char ***exec_env, char ***exec_args)
 {
 	if (exec_path && *exec_path)
 		free(*exec_path);
@@ -24,6 +24,7 @@ void	free_child_exec_var(t_infos *infos, char **exec_path, char ***exec_env,
 		free_env(exec_env, -1);
 	if (exec_args && *exec_args)
 		free_env(exec_args, -1);
+	exit(g_exit_status);
 }
 
 /*
@@ -46,24 +47,16 @@ void	child_execution(t_infos *infos, t_cmd *exec_cmd)
 	}
 	exec_path = get_exec_path(infos, exec_cmd, &exec_env, &exec_token);
 	if (!exec_path || !exec_env)
-	{
-		free_child_exec_var(infos, NULL, &exec_env, NULL);
-		exit(g_exit_status);
-	}
+		free_child_exec_var_and_exit(infos, NULL, &exec_env, NULL);
 	exec_args = get_exec_args(infos, exec_cmd, exec_token);
 	if (!exec_args)
-	{
-		free_child_exec_var(infos, &exec_path, &exec_env, NULL);
-		exit(g_exit_status);
-	}
+		free_child_exec_var_and_exit(infos, &exec_path, &exec_env, NULL);
 	else if (execve(exec_path, exec_args, exec_env) == -1)
 	{
-		free_child_exec_var(infos, &exec_path, &exec_env, &exec_args);
 		return_error(126, strerror(errno), 0, 0);
-		exit(g_exit_status);
+		free_child_exec_var_and_exit(infos, &exec_path, &exec_env, &exec_args);
 	}
-	free_child_exec_var(infos, &exec_path, &exec_env, &exec_args);
-	exit(g_exit_status);
+	free_child_exec_var_and_exit(infos, &exec_path, &exec_env, &exec_args);
 }
 
 /*
@@ -85,17 +78,19 @@ int	execute_simple_cmd(t_infos *infos)
 	{
 		res = waitpid(child_pid, &wstatus, 0);
 		if (infos->lst_cmds->input)
+		{
 			if (unlink("./tmp_file") < 0)
 			{
 				str = ft_strjoin("unlink : ", strerror(errno));
 				return (return_error(1, str, 1, -1));
 			}
+		}
 		if (res == -1)
 			return (return_error(1, strerror(errno), 0, -1));
 		else if (WIFEXITED(wstatus))
-			return (return_value(WEXITSTATUS(wstatus), 0));
+			return (return_value(WEXITSTATUS(wstatus)));
 		else if (WIFSIGNALED(wstatus))
-			return (return_signal(WTERMSIG(wstatus), 0));
+			return (return_signal(WTERMSIG(wstatus)));
 	}
 	else
 		child_execution(infos, infos->lst_cmds);

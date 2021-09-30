@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 15:55:23 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/30 17:02:00 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/30 18:03:06 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -347,7 +347,7 @@ char		*extract_name_in_string(t_cmd *cmd);
 */
 int			add_elem_to_exec_env(t_infos *infos, char ***exec_env,
 				t_token *new_elem);
-void		free_child_exec_var(t_infos *infos, char **exec_path,
+void		free_child_exec_var_and_exit(t_infos *infos, char **exec_path,
 				char ***exec_env, char ***exec_args);
 void		child_execution(t_infos *infos, t_cmd *exec_cmd);
 int			get_exec_env_diff_size(t_infos *infos, t_cmd *cmd, int *modif);
@@ -359,6 +359,7 @@ int			copy_env(t_infos *infos, char **env, char ***cpy_env,
 */
 int			return_error(int exit_status, char *error_msg, int msg_is_alloc,
 				int return_value);
+char		*return_null_error(int exit_status, char *error_msg, int msg_is_alloc);
 int			return_value(int exit_status);
 int			return_signal(int signal_value);
 void		return_pipeline(int last_child_status);

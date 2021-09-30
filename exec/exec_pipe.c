@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/27 17:16:19 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/29 21:00:37 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/30 13:19:26 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,21 +19,23 @@
 /*
 **
 */
-void	pipe_loop(t_infos *infos, t_cmd *cmd, int prev_pipe[2], int **child_pids, int i)
+void	pipe_loop(t_infos *infos, t_cmd *cmd, int **child_pids)
 {
+	int		i;
 	int		new_pid;
 	int		pipe_fd[2];
 	int		wstatus;
 	int		res;
 	int		prev_fd[2];
 
-	prev_fd[READ_SIDE] = UNSET;
-	prev_fd[WRITE_SIDE] = UNSET;
 	if (!infos || !cmd)
 	{
 		return_error(1, "something went wrong", 0, 0);
 		exit(g_exit_status);
 	}
+	i = 0;
+	prev_fd[READ_SIDE] = UNSET;
+	prev_fd[WRITE_SIDE] = UNSET;
 	while (cmd)
 	{
 		if (pipe(pipe_fd) == -1)
@@ -61,7 +63,9 @@ void	pipe_loop(t_infos *infos, t_cmd *cmd, int prev_pipe[2], int **child_pids, i
 				dup2(pipe_fd[WRITE_SIDE], STDOUT_FILENO);
 				close(pipe_fd[WRITE_SIDE]);
 			}
-			child_execution(infos, cmd);
+			res = launch_simple_cmd(infos, cmd, 1);
+			exit(res);
+			i++;
 		}
 		else
 		{
@@ -79,7 +83,6 @@ void	pipe_loop(t_infos *infos, t_cmd *cmd, int prev_pipe[2], int **child_pids, i
 				prev_fd[WRITE_SIDE] = pipe_fd[WRITE_SIDE];
 			}
 			cmd = cmd->next;
-			i++;
 		}
 	}
 }
@@ -89,7 +92,7 @@ void	pipe_loop(t_infos *infos, t_cmd *cmd, int prev_pipe[2], int **child_pids, i
 ** Assignments are skipped.
 ** WARNING : ONLY WORK FOR CMDS WITH ONLY PIPES
 */
-int	launch_pipes_cmds(t_infos *infos, t_cmd *cmd, int prev_pipe[2], int nbr_pipes)
+int	launch_pipes_cmds(t_infos *infos, t_cmd *cmd, int nbr_pipes)
 {
 	int		res;
 	int		wstatus;
@@ -102,7 +105,7 @@ int	launch_pipes_cmds(t_infos *infos, t_cmd *cmd, int prev_pipe[2], int nbr_pipe
 	i = 0;
 	while (i < nbr_pipes + 1)
 		child_pids[i++] = 0;
-	pipe_loop(infos, cmd, prev_pipe, &child_pids, 0);
+	pipe_loop(infos, cmd, &child_pids);
 	i = nbr_pipes;
 	while (i >= 0) 
 	{
@@ -110,5 +113,6 @@ int	launch_pipes_cmds(t_infos *infos, t_cmd *cmd, int prev_pipe[2], int nbr_pipe
 			res = waitpid(child_pids[i], &wstatus, 0);
 		i--;
 	}
+	free(child_pids);
 	return (wstatus);
 }

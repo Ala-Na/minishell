@@ -5,77 +5,127 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/09/20 14:13:23 by hlichir           #+#    #+#             */
-/*   Updated: 2021/09/23 17:11:23 by hlichir          ###   ########.fr       */
+/*   Created: 2021/09/30 12:59:47 by hlichir           #+#    #+#             */
+/*   Updated: 2021/09/30 17:52:35 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	check_output_redirections(t_infos *infos)
+/*
+** Add the correct fd to the cmd structure.
+** If a file is already in the structure (fs_input/outpur != -1), the prev
+**	file descriptor is closed.
+** Returns -1 if error on the close function or 0 if everthing is good.
+*/
+int	add_fd_to_cmd(t_cmd **cmd, int fd, int is_output)
 {
-	t_cmd	*cmd;
-
-	cmd = infos->lst_cmds;
-	while (cmd)
+	if (is_output)
 	{
-		if (cmd->next_operator == GT && cmd->next)
+		if ((*cmd)->fd_output > 1)
 		{
-			if (single_right_redirect(infos, cmd) < 0)
-				return (-1);
+			if (close((*cmd)->fd_output) < 0)
+				return (return_error(1, strerror(errno), 0, -1));
 		}
-		else if (cmd->next_operator == GT_DBL && cmd->next)
+		(*cmd)->fd_output = fd;
+	}
+	else
+	{
+		if ((*cmd)->fd_input > 1)
 		{
-			if (double_right_redirect(infos, cmd) < 0)
-				return (-1);
+			if (close((*cmd)->fd_input) < 0)
+				return (return_error(1, strerror(errno), 0, -1));
 		}
-		cmd = cmd->next;
+		(*cmd)->fd_input = fd;	
 	}
 	return (0);
 }
 
-int	check_input_redirections(t_infos *infos)
+/*
+** For all ">" create a new file & for all ">>" create or open a file on
+**	append mode.
+** Each time, store the fd in the command structure - at the end (only the last
+**	fd will be stored at the end of the function "add_redirections")
+**
+**	Returns -1 if error & 0 if everything is good.
+*/
+int	add_output(t_cmd **cmd, t_cmd *curr)
 {
-	t_cmd	*cmd;
+	int		fd;
 
-	cmd = infos->lst_cmds;
-	while (cmd)
+	if (curr->next_operator == GT && curr->next)
 	{
-		if ((cmd->next_operator == LT || cmd->next_operator == LT_DBL) \
-			&& cmd->next)
-		{
-			if (handle_multiple_redirections(infos, &cmd) < 0)
-				return (-1);
-		}
-		cmd = cmd->next;
+		fd = create_new_file(curr);
+		if (fd < 0)
+			return (-1);
+		if (add_fd_to_cmd(cmd, fd, 1))
+			return (-1);
+	}
+	else if (curr->next_operator == GT_DBL && curr->next)
+	{
+		fd = append_to_file(curr);
+		if (fd < 0)
+			return (-1);
+		if (add_fd_to_cmd(cmd, fd, 1))
+			return (-1);
+	}
+	return(0);
+}
+
+/*
+** For all "<" get the file descriptor of the file & for all "<<" create a
+**	a tmp_file to store the input.
+** Each time, store the fd in the command structure - at the end (only the last
+**	fd will be stored at the end of the function "add_redirections")
+**
+**	Returns -1 if error & 0 if everything is good.
+*/
+int	add_input(t_cmd **cmd, t_cmd *curr)
+{
+	int		fd;
+	
+	if (curr->next_operator == LT && curr->next)
+	{
+		fd = get_fd(curr);
+		if (fd < 0)
+			return (-1);
+		if (add_fd_to_cmd(cmd, fd, 0))
+			return (-1);
+	}
+	if (curr->next_operator == LT_DBL && curr->next)
+	{
+		fd = extract_input_from_stdin(curr, 1);
+		if (fd < 0)
+			return (-1);
+		if (add_fd_to_cmd(cmd, fd, 0))
+			return (-1);		
 	}
 	return (0);
 }
-
-int	handle_multiple_redirections(t_infos *infos, t_cmd **cmd)
+/*
+** Check all the command until it arrives at the end (next_operqtor = - 1)
+** 	or encounters a pipe.
+** If an error occurs -> returns -1	& 0 if everything is fine.
+*/
+int	add_redirections(t_cmd *cmd)
 {
-	t_cmd	*current;
-	t_cmd	*next_cmd;
-
-	current = *cmd;
-	next_cmd = (*cmd)->next;
-	while (next_cmd)
+	t_cmd	*curr;
+	int		fd;	
+	
+	curr = cmd;
+	while (curr && curr->next_operator != -1 && curr->next_operator != PIPE)
 	{
-		if (current->next_operator == LT)
-		{
-			if (single_left_redirect(infos, *cmd, next_cmd) < 0)
-				return (-1);
-		}
-		else if (current->next_operator == LT_DBL)
-		{
-			if (double_left_redirect(infos, *cmd, next_cmd) < 0)
-				return (-1);
-		}
-		else
-			break ;
-		current = current->next;
-		next_cmd = next_cmd->next;
+		if (add_input(&cmd, curr) < 0)
+			return (-1);
+		else if (add_output(&cmd, curr) < 0)
+			return (-1);
+		curr = curr->next;
 	}
-	*cmd = current;
-	return (0);
+	if (cmd->fd_output > 1)
+		if (dup2(cmd->fd_output, 1) < 0)
+			return (return_error(1, strerror(errno), 0, -1));
+	if (cmd->fd_input > 1)
+		if (dup2(cmd->fd_input, 0) < 0)
+			return (return_error(1, strerror(errno), 0, -1));
+	return(0);
 }

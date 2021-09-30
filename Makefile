@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+         #
+#    By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/08/23 15:04:29 by anadege           #+#    #+#              #
-#    Updated: 2021/09/29 10:05:53 by anadege          ###   ########.fr        #
+#    Updated: 2021/09/30 17:53:06 by hlichir          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,11 +39,11 @@ SRCS	= ./main.c \
 		  ./exec/check_builtin.c \
 		  ./exec/set_env_exec.c \
 		  ./exec/get_cmd_args.c \
-		  ./exec/input_as_args.c \
 		  ./exec/exec_pipe.c \
-		  ./flow_management/right_redirections.c \
-		  ./flow_management/left_redirections.c \
-		  ./flow_management/redirections.c 
+		  ./flow_management/redirections.c \
+		  ./flow_management/file_utils.c \
+		  ./flow_management/input_utils.c \
+		  ./flow_management/output_utils.c
 
 NAME = minishell
 
@@ -56,7 +56,7 @@ OBJS	= ${SRCS:.c=.o}
 LIB		= -L libft -lft -lreadline
 
 %.o: %.c
-			${CC} -g -o $@ -c $< 
+			${CC} -g -o $@ -c $<
 
 all:		${NAME}
 

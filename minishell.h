@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 15:55:23 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/30 22:11:12 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/09/30 23:24:16 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -227,7 +227,7 @@ int			modify_exit_value_variable(t_infos *infos, int new_value);
 ** MINISHELL INTIALIZATION
 */
 int			init_minishell(t_infos *infos, char **env);
-void		init_variables(int *i1, int *i2, int *ignore, int *dbl);
+void		init_variables(int *i1, int *i2);
 
 /*
 ** COMMAND LINE INTERPRETER
@@ -287,7 +287,8 @@ int			get_var(char *cmd, char **var, char **env, t_var *var_lst);
 void		sub_get_var(char **var, char *elem_name,
 				char **env, t_var *var_lst);
 void		add_var(t_infos *infos, char **new_cmd, int *i, int *j);
-void		get_cmd_with_var(t_infos *infos, int new_size);
+void		get_cmd_with_var(t_infos *infos, int new_size, int ignore, \
+				int dbl);
 
 /*
 ** SIGNALS HANDLER

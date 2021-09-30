@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 21:45:16 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/30 22:16:24 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/09/30 23:23:34 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,14 +95,12 @@ void	add_var(t_infos *infos, char **new_cmd, int *i, int *j)
 	}
 }
 
-void	get_cmd_with_var(t_infos *infos, int new_size)
+void	get_cmd_with_var(t_infos *infos, int new_size, int ignore, int dbl)
 {
 	int		i[2];
-	int		ignore;
 	char	*new_cmd;
-	int		dbl;
 
-	init_variables(&i[0], &i[1], &ignore, &dbl);
+	init_variables(&i[0], &i[1]);
 	new_cmd = malloc(sizeof(*new_cmd) * (new_size + 1));
 	if (!new_cmd)
 		return ;
@@ -148,5 +146,5 @@ void	expand_variables(t_infos *infos, int dbl, int ignore, int new_size)
 		i++;
 	}
 	new_size += i;
-	get_cmd_with_var(infos, new_size);
+	get_cmd_with_var(infos, new_size, 0, 0);
 }

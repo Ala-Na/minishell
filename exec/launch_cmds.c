@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/22 17:28:50 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/30 13:48:01 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/30 15:14:50 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,17 +52,16 @@ int	assignments_management(t_infos *infos, t_cmd *cmd, t_token **exec_token)
 int	launch_simple_cmd(t_infos *infos, t_cmd *cmd, int from_pipe)
 {
 	int			only_assignments;
-	t_token		*exec_token;
 	t_builtin	builtin;
 
 	if (!infos || !cmd || !cmd->start)
 		return (return_error(1, "something went wrong", 0, -1));
-	exec_token = cmd->start;
-	only_assignments = assignments_management(infos, cmd, &exec_token);
-	if (only_assignments != 0)
-		return (only_assignments);
-	cmd->start = exec_token;
-	builtin = check_builtin(exec_token->token);
+	only_assignments = assignments_management(infos, cmd, &cmd->start);
+	if (only_assignments == -1)
+		return (-1);
+	else if (only_assignments == 1)
+		return (0);
+	builtin = check_builtin(cmd->start->token);
 	if (builtin == -1)
 		return (-1);
 	else if (builtin != NONE)

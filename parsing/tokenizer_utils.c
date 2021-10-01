@@ -80,7 +80,6 @@ t_token	*init_new_token(t_token **tokens, char *cmd,
 		return (NULL);
 	}
 	new->type = identify_token_type(new->token, new->length);
-	printf("type is %i\n", new->type);
 	new->prev = NULL;
 	new->next = NULL;
 	if (!*tokens)

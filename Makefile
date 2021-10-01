@@ -6,7 +6,7 @@
 #    By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/08/23 15:04:29 by anadege           #+#    #+#              #
-#    Updated: 2021/10/01 10:27:13 by anadege          ###   ########.fr        #
+#    Updated: 2021/10/01 10:33:58 by anadege          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -65,6 +65,7 @@ all:		${NAME}
 ${NAME}:	${OBJS}
 			make -C libft
 			${CC} ${CFLAGS} -o ${NAME} ${OBJS} ${LIB}
+			@rm -f ${OBJS}
 
 clean:
 			@rm -f ${OBJS}

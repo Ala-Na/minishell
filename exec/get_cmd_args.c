@@ -6,21 +6,31 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/21 11:03:41 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/01 10:26:30 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/01 11:40:00 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
 /*
-** sub_function to check if the loop should continue for both "get_args_nbr"
-** & get_exec_args funcions.
+** Sub_function to check if the loop should continue for both "get_args_nbr"
+** and get_exec_args functions.
+** It returns 1 when the current cmd is the last of a pipeline, 0 if the current
+** token wasn't the last of a cmd and that more arguments need to be retrieved.
+** 
+** When the current token is the last of a command, 2 cases are possible :
+**  - It was the last token of the last command of a simple command or a 
+**    pipeline : 1 is returned directly.
+**  - It was the last token of a command inside a pipeline (the command end with
+**    a redirection operator), we'll move cmd and token pointers to seek the next
+**    valid token (which is not a redirection instruction) when returning to 
+**    sub_get_args.
 */
 int	get_arg_loop(t_cmd **cmd, t_token **curr_token)
 {
 	if (!*cmd || !*curr_token)
 		return (return_error(1, "something went wrong", 0, -1));
-	if (*curr_token == (*cmd)->end)
+	while (*curr_token == (*cmd)->end)
 	{
 		if ((*cmd)->next_operator == -1 || (*cmd)->next_operator == PIPE)
 			return (1);
@@ -31,6 +41,8 @@ int	get_arg_loop(t_cmd **cmd, t_token **curr_token)
 			{
 				*cmd = (*cmd)->next;
 				*curr_token = (*curr_token)->next->next;
+				if (*curr_token != (*cmd)->end)
+					return (0);
 			}
 		}
 	}

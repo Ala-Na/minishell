@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/01 21:57:01 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/30 21:59:19 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/01 16:18:27 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,10 +124,12 @@ int	unset_var(t_infos *infos, t_cmd *cmd)
 	if (!infos || !cmd || ft_strncmp(cmd->start->token,
 			"unset", cmd->start->length))
 		return (return_error(1, "something went wrong", 0, -1));
-	to_unset = cmd->start->next;
+	to_unset = NULL;
+	if (cmd->next_operator != PIPE)
+		to_unset = cmd->start->next;
 	while (to_unset)
 	{
-		if (check_validity_token(to_unset) < 0)
+		if (check_validity_token(to_unset, 0) < 0)
 			return (-1);
 		tmp_res = sub_unset_var(infos, to_unset);
 		if (tmp_res < 0)

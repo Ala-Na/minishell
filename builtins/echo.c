@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/07 12:14:01 by hlichir           #+#    #+#             */
-/*   Updated: 2021/10/01 11:59:24 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/01 15:48:49 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,6 @@ int	echo_builtin_loop(t_infos *infos, t_cmd *cmd, t_token *tmp, int i)
 
 	while (tmp)
 	{
-		if (tmp->type == STRING && ++i)
-			tmp->length -= 2;
 		if (tmp->type == OPERATOR)
 			break ;
 		write(cmd->fd_output, &tmp->token[i], tmp->length);

@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/01 21:56:08 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/30 20:53:50 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/01 17:09:24 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,24 +132,24 @@ int	sub_add_elem_to_env(t_infos *infos, t_token *new_elem,
 ** WARNING : Does not check for the conformity of the string new_elem.
 ** Must received &infos->env as first argument.
 */
-int	add_elem_to_env(t_infos *infos, t_cmd *cmd)
+int	add_elem_to_env(t_infos *infos, t_cmd *cmd, int env_size)
 {
 	t_token	*new_elem;
-	int		env_size;
-	int		tmp_res;
 	int		res;
 
 	if (!infos->env || !cmd || !cmd->start)
 		return (return_error(1, "something went wrong", 0, -1));
-	new_elem = cmd->start->next;
-	env_size = 0;
+	new_elem = NULL;
+	if (cmd->next_operator != PIPE)
+		new_elem = cmd->start->next;
 	res = -1;
 	while (new_elem)
 	{
+		if (check_validity_token(new_elem, 1) < 0)
+			return (-1);
 		while ((infos->env)[env_size])
 			env_size++;
-		tmp_res = sub_add_elem_to_env(infos, new_elem, env_size, &res);
-		if (tmp_res < 0)
+		if (sub_add_elem_to_env(infos, new_elem, env_size, &res) < 0)
 			return (-1);
 		if (new_elem == cmd->end)
 			break ;

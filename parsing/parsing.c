@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/07 14:43:01 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/28 14:39:08 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/30 22:58:06 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ int	parse_cmd(t_infos *infos)
 
 	syntax_error = 0;
 	error_pos = NULL;
-	expand_variables(infos);
+	expand_variables(infos, 0, 0, 0);
 	if (infos->curr_cmd[0] == 0 || !infos->curr_cmd)
 		return (parsing_error(syntax_error, error_pos));
 	infos->lst_tokens = tokenize_cmd(infos->curr_cmd, &syntax_error,

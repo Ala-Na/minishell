@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
+/*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 15:00:10 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/30 21:09:31 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/01 10:26:56 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,13 +39,9 @@ void	child_execution(t_infos *infos, t_cmd *exec_cmd)
 	char	**exec_env;
 	char	**exec_args;
 	t_token	*exec_token;
-	char	*str;
 
 	if (add_redirections(exec_cmd) < 0)
-	{
-		return_error(1, strerror(errno), 0, 0);
 		free_child_exec_var_and_exit(infos, NULL, NULL, NULL);
-	}
 	if (!infos || !exec_cmd)
 	{
 		return_error(1, "something went wrong", 0, 0);

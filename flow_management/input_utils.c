@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
+/*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 13:49:03 by hlichir           #+#    #+#             */
-/*   Updated: 2021/09/30 17:26:33 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/09/30 22:32:32 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	display_next_lt_dbl(t_cmd *cmd)
 ** If the file doesn't exist -> execute any "<<" left just for the display.
 ** Then returns -2 to the child execution for exit.
 */
-int get_fd(t_cmd *curr)
+int	get_fd(t_cmd *curr)
 {
 	int		fd;
 	char	*tmp;
@@ -93,12 +93,10 @@ int	check_if_end(char **str, char *end, char c, int i)
 **	fill_fd = 1.
 ** Returns the fd (or -1 if error) & 0 if fill_str = 0.
 */
-int	create_tmp_file(t_cmd *curr, char *end_str, char *str, int fill_str)
+int	create_tmp_file(char *end_str, char *str, int fill_str, int *fd)
 {
 	char	buffer[2];
-	int		fd;
 
-	fd = 0;
 	while (read(1, buffer, 1) > 0)
 	{
 		buffer[1] = 0;
@@ -112,18 +110,9 @@ int	create_tmp_file(t_cmd *curr, char *end_str, char *str, int fill_str)
 			break ;
 	}
 	free(end_str);
-	if (fill_str)
-	{
-		fd = open("tmp_file", O_RDWR | O_TRUNC | O_CREAT, S_IRWXG | S_IRWXU);
-		if (fd < 0)
-		{
-			free(str);
-			return (return_error(1, strerror(errno), 0, -1));
-		}
-		ft_putstr_fd(str, fd);
-	}
+	fill_tmp_file(&str, fill_str, fd);
 	free(str);
-	return (fd);
+	return (*fd);
 }
 
 /*
@@ -136,6 +125,7 @@ int	extract_input_from_stdin(t_cmd *curr, int fill_str)
 	char	*str;
 	int		fd;
 
+	fd = 0;
 	end_str = extract_name_in_string(curr->next);
 	if (!end_str)
 		return (return_error(1, "memory allocation error", 0, -1));
@@ -146,7 +136,7 @@ int	extract_input_from_stdin(t_cmd *curr, int fill_str)
 		return (return_error(1, "memory allocation error", 0, -1));
 	}
 	write(1, "> ", 2);
-	fd = create_tmp_file(curr, end_str, str, fill_str);
+	fd = create_tmp_file(end_str, str, fill_str, &fd);
 	if (fd < 0)
 		return (-1);
 	return (fd);

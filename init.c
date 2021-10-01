@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/02 11:52:56 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/24 11:55:33 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/30 23:28:38 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,4 +35,10 @@ int	init_minishell(t_infos *infos, char **env)
 	if (save_env(infos, env) == -1 || infos->env == NULL)
 		return (-1);
 	return (0);
+}
+
+void	init_variables(int *i1, int *i2)
+{
+	*i1 = 0;
+	*i2 = 0;
 }

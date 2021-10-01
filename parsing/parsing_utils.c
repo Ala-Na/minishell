@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
+/*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/07 14:43:01 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/28 14:42:50 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/30 21:11:27 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,12 @@ void	free_cmd_list_from_extremity(t_cmd **cmds, int end)
 			*cmds = (*cmds)->prev;
 		else
 			*cmds = (*cmds)->next;
-		if (to_free->output)
-			free(to_free->output);
-		if (to_free->input)
-			free(to_free->input);
+		if (to_free->fd_input > 1)
+			if (close(to_free->fd_input) < 0)
+				return_error(1, strerror(errno), 0, -1);
+		if (to_free->fd_output > 1)
+			if (close(to_free->fd_output) < 0)
+				return_error(1, strerror(errno), 0, -1);
 		free(to_free);
 	}
 }
@@ -94,8 +96,6 @@ t_cmd	*init_new_cmd(t_token *start, t_cmd **head_lst)
 	new->start = start;
 	new->end = start;
 	new->next_operator = -1;
-	new->input = NULL;
-	new->output = NULL;
 	new->next = NULL;
 	new->prev = NULL;
 	new->fd_input = 0;

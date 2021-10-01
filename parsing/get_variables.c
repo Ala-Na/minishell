@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 21:45:16 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/24 15:44:02 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/30 23:23:34 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,24 +95,18 @@ void	add_var(t_infos *infos, char **new_cmd, int *i, int *j)
 	}
 }
 
-void	get_cmd_with_var(t_infos *infos, int new_size)
+void	get_cmd_with_var(t_infos *infos, int new_size, int ignore, int dbl)
 {
 	int		i[2];
-	int		ignore;
 	char	*new_cmd;
-	int		var_size;
-	int		dbl;
 
-	i[0] = 0;
-	i[1] = 0;
-	ignore = 0;
-	dbl = 0;
+	init_variables(&i[0], &i[1]);
 	new_cmd = malloc(sizeof(*new_cmd) * (new_size + 1));
 	if (!new_cmd)
 		return ;
 	while (infos->curr_cmd[i[0]])
 	{
-		if (infos->curr_cmd[i[0]]== '"' && dbl == 0 && ignore == 0)
+		if (infos->curr_cmd[i[0]] == '"' && dbl == 0 && ignore == 0)
 			dbl = 1;
 		else if (infos->curr_cmd[i[0]] == '"' && dbl == 1 && ignore == 0)
 			dbl = 0;
@@ -130,18 +124,12 @@ void	get_cmd_with_var(t_infos *infos, int new_size)
 	infos->curr_cmd = new_cmd;
 }
 
-void	expand_variables(t_infos *infos)
+void	expand_variables(t_infos *infos, int dbl, int ignore, int new_size)
 {
 	int		i;
 	char	*var;
-	int		new_size;
-	int		ignore;
-	int		dbl;
 
 	i = 0;
-	new_size = 0;
-	ignore = 0;
-	dbl = 0;
 	while (infos->curr_cmd[i])
 	{
 		if (infos->curr_cmd[i] == '"' && dbl == 0 && ignore == 0)
@@ -158,24 +146,5 @@ void	expand_variables(t_infos *infos)
 		i++;
 	}
 	new_size += i;
-	get_cmd_with_var(infos, new_size);
+	get_cmd_with_var(infos, new_size, 0, 0);
 }
-
-/*
-// Main pour tester remplacement de variables
-int main(int argc, char **argv, char **env)
-{
-	t_infos	infos;
-
-	save_env(&infos, env);
-	infos.curr_cmd = ft_strdup("$'$PWD'=joli $HOME$lol\"$lol\"");
-	printf("old cmd : %s\n", infos.curr_cmd);
-	expand_variables(&infos);
-	printf("new cmd : %s\n", infos.curr_cmd);
-	free(infos.curr_cmd);
-	int i = 0;
-	while (infos.env[i])
-		free(infos.env[i++]);
-	free(infos.env);
-	return (0);
-*/

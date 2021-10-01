@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/02 14:46:17 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/30 23:19:05 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/01 12:02:53 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,8 @@ int	launch_builtin(t_infos *infos, t_cmd *cmd, t_builtin builtin)
 {
 	if (!infos || !cmd)
 		return (return_error(1, "something went wrong", 0, -1));
+	if (add_redirections(cmd, 0) < 0)
+		return (-1);
 	if (builtin == CD)
 		return (cmd_change_directory(infos, cmd));
 	else if (builtin == ECHO)

@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/15 17:18:48 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/30 23:11:15 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/01 12:04:07 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,15 +29,15 @@ int	show_env_for_export(t_infos *infos, t_cmd *cmd, char **env, int i)
 			break ;
 		}
 	}
-	write(1, "declare -x ", ft_strlen("declare -x "));
-	write(1, env[i], j);
+	write(cmd->fd_output, "declare -x ", ft_strlen("declare -x "));
+	write(cmd->fd_output, env[i], j);
 	if (exist)
 	{
-		write(1, "\"", 1);
-		write(1, &env[i][j], ft_strlen(env[i]) - j);
-		write(1, "\"", 1);
+		write(cmd->fd_output, "\"", 1);
+		write(cmd->fd_output, &env[i][j], ft_strlen(env[i]) - j);
+		write(cmd->fd_output, "\"", 1);
 	}
-	write(1, "\n", 1);
+	write(cmd->fd_output, "\n", 1);
 	return (0);
 }
 
@@ -61,9 +61,11 @@ int	check_for_assignment(char *str)
 int	show_env_loop(t_infos *infos, t_cmd *cmd, int export)
 {
 	int	i;
+	int	fd;
 	int	exist;
 
 	i = 0;
+	fd = cmd->fd_output;
 	if (!infos || !infos->env || !cmd)
 		return (return_error(1, "something went wrong", 0, -1));
 	while ((infos->env)[i])
@@ -78,8 +80,8 @@ int	show_env_loop(t_infos *infos, t_cmd *cmd, int export)
 			exist = check_for_assignment((infos->env)[i]);
 			if (exist)
 			{
-				write(1, (infos->env)[i], ft_strlen((infos->env)[i]));
-				write(1, "\n", 1);
+				write(fd, (infos->env)[i], ft_strlen((infos->env)[i]));
+				write(fd, "\n", 1);
 			}
 		}
 		i++;

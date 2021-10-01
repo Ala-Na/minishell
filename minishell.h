@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 15:55:23 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/30 23:24:16 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/01 12:02:31 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -334,7 +334,7 @@ int			add_tmp_file_to_args(char ***exec_args);
 ** REDIRECTIONS
 */
 
-int			add_redirections(t_cmd *cmd);
+int			add_redirections(t_cmd *cmd, int is_not_builtin);
 int			add_input(t_cmd **cmd, t_cmd *curr);
 int			add_output(t_cmd **cmd, t_cmd *curr);
 int			add_fd_to_cmd(t_cmd **cmd, int fd, int is_output);

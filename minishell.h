@@ -104,6 +104,7 @@ typedef struct s_cmd
 	t_operator		next_operator;
 	int				fd_input;
 	int				fd_output;
+	t_token			*redir;
 	struct s_cmd	*prev;
 	struct s_cmd	*next;
 }	t_cmd;

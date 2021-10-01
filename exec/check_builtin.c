@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/02 14:46:17 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/01 16:16:47 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/01 22:00:53 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,27 +16,24 @@
 ** Function to check that the first argument of the command line is a built in.
 ** Return the corresponding value of enum t_builtin.
 */
-t_builtin	check_builtin(char	*first_elem)
+t_builtin	check_builtin(char *first_elem)
 {
+	int	size;
+
 	if (!first_elem)
 		return (return_error(1, "something went wrong", 0, -1));
-	if (!ft_strncmp(first_elem, "echo", 4) && (first_elem[4] == ' '
-			|| first_elem[4] == '\t' || first_elem[4] == 0))
+	size = ft_strlen(first_elem);
+	if (!ft_strncmp(first_elem, "echo", size))
 		return (ECHO);
-	else if (!ft_strncmp(first_elem, "cd", 2) && (first_elem[2] == ' '
-			|| first_elem[2] == '\t' || first_elem[2] == 0))
+	else if (!ft_strncmp(first_elem, "cd", size))
 		return (CD);
-	else if (!ft_strncmp(first_elem, "pwd", 3) && (first_elem[3] == ' '
-			|| first_elem[3] == '\t' || first_elem[3] == 0))
+	else if (!ft_strncmp(first_elem, "pwd", size))
 		return (PWD);
-	else if (!ft_strncmp(first_elem, "export", 6) && (first_elem[6] == ' '
-			|| first_elem[6] == '\t' || first_elem[6] == 0))
+	else if (!ft_strncmp(first_elem, "export", size))
 		return (EXPORT);
-	else if (!ft_strncmp(first_elem, "unset", 5) && (first_elem[5] == ' '
-			|| first_elem[5] == '\t' || first_elem[5] == 0))
+	else if (!ft_strncmp(first_elem, "unset", size))
 		return (UNSET);
-	else if (!ft_strncmp(first_elem, "env", 3) && (first_elem[3] == ' '
-			|| first_elem[3] == '\t' || first_elem[3] == 0))
+	else if (!ft_strncmp(first_elem, "env", size))
 		return (ENV);
 	return (NONE);
 }

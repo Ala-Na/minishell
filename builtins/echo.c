@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/07 12:14:01 by hlichir           #+#    #+#             */
-/*   Updated: 2021/10/01 18:36:48 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/01 21:43:42 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,9 +111,8 @@ int	cmd_echo(t_infos *infos, t_cmd *cmd)
 	int		str_size;
 	char	*str_begin;
 
-	if (!infos || !cmd || !cmd->start
-		|| ft_strncmp(cmd->start->token, "echo", cmd->start->length))
+	if (!infos || !cmd || !cmd->start)
 		return (return_error(1, "something went wrong", 0, -1));
-	cmd->start = cmd->start->next;
+	move_to_next_token(&cmd->start, 1);
 	return (echo_builtin(infos, cmd));
 }

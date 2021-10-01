@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 17:30:12 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/01 20:19:52 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/01 22:00:14 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	get_args_nbr(t_cmd *first_cmd, t_token *exec_token, int nbr_args)
 	cmd = first_cmd;
 	if (curr_token == cmd->end)
 		return (1);
-	curr_token = curr_token->next;
+	move_to_next_token(&curr_token, 1);
 	while (cmd && curr_token)
 	{
 		nbr_args++;

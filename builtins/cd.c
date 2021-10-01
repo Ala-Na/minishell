@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/30 16:59:11 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/01 19:47:33 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/01 21:42:18 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,25 +21,28 @@
 ** Exit = 126 > command is found but not executable
 ** Exit = 1 Somehing went wrong (memory allocation error)
 */
-int	change_directory(t_infos *infos, char *new_dir_path)
+int	change_directory(t_infos *infos, char *new_dir_path, int is_alloc)
 {
 	char	*str;
 
 	if (!infos || !new_dir_path)
 	{
-		free(new_dir_path);
+		if (is_alloc && new_dir_path)
+			free(new_dir_path);
 		return (return_error(1, "something went wrong", 0, -1));
 	}
 	if (chdir(new_dir_path) == -1)
 	{
-		free(new_dir_path);
+		if (is_alloc)
+			free(new_dir_path);
 		str = strerror(errno);
 		str = ft_strjoin("cd : ", str);
 		if (!str)
 			return (return_error(1, "memory allocation error", 0, -1));
 		return (return_error(1, str, 1, -1));
 	}
-	free(new_dir_path);
+	if (is_alloc)
+		free(new_dir_path);
 	return (0);
 }
 
@@ -55,23 +58,23 @@ int	cmd_change_directory(t_infos *infos, t_cmd *cmd)
 	t_token	*curr;
 
 	i = -1;
-	if (!infos || !cmd
-		|| ft_strncmp(cmd->start->token, "cd", cmd->start->length))
+	if (!infos || !cmd)
 		return (return_error(1, "something went wrong", 0, -1));
-	if (cmd->start == cmd->end)
+	curr = cmd->start;
+	move_to_next_token(&curr, 0);
+	if (curr == cmd->end)
 	{
 		home_path = get_env_elem(infos->env, "HOME");
 		if (!home_path)
 			return (return_error(1, "cd: « HOME » not defined", 0, -1));
-		return (change_directory(infos, home_path));
+		return (change_directory(infos, home_path, 0));
 	}
-	curr = cmd->start->next;
-	while (curr && curr->linked_to_next)
-		curr = curr->next;
-	if (curr->next && curr->next != cmd->end)
+	curr = curr->next;
+	move_to_next_token(&curr, 0);
+	if (curr && curr->next && curr->next != cmd->end)
 		return (return_error(1, "cd: too many arguments", 0, -1));
-	home_path = ft_strdup_linked_string(cmd->start->next);
+	home_path = ft_strdup_linked_string(curr);
 	if (!home_path)
 		return (return_error(1, "memory allocation error", 0, -1));
-	return (change_directory(infos, home_path));
+	return (change_directory(infos, home_path, 1));
 }

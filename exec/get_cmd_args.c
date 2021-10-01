@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/21 11:03:41 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/01 20:13:04 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/01 22:00:05 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,7 +138,7 @@ char	*get_exec_path(t_infos *infos, t_cmd *cmd, char ***exec_env,
 	*exec_token = move_to_exec(infos, cmd, exec_env);
 	if (!*exec_token)
 		return (NULL);
-	path = ft_strndup((*exec_token)->token, (*exec_token)->length);
+	path = ft_strdup_linked_string(*exec_token);
 	if (!path)
 		return (return_null_error(1, "memory allocation error", 0));
 	full_path = get_path(path, *exec_env);

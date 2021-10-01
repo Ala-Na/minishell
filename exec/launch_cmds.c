@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/22 17:28:50 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/01 12:18:54 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/01 21:24:55 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ int	assignments_management(t_infos *infos, t_cmd *cmd, t_token **exec_token)
 int	launch_simple_cmd(t_infos *infos, t_cmd *cmd, int from_pipe)
 {
 	int			only_assignments;
+	char		*str;
 	t_builtin	builtin;
 
 	if (!infos || !cmd || !cmd->start)
@@ -61,7 +62,10 @@ int	launch_simple_cmd(t_infos *infos, t_cmd *cmd, int from_pipe)
 		return (-1);
 	else if (only_assignments == 1)
 		return (0);
-	builtin = check_builtin(cmd->start->token);
+	str = ft_strdup_linked_string(cmd->start);
+	if (!str)
+		return (return_error(1, "memory allocation error", 0, -1));
+	builtin = check_builtin(str);
 	if (builtin == -1)
 		return (-1);
 	else if (builtin != NONE)

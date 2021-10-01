@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/01 21:56:08 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/01 20:16:04 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/01 22:00:27 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,7 +141,8 @@ int	add_elem_to_env(t_infos *infos, t_cmd *cmd, int env_size)
 		return (return_error(1, "something went wrong", 0, -1));
 	new_elem = NULL;
 	if (cmd->next_operator != PIPE)
-		new_elem = cmd->start->next;
+		new_elem = cmd->start;
+	move_to_next_token(&new_elem, 1);
 	res = -1;
 	while (new_elem)
 	{
@@ -153,7 +154,7 @@ int	add_elem_to_env(t_infos *infos, t_cmd *cmd, int env_size)
 			return (-1);
 		if (new_elem == cmd->end)
 			break ;
-		move_to_next_token(&new_elem);
+		move_to_next_token(&new_elem, 1);
 	}
 	if (res == -1)
 		return (show_env(infos, cmd, 1));

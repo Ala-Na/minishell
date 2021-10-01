@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/15 17:18:48 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/01 19:47:35 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/01 22:00:31 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,9 +94,13 @@ int	show_env_loop(t_infos *infos, t_cmd *cmd, int export, int fd)
 */
 int	show_env(t_infos *infos, t_cmd *cmd, int export)
 {
+	t_token	*curr;
+
 	if (!infos || !infos->env || !cmd)
 		return (return_error(1, "something went wrong", 0, -1));
-	if (!export && cmd->start != cmd->end)
+	curr = cmd->start;
+	move_to_next_token(&curr, 0);
+	if (!export && curr != cmd->end)
 		return (return_error(127, "env : take no options or arguments", 0, -1));
 	if (show_env_loop(infos, cmd, export, cmd->fd_output) < 0)
 		return (-1);

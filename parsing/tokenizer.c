@@ -119,10 +119,10 @@ t_token	*check_cmd_extremity_is_not_operator(t_token **tokens,
 	last = *tokens;
 	if (first && first->type == OPERATOR && first->token[0] == '|')
 	{
-			*error_pos = first->token;
-			*syntax_error = -5;
-			free_token_list_from_extremity(&last, 0);
-			return (NULL);
+		*error_pos = first->token;
+		*syntax_error = -5;
+		free_token_list_from_extremity(&last, 0);
+		return (NULL);
 	}
 	while (last && last->next)
 		last = last->next;

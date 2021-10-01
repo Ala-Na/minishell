@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 15:56:39 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/30 21:33:19 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/01 15:03:01 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,8 +135,7 @@ char	*get_path(char *filepath, char **env)
 	str = ft_strjoin(filepath, " : command not found");
 	if (!str)
 		return_error(1, "memory allocation error", 0, 0);
-	return_error(127, str, 1, 0);
-	return (NULL);
+	return (return_null_error(127, str, 1));
 }
 
 /*

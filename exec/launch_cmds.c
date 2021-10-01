@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/22 17:28:50 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/01 10:38:08 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/01 12:18:54 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,6 @@ int	launch_simple_cmd(t_infos *infos, t_cmd *cmd, int from_pipe)
 		return (-1);
 	else if (only_assignments == 1)
 		return (0);
-	if (add_redirections(cmd) < 0)
-		return (-1);
 	builtin = check_builtin(cmd->start->token);
 	if (builtin == -1)
 		return (-1);

@@ -6,7 +6,7 @@
 #    By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/08/23 15:04:29 by anadege           #+#    #+#              #
-#    Updated: 2021/09/30 17:53:06 by hlichir          ###   ########.fr        #
+#    Updated: 2021/09/30 20:59:30 by anadege          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,7 +43,7 @@ SRCS	= ./main.c \
 		  ./flow_management/redirections.c \
 		  ./flow_management/file_utils.c \
 		  ./flow_management/input_utils.c \
-		  ./flow_management/output_utils.c
+		  ./flow_management/output_utils.c \
 		  ./exec/get_args_utils.c \
 		  ./exec/exec_pipe_utils.c 
 

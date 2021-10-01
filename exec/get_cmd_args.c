@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/21 11:03:41 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/30 18:08:06 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/30 21:21:51 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,9 +64,9 @@ int	sub_get_args(t_infos *infos, t_cmd *cmd, t_token *exec_token,
 			free_env(exec_args, i - 1);
 			return (-1);
 		}
-		exec_token = exec_token->next;
+		exec_token = (exec_token)->next;
 	}
-	(*exec_args[i]) = NULL;
+	(*exec_args)[i] = NULL;
 	return (0);
 }
 
@@ -92,8 +92,6 @@ char	**get_exec_args(t_infos *infos, t_cmd *first_cmd, t_token *exec_token)
 		return ((char **)return_null_error(1, "memory allocation error", 0));
 	cmd = first_cmd;
 	if (sub_get_args(infos, cmd, exec_token, &exec_args) == -1)
-		return (NULL);
-	if (check_add_input(infos, &exec_args, nbr_args) < 0)
 		return (NULL);
 	return (exec_args);
 }

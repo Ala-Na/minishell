@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 15:22:22 by hlichir           #+#    #+#             */
-/*   Updated: 2021/10/01 12:51:58 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/01 20:02:09 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,7 @@ char	*extract_name_in_string(t_cmd *cmd)
 	char	*name;
 	int		start_pos;
 
-	start_pos = 0;
-	if (cmd->start->type == STRING)
-		start_pos = 1;
-	name = ft_strndup(cmd->start->token + start_pos, cmd->start->length);
+	name = ft_strdup_linked_string(cmd->start);
 	if (!name)
 		return (NULL);
 	return (name);

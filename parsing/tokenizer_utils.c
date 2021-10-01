@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/05 14:12:00 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/01 14:19:23 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/01 20:06:56 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ t_token	*init_new_token(t_token **tokens, char *cmd,
 	new->type = identify_token_type(new->token, new->length);
 	new->prev = NULL;
 	new->next = NULL;
+	new->linked_to_next = NULL;
 	if (!*tokens)
 		return (new);
 	prev = *tokens;
@@ -124,8 +125,17 @@ void	strings_manipulation(t_token **tokens)
 	curr_token = *tokens;
 	while (curr_token)
 	{
-		if (curr_token->type == STRING)
+		if (curr_token->type != STRING)
 		{
+			if (curr_token->token[curr_token->length] && curr_token->next && \
+				ft_strchr("\"\'", curr_token->token[curr_token->length]))
+				curr_token->linked_to_next = curr_token->next;
+		}
+		else
+		{
+			if (curr_token->token[curr_token->length] && curr_token->next && \
+				!ft_strchr(" \n\t", curr_token->token[curr_token->length]))
+				curr_token->linked_to_next = curr_token->next;
 			curr_token->length -= 2;
 			curr_token->token = curr_token->token + 1;
 		}

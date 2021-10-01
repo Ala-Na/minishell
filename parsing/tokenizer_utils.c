@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/05 14:12:00 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/28 14:41:19 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/01 14:19:23 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ t_token	*init_new_token(t_token **tokens, char *cmd,
 		return (NULL);
 	}
 	new->type = identify_token_type(new->token, new->length);
+	printf("type is %i\n", new->type);
 	new->prev = NULL;
 	new->next = NULL;
 	if (!*tokens)
@@ -110,5 +111,25 @@ void	free_token_list_from_extremity(t_token **tokens, int end)
 		else
 			*tokens = (*tokens)->next;
 		free(to_free);
+	}
+}
+
+/*
+** Function which move pointer of string beginning and it's
+** size.
+*/
+void	strings_manipulation(t_token **tokens)
+{
+	t_token	*curr_token;
+
+	curr_token = *tokens;
+	while (curr_token)
+	{
+		if (curr_token->type == STRING)
+		{
+			curr_token->length -= 2;
+			curr_token->token = curr_token->token + 1;
+		}
+		curr_token = curr_token->next;
 	}
 }

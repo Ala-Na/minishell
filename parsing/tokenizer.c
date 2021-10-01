@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/05 14:12:00 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/28 14:40:02 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/01 14:23:51 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ int	check_operators_and_undefined_char(t_token *curr, t_token *prev,
 	i = 0;
 	if (!curr)
 		return (-1);
-	while (curr->type != STRING && curr->token[i])
+	while (curr->type != STRING && curr->token[i] && i < curr->length)
 	{
 		if (ft_strchr("\\;&()\n[]*", curr->token[i]))
 		{
@@ -133,6 +133,7 @@ t_token	*check_cmd_extremity_is_not_operator(t_token **tokens,
 		free_token_list_from_extremity(&last, 1);
 		return (NULL);
 	}
+	strings_manipulation(tokens);
 	return (*tokens);
 }
 

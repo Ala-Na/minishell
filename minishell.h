@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 15:55:23 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/01 12:49:07 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/01 14:13:58 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -196,6 +196,7 @@ void		free_var(t_var **var);
 int			sub_unset_var(t_infos *infos, t_token *to_unset);
 int			unset_var(t_infos *infos, t_cmd *cmd);
 int			check_validity_token(t_token *token);
+void		strings_manipulation(t_token **tokens);
 int			invalid_unset_token(t_token *token);
 int			add_not_existing_elem_to_env(char ***env, t_token *new_elem,
 				int env_size);

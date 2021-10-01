@@ -6,11 +6,58 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/02 11:52:56 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/30 23:28:38 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/01 13:39:27 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+/*
+** The two following functions initialize the variable "SHLVL" in the
+**	environement -> shows how many shells are launched.
+*/
+int	get_shell_nbr(char *str)
+{
+	int	i;
+	int	result;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == '=' && str[i + 1])
+			return (ft_atoi(str + i + 1));
+		i++;
+	}
+	return (0);
+}
+
+int	add_new_shlvl(t_infos *infos, char **env)
+{
+	t_token	*new_elem;
+	char	*str;
+	int		nb;
+
+	nb = seek_elem_pos(env, "SHLVL");
+	nb = get_shell_nbr(env[nb]) + 1;
+	str = ft_strjoin_free("SHLVL=", ft_itoa(nb), 0, 1);
+	if (!str)
+		return (-1);
+	new_elem = malloc(sizeof(t_token));
+	new_elem->type = ASSIGNMENT;
+	new_elem->token = ft_strdup(str);
+	if (!new_elem->token)
+	{
+		free(new_elem);
+		free(str);
+		return (-1);
+	}
+	free(str);
+	new_elem->length = ft_strlen(str);
+	nb = do_assignment(infos, new_elem);
+	free(new_elem->token);
+	free(new_elem);
+	return (nb);
+}
 
 /*
 ** Function to initialize minishell
@@ -33,6 +80,8 @@ int	init_minishell(t_infos *infos, char **env)
 	if (infos->fd_history == 0)
 		return (-1);
 	if (save_env(infos, env) == -1 || infos->env == NULL)
+		return (-1);
+	if (add_new_shlvl(infos, env) < 0)
 		return (-1);
 	return (0);
 }

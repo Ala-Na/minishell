@@ -6,7 +6,7 @@
 #    By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/08/23 15:04:29 by anadege           #+#    #+#              #
-#    Updated: 2021/10/01 10:33:58 by anadege          ###   ########.fr        #
+#    Updated: 2021/10/01 20:06:17 by hlichir          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,6 +18,7 @@ SRCS	= ./main.c \
 		  ./builtins/cd.c \
 		  ./builtins/env.c \
 		  ./builtins/export.c \
+		  ./builtins/export_utils.c \
 		  ./builtins/unset.c \
 		  ./builtins/unset_utils.c \
 		  ./builtins/echo.c \

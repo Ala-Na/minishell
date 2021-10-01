@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/02 14:46:17 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/01 12:02:53 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/01 16:16:47 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int	launch_builtin(t_infos *infos, t_cmd *cmd, t_builtin builtin)
 	else if (builtin == ENV)
 		return (show_env(infos, cmd, 0));
 	else if (builtin == EXPORT)
-		return (add_elem_to_env(infos, cmd));
+		return (add_elem_to_env(infos, cmd, 0));
 	else if (builtin == PWD)
 		return (show_current_dir(infos, cmd));
 	else if (builtin == UNSET)

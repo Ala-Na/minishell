@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/15 17:18:48 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/01 12:04:07 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/01 12:11:21 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,14 +58,12 @@ int	check_for_assignment(char *str)
 /*
 ** Loop function for show_env (thank you norminette)
 */
-int	show_env_loop(t_infos *infos, t_cmd *cmd, int export)
+int	show_env_loop(t_infos *infos, t_cmd *cmd, int export, int fd)
 {
 	int	i;
-	int	fd;
 	int	exist;
 
 	i = 0;
-	fd = cmd->fd_output;
 	if (!infos || !infos->env || !cmd)
 		return (return_error(1, "something went wrong", 0, -1));
 	while ((infos->env)[i])
@@ -100,7 +98,7 @@ int	show_env(t_infos *infos, t_cmd *cmd, int export)
 		return (return_error(1, "something went wrong", 0, -1));
 	if (!export && cmd->start != cmd->end)
 		return (return_error(127, "env : take no options or arguments", 0, -1));
-	if (show_env_loop(infos, cmd, export) < 0)
+	if (show_env_loop(infos, cmd, export, cmd->fd_output) < 0)
 		return (-1);
 	return (0);
 }

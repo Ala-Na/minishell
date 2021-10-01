@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 12:59:47 by hlichir           #+#    #+#             */
-/*   Updated: 2021/10/01 12:02:18 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/01 12:10:41 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,15 +125,11 @@ int	add_redirections(t_cmd *cmd, int is_not_builtin)
 	if (is_not_builtin)
 	{
 		if (cmd->fd_output > 1)
-		{
 			if (dup2(cmd->fd_output, 1) < 0)
 				return (return_error(1, strerror(errno), 0, -1));
-		}
 		if (cmd->fd_input > 1)
-		{
 			if (dup2(cmd->fd_input, 0) < 0)
 				return (return_error(1, strerror(errno), 0, -1));
-		}
 	}
 	return (0);
 }

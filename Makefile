@@ -65,7 +65,6 @@ all:		${NAME}
 ${NAME}:	${OBJS}
 			make -C libft
 			${CC} ${CFLAGS} -o ${NAME} ${OBJS} ${LIB}
-			@rm -f ${OBJS}
 
 clean:
 			@rm -f ${OBJS}

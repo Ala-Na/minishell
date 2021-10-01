@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/01 19:29:45 by hlichir           #+#    #+#             */
-/*   Updated: 2021/10/01 20:18:39 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/01 20:25:00 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ char	*ft_strdup_linked_string(t_token *token)
 */
 void	move_to_next_token(t_token **token)
 {
-	while (*token && (*token)->next->linked_to_next)
+	while (*token && (*token)->linked_to_next)
 		*token = (*token)->next;
 	*token = (*token)->next;
 }

@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/01 21:57:01 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/01 19:47:56 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/01 20:26:10 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,7 +136,7 @@ int	unset_var(t_infos *infos, t_cmd *cmd)
 			return (-1);
 		if (to_unset == cmd->end)
 			break ;
-		to_unset = to_unset->next;
+		move_to_next_token(&to_unset);
 	}
 	return (0);
 }

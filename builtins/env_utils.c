@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/15 17:18:48 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/30 21:07:09 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/09/30 23:11:15 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	check_for_assignment(char *str)
 			return (1);
 		i++;
 	}
-	return (0); 
+	return (0);
 }
 
 /*

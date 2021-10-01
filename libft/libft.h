@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
+/*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/12 22:06:44 by elanna            #+#    #+#             */
-/*   Updated: 2021/09/23 16:29:26 by anadege          ###   ########.fr       */
+/*   Updated: 2021/09/30 21:56:39 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,8 @@ char					*ft_strnjoin(char const *s1, char const *s2,
 							int length);
 size_t					ft_max(size_t n1, size_t n2);
 int						ft_isblanks(char *str);
-char					*ft_strjoin_free(char *s1, char *s2, int free_s1, int free_s2);
+char					*ft_strjoin_free(char *s1, char *s2, int free_s1, \
+							int free_s2);
 
 /*
 ** Following : All prototypes functions for get_next_line-like.

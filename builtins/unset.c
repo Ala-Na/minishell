@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/01 21:57:01 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/30 21:09:07 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/09/30 21:59:19 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,9 +87,7 @@ int	delete_elem_from_var_lst(t_var **var_lst, char *elem_name)
 				prev_var->next = curr_var->next;
 			tmp_var = curr_var;
 			curr_var = curr_var->next;
-			free(tmp_var->name);
-			free(tmp_var->value);
-			free(tmp_var);
+			free_var(&tmp_var);
 			return (0);
 		}
 		prev_var = curr_var;

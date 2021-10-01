@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 15:55:23 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/30 21:15:07 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/09/30 23:24:16 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -192,6 +192,7 @@ int			show_current_dir(t_infos *infos, t_cmd *cmd);
 int			fill_env_with_deletion(char ***env, int elem_pos, int env_size);
 int			delete_elem_from_env(char ***env, char *elem);
 int			delete_elem_from_var_lst(t_var **var_lst, char *elem_name);
+void		free_var(t_var **var);
 int			sub_unset_var(t_infos *infos, t_token *to_unset);
 int			unset_var(t_infos *infos, t_cmd *cmd);
 int			check_validity_token(t_token *token);
@@ -226,6 +227,7 @@ int			modify_exit_value_variable(t_infos *infos, int new_value);
 ** MINISHELL INTIALIZATION
 */
 int			init_minishell(t_infos *infos, char **env);
+void		init_variables(int *i1, int *i2);
 
 /*
 ** COMMAND LINE INTERPRETER
@@ -279,12 +281,14 @@ t_builtin	check_builtin(char *first_elem);
 /*
 ** REPLACE VARIABLES
 */
-void		expand_variables(t_infos *infos);
+void		expand_variables(t_infos *infos, int dbl, int ignore, \
+				int new_size);
 int			get_var(char *cmd, char **var, char **env, t_var *var_lst);
 void		sub_get_var(char **var, char *elem_name,
 				char **env, t_var *var_lst);
 void		add_var(t_infos *infos, char **new_cmd, int *i, int *j);
-void		get_cmd_with_var(t_infos *infos, int new_size);
+void		get_cmd_with_var(t_infos *infos, int new_size, int ignore, \
+				int dbl);
 
 /*
 ** SIGNALS HANDLER
@@ -310,7 +314,8 @@ int			check_if_pipes(t_infos *infos);
 int			check_assignments(t_infos *infos, t_cmd *cmd);
 int			is_only_assignments(t_cmd *cmd);
 int			launch_simple_cmd(t_infos *infos, t_cmd *cmd, int from_pipe);
-int			assignments_management(t_infos *infos, t_cmd *cmd, t_token **exec_token);
+int			assignments_management(t_infos *infos, t_cmd *cmd, \
+				t_token **exec_token);
 
 /*
 ** SIMPLE COMMAND EXECUTION
@@ -339,10 +344,10 @@ int			check_file(char	*filename);
 int			append_to_file(t_cmd *curr);
 int			create_new_file(t_cmd *curr);
 int			extract_input_from_stdin(t_cmd *curr, int fill_str);
-int			create_tmp_file(t_cmd *curr, char *end_str, char *str, \
-				int fill_str);
+int			create_tmp_file(char *end_str, char *str, int fill_str, int *fd);
+int			fill_tmp_file(char **str, int fill_str, int *fd);
 int			check_if_end(char **str, char *end, char c, int i);
-int 		get_fd(t_cmd *curr);
+int			get_fd(t_cmd *curr);
 int			display_next_lt_dbl(t_cmd *cmd);
 
 /*
@@ -362,7 +367,8 @@ int			copy_env(t_infos *infos, char **env, char ***cpy_env,
 */
 int			return_error(int exit_status, char *error_msg, int msg_is_alloc,
 				int return_value);
-char		*return_null_error(int exit_status, char *error_msg, int msg_is_alloc);
+char		*return_null_error(int exit_status, char *error_msg, \
+				int msg_is_alloc);
 int			return_value(int exit_status);
 int			return_signal(int signal_value);
 void		return_pipeline(int last_child_status);
@@ -371,7 +377,8 @@ void		return_pipeline(int last_child_status);
 ** PIPELINE
 */
 int			launch_pipes_cmds(t_infos *infos, t_cmd *cmd, int nbr_pipes);
-int			wait_for_pipeline_childs(t_infos *infos, int nbr_pipes, pid_t **child_pids);
+int			wait_for_pipeline_childs(t_infos *infos, int nbr_pipes, \
+				pid_t **child_pids);
 t_cmd		*get_next_cmd(t_cmd *cmd);
 
 #endif

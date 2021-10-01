@@ -6,43 +6,59 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/31 15:39:01 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/30 20:51:03 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/01 20:14:24 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
 /*
+** Loop to browse all linked token to get the name.
+*/
+void	get_elem_name_loop(t_token *elem, char **elem_name, int fill_str)
+{
+	t_token	*curr;
+	int		i;
+	int		j;
+
+	i = 0;
+	j = 0;
+	curr = elem;
+	while (curr)
+	{
+		j = 0;
+		while (curr->token[j] != '=' && j < curr->length)
+		{
+			if (fill_str)
+				(*elem_name)[i] = curr->token[j];
+			i++;
+			j++;
+		}
+		if (j != curr->length || !curr->linked_to_next)
+			break ;
+		curr = curr->next;
+	}
+	if (fill_str)
+		(*elem_name)[i] = 0;
+	else
+		*elem_name = malloc(sizeof(**elem_name) * (i + 1));
+}
+
+/*
 ** Function which is useful to recuperate only the name of a variable
 ** from it's format "NAME=value".
 ** Returns NULL if an error occurs.
 */
-char	*get_elem_name(char *elem, int size)
+char	*get_elem_name(t_token *elem)
 {
 	char	*elem_name;
-	int		i;
 
-	i = 0;
 	if (!elem)
-	{
-		return_error(1, "something went wrong", 0, 0);
-		return (NULL);
-	}
-	while (elem[i] != '=' && i < size)
-		i++;
-	elem_name = malloc(sizeof(*elem_name) * (i + 1));
+		return (return_null_error(1, "something went wrong", 0));
+	get_elem_name_loop(elem, &elem_name, 0);
 	if (!elem_name)
-	{
-		return_error(1, "memory allocation error", 0, 0);
-		return (NULL);
-	}
-	i = 0;
-	while (elem[i] != '=' && i < size)
-	{
-		elem_name[i] = elem[i];
-		i++;
-	}
-	elem_name[i] = 0;
+		return (return_null_error(1, "something went wrong", 0));
+	get_elem_name_loop(elem, &elem_name, 1);
 	return (elem_name);
 }
 

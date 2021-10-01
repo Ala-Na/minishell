@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
+/*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/30 16:59:11 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/24 21:36:24 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/01 19:47:33 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,15 +26,20 @@ int	change_directory(t_infos *infos, char *new_dir_path)
 	char	*str;
 
 	if (!infos || !new_dir_path)
+	{
+		free(new_dir_path);
 		return (return_error(1, "something went wrong", 0, -1));
+	}
 	if (chdir(new_dir_path) == -1)
 	{
+		free(new_dir_path);
 		str = strerror(errno);
 		str = ft_strjoin("cd : ", str);
 		if (!str)
 			return (return_error(1, "memory allocation error", 0, -1));
 		return (return_error(1, str, 1, -1));
 	}
+	free(new_dir_path);
 	return (0);
 }
 
@@ -47,7 +52,7 @@ int	cmd_change_directory(t_infos *infos, t_cmd *cmd)
 {
 	int		i;
 	char	*home_path;
-	char	dir_path[4097];
+	t_token	*curr;
 
 	i = -1;
 	if (!infos || !cmd
@@ -60,10 +65,13 @@ int	cmd_change_directory(t_infos *infos, t_cmd *cmd)
 			return (return_error(1, "cd: « HOME » not defined", 0, -1));
 		return (change_directory(infos, home_path));
 	}
-	if (cmd->start->next && cmd->start->next != cmd->end)
+	curr = cmd->start->next;
+	while (curr && curr->linked_to_next)
+		curr = curr->next;
+	if (curr->next && curr->next != cmd->end)
 		return (return_error(1, "cd: too many arguments", 0, -1));
-	while (++i < cmd->end->length && i < 4097)
-		dir_path[i] = cmd->end->token[i];
-	dir_path[i] = 0;
-	return (change_directory(infos, dir_path));
+	home_path = ft_strdup_linked_string(cmd->start->next);
+	if (!home_path)
+		return (return_error(1, "memory allocation error", 0, -1));
+	return (change_directory(infos, home_path));
 }

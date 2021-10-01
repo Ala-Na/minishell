@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/01 21:57:01 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/01 16:18:27 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/01 19:47:56 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ int	sub_unset_var(t_infos *infos, t_token *to_unset)
 	tmp_res = -1;
 	if (!infos || !to_unset)
 		return (return_error(1, "something went wrong", 0, -1));
-	elem_name = get_elem_name(to_unset->token, to_unset->length);
+	elem_name = get_elem_name(to_unset);
 	if (elem_name && get_env_elem(infos->env, elem_name))
 		tmp_res = delete_elem_from_env(&infos->env, elem_name);
 	else if (elem_name)

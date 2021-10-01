@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/01 21:56:08 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/01 17:09:24 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/01 20:16:04 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	add_not_existing_elem_to_env(char ***env, t_token *new_elem, int env_size)
 		if ((*env)[j])
 			tmp_env[j] = (*env)[j];
 		else
-			tmp_env[j] = ft_strndup(new_elem->token, new_elem->length);
+			tmp_env[j] = ft_strdup_linked_string(new_elem);
 		if (!tmp_env[j])
 		{
 			free(tmp_env);
@@ -90,7 +90,7 @@ int	modify_existing_elem_to_env(t_infos *infos, char **env, t_token *new_elem,
 	if (elem_pos < 0)
 		return (return_error(1, "something went wrong", 0, -1));
 	free(env[elem_pos]);
-	env[elem_pos] = ft_strndup(new_elem->token, new_elem->length);
+	env[elem_pos] = ft_strdup_linked_string(new_elem);
 	if (!env[elem_pos])
 		return (return_error(1, "memory allocation error", 0, -1));
 	return (0);
@@ -108,7 +108,7 @@ int	sub_add_elem_to_env(t_infos *infos, t_token *new_elem,
 	i = 0;
 	if (!infos || !new_elem)
 		return (return_error(1, "something went wrong", 0, -1));
-	elem_name = get_elem_name(new_elem->token, new_elem->length);
+	elem_name = get_elem_name(new_elem);
 	if (!elem_name)
 		return (-1);
 	delete_elem_from_var_lst(&infos->lst_var, elem_name);
@@ -153,7 +153,7 @@ int	add_elem_to_env(t_infos *infos, t_cmd *cmd, int env_size)
 			return (-1);
 		if (new_elem == cmd->end)
 			break ;
-		new_elem = new_elem->next;
+		move_to_next_token(&new_elem);
 	}
 	if (res == -1)
 		return (show_env(infos, cmd, 1));

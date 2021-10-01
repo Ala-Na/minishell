@@ -3,35 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   assignment.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
+/*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/13 16:06:44 by hlichir           #+#    #+#             */
-/*   Updated: 2021/09/30 17:20:45 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/01 20:13:21 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-/*
-** Function to free the linked list of variables if assignments were set!
-*/
-int	free_lst_var(t_infos *infos)
-{
-	t_var	*current;
-	t_var	*tmp;
-
-	current = infos->lst_var;
-	while (current)
-	{
-		tmp = current;
-		current = current->next;
-		free(tmp->name);
-		free(tmp->value);
-		free(tmp);
-	}
-	infos->lst_var = NULL;
-	return (0);
-}
 
 /*
 ** Function to extract the value of a variable assigned with '='
@@ -69,7 +48,7 @@ int	modify_var_in_list(t_infos *infos, char *str, int *check)
 	t_var	*current;
 	char	*tmp_name;
 
-	tmp_name = get_elem_name(str, ft_strlen(str));
+	tmp_name = extract_name(str, ft_strlen(str));
 	if (!tmp_name)
 		return (-1);
 	current = infos->lst_var;
@@ -107,7 +86,7 @@ int	add_new_var_to_list(t_infos *infos, char *str)
 	new = malloc(sizeof(t_var));
 	if (!new)
 		return (return_error(1, "memory allocation error", 0, -1));
-	new->name = get_elem_name(str, ft_strlen(str));
+	new->name = extract_name(str, ft_strlen(str));
 	if (!new->name)
 		return (-1);
 	new->value = get_elem_value(str);
@@ -125,6 +104,38 @@ int	add_new_var_to_list(t_infos *infos, char *str)
 }
 
 /*
+** Function to get all tokens linked together.
+*/
+void	get_string_loop(t_token *elem, char **str, int fill_str)
+{
+	t_token	*curr;
+	int		i;
+	int		j;
+
+	i = 0;
+	j = 0;
+	curr = elem;
+	while (curr)
+	{
+		j = 0;
+		while (j < curr->length)
+		{
+			if (fill_str)
+				(*str)[i] = curr->token[j];
+			i++;
+			j++;
+		}
+		if (!curr->linked_to_next)
+			break ;
+		curr = curr->next;
+	}
+	if (fill_str)
+		(*str)[i] = 0;
+	else
+		*str = malloc(sizeof(**str) * (i + 1));
+}
+
+/*
 ** Function that handle the assignation of a variable. Called when needed :
 ** Token type = ASSIGNMENT.
 */
@@ -136,15 +147,10 @@ int	assign_variable_to_list(t_infos *infos, t_token *current_token)
 
 	i = 0;
 	check = 0;
-	str = malloc(sizeof(char) * (current_token->length + 1));
+	get_string_loop(current_token, &str, 0);
 	if (!str)
 		return (return_error(1, "memory allocation error", 0, -1));
-	while (i < current_token->length)
-	{
-		str[i] = (current_token->token)[i];
-		i++;
-	}
-	str[i] = 0;
+	get_string_loop(current_token, &str, 1);
 	if (modify_var_in_list(infos, str, &check) < 0)
 		return (-1);
 	if (check == 0)

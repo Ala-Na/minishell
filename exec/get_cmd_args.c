@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/21 11:03:41 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/01 13:44:25 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/01 20:13:04 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,21 +62,17 @@ int	sub_get_args(t_infos *infos, t_cmd *cmd, t_token *exec_token,
 	i = 0;
 	while (cmd && exec_token)
 	{
-		(*exec_args)[i] = ft_strndup(exec_token->token, exec_token->length);
+		(*exec_args)[i] = ft_strdup_linked_string(exec_token);
 		if (!(*exec_args)[i++])
-		{
-			free_env(exec_args, i - 1);
-			return (return_error(1, "memory allocation error", 0, -1));
-		}
+			return (return_free_args(exec_args, i - 1, 1));
 		loop = get_arg_loop(&cmd, &exec_token);
 		if (loop > 0)
 			break ;
 		else if (loop < 0)
-		{
-			free_env(exec_args, i - 1);
-			return (-1);
-		}
+			return (return_free_args(exec_args, i - 1, 0));
 		exec_token = (exec_token)->next;
+		while (exec_token && exec_token->prev->linked_to_next)
+			exec_token = exec_token->next;
 	}
 	(*exec_args)[i] = NULL;
 	return (0);
@@ -96,7 +92,7 @@ char	**get_exec_args(t_infos *infos, t_cmd *first_cmd, t_token *exec_token)
 
 	if (!infos || !first_cmd || !exec_token)
 		return ((char **)return_null_error(1, "something went wrong", 0));
-	nbr_args = get_args_nbr(first_cmd, exec_token);
+	nbr_args = get_args_nbr(first_cmd, exec_token, 1);
 	if (nbr_args < 0)
 		return (NULL);
 	exec_args = malloc(sizeof(*exec_args) * (nbr_args + 1));

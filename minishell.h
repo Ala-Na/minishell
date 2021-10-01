@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 15:55:23 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/01 16:16:08 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/01 20:19:31 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ typedef struct s_token
 	t_tokentype		type;
 	struct s_token	*prev;
 	struct s_token	*next;
+	struct s_token	*linked_to_next;
 }	t_token;
 
 /*
@@ -205,8 +206,12 @@ int			modify_existing_elem_to_env(t_infos *infos, char **env,
 int			add_elem_to_env(t_infos *infos, t_cmd *cmd, int env_size);
 int			sub_add_elem_to_env(t_infos *infos, t_token *new_elem,
 				int env_size, int *ptr_res);
-char		*get_elem_name(char *elem, int size);
+char		*get_elem_name(t_token *elem);
+char		*extract_name(char *elem, int size);
 char		*get_env_elem(char **env, char *elem);
+void		get_string_loop(t_token *elem, char **str, int fill_str);
+char		*ft_strdup_linked_string(t_token *token);
+void		move_to_next_token(t_token **token);
 int			seek_elem_pos(char **env, char *elem_name);
 int			show_env(t_infos *infos, t_cmd *cmd, int export);
 int			show_env_for_export(t_infos *infos, t_cmd *cmd, char **env, int i);
@@ -325,8 +330,9 @@ int			execute_simple_cmd(t_infos *infos);
 char		*get_exec_path(t_infos *infos, t_cmd *cmd, char ***exec_env,
 				t_token **exec_token);
 t_token		*move_to_exec(t_infos *infos, t_cmd *cmd, char ***exec_env);
+int			return_free_args(char ***env, int i, int error_msg);
 char		**get_exec_args(t_infos *infos, t_cmd *cmd, t_token *exec_token);
-int			get_args_nbr(t_cmd *cmd, t_token *exec_token);
+int			get_args_nbr(t_cmd *cmd, t_token *exec_token, int nbr_args);
 int			get_arg_loop(t_cmd **cmd, t_token **curr_token);
 int			check_add_input(t_infos *infos, char ***exec_args, int nbr_args);
 int			add_tmp_file_to_args(char ***exec_args);

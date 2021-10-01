@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/07 12:14:01 by hlichir           #+#    #+#             */
-/*   Updated: 2021/10/01 15:48:49 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/01 18:36:48 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ int	echo_builtin_loop(t_infos *infos, t_cmd *cmd, t_token *tmp, int i)
 		if (tmp == cmd->end)
 			break ;
 		tmp = tmp->next;
+		if (tmp->prev->linked_to_next)
+			continue ;
 		if (tmp)
 			write(cmd->fd_output, " ", 1);
 	}

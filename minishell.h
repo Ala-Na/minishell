@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 15:55:23 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/01 21:53:30 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/01 21:38:29 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,7 +163,7 @@ void		add_line_to_history(int history_fd, char *str);
 ** BUILT IN CD
 ** WARNING : Doesn't check if the path is correctly formated.
 */
-int			change_directory(t_infos *infos, char *new_dir_path);
+int			change_directory(t_infos *infos, char *new_dir_path, int is_alloc);
 int			cmd_change_directory(t_infos *infos, t_cmd *cmd);
 
 /*
@@ -212,7 +212,7 @@ char		*extract_name(char *elem, int size);
 char		*get_env_elem(char **env, char *elem);
 void		get_string_loop(t_token *elem, char **str, int fill_str);
 char		*ft_strdup_linked_string(t_token *token);
-void		move_to_next_token(t_token **token);
+void		move_to_next_token(t_token **token, int one_more);
 int			seek_elem_pos(char **env, char *elem_name);
 int			show_env(t_infos *infos, t_cmd *cmd, int export);
 int			show_env_for_export(t_infos *infos, t_cmd *cmd, char **env, int i);

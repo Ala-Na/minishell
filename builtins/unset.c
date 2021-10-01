@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/01 21:57:01 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/01 20:26:10 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/01 21:50:39 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,12 +121,12 @@ int	unset_var(t_infos *infos, t_cmd *cmd)
 	char	*elem_name;
 	int		tmp_res;
 
-	if (!infos || !cmd || ft_strncmp(cmd->start->token,
-			"unset", cmd->start->length))
+	if (!infos || !cmd)
 		return (return_error(1, "something went wrong", 0, -1));
 	to_unset = NULL;
 	if (cmd->next_operator != PIPE)
-		to_unset = cmd->start->next;
+		to_unset = cmd->start;
+	move_to_next_token(&to_unset, 1);
 	while (to_unset)
 	{
 		if (check_validity_token(to_unset, 0) < 0)
@@ -136,7 +136,7 @@ int	unset_var(t_infos *infos, t_cmd *cmd)
 			return (-1);
 		if (to_unset == cmd->end)
 			break ;
-		move_to_next_token(&to_unset);
+		move_to_next_token(&to_unset, 1);
 	}
 	return (0);
 }

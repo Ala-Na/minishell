@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/07 12:14:01 by hlichir           #+#    #+#             */
-/*   Updated: 2021/09/30 23:12:04 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/01 11:59:24 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,10 @@ int	check_n_option(t_token *first)
 {
 	int	i;
 
-	i = 1;
+	i = 2;
 	if (!first || first->token[0] != '-')
+		return (0);
+	if (first->token[1] && first->token[1] != 'n')
 		return (0);
 	while (i < first->length && first->token[i] == 'n')
 		i++;
@@ -42,12 +44,14 @@ int	echo_builtin_loop(t_infos *infos, t_cmd *cmd, t_token *tmp, int i)
 	{
 		if (tmp->type == STRING && ++i)
 			tmp->length -= 2;
-		write(1, &tmp->token[i], tmp->length);
+		if (tmp->type == OPERATOR)
+			break ;
+		write(cmd->fd_output, &tmp->token[i], tmp->length);
 		if (tmp == cmd->end)
 			break ;
 		tmp = tmp->next;
 		if (tmp)
-			write(1, " ", 1);
+			write(cmd->fd_output, " ", 1);
 	}
 	return (0);
 }
@@ -92,7 +96,7 @@ int	echo_builtin(t_infos *infos, t_cmd *cmd)
 	if (echo_builtin_loop(infos, cmd, tmp, i) < 0)
 		return (-1);
 	if (n_option == 0)
-		write(1, "\n", 1);
+		write(cmd->fd_output, "\n", 1);
 	return (0);
 }
 

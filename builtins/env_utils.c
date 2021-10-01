@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/15 17:18:48 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/30 23:11:15 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/01 12:11:21 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,15 +29,15 @@ int	show_env_for_export(t_infos *infos, t_cmd *cmd, char **env, int i)
 			break ;
 		}
 	}
-	write(1, "declare -x ", ft_strlen("declare -x "));
-	write(1, env[i], j);
+	write(cmd->fd_output, "declare -x ", ft_strlen("declare -x "));
+	write(cmd->fd_output, env[i], j);
 	if (exist)
 	{
-		write(1, "\"", 1);
-		write(1, &env[i][j], ft_strlen(env[i]) - j);
-		write(1, "\"", 1);
+		write(cmd->fd_output, "\"", 1);
+		write(cmd->fd_output, &env[i][j], ft_strlen(env[i]) - j);
+		write(cmd->fd_output, "\"", 1);
 	}
-	write(1, "\n", 1);
+	write(cmd->fd_output, "\n", 1);
 	return (0);
 }
 
@@ -58,7 +58,7 @@ int	check_for_assignment(char *str)
 /*
 ** Loop function for show_env (thank you norminette)
 */
-int	show_env_loop(t_infos *infos, t_cmd *cmd, int export)
+int	show_env_loop(t_infos *infos, t_cmd *cmd, int export, int fd)
 {
 	int	i;
 	int	exist;
@@ -78,8 +78,8 @@ int	show_env_loop(t_infos *infos, t_cmd *cmd, int export)
 			exist = check_for_assignment((infos->env)[i]);
 			if (exist)
 			{
-				write(1, (infos->env)[i], ft_strlen((infos->env)[i]));
-				write(1, "\n", 1);
+				write(fd, (infos->env)[i], ft_strlen((infos->env)[i]));
+				write(fd, "\n", 1);
 			}
 		}
 		i++;
@@ -98,7 +98,7 @@ int	show_env(t_infos *infos, t_cmd *cmd, int export)
 		return (return_error(1, "something went wrong", 0, -1));
 	if (!export && cmd->start != cmd->end)
 		return (return_error(127, "env : take no options or arguments", 0, -1));
-	if (show_env_loop(infos, cmd, export) < 0)
+	if (show_env_loop(infos, cmd, export, cmd->fd_output) < 0)
 		return (-1);
 	return (0);
 }

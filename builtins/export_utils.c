@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/01 19:29:45 by hlichir           #+#    #+#             */
-/*   Updated: 2021/10/01 22:00:29 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/02 14:19:14 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ char	*ft_strdup_linked_string(t_token *token)
 {
 	char	*str;
 
+	str = NULL;
 	get_string_loop(token, &str, 0);
 	if (!str)
 		return (return_null_error(1, "memory allocation error", 0));

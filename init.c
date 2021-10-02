@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/02 11:52:56 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/01 13:39:27 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/02 14:23:12 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,18 +43,19 @@ int	add_new_shlvl(t_infos *infos, char **env)
 	if (!str)
 		return (-1);
 	new_elem = malloc(sizeof(t_token));
-	new_elem->type = ASSIGNMENT;
-	new_elem->token = ft_strdup(str);
-	if (!new_elem->token)
+	if (!new_elem)
 	{
-		free(new_elem);
 		free(str);
 		return (-1);
 	}
-	free(str);
+	new_elem->type = ASSIGNMENT;
+	new_elem->token = str;
 	new_elem->length = ft_strlen(str);
-	nb = do_assignment(infos, new_elem);
-	free(new_elem->token);
+	new_elem->linked_to_next = NULL;
+	new_elem->prev = NULL;
+	new_elem->next = NULL;
+	nb = modify_existing_elem_to_env(infos, infos->env, new_elem, "SHLVL");
+	free(str);
 	free(new_elem);
 	return (nb);
 }

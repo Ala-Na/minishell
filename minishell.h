@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 15:55:23 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/01 21:38:29 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/02 14:23:53 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,6 @@ typedef struct s_cmd
 	t_operator		next_operator;
 	int				fd_input;
 	int				fd_output;
-	t_token			*redir;
 	struct s_cmd	*prev;
 	struct s_cmd	*next;
 }	t_cmd;

@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 15:55:23 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/02 14:23:53 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/03 21:53:45 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -317,8 +317,8 @@ int			free_lst_var(t_infos *infos);
 */
 int			launch_cmds(t_infos *infos);
 int			check_if_pipes(t_infos *infos);
-int			check_assignments(t_infos *infos, t_cmd *cmd);
-int			is_only_assignments(t_cmd *cmd);
+int			check_assignments(t_infos *infos, t_cmd *cmd, t_token *first_non_redir);
+int			is_only_assignments(t_cmd *cmd, t_token *first_non_redir);
 int			launch_simple_cmd(t_infos *infos, t_cmd *cmd, int from_pipe);
 int			assignments_management(t_infos *infos, t_cmd *cmd, \
 				t_token **exec_token);
@@ -387,5 +387,7 @@ int			launch_pipes_cmds(t_infos *infos, t_cmd *cmd, int nbr_pipes);
 int			wait_for_pipeline_childs(t_infos *infos, int nbr_pipes, \
 				pid_t **child_pids);
 t_cmd		*get_next_cmd(t_cmd *cmd);
+
+t_token	*get_next_non_redir_token(t_infos *infos, t_cmd *head_cmd, t_cmd **prev_cmd, t_token *prev_token);
 
 #endif

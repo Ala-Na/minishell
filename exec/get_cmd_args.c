@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/21 11:03:41 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/01 22:00:05 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/03 22:05:46 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,6 +135,7 @@ char	*get_exec_path(t_infos *infos, t_cmd *cmd, char ***exec_env,
 
 	if (!infos || !cmd)
 		return (return_null_error(1, "something went wrong", 0));
+	*exec_env = NULL;
 	*exec_token = move_to_exec(infos, cmd, exec_env);
 	if (!*exec_token)
 		return (NULL);

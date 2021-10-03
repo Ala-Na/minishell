@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/07 14:43:01 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/01 21:59:07 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/02 15:00:59 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,23 +37,24 @@ int	check_init_new_cmd(t_cmd **new, t_token *lst_tokens,
 /*
 ** Function to init empty command when redirection is meeted.
 */
-int    init_empty_cmd(t_cmd **new, t_token *lst_tokens, t_cmd **head_lst)
+int    init_empty_cmd(t_cmd **new, t_token **lst_tokens, t_cmd **head_lst)
 {
 	t_cmd	*empty;
 
-	if (lst_tokens->type == OPERATOR)
+	if ((*lst_tokens)->type == OPERATOR)
 	{
 		empty = malloc(sizeof(*empty));
 		if (!empty)
 			return (-1);
 		empty->start = NULL;
 		empty->end = NULL;
-		empty->next_operator = identify_operator(lst_tokens);
+		empty->next_operator = identify_operator(*lst_tokens);
 		empty->next = NULL;
 		empty->prev = NULL;
 		empty->fd_input = 0;
 		empty->fd_output = 1;
 		add_back_cmd(head_lst, empty);
+		*lst_tokens = (*lst_tokens)->next;
 		return (1);
 	}
 	return (0);
@@ -75,7 +76,7 @@ t_cmd	*separate_simple_cmd(t_infos *infos)
 	new_cmd = 1;
 	lst_cmds = NULL;
 	lst_tokens = infos->lst_tokens;
-//	res = init_empty_cmd(&new, lst_tokens, &lst_cmds);
+	res = init_empty_cmd(&new, &lst_tokens, &lst_cmds);
 	while (lst_tokens)
 	{
 		if (lst_tokens->type != OPERATOR && new_cmd

@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/22 16:53:14 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/01 20:07:47 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/03 21:16:20 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,18 +41,32 @@ int	do_assignment(t_infos *infos, t_token *token)
 ** If it's the case, it returns 1. Else, it returns 0.
 ** Returns -1 in case of error.
 */
-int	is_only_assignments(t_cmd *cmd)
+int	is_only_assignments(t_cmd *cmd, t_token *first_non_redir)
 {
 	t_token	*current;
+	int		prev_was_redir;
 
-	if (!cmd || ! cmd->start)
+	if (!cmd || !first_non_redir)
 		return (return_error(1, "something went wrong", 0, -1));
-	current = cmd->start;
-	while (current && current->type == ASSIGNMENT)
+	prev_was_redir = 0;
+	current = first_non_redir;
+	while (current)
 	{
-		if (current == cmd->end)
+		if (prev_was_redir == 0 && current->type != ASSIGNMENT)
+			return (0);
+		if (current == cmd->end && cmd->next_operator <= 0)
 			return (1);
-		current = current->next;
+		else if (current == cmd->end)
+		{
+			cmd = cmd->next;
+			current = cmd->start;
+			prev_was_redir = 1;
+		}
+		else
+		{
+			current = current->next;
+			prev_was_redir = 0;
+		}
 	}
 	return (0);
 }
@@ -64,24 +78,34 @@ int	is_only_assignments(t_cmd *cmd)
 ** Return -1 in cas of error, 1 if the command was only made of assignments,
 ** 0 otherwise.
 */
-int	check_assignments(t_infos *infos, t_cmd *cmd)
+int	check_assignments(t_infos *infos, t_cmd *cmd, t_token *first_non_redir)
 {
 	int		assignments;
 	t_token	*curr_token;
+	int		prev_was_redir;
 
-	assignments = is_only_assignments(cmd);
-	if (assignments == -1)
-		return (-1);
-	else if (assignments == 0)
-		return (0);
-	curr_token = cmd->start;
-	while (curr_token)
+	assignments = is_only_assignments(cmd, first_non_redir);
+	if (assignments <= 0)
+		return (assignments);
+	curr_token = first_non_redir;
+	prev_was_redir = 0;
+	while (cmd && curr_token)
 	{
-		if (do_assignment(infos, curr_token) == -1)
+		if (prev_was_redir == 0 && do_assignment(infos, curr_token) == -1)
 			return (-1);
-		if (curr_token == cmd->end)
+		if (curr_token == cmd->end && cmd->next_operator <= 0)
 			break ;
-		curr_token = curr_token->next;
+		if (curr_token == cmd->end && cmd->next_operator > 0)
+		{
+			cmd = cmd->next;
+			curr_token = cmd->start;
+			prev_was_redir = 1;
+		}
+		else
+		{
+			prev_was_redir = 0;
+			curr_token = curr_token->next;
+		}
 	}
 	return (1);
 }

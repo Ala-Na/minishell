@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/01 21:56:08 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/01 22:00:27 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/04 12:55:37 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,8 +146,8 @@ int	add_elem_to_env(t_infos *infos, t_cmd *cmd, int env_size)
 	res = -1;
 	while (new_elem)
 	{
-		if (check_validity_token(new_elem, 1) < 0)
-			return (-1);
+		if (check_validity_token(&new_elem, 1, &res) < 0)
+			continue ;
 		while ((infos->env)[env_size])
 			env_size++;
 		if (sub_add_elem_to_env(infos, new_elem, env_size, &res) < 0)

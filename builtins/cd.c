@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/30 16:59:11 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/04 18:26:20 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/04 20:09:58 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 */
 int	change_directory(t_infos *infos, char *new_dir_path, int is_alloc)
 {
-	char	*str;
+	char	*tmp_path;
 
 	if (!infos || !new_dir_path)
 	{
@@ -31,16 +31,20 @@ int	change_directory(t_infos *infos, char *new_dir_path, int is_alloc)
 			free(new_dir_path);
 		return (return_error(1, "something went wrong", 0, -1));
 	}
+	tmp_path = check_path_save_oldpwd(infos->env, &new_dir_path, &is_alloc);
+	if (!tmp_path)
+		return (return_error(1, "memory allocation error", 0, -1));
 	if (chdir(new_dir_path) == -1)
 	{
 		if (is_alloc)
 			free(new_dir_path);
-		str = strerror(errno);
-		str = ft_strjoin("cd : ", str);
-		if (!str)
-			return (return_error(1, "memory allocation error", 0, -1));
-		return (return_error(1, str, 1, -1));
+		ft_puterr("cd: ", 0);
+		ft_puterr(new_dir_path, 0);
+		ft_puterr(": ", 0);
+		return (return_error(1, strerror(errno), 0, -1));
 	}
+	modify_pwd(infos, "OLDPWD", tmp_path, 0);
+	modify_pwd(infos, "PWD", get_curr_dir(0), is_alloc);
 	if (is_alloc)
 		free(new_dir_path);
 	return (0);
@@ -79,50 +83,88 @@ int	cmd_change_directory(t_infos *infos, t_cmd *cmd)
 	return (change_directory(infos, home_path, 1));
 }
 
-/*char	*create_str_assignment(char *name, char *value)
+/*
+**	Subfunction to save the old path name in a tmp_variable & to check
+** if cd - was called.
+*/
+char	*check_path_save_oldpwd(char **env, char **path, int *is_alloc)
 {
-	char	*str;
+	int	nb;
 
+	if (!ft_strncmp(*path, "-", 2))
+	{
+		nb = seek_elem_pos(env, "OLDPWD");
+		if (nb < 0)
+			return (return_null_error(1, "cd: OLDPWD not set", 0));
+		if (*is_alloc)
+			free(*path);
+		*path = ft_strdup_free(get_elem_value(env[nb]), 1);
+		*is_alloc = 2;
+	}
+	return (get_curr_dir(0));
+}
+
+/*
+** Function to create the new string that will be put in the environment,
+** as well as the token needed to change the env.
+*/
+int	create_tmp_new_elem(t_token **new_elem, char *name, char *value, char *str)
+{
 	str = ft_strjoin(name, "=");
 	if (!str)
-		return (return_null_error(1, "yymemory allocation error", 0));
+		return (return_error(1, "memory allocation error", 0, -1));
 	str = ft_strjoin_free(str, value, 1, 0);
 	if (!str)
-		return (return_null_error(1, "ymemory allocation error", 0));
-	return (str);
-}
-
-void	create_tmp_new_elem(t_token **new_elem, char *str)
-{
+		return (return_error(1, "memory allocation error", 0, -1));
 	*new_elem = malloc(sizeof(t_token));
-	if (!new_elem)
-		return ;
-	(*new_elem)->type = ASSIGNMENT;
-	(*new_elem)->token = str;
-	(*new_elem)->length = ft_strlen(str);
-	(*new_elem)->linked_to_next = NULL;
-	(*new_elem)->prev = NULL;
-	(*new_elem)->next = NULL;
-}
-
-int	modify_pwd(t_infos *infos, char **env, char *name, char *new_pwd)
-{
-	t_token	*new_elem;
-	char	*str;
-	int		nb;
-
-	str = create_str_assignment(name, new_pwd);
-	if (!str)
-		return (return_error(1, "yomemory allocation error", 0, -1));
-	create_tmp_new_elem(&new_elem, str);
 	if (!new_elem)
 	{
 		free(str);
-		return (-1);
+		return (return_error(1, "memory allocation error", 0, -1));
 	}
-	do_assignment(infos, new_elem);
-	free(str);
-	free(new_elem);
+	(*new_elem)->type = ASSIGNMENT;
+	(*new_elem)->token = ft_strdup_free(str, 1);
+	if (!(*new_elem)->token)
+	{
+		free(str);
+		return (return_error(1, "memory allocation error", 0, -1));
+	}
+	(*new_elem)->length = ft_strlen((*new_elem)->token);
+	(*new_elem)->linked_to_next = NULL;
+	(*new_elem)->prev = NULL;
+	(*new_elem)->next = NULL;
 	return (0);
 }
+
+/*
+** Function to change either the variable PWD or OLDPWD depending on "name"
+** Create a new token with name=new_pwd to change the environment
+** is_old is equal to 2 when cd - is called -> the new pwd is displayed.
 */
+int	modify_pwd(t_infos *infos, char *name, char *new_pwd, int is_old)
+{
+	t_token	*new_elem;
+	char	*str;
+	int		tmp;
+	int		env_size;
+
+	if (!new_pwd)
+		return (return_error(1, "memory allocation error", 0, -1));
+	if (create_tmp_new_elem(&new_elem, name, new_pwd, str) < 0)
+		return (-1);
+	env_size = 0;
+	while ((infos->env)[env_size])
+		env_size++;
+	if (!get_env_elem(infos->env, name, ft_strlen(name)))
+		add_not_existing_elem_to_env(&infos->env, new_elem, env_size);
+	else
+		modify_existing_elem_to_env(infos, infos->env, new_elem, name);
+	free(new_elem->token);
+	free(new_elem);
+	if (is_old == 2)
+	{
+		ft_putstr(new_pwd);
+		ft_putchar('\n');
+	}
+	return (0);
+}

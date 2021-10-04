@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+         #
+#    By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/05/26 11:25:33 by anadege           #+#    #+#              #
-#    Updated: 2021/09/23 16:31:50 by anadege          ###   ########.fr        #
+#    Updated: 2021/10/04 19:02:02 by hlichir          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,7 +45,8 @@ SRC = ./ft_atoi.c ./ft_bzero.c ./ft_calloc.c \
 ./ft_putlenwstr_fd.c ./ft_isnumber.c ./ft_isprintable.c \
 ./ft_iswhitespace.c ./ft_putstr.c ./ft_strndup.c \
 ./ft_puterr.c ./ft_strnjoin.c ./ft_max.c \
-./ft_isblanks.c ./ft_strjoin_free.c
+./ft_isblanks.c ./ft_strjoin_free.c \
+./ft_strdup_free.c
 
 
 HEADER = 		../includes

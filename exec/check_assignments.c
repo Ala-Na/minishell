@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/22 16:53:14 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/03 21:16:20 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/04 17:49:41 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	is_only_assignments(t_cmd *cmd, t_token *first_non_redir)
 		return (return_error(1, "something went wrong", 0, -1));
 	prev_was_redir = 0;
 	current = first_non_redir;
-	while (current)
+	while (cmd && current)
 	{
 		if (prev_was_redir == 0 && current->type != ASSIGNMENT)
 			return (0);
@@ -59,8 +59,11 @@ int	is_only_assignments(t_cmd *cmd, t_token *first_non_redir)
 		else if (current == cmd->end)
 		{
 			cmd = cmd->next;
-			current = cmd->start;
-			prev_was_redir = 1;
+			if (cmd && cmd->start)
+			{
+				current = cmd->start;
+				prev_was_redir = 1;
+			}
 		}
 		else
 		{
@@ -68,7 +71,7 @@ int	is_only_assignments(t_cmd *cmd, t_token *first_non_redir)
 			prev_was_redir = 0;
 		}
 	}
-	return (0);
+	return (1);
 }
 
 /*
@@ -98,8 +101,11 @@ int	check_assignments(t_infos *infos, t_cmd *cmd, t_token *first_non_redir)
 		if (curr_token == cmd->end && cmd->next_operator > 0)
 		{
 			cmd = cmd->next;
-			curr_token = cmd->start;
-			prev_was_redir = 1;
+			if (cmd && cmd->start)
+			{
+				curr_token = cmd->start;
+				prev_was_redir = 1;
+			}
 		}
 		else
 		{

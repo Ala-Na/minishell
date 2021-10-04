@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/05 14:12:00 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/01 14:45:57 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/04 21:26:23 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,13 +61,13 @@ int	browse_token(char *token, int *syntax_error, char **error_pos)
 		return (browse_string(token, token[i], syntax_error, error_pos));
 	else if (ft_strchr("|><", token[i]))
 		ope_char = token[i++];
-	else if (token[i] == '$' || token[i] == '~')
+	else if (token[i] == '$')
 		var_char = token[i];
 	while (!ope_char && token[i] && ++i)
 	{
 		if (var_char == '$' && !ft_isalnum(token[i]) && token[i] != '_')
 			break ;
-		else if (ft_strchr("\"' \t$|><~", token[i]) || var_char == '~')
+		else if (ft_strchr("\"' \t$|><", token[i]))
 			break ;
 	}
 	if (ope_char && ft_strchr("><", ope_char) && ope_char == token[i])
@@ -90,7 +90,7 @@ int	check_operators_and_undefined_char(t_token *curr, t_token *prev,
 		return (-1);
 	while (curr->type != STRING && curr->token[i] && i < curr->length)
 	{
-		if (ft_strchr("\\;&()\n[]*", curr->token[i]))
+		if (ft_strchr("\\;&()\n[]*!", curr->token[i]))
 		{
 			*syntax_error = -3;
 			*error_pos = &curr->token[i];
@@ -101,10 +101,13 @@ int	check_operators_and_undefined_char(t_token *curr, t_token *prev,
 	}
 	if (prev && curr->type == OPERATOR && prev->type == OPERATOR)
 	{
-		*syntax_error = -2;
-		*error_pos = prev->token;
-		free(curr);
-		return (-1);
+		if (prev->token[0] != '|' || curr->token[0] == '|')
+		{
+			*syntax_error = -2;
+			*error_pos = prev->token;
+			free(curr);
+			return (-1);
+		}
 	}
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 21:45:16 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/30 23:23:34 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/04 20:56:41 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,15 @@ int	get_var(char *cmd, char **var, char **env, t_var *var_lst)
 	char	*elem_name;
 
 	i = 0;
-	if (cmd[i++] != '$')
+	if (cmd[i] != '$' && cmd[i] != '~')
 	{
 		*var = NULL;
 		return (0);
+	}
+	if (cmd[i++] == '~')
+	{
+		sub_get_var(var, "HOME", env, var_lst);
+		return (ft_strlen(*var) - 1);
 	}
 	while (cmd[i])
 	{
@@ -85,6 +90,11 @@ void	add_var(t_infos *infos, char **new_cmd, int *i, int *j)
 		(*new_cmd)[*j] = var[k++];
 		*j += 1;
 	}
+	if (infos->curr_cmd[i[0]] == '~')
+	{
+		*i += 1;
+		return ;
+	}
 	*i += 1;
 	while (infos->curr_cmd[*i])
 	{
@@ -116,6 +126,10 @@ void	get_cmd_with_var(t_infos *infos, int new_size, int ignore, int dbl)
 			ignore = 0;
 		if (infos->curr_cmd[i[0]] == '$' && ignore == 0)
 			add_var(infos, &new_cmd, &i[0], &i[1]);
+		else if (infos->curr_cmd[i[0]] == '~' && ignore == 0
+				&& (i[0] == 0 || infos->curr_cmd[i[0] - 1] == ' ')
+				&& (!infos->curr_cmd[i[0] + 1] || infos->curr_cmd[i[0] + 1] == ' '))
+				add_var(infos, &new_cmd, &i[0], &i[1]);
 		else
 			new_cmd[i[1]++] = infos->curr_cmd[i[0]++];
 	}
@@ -143,6 +157,13 @@ void	expand_variables(t_infos *infos, int dbl, int ignore, int new_size)
 		else if (infos->curr_cmd[i] == '$' && ignore == 0)
 			new_size += get_var(&infos->curr_cmd[i], &var, infos->env,
 					infos->lst_var);
+		else if (infos->curr_cmd[i] == '~' && ignore == 0)
+		{
+			if ((i == 0 || infos->curr_cmd[i - 1] == ' ')
+				&& (!infos->curr_cmd[i + 1] || infos->curr_cmd[i + 1] == ' '))
+				new_size += get_var(&infos->curr_cmd[i], &var, infos->env,
+						infos->lst_var);
+		}
 		i++;
 	}
 	new_size += i;

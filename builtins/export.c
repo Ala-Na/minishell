@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/01 21:56:08 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/01 22:00:27 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/04 20:43:24 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,8 +129,6 @@ int	sub_add_elem_to_env(t_infos *infos, t_token *new_elem,
 ** It adds the new variable new_elem (format "NAME=value") to the array
 ** env.
 ** Returns -1 if an errors occurs, 0 otherwise.
-** WARNING : Does not check for the conformity of the string new_elem.
-** Must received &infos->env as first argument.
 */
 int	add_elem_to_env(t_infos *infos, t_cmd *cmd, int env_size)
 {

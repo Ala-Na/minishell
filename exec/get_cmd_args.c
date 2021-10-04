@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/21 11:03:41 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/03 22:05:46 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/04 21:09:10 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,7 @@ void	permission_denied_msg(char **full_path, char *path)
 /*
 ** Function which return exec_path and set up the executable environment
 ** variables inside exec_env.
-** Return NULL if an error occurs.
+:x
 */
 char	*get_exec_path(t_infos *infos, t_cmd *cmd, char ***exec_env,
 		t_token **exec_token)

@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/01 21:56:08 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/06 10:49:37 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/06 10:51:35 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ int	sub_add_elem_to_env(t_infos *infos, t_token *new_elem,
 	if (!elem_name)
 		return (-1);
 	delete_elem_from_var_lst(&infos->lst_var, elem_name);
-	if (!get_env_elem(infos->env, elem_name))
+	if (!get_env_elem(infos->env, elem_name, ft_strlen(elem_name)))
 		res = add_not_existing_elem_to_env(&infos->env, new_elem,
 				env_size);
 	else

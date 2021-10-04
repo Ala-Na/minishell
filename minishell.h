@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 15:55:23 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/06 10:49:20 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/06 10:52:57 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,6 +164,7 @@ void		add_line_to_history(int history_fd, char *str);
 */
 int			change_directory(t_infos *infos, char *new_dir_path, int is_alloc);
 int			cmd_change_directory(t_infos *infos, t_cmd *cmd, t_token *token);
+int			modify_pwd(t_infos *infos, char **env, char *name, char *new_pwd);
 
 /*
 ** BUILT IN ECHO
@@ -208,7 +209,7 @@ int			sub_add_elem_to_env(t_infos *infos, t_token *new_elem,
 				int env_size, int *ptr_res);
 char		*get_elem_name(t_token *elem);
 char		*extract_name(char *elem, int size);
-char		*get_env_elem(char **env, char *elem);
+char		*get_env_elem(char **env, char *elem, int elem_size);
 void		get_string_loop(t_token *elem, char **str, int fill_str);
 char		*ft_strdup_linked_string(t_token *token);
 void		move_to_next_token(t_token **token, int one_more);
@@ -277,6 +278,7 @@ char		*get_absolute_path(char *filepath, char **env, char in_home);
 char		*get_absolute_path_from_path(char *filepath, char *env_var);
 char		*reconstitute_absolute_path(char *env_var, char *filepath);
 int			is_absolute_path(char *filepath);
+int			check_path_for_exceptions(char *file);
 
 /*
 ** CHECK FOR BUILTIN OR LAUNCH COMMAND

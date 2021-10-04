@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 21:45:16 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/04 20:56:41 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/06 10:53:17 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	sub_get_var(char **var, char *elem_name, char **env, t_var *var_lst)
 {
-	*var = get_env_elem(env, elem_name);
+	*var = get_env_elem(env, elem_name, ft_strlen(elem_name));
 	if (!*var)
 	{
 		while (var_lst)

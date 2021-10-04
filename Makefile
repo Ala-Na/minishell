@@ -6,7 +6,7 @@
 #    By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/08/23 15:04:29 by anadege           #+#    #+#              #
-#    Updated: 2021/10/04 23:30:53 by anadege          ###   ########.fr        #
+#    Updated: 2021/10/06 10:51:05 by anadege          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,6 +42,7 @@ SRCS	= ./main.c \
 		  ./exec/get_cmd_args.c \
 		  ./exec/exec_pipe.c \
 		  ./exec/skip_redir.c \
+		  ./exec/exception_cmd.c \
 		  ./flow_management/redirections.c \
 		  ./flow_management/file_utils.c \
 		  ./flow_management/input_utils.c \

@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/30 16:59:11 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/05 16:14:37 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/06 10:51:21 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ int	cmd_change_directory(t_infos *infos, t_cmd *cmd, t_token *token)
 		return (-1);
 	if (!curr && g_exit_status == 0)
 	{
-		home_path = get_env_elem(infos->env, "HOME");
+		home_path = get_env_elem(infos->env, "HOME", ft_strlen("HOME"));
 		if (!home_path)
 			return (return_error(1, "cd: « HOME » not defined", 0, -1));
 		return (change_directory(infos, home_path, 0));
@@ -79,3 +79,51 @@ int	cmd_change_directory(t_infos *infos, t_cmd *cmd, t_token *token)
 		return (return_error(1, "memory allocation error", 0, -1));
 	return (change_directory(infos, home_path, 1));
 }
+
+/*char	*create_str_assignment(char *name, char *value)
+{
+	char	*str;
+
+	str = ft_strjoin(name, "=");
+	if (!str)
+		return (return_null_error(1, "yymemory allocation error", 0));
+	str = ft_strjoin_free(str, value, 1, 0);
+	if (!str)
+		return (return_null_error(1, "ymemory allocation error", 0));
+	return (str);
+}
+
+void	create_tmp_new_elem(t_token **new_elem, char *str)
+{
+	*new_elem = malloc(sizeof(t_token));
+	if (!new_elem)
+		return ;
+	(*new_elem)->type = ASSIGNMENT;
+	(*new_elem)->token = str;
+	(*new_elem)->length = ft_strlen(str);
+	(*new_elem)->linked_to_next = NULL;
+	(*new_elem)->prev = NULL;
+	(*new_elem)->next = NULL;
+}
+
+int	modify_pwd(t_infos *infos, char **env, char *name, char *new_pwd)
+{
+	t_token	*new_elem;
+	char	*str;
+	int		nb;
+
+	str = create_str_assignment(name, new_pwd);
+	if (!str)
+		return (return_error(1, "yomemory allocation error", 0, -1));
+	create_tmp_new_elem(&new_elem, str);
+	if (!new_elem)
+	{
+		free(str);
+		return (-1);
+	}
+	do_assignment(infos, new_elem);
+	free(str);
+	free(new_elem);
+	return (0);
+}
+*/

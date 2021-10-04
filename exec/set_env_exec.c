@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/17 16:53:57 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/05 17:20:12 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/06 10:52:23 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	add_elem_to_exec_env(t_infos *infos, char ***exec_env, t_token *new_elem)
 	elem_name = get_elem_name(new_elem);
 	if (!elem_name)
 		return (-1);
-	if (!get_env_elem(*exec_env, elem_name))
+	if (!get_env_elem(*exec_env, elem_name, ft_strlen(elem_name)))
 	{
 		(*exec_env)[i] = ft_strndup(new_elem->token, new_elem->length);
 		if (!(*exec_env)[i])
@@ -97,7 +97,7 @@ int	get_exec_env_diff_size(t_infos *infos, t_cmd *cmd, int *modif)
 		elem_name = get_elem_name(curr_token);
 		if (!elem_name)
 			return (-1);
-		if (!get_env_elem(env, elem_name))
+		if (!get_env_elem(env, elem_name, ft_strlen(elem_name)))
 			diff_size++;
 		else
 			*modif = 1;

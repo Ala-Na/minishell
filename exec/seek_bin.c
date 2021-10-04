@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 15:56:39 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/01 15:03:01 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/04 15:42:37 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ char	*get_absolute_path(char *filepath, char **env, char in_home)
 	}
 	env_var = get_env_elem(env, "PATH");
 	if (!env_var)
-		return (return_null_error(1, "variable $PATH missing", 0));
+		return (return_null_error(127, "variable $PATH missing", 0));
 	return (get_absolute_path_from_path(filepath, env_var));
 }
 

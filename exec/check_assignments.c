@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/22 16:53:14 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/01 20:07:47 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/04 18:23:42 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	do_assignment(t_infos *infos, t_token *token)
 	var_name = get_elem_name(token);
 	if (!var_name)
 		return (-1);
-	if (get_env_elem(infos->env, var_name) != NULL)
+	if (get_env_elem(infos->env, var_name, ft_strlen(var_name)) != NULL)
 		res = modify_existing_elem_to_env(infos, infos->env,
 				token, var_name);
 	else

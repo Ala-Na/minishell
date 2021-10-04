@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/31 15:39:01 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/04 13:05:51 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/04 18:21:57 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,15 +70,13 @@ char	*get_elem_name(t_token *elem)
 ** The argument char **env is infos->env.
 ** Returns NULL if the element is not found.
 */
-char	*get_env_elem(char **env, char *elem)
+char	*get_env_elem(char **env, char *elem, int elem_size)
 {
 	int		i;
 	char	*elem_value;
 	char	*tmp;
-	int		elem_size;
 
 	i = 0;
-	elem_size = ft_strlen(elem);
 	while (env[i])
 	{
 		if (!ft_strncmp(env[i], elem, elem_size))

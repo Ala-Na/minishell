@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 15:55:23 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/06 10:52:57 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/06 10:54:46 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,7 +164,9 @@ void		add_line_to_history(int history_fd, char *str);
 */
 int			change_directory(t_infos *infos, char *new_dir_path, int is_alloc);
 int			cmd_change_directory(t_infos *infos, t_cmd *cmd, t_token *token);
-int			modify_pwd(t_infos *infos, char **env, char *name, char *new_pwd);
+int			cmd_change_directory(t_infos *infos, t_cmd *cmd);
+int			modify_pwd(t_infos *infos, char *name, char *new_pwd, int is_old);
+char		*check_path_save_oldpwd(char **env, char **path, int *is_alloc);
 
 /*
 ** BUILT IN ECHO

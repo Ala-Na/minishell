@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/21 11:03:41 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/06 10:43:59 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/06 10:55:13 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void	permission_denied_msg(char **full_path, char *path)
 {
 	char	*str;
 
-	str = ft_strjoin(path, " : permission denied");
+	str = ft_strjoin(path, " : Permission denied");
 	if (!str)
 		return_error(1, "memory allocation error", 0, 0);
 	return_error(126, str, 1, 0);

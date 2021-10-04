@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/31 15:39:01 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/01 20:14:24 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/04 13:05:51 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ char	*get_env_elem(char **env, char *elem)
 {
 	int		i;
 	char	*elem_value;
+	char	*tmp;
 	int		elem_size;
 
 	i = 0;
@@ -82,6 +83,14 @@ char	*get_env_elem(char **env, char *elem)
 	{
 		if (!ft_strncmp(env[i], elem, elem_size))
 		{
+			tmp = extract_name(env[i], ft_strlen(env[i]));
+			if (ft_strncmp(tmp, elem, ft_max(elem_size, ft_strlen(tmp))))
+			{
+				free(tmp);
+				i++;
+				continue ;
+			}
+			free(tmp);
 			elem_value = env[i];
 			elem_value += elem_size + 1;
 			return (elem_value);

@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 15:55:23 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/05 17:28:42 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/06 10:49:20 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -196,9 +196,9 @@ int			delete_elem_from_var_lst(t_var **var_lst, char *elem_name);
 void		free_var(t_var **var);
 int			sub_unset_var(t_infos *infos, t_token *to_unset);
 int			unset_var(t_infos *infos, t_cmd *cmd);
-int			check_validity_token(t_token *token, int is_export);
+int			check_validity_token(t_token **token, int is_export, int *res);
 void		strings_manipulation(t_token **tokens);
-int			invalid_token(t_token *token, int is_export);
+int			invalid_token(t_token **token, int is_export, int *res);
 int			add_not_existing_elem_to_env(char ***env, t_token *new_elem,
 				int env_size);
 int			modify_existing_elem_to_env(t_infos *infos, char **env,

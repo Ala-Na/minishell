@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 15:55:23 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/04 21:38:26 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/05 00:21:34 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -388,6 +388,6 @@ int			wait_for_pipeline_childs(t_infos *infos, int nbr_pipes, \
 				pid_t **child_pids);
 t_cmd		*get_next_cmd(t_cmd *cmd);
 
-t_token	*get_next_non_redir_token(t_infos *infos, t_cmd *head_cmd, t_cmd **prev_cmd, t_token *prev_token);
+t_token	*get_next_token(t_infos *infos, t_cmd *head_cmd, t_cmd **prev_cmd, t_token *prev_token);
 
 #endif

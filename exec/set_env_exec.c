@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/17 16:53:57 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/01 20:13:09 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/05 00:22:15 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,10 +58,12 @@ int	get_exec_env_diff_size(t_infos *infos, t_cmd *cmd, int *modif)
 	char	**env;
 	int		diff_size;
 	char	*elem_name;
+	t_cmd	*prev_cmd;
 
 	diff_size = 0;
 	*modif = 0;
-	if (!infos || !cmd || !cmd->start || !infos->env)
+	prev_cmd = NULL;
+	if (!infos || !cmd || !infos->env)
 		return (return_error(1, "something went wrong", 0, -1));
 	env = infos->env;
 	curr_token = cmd->start;
@@ -75,7 +77,7 @@ int	get_exec_env_diff_size(t_infos *infos, t_cmd *cmd, int *modif)
 		else
 			*modif = 1;
 		free(elem_name);
-		curr_token = curr_token->next;
+		curr_token = get_next_token(infos, cmd, &prev_cmd, curr_token);
 	}
 	return (diff_size);
 }

@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 17:30:12 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/01 22:00:14 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/04 22:54:31 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ t_token	*move_to_exec(t_infos *infos, t_cmd *cmd, char ***exec_env)
 	int	diff_exec_env_size;
 	int	modif;
 
-	if (!infos || !cmd || !infos->env || !cmd->start || !cmd->end)
+	if (!infos || !cmd || !infos->env)
 		return ((t_token *)return_null_error(1, "something went wrong", 0));
 	*exec_env = NULL;
 	diff_exec_env_size = get_exec_env_diff_size(infos, cmd, &modif);

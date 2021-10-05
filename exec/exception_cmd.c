@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/04 17:34:23 by hlichir           #+#    #+#             */
-/*   Updated: 2021/10/04 18:28:04 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/05 10:36:23 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,9 @@ int	check_path_for_exceptions(char *file)
 		return (print_file_type(file));
 	else
 	{
-		if (!ft_strncmp(file, ".", 2))
+		if (ft_strlen(file) == 0)
+			return (return_error(127, ": command_not_found", 0, -1));
+		else if (!ft_strncmp(file, ".", 2))
 			return (return_error(2, ".: built-in not handled", 0, -1));
 		else if (!ft_strncmp(file, "..", 3))
 			return (return_error(127, "..: command_not_found", 0, -1));

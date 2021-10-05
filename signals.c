@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/11 13:44:45 by hlichir           #+#    #+#             */
-/*   Updated: 2021/09/23 20:28:04 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/05 12:28:34 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,9 @@ void	sig_handler_function(int signum)
 	if (signum == SIGINT)
 	{
 		ft_putchar('\n');
-		if (g_exit_status == -1)
-		{
-			rl_on_new_line();
-			rl_replace_line("", 0);
-			rl_redisplay();
-		}
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
 		g_exit_status = 130;
 	}
 }

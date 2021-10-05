@@ -6,7 +6,7 @@
 #    By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/08/23 15:04:29 by anadege           #+#    #+#              #
-#    Updated: 2021/10/06 10:51:05 by anadege          ###   ########.fr        #
+#    Updated: 2021/10/06 10:55:57 by anadege          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,6 +16,7 @@ SRCS	= ./main.c \
 		  ./signals.c \
 		  ./history/history.c \
 		  ./builtins/cd.c \
+		  ./builtins/cd_utils.c \
 		  ./builtins/env.c \
 		  ./builtins/export.c \
 		  ./builtins/export_utils.c \

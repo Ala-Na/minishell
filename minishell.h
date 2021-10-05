@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 15:55:23 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/05 13:25:54 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/05 14:36:40 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,6 +138,15 @@ typedef struct s_infos
 */
 int			minishell_loop(t_infos *infos);
 void		parse_and_execute(t_infos *infos);
+void		clean_to_continue(t_infos *infos);
+
+/*
+** MINISHELL INTIALIZATION
+*/
+int			init_minishell(t_infos *infos, char **env);
+void		init_variables(int *i1, int *i2);
+int			add_new_shlvl(t_infos *infos, char **env);
+int			get_shell_nbr(char *str);
 
 /*
 ** PROMPT DISPLAY
@@ -159,27 +168,35 @@ int			get_previous_history(void);
 void		add_line_to_history(int history_fd, char *str);
 
 /*
+** HANDLING SIGNALS
+** Set of functions
+*/
+void		handle_signals(void);
+void		sig_handler_function(int signum);
+
+/*
 ** BUILT IN CD
 ** WARNING : Doesn't check if the path is correctly formated.
 */
 int			change_directory(t_infos *infos, char *new_dir_path, int is_alloc);
 int			cmd_change_directory(t_infos *infos, t_cmd *cmd);
 int			modify_pwd(t_infos *infos, char *name, char *new_pwd, int is_old);
-char		*check_oldpwd_cdpath(char **env, char **path, int *is_alloc);
 
-int			handle_cd_path(char **env, char **path, int *is_alloc);
 int			create_tmp_new_elem(t_token **new_elem, char *name, char *value, \
 				 char *str);
+char		*check_oldpwd_cdpath(char **env, char **path, int *is_alloc);
+int			handle_cd_path(char **env, char **path, int *is_alloc);
 
 /*
 ** BUILT IN ECHO
 ** Receive the string "command" and it's size.
 ** Check for the option -n is made inside the built-in.
 */
+int			cmd_echo(t_infos *infos, t_cmd *cmd);
 int			echo_builtin(t_infos *infos, t_cmd *cmd);
 int			echo_builtin_loop(t_infos *infos, t_cmd *cmd, t_token *tmp, int i);
 int			check_n_option(t_token *first);
-int			cmd_echo(t_infos *infos, t_cmd *cmd);
+void		skip_n_option(t_token **tmp);
 
 /*
 ** BUILT IN PWD
@@ -196,34 +213,45 @@ int			show_current_dir(t_infos *infos, t_cmd *cmd);
 ** The function delete_elem_from_env must be called when the built
 ** in UNSET is called.
 */
-int			fill_env_with_deletion(char ***env, int elem_pos, int env_size);
-int			delete_elem_from_env(char ***env, char *elem);
-int			delete_elem_from_var_lst(t_var **var_lst, char *elem_name);
-void		free_var(t_var **var);
-int			sub_unset_var(t_infos *infos, t_token *to_unset);
-int			unset_var(t_infos *infos, t_cmd *cmd);
-int			check_validity_token(t_token **token, int is_export, int *res);
-void		strings_manipulation(t_token **tokens);
-int			invalid_token(t_token **token, int is_export, int *res);
+
+/*
+** BUILT IN ENV
+*/
+int			show_env(t_infos *infos, t_cmd *cmd, int export);
+int			show_env_for_export(t_infos *infos, t_cmd *cmd, char **env, int i);
+int			show_env_loop(t_infos *infos, t_cmd *cmd, int export, int fd);
+int			check_for_assignment(char *str);
+
+void		free_env(char ***env, int last);
+int			save_env(t_infos *infos, char **env);
+char		*get_elem_name(t_token *elem);
+char		*get_env_elem(char **env, char *elem, int elem_size);
+void		get_elem_name_loop(t_token *elem, char **elem_name, int fill_str);
+
+/*
+** BUILT IN EXPORT
+*/
+int			add_elem_to_env(t_infos *infos, t_cmd *cmd, int env_size);
+int			sub_add_elem_to_env(t_infos *infos, t_token *new_elem,
+				int env_size, int *ptr_res);
 int			add_not_existing_elem_to_env(char ***env, t_token *new_elem,
 				int env_size);
 int			modify_existing_elem_to_env(t_infos *infos, char **env,
 				t_token *new_elem, char *elem_name);
-int			add_elem_to_env(t_infos *infos, t_cmd *cmd, int env_size);
-int			sub_add_elem_to_env(t_infos *infos, t_token *new_elem,
-				int env_size, int *ptr_res);
-char		*get_elem_name(t_token *elem);
-char		*extract_name(char *elem, int size);
-char		*get_env_elem(char **env, char *elem, int elem_size);
-void		get_string_loop(t_token *elem, char **str, int fill_str);
-char		*ft_strdup_linked_string(t_token *token);
-void		move_to_next_token(t_token **token, int one_more);
+
 int			seek_elem_pos(char **env, char *elem_name);
-int			show_env(t_infos *infos, t_cmd *cmd, int export);
-int			show_env_for_export(t_infos *infos, t_cmd *cmd, char **env, int i);
-int			join_for_export_env(t_cmd *cmd, char *to_add, int size);
-void		free_env(char ***env, int last);
-int			save_env(t_infos *infos, char **env);
+void		free_var(t_var **var);
+int			check_validity_token(t_token **token, int is_export, int *res);
+int			invalid_token(t_token **token, int is_export, int *res);
+
+/*
+** BUILT IN UNSET
+*/
+int			unset_var(t_infos *infos, t_cmd *cmd);
+int			sub_unset_var(t_infos *infos, t_token *to_unset);
+int			delete_elem_from_env(char ***env, char *elem);
+int			delete_elem_from_var_lst(t_var **var_lst, char *elem_name);
+int			fill_env_with_deletion(char ***env, int elem_pos, int env_size);
 
 /*
 ** EXIT MANAGEMENT
@@ -231,15 +259,21 @@ int			save_env(t_infos *infos, char **env);
 ** submitting project.
 */
 int			check_for_signal(t_infos *infos);
-void		clean_to_continue(t_infos *infos);
-int			clean_exit(t_infos *infos);
 int			modify_exit_value_variable(t_infos *infos, int new_value);
 
+int			clean_exit(t_infos *infos);
+
+int			return_error(int exit_status, char *error_msg, int msg_is_alloc,
+				int return_value);
+char		*return_null_error(int exit_status, char *error_msg, \
+				int msg_is_alloc);
+int			return_value(int exit_status);
+int			return_signal(int signal_value);
+void		return_pipeline(int last_child_status);
+
 /*
-** MINISHELL INTIALIZATION
+** [ TO CLEAN BELOW ]
 */
-int			init_minishell(t_infos *infos, char **env);
-void		init_variables(int *i1, int *i2);
 
 /*
 ** COMMAND LINE INTERPRETER
@@ -261,6 +295,7 @@ t_tokentype	identify_token_type(char *token, int length);
 int			check_operators_and_undefined_char(t_token *curr, t_token *prev,
 				int *syntax_error, char **error_pos);
 void		add_back_token(t_token **tokens, t_token *new);
+void		strings_manipulation(t_token **tokens);
 
 /*
 ** PARSING
@@ -274,6 +309,13 @@ void		add_back_cmd(t_cmd **cmds, t_cmd *new);
 t_operator	identify_operator(t_token *operator);
 void		free_cmd_list_from_extremity(t_cmd **cmds, int end);
 int			parse_cmd(t_infos *infos);
+
+/*
+** STRING UTILS
+*/
+char		*ft_strdup_linked_string(t_token *token);
+void		move_to_next_token(t_token **token, int one_more);
+void		get_string_loop(t_token *elem, char **str, int fill_str);
 
 /*
 ** GET FILE FULL PATH
@@ -304,19 +346,16 @@ void		get_cmd_with_var(t_infos *infos, int new_size, int ignore, \
 				int dbl);
 
 /*
-** SIGNALS HANDLER
-*/
-void		handle_signals(void);
-void		sig_handler_function(int signum);
-
-/*
 ** ASSIGNMENTS HANDLING
 */
 int			do_assignment(t_infos *infos, t_token *token);
 int			assign_variable_to_list(t_infos *infos, t_token *current_token);
+
 int			add_new_var_to_list(t_infos *infos, char *str);
 int			modify_var_in_list(t_infos *infos, char *str, int *check);
 char		*get_elem_value(char *str);
+
+char		*extract_name(char *elem, int size);
 int			free_lst_var(t_infos *infos);
 
 /*
@@ -375,17 +414,6 @@ void		child_execution(t_infos *infos, t_cmd *exec_cmd);
 int			get_exec_env_diff_size(t_infos *infos, t_cmd *cmd, int *modif);
 int			copy_env(t_infos *infos, char **env, char ***cpy_env,
 				int cpy_diff_size);
-
-/*
-** EXIT STATUS
-*/
-int			return_error(int exit_status, char *error_msg, int msg_is_alloc,
-				int return_value);
-char		*return_null_error(int exit_status, char *error_msg, \
-				int msg_is_alloc);
-int			return_value(int exit_status);
-int			return_signal(int signal_value);
-void		return_pipeline(int last_child_status);
 
 /*
 ** PIPELINE

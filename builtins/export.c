@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/01 21:56:08 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/04 18:22:12 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/05 14:14:17 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,34 +44,6 @@ int	add_not_existing_elem_to_env(char ***env, t_token *new_elem, int env_size)
 	free(*env);
 	*env = tmp_env;
 	return (0);
-}
-
-/*
-** Function to obtains the position of an element identified
-** by the name elem_name inside **env.
-** Returns index (or position insided **env) if success, -1 if
-** env or elem_name is NULL, -2 if the element isn't found inside **env.
-*/
-int	seek_elem_pos(char **env, char *elem_name)
-{
-	int	i;
-	int	elem_pos;
-
-	i = 0;
-	elem_pos = 0;
-	if (!env || !elem_name)
-		return (return_error(1, "something went wrong", 0, -1));
-	while (env[i])
-		i++;
-	while (env[elem_pos])
-	{
-		if (!ft_strncmp(env[elem_pos], elem_name, ft_strlen(elem_name)))
-			break ;
-		elem_pos++;
-	}
-	if (elem_pos == i)
-		return (-2);
-	return (elem_pos);
 }
 
 /*

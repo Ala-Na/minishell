@@ -3,21 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   history.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/30 17:16:26 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/16 17:24:58 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/05 14:33:30 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../../minishell.h"
 
 /*
-** Fonction qui va ouvrir le fichier minishell_history, ajouter chaque
-** ligne dans l'historique courant via add_history(), ce qui permettra
-** de les rendre "disponibles" lorsque la touche fleche vers le haut est pressee.
-** Retourne le fd de l'historique qui sera stocke dans la strcuture infos.
-** Sinon retourne -1 en cas d'erreur.
+** Function that will open minishell_history, add a new line of history via
+**	add_history(), which will make them available to readline (up arrow)
+** Returns the fd of the file that will be stored in the infos structure
+**	Returns -1 in case of an error.
 */
 int	get_previous_history(void)
 {
@@ -25,8 +24,8 @@ int	get_previous_history(void)
 	char	*str;
 
 	str = NULL;
-	fd = open("./history/minishell_history", O_RDWR | O_APPEND | O_CREAT,
-			S_IRWXG | S_IRWXU);
+	fd = open(".architecture/history/minishell_history",
+			O_RDWR | O_APPEND | O_CREAT, S_IRWXG | S_IRWXU);
 	if (fd == -1)
 		return (fd);
 	while (get_next_line(fd, &str) > 0)
@@ -40,8 +39,8 @@ int	get_previous_history(void)
 }
 
 /*
-** Fonction permettant d'ajouter la ligne de commande courante a l'historique.
-** Passer infos->fd_history en 1er argument et infos->curr_cmd en 2nd.
+**	Function that will add a new line in the file minishell_history 
+** when the command is executed.
 */
 void	add_line_to_history(int history_fd, char *str)
 {

@@ -6,11 +6,11 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/02 11:52:56 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/02 14:23:12 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/05 13:59:23 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 /*
 ** The two following functions initialize the variable "SHLVL" in the

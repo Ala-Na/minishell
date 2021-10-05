@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/13 16:06:44 by hlichir           #+#    #+#             */
-/*   Updated: 2021/10/01 20:13:21 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/05 14:25:22 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,38 +101,6 @@ int	add_new_var_to_list(t_infos *infos, char *str)
 	else
 		current->next = new;
 	return (0);
-}
-
-/*
-** Function to get all tokens linked together.
-*/
-void	get_string_loop(t_token *elem, char **str, int fill_str)
-{
-	t_token	*curr;
-	int		i;
-	int		j;
-
-	i = 0;
-	j = 0;
-	curr = elem;
-	while (curr)
-	{
-		j = 0;
-		while (j < curr->length)
-		{
-			if (fill_str)
-				(*str)[i] = curr->token[j];
-			i++;
-			j++;
-		}
-		if (!curr->linked_to_next)
-			break ;
-		curr = curr->next;
-	}
-	if (fill_str)
-		(*str)[i] = 0;
-	else
-		*str = malloc(sizeof(**str) * (i + 1));
 }
 
 /*

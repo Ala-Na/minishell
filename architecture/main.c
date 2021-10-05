@@ -6,11 +6,11 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 14:58:07 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/05 14:45:26 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/06 10:58:59 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 /*
 ** Function to free allocated memory to prepare the next loop.

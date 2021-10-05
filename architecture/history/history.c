@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/30 17:16:26 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/05 14:33:30 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/05 14:39:20 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	get_previous_history(void)
 	char	*str;
 
 	str = NULL;
-	fd = open(".architecture/history/minishell_history",
+	fd = open("./architecture/history/minishell_history", \
 			O_RDWR | O_APPEND | O_CREAT, S_IRWXG | S_IRWXU);
 	if (fd == -1)
 		return (fd);

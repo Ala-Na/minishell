@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 15:55:23 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/05 16:10:37 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/05 17:28:42 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -328,12 +328,12 @@ int			assignments_management(t_infos *infos, t_cmd *head_cmd, t_cmd *cmd, \
 ** SIMPLE COMMAND EXECUTION
 */
 int			execute_simple_cmd(t_infos *infos);
-char		*get_exec_path(t_infos *infos, t_cmd *cmd, char ***exec_env,
+char		*get_exec_path(t_infos *infos, t_cmd **cmd, char ***exec_env,
 				t_token **exec_token);
-t_token		*move_to_exec(t_infos *infos, t_cmd *cmd, char ***exec_env);
+t_token		*move_to_exec(t_infos *infos, t_cmd **cmd, char ***exec_env);
 int			return_free_args(char ***env, int i, int error_msg);
 char		**get_exec_args(t_infos *infos, t_cmd *cmd, t_token *exec_token);
-int			get_args_nbr(t_cmd *cmd, t_token *exec_token, int nbr_args);
+int			get_args_nbr(t_infos *infos, t_cmd *cmd, t_token *exec_token);
 int			get_arg_loop(t_cmd **cmd, t_token **curr_token);
 int			check_add_input(t_infos *infos, char ***exec_args, int nbr_args);
 int			add_tmp_file_to_args(char ***exec_args);
@@ -369,6 +369,8 @@ void		child_execution(t_infos *infos, t_cmd *exec_cmd);
 int			get_exec_env_diff_size(t_infos *infos, t_cmd *cmd, int *modif);
 int			copy_env(t_infos *infos, char **env, char ***cpy_env,
 				int cpy_diff_size);
+int			complete_exec_env_with_assignments(t_infos *infos,
+				t_cmd *cmd, char ***exec_env);
 
 /*
 ** EXIT STATUS

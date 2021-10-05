@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/03 21:22:56 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/05 16:27:45 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/05 17:48:45 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,11 @@ t_token	*get_next_token(t_infos *infos, t_cmd *head_cmd,
 	if (check_if_first_call(head_cmd, prev_cmd, &curr_token, &prev_was_redir) != 0)
 		return (curr_token);
 	else if (prev_token && prev_token != (*prev_cmd)->end)
-		return (prev_token->next);
+	{
+		if (!prev_token->prev || prev_token->prev->linked_to_next == NULL)
+			return (prev_token->next);
+		prev_was_redir = 1;
+	}
 	else if (prev_token && check_if_end_pipeline(*prev_cmd, prev_token) == 1)
 		return (NULL);
 	else if (prev_token && prev_token == (*prev_cmd)->end && (*prev_cmd)->next_operator > 0)

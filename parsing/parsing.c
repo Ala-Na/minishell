@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/07 14:43:01 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/05 12:03:25 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/05 14:43:07 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,8 +89,10 @@ t_cmd	*separate_simple_cmd(t_infos *infos)
 	{
 		if (lst_tokens->type == OPERATOR && lst_tokens->prev
 			&& lst_tokens->prev->type == OPERATOR)
+		{
 			if (check_init_new_cmd(&new, lst_tokens, &lst_cmds, &new_cmd) == -1)
 				return (NULL);
+		}
 		else if (lst_tokens->type != OPERATOR && new_cmd
 			&& check_init_new_cmd(&new, lst_tokens, &lst_cmds, &new_cmd) == -1)
 			return (NULL);

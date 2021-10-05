@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 15:55:23 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/05 12:07:30 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/05 16:10:37 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,7 +163,7 @@ void		add_line_to_history(int history_fd, char *str);
 ** WARNING : Doesn't check if the path is correctly formated.
 */
 int			change_directory(t_infos *infos, char *new_dir_path, int is_alloc);
-int			cmd_change_directory(t_infos *infos, t_cmd *cmd);
+int			cmd_change_directory(t_infos *infos, t_cmd *cmd, t_token *token);
 
 /*
 ** BUILT IN ECHO
@@ -317,10 +317,11 @@ int			free_lst_var(t_infos *infos);
 */
 int			launch_cmds(t_infos *infos);
 int			check_if_pipes(t_infos *infos);
-int			check_assignments(t_infos *infos, t_cmd *cmd, t_token *first_non_redir);
+int			check_assignments(t_infos *infos, t_cmd *head_cmd, t_cmd *cmd,
+				t_token *first_non_redir);
 int			is_only_assignments(t_infos *infos, t_cmd *cmd, t_token *first_non_redir);
 int			launch_simple_cmd(t_infos *infos, t_cmd *cmd, int from_pipe);
-int			assignments_management(t_infos *infos, t_cmd *cmd, \
+int			assignments_management(t_infos *infos, t_cmd *head_cmd, t_cmd *cmd, \
 				t_token **exec_token);
 
 /*
@@ -391,5 +392,6 @@ t_cmd		*get_next_cmd(t_cmd *cmd);
 t_token		*get_next_token(t_infos *infos, t_cmd *head_cmd,
 		t_cmd **prev_cmd, t_token *prev_token);
 int			check_if_end_pipeline(t_cmd *cmd, t_token *token);
+t_token		*get_exec_token(t_infos *infos, t_cmd *head_cmd, t_cmd **exec_cmd);
 
 #endif

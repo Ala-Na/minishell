@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/02 14:46:17 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/01 22:00:53 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/05 16:11:13 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,20 +39,24 @@ t_builtin	check_builtin(char *first_elem)
 }
 
 /*
-** FONCTION A REMPLIR AU FUR ET A MESURE
-** Warning ; Pour le moment, lance les assignements
-** sans prendre en compte ce qu'il y a derrière.
-** Warning : IL FAUT CREER FONCTION POUR VERIFIER SI QUE ASSIGNMENTS
-** OU SI CMD 
+** Fonction called when t_builtin is not NONE.
+** Lead programm to the corresponding builtin function after making
+** redirections and recuperation of builtin_token.
+** Returns depends of the called builtin.
 */
 int	launch_builtin(t_infos *infos, t_cmd *cmd, t_builtin builtin)
 {
+	t_token	*builtin_token;
+
 	if (!infos || !cmd)
 		return (return_error(1, "something went wrong", 0, -1));
 	if (add_redirections(cmd, 0) < 0)
 		return (-1);
+	builtin_token = get_exec_token(infos, cmd, &cmd);
+	if (!builtin_token)
+		return (return_error(1, "something went wrong", 0, -1));
 	if (builtin == CD)
-		return (cmd_change_directory(infos, cmd));
+		return (cmd_change_directory(infos, cmd, builtin_token));
 	else if (builtin == ECHO)
 		return (cmd_echo(infos, cmd));
 	else if (builtin == ENV)

@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/22 17:28:50 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/05 12:35:41 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/05 16:32:54 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,30 +18,21 @@
 ** Return -1 in case of error, 0 if only assignments are presents in the command
 ** 1 otherwise.
 */
-int	assignments_management(t_infos *infos, t_cmd *cmd, t_token **exec_token)
+int	assignments_management(t_infos *infos, t_cmd *head_cmd, t_cmd *cmd,
+		t_token **exec_token)
 {
 	int		assignments;
 	t_token	*curr_token;
 	t_cmd	*curr_cmd;
 
-	printf("here with exec_token is %s\n", (*exec_token)->token);
-	assignments = check_assignments(infos, cmd, *exec_token);
-	printf("here\n");
+	assignments = check_assignments(infos, head_cmd, cmd, *exec_token);
 	if (assignments == 1)
 		return (0);
 	else if (assignments == -1)
 		return (-1);
-	curr_token = *exec_token;
-	while (curr_token && curr_token->type == ASSIGNMENT)
-	{
-		printf("curr token is %s\n", curr_token->token);
-		curr_token = get_next_token(infos, cmd, &curr_cmd, curr_token);
-		if (check_if_end_pipeline(curr_cmd, curr_token) == 1)
-			break ;
-	}
-	if (!curr_token || curr_token->type == ASSIGNMENT)
-		return (return_error(1, "something went wrong", 0, -1));
-	*exec_token = curr_token;
+	curr_cmd = NULL;
+	if ((*exec_token)->type == ASSIGNMENT)
+		*exec_token = get_exec_token(infos, head_cmd, &curr_cmd);
 	return (1);
 }
 
@@ -64,22 +55,14 @@ int	launch_simple_cmd(t_infos *infos, t_cmd *cmd, int from_pipe)
 
 	curr_cmd = NULL;
 	exec_token = NULL;
-	printf("inside launch simple\n");
 	if (!infos || !cmd)
 		return (return_error(1, "something went wrong", 0, -1));
-	//
-	if (cmd->start)
-		printf("first token is %s\n", cmd->start->token);
-	else
-		printf("next op is %i and next token is %i\n", cmd->next_operator, cmd->next->next_operator);
-	printf("go to next token\n");
 	exec_token = get_next_token(infos, cmd, &curr_cmd, exec_token);
-	printf("exec token is %s\n", exec_token->token);
 	if (!exec_token && g_exit_status == 0)
 		return (add_redirections(cmd, 0));
 	else if (!exec_token)
-		return (-1);
-	only_assignments = assignments_management(infos, curr_cmd, &exec_token);
+		return (-1); // CREER FONCTION POUR VERIF SI QUE REDIR
+	only_assignments = assignments_management(infos, cmd, curr_cmd, &exec_token);
 	if (only_assignments <= 0)
 		return (only_assignments);
 	str = ft_strdup_linked_string(exec_token);
@@ -88,8 +71,8 @@ int	launch_simple_cmd(t_infos *infos, t_cmd *cmd, int from_pipe)
 	builtin = check_builtin(str);
 	if (builtin == -1)
 		return (-1);
-	else if (builtin != NONE) // CONTINUER A MODIFIER A PARTIR ICI POUR REDIRECTION
-		return (launch_builtin(infos, cmd, builtin));
+	else if (builtin != NONE)
+		return (launch_builtin(infos, cmd, builtin)); //RESTE BUILTIN A VERIF A PART CD
 	if (!from_pipe)
 		return (execute_simple_cmd(infos));
 	else
@@ -121,7 +104,6 @@ int	check_if_pipes(t_infos *infos)
 
 /*
 ** Function to start launch of commands.
-** WARNING : Remplace return(0) par return (launch_pipes)
 */
 int	launch_cmds(t_infos *infos)
 {

@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/22 16:53:14 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/05 12:09:37 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/05 15:34:10 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,8 @@ int	is_only_assignments(t_infos *infos, t_cmd *cmd, t_token *first_non_redir)
 ** Return -1 in cas of error, 1 if the command was only made of assignments,
 ** 0 otherwise.
 */
-int	check_assignments(t_infos *infos, t_cmd *cmd, t_token *first_non_redir)
+int	check_assignments(t_infos *infos, t_cmd *head_cmd, t_cmd *cmd,
+		t_token *first_non_redir)
 {
 	int		assignments;
 	t_token	*curr_token;
@@ -78,8 +79,7 @@ int	check_assignments(t_infos *infos, t_cmd *cmd, t_token *first_non_redir)
 	assignments = is_only_assignments(infos, cmd, first_non_redir);
 	if (assignments <= 0)
 		return (assignments);
-	if (add_redirections(cmd, 0) == -1)
-		return (-1);
+	add_redirections(head_cmd, 0);
 	curr_token = first_non_redir;
 	curr_cmd = cmd;
 	while (cmd && curr_token)

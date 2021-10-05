@@ -6,11 +6,37 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/03 21:22:56 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/05 12:30:52 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/05 16:27:45 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+/*
+** Function which returns the executable/builtin token.
+** It skips redirections instructions and assignments.
+** It fills exec_cmd with the cmd containing the exec_token.
+** Returns NULL in case of error (or only assignments/redirections).
+*/
+t_token	*get_exec_token(t_infos *infos, t_cmd *head_cmd, t_cmd **exec_cmd)
+{
+	t_token	*curr_token;
+
+	curr_token = NULL;
+	*exec_cmd = NULL;
+	curr_token = get_next_token(infos, head_cmd, exec_cmd, curr_token);
+	while (1)
+	{
+		if (curr_token->type != ASSIGNMENT)
+			break ;
+		if (check_if_end_pipeline(*exec_cmd, curr_token) == 1)
+			break ;
+		curr_token = get_next_token(infos, head_cmd, exec_cmd, curr_token);
+	}
+	if (!curr_token || curr_token->type == ASSIGNMENT)
+		return ((t_token *)(return_null_error(1, "something went wrong", 0)));
+	return (curr_token);
+}
 
 /*
 ** Function to check if present token is the last of a pipeline (single or 

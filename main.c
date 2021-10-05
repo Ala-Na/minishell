@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 14:58:07 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/05 00:21:08 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/05 12:31:42 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,23 +58,7 @@ void	parse_and_execute(t_infos *infos)
 	res = parse_cmd(infos);
 	if (res != 0)
 		return ;
-	t_token	*curr = infos->lst_cmds->start;
-	int		to_print = 1;
-	t_cmd	*prev = NULL;
-	while (to_print)
-	{
-		if (curr)
-			printf("cmd start is %s\n", curr->token);
-		else
-			printf("cmd start with operator\n");
-		curr = get_next_token(infos, infos->lst_cmds, &prev, curr);
-		if (curr == NULL)
-			return ;
-	}
 	launch_cmds(infos);
-	final_cmd = infos->lst_cmds;
-	while (final_cmd->next)
-		final_cmd = final_cmd->next;
 }
 
 /*

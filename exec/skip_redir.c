@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/03 21:22:56 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/05 00:24:57 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/05 12:30:52 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ int	check_if_first_call(t_cmd *head_cmd, t_cmd **prev_cmd, t_token **curr_token,
 		return (return_error(1, "something went wrong", 0, -1));
 	if (!*prev_cmd)
 	{
-		(*prev_cmd) = head_cmd;
+		*prev_cmd = head_cmd;
 		if (!head_cmd->start)
 		{
 			*prev_was_redir = 1;

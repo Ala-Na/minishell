@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/22 17:28:50 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/03 22:00:56 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/05 12:35:41 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,55 +21,28 @@
 int	assignments_management(t_infos *infos, t_cmd *cmd, t_token **exec_token)
 {
 	int		assignments;
-	t_token	*first_non_redir;
-	t_token	*first_non_assignment;
+	t_token	*curr_token;
+	t_cmd	*curr_cmd;
 
-	if (cmd && cmd->prev && cmd->prev->next_operator > 0)
-		first_non_redir = cmd->start->next;
-	else
-		first_non_redir = cmd->start;
-	assignments = check_assignments(infos, cmd, first_non_redir);
+	printf("here with exec_token is %s\n", (*exec_token)->token);
+	assignments = check_assignments(infos, cmd, *exec_token);
+	printf("here\n");
 	if (assignments == 1)
 		return (0);
 	else if (assignments == -1)
 		return (-1);
-	first_non_assignment = cmd->start;
-	while (first_non_assignment && first_non_assignment->type == ASSIGNMENT)
+	curr_token = *exec_token;
+	while (curr_token && curr_token->type == ASSIGNMENT)
 	{
-		first_non_assignment = first_non_assignment->next;
-		if (first_non_assignment == infos->lst_cmds->end)
+		printf("curr token is %s\n", curr_token->token);
+		curr_token = get_next_token(infos, cmd, &curr_cmd, curr_token);
+		if (check_if_end_pipeline(curr_cmd, curr_token) == 1)
 			break ;
 	}
-	if (!first_non_assignment || first_non_assignment->type == ASSIGNMENT)
+	if (!curr_token || curr_token->type == ASSIGNMENT)
 		return (return_error(1, "something went wrong", 0, -1));
-	*exec_token = first_non_assignment;
+	*exec_token = curr_token;
 	return (1);
-}
-
-/*
-** Function which return the first cmd not containing only
-** redirections.
-** Returns NULL if a full pipeline only contains redirections or
-** in case of error.
-*/
-t_cmd	*get_first_non_redir_cmd(t_infos *infos, t_cmd *cmd)
-{
-	t_cmd	*seek;
-
-	if (!infos || !cmd)
-		return ((t_cmd *)return_null_error(1, "something went wrong", 0));
-	if (cmd->start)
-		return (cmd);
-	seek = cmd->next;
-	while (seek && seek->next_operator > 0)
-	{
-		if (seek->start != seek->end)
-			return (seek);
-		seek = seek->next;
-	}
-	if (seek && seek->start != seek->end)
-		return (seek);
-	return (NULL);
 }
 
 /*
@@ -86,17 +59,27 @@ int	launch_simple_cmd(t_infos *infos, t_cmd *cmd, int from_pipe)
 	int			only_assignments;
 	char		*str;
 	t_builtin	builtin;
-	t_cmd		*non_redir;
+	t_cmd		*curr_cmd;
 	t_token		*exec_token;
 
-	if (!infos || !cmd || (!cmd->start && cmd->next_operator <= 0))
+	curr_cmd = NULL;
+	exec_token = NULL;
+	printf("inside launch simple\n");
+	if (!infos || !cmd)
 		return (return_error(1, "something went wrong", 0, -1));
-	non_redir = get_first_non_redir_cmd(infos, cmd);
-	if (!non_redir && g_exit_status == 0)
+	//
+	if (cmd->start)
+		printf("first token is %s\n", cmd->start->token);
+	else
+		printf("next op is %i and next token is %i\n", cmd->next_operator, cmd->next->next_operator);
+	printf("go to next token\n");
+	exec_token = get_next_token(infos, cmd, &curr_cmd, exec_token);
+	printf("exec token is %s\n", exec_token->token);
+	if (!exec_token && g_exit_status == 0)
 		return (add_redirections(cmd, 0));
-	else if (!non_redir)
+	else if (!exec_token)
 		return (-1);
-	only_assignments = assignments_management(infos, non_redir, &exec_token);
+	only_assignments = assignments_management(infos, curr_cmd, &exec_token);
 	if (only_assignments <= 0)
 		return (only_assignments);
 	str = ft_strdup_linked_string(exec_token);

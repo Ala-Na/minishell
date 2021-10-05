@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/22 16:53:14 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/04 22:45:33 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/05 12:09:37 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,35 +41,23 @@ int	do_assignment(t_infos *infos, t_token *token)
 ** If it's the case, it returns 1. Else, it returns 0.
 ** Returns -1 in case of error.
 */
-int	is_only_assignments(t_cmd *cmd, t_token *first_non_redir)
+int	is_only_assignments(t_infos *infos, t_cmd *cmd, t_token *first_non_redir)
 {
+	t_cmd	*curr_cmd;
 	t_token	*current;
 	int		prev_was_redir;
 
 	if (!cmd || !first_non_redir)
 		return (return_error(1, "something went wrong", 0, -1));
-	prev_was_redir = 0;
+	curr_cmd = cmd;
 	current = first_non_redir;
-	while (cmd && current)
+	while (curr_cmd && current)
 	{
-		if (prev_was_redir == 0 && current->type != ASSIGNMENT)
+		if (current->type != ASSIGNMENT)
 			return (0);
-		if (current == cmd->end && cmd->next_operator <= 0)
+		if (check_if_end_pipeline(curr_cmd, current) == 1)
 			return (1);
-		else if (current == cmd->end)
-		{
-			cmd = cmd->next;
-			if (cmd && cmd->start)
-			{
-				current = cmd->start;
-				prev_was_redir = 1;
-			}
-		}
-		else
-		{
-			current = current->next;
-			prev_was_redir = 0;
-		}
+		current = get_next_token(infos, cmd, &curr_cmd, current);
 	}
 	return (1);
 }
@@ -85,35 +73,20 @@ int	check_assignments(t_infos *infos, t_cmd *cmd, t_token *first_non_redir)
 {
 	int		assignments;
 	t_token	*curr_token;
-	int		prev_was_redir;
+	t_cmd	*curr_cmd;
 
-	assignments = is_only_assignments(cmd, first_non_redir);
+	assignments = is_only_assignments(infos, cmd, first_non_redir);
 	if (assignments <= 0)
 		return (assignments);
 	if (add_redirections(cmd, 0) == -1)
 		return (-1);
 	curr_token = first_non_redir;
-	prev_was_redir = 0;
+	curr_cmd = cmd;
 	while (cmd && curr_token)
 	{
-		if (prev_was_redir == 0 && do_assignment(infos, curr_token) == -1)
+		if (do_assignment(infos, curr_token) == -1)
 			return (-1);
-		if (curr_token == cmd->end && cmd->next_operator <= 0)
-			break ;
-		if (curr_token == cmd->end && cmd->next_operator > 0)
-		{
-			cmd = cmd->next;
-			if (cmd && cmd->start)
-			{
-				curr_token = cmd->start;
-				prev_was_redir = 1;
-			}
-		}
-		else
-		{
-			prev_was_redir = 0;
-			curr_token = curr_token->next;
-		}
+		curr_token = get_next_token(infos, cmd, &curr_cmd, curr_token);
 	}
 	return (1);
 }

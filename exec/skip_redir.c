@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/03 21:22:56 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/05 17:48:45 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/05 18:07:47 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,8 @@ int	get_next_token_loop(t_cmd **cmd, t_token **token, int prev_was_redir)
 			*cmd = (*cmd)->next;
 			*token = (*cmd)->start;
 		}
+		else if ((*token)->prev && (*token)->prev->linked_to_next != NULL)
+			*token = (*token)->next;
 		else
 		{
 			*token = (*token)->next;
@@ -129,8 +131,11 @@ t_token	*get_next_token(t_infos *infos, t_cmd *head_cmd,
 		return (curr_token);
 	else if (prev_token && prev_token != (*prev_cmd)->end)
 	{
-		if (!prev_token->prev || prev_token->prev->linked_to_next == NULL)
+		printf("here with %s\n", prev_token->token);
+		if (!prev_token->prev || !prev_token->prev->linked_to_next)
 			return (prev_token->next);
+		else if (prev_token->next != (*prev_cmd)->end)
+			return (prev_token->next->next);
 		prev_was_redir = 1;
 	}
 	else if (prev_token && check_if_end_pipeline(*prev_cmd, prev_token) == 1)

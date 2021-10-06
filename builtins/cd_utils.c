@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/05 13:05:41 by hlichir           #+#    #+#             */
-/*   Updated: 2021/10/05 14:06:06 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/06 11:14:11 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,26 +48,26 @@ int	create_tmp_new_elem(t_token **new_elem, char *name, char *value, char *str)
 **	Subfunction to save the old path name in a tmp_variable & to check
 ** if cd - was called.
 */
-char	*check_oldpwd_cdpath(char **env, char **path, int *is_alloc)
+char	*check_oldpwd_cdpath(t_infos *infos, char **path, int *is_alloc)
 {
 	int			nb;
 
 	if (!ft_strncmp(*path, "-", 2))
 	{
-		nb = seek_elem_pos(env, "OLDPWD");
+		nb = seek_elem_pos(infos->env, "OLDPWD");
 		if (nb < 0)
 			return (return_null_error(1, "cd: OLDPWD not set", 0));
 		if (*is_alloc)
 			free(*path);
-		*path = ft_strdup_free(get_elem_value(env[nb]), 1);
+		*path = ft_strdup_free(get_elem_value((infos->env)[nb]), 1);
 		if (!(*path))
 			return (return_null_error(1, "memory allocation error", 0));
 		*is_alloc = 2;
 	}
-	else if (get_env_elem(env, "CDPATH", ft_strlen("CDPATH")))
-		if (handle_cd_path(env, path, is_alloc) < 0)
+	else if (get_env_elem(infos->env, "CDPATH", ft_strlen("CDPATH")))
+		if (handle_cd_path(infos->env, path, is_alloc) < 0)
 			return (return_null_error(1, "error", 0));
-	return (get_curr_dir(0));
+	return (get_curr_dir(infos, 0));
 }
 
 /*

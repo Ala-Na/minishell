@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/30 16:59:11 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/06 10:57:30 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/06 11:15:16 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	change_directory(t_infos *infos, char *new_path, int is_alloc)
 			free(new_path);
 		return (return_error(1, "something went wrong", 0, -1));
 	}
-	tmp_path = check_oldpwd_cdpath(infos->env, &new_path, &is_alloc);
+	tmp_path = check_oldpwd_cdpath(infos, &new_path, &is_alloc);
 	if (!tmp_path)
 		return (return_error(1, "memory allocation error", 0, -1));
 	if (chdir(new_path) == -1)
@@ -44,7 +44,7 @@ int	change_directory(t_infos *infos, char *new_path, int is_alloc)
 		return (return_error(1, strerror(errno), 0, -1));
 	}
 	modify_pwd(infos, "OLDPWD", tmp_path, 0);
-	modify_pwd(infos, "PWD", get_curr_dir(0), is_alloc);
+	modify_pwd(infos, "PWD", get_curr_dir(infos, 0), is_alloc);
 	if (is_alloc)
 		free(new_path);
 	return (0);

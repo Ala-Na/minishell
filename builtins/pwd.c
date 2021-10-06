@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/06 14:50:47 by hlichir           #+#    #+#             */
-/*   Updated: 2021/10/04 20:14:40 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/06 11:15:29 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	show_current_dir(t_infos *infos, t_cmd *cmd)
 
 	pos = seek_elem_pos(infos->env, "PWD");
 	if (pos < 0)
-		str = get_curr_dir(0);
+		str = get_curr_dir(infos, 0);
 	else
 		str = get_elem_value((infos->env)[pos]);
 	if (!str)

@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 14:58:07 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/06 10:58:59 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/06 11:12:16 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ int	minishell_loop(t_infos *infos)
 {
 	while (1)
 	{
-		infos->prompt = get_prompt();
+		infos->prompt = get_prompt(infos);
 		if (!infos->prompt)
 			return (return_error(1, "minshell : fatal error", 0, 1));
 		infos->curr_cmd = readline(infos->prompt);

@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 15:55:23 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/06 10:59:20 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/06 11:14:52 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,9 +153,9 @@ int			get_shell_nbr(char *str);
 ** Set of function to display a "clean" prompt under the format :
 ** prompt_name > current_directory (with HOME replace by ~).
 */
-void		simplify_prompt_curr_dir(char **prompt);
-char		*get_curr_dir(int prompt);
-char		*get_prompt(void);
+void		simplify_prompt_curr_dir(t_infos *infos, char **prompt);
+char		*get_curr_dir(t_infos *infos, int prompt);
+char		*get_prompt(t_infos *infos);
 
 /*
 ** HISTORY MANAGEMENT
@@ -180,12 +180,11 @@ void		sig_handler_function(int signum);
 */
 int			change_directory(t_infos *infos, char *new_dir_path, int is_alloc);
 int			cmd_change_directory(t_infos *infos, t_cmd *cmd, t_token *token);
-int			cmd_change_directory(t_infos *infos, t_cmd *cmd);
 int			modify_pwd(t_infos *infos, char *name, char *new_pwd, int is_old);
 
 int			create_tmp_new_elem(t_token **new_elem, char *name, char *value, \
 				 char *str);
-char		*check_oldpwd_cdpath(char **env, char **path, int *is_alloc);
+char		*check_oldpwd_cdpath(t_infos *infos, char **path, int *is_alloc);
 int			handle_cd_path(char **env, char **path, int *is_alloc);
 
 /*

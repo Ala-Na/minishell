@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 15:55:23 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/06 16:54:12 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/06 17:01:06 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -220,7 +220,7 @@ int			show_current_dir(t_infos *infos, t_cmd *cmd);
 */
 int			show_env(t_infos *infos, t_cmd *cmd, t_token *builtin_token, int export);
 int			show_env_for_export(t_infos *infos, t_cmd *cmd, char **env, int i);
-int			show_env_loop(t_infos *infos, t_cmd *cmd, int export, int fd);
+int			show_env_loop(t_infos *infos, t_cmd *cmd, int fd, int export);
 int			check_for_assignment(char *str);
 
 void		free_env(char ***env, int last);

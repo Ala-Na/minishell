@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 15:55:23 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/06 11:14:52 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/06 13:47:49 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,8 @@ typedef enum e_tokentype
 	IDENTIFIER,
 	ASSIGNMENT,
 	OPERATOR,
-	STRING
+	STRING,
+	VARIABLE
 }	t_tokentype;
 
 /*
@@ -338,10 +339,10 @@ t_builtin	check_builtin(char *first_elem);
 */
 void		expand_variables(t_infos *infos, int dbl, int ignore, \
 				int new_size);
-int			get_var(char *cmd, char **var, char **env, t_var *var_lst);
+int			get_var(t_infos *infos, char *cmd, char **var, int dbl);
 void		sub_get_var(char **var, char *elem_name,
 				char **env, t_var *var_lst);
-void		add_var(t_infos *infos, char **new_cmd, int *i, int *j);
+void		add_var(t_infos *infos, char **new_cmd, int *i, int *j, int dbl);
 void		get_cmd_with_var(t_infos *infos, int new_size, int ignore, \
 				int dbl);
 

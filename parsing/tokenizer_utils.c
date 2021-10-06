@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/05 14:12:00 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/01 20:06:56 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/06 13:52:06 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ t_tokentype	identify_token_type(char *token, int length)
 	i = 0;
 	if (token[i] == '"' || token[i] == '\'')
 		return (STRING);
+	else if (token[i] == '$')
+		return (VARIABLE);
 	else if (ft_strchr("|><", token[i]))
 		return (OPERATOR);
 	tmp_type = IDENTIFIER;
@@ -128,7 +130,7 @@ void	strings_manipulation(t_token **tokens)
 		if (curr_token->type != STRING)
 		{
 			if (curr_token->token[curr_token->length] && curr_token->next && \
-				ft_strchr("\"\'", curr_token->token[curr_token->length]))
+				ft_strchr("\"\'$", curr_token->token[curr_token->length]))
 				curr_token->linked_to_next = curr_token->next;
 		}
 		else

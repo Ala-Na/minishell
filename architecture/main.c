@@ -6,7 +6,11 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 14:58:07 by anadege           #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2021/10/06 13:40:14 by anadege          ###   ########.fr       */
+=======
+/*   Updated: 2021/10/05 13:59:25 by hlichir          ###   ########.fr       */
+>>>>>>> 737b8433d011791d8b39fd66ff30fbfd97d8bc4a
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +62,7 @@ void	parse_and_execute(t_infos *infos)
 	res = parse_cmd(infos);
 	if (res != 0)
 		return ;
-		launch_cmds(infos);
+	launch_cmds(infos);
 }
 
 /*

@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/01 21:57:01 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/06 17:30:59 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/06 23:17:46 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,10 @@ int	unset_var(t_infos *infos, t_cmd *head_cmd, t_token *builtin_token)
 	while (to_unset)
 	{
 		if (check_validity_token(&to_unset, 0, NULL) < 0)
+		{
+			to_unset = get_next_token(infos, head_cmd, &cmd, to_unset);
 			continue ;
+		}
 		tmp_res = sub_unset_var(infos, to_unset);
 		if (tmp_res < 0)
 			return (-1);

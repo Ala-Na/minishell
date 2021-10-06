@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/21 11:03:41 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/06 10:55:13 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/06 23:19:51 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,10 @@ int	sub_get_args(t_infos *infos, t_cmd *exec_cmd, t_token *exec_token,
 	int		loop;
 	t_cmd	*curr_cmd;
 
-
 	i = 0;
 	curr_cmd = exec_cmd;
 	while (curr_cmd && exec_token)
 	{
-		//printf("curr token is %s\n", exec_token->token);
 		(*exec_args)[i] = ft_strdup_linked_string(exec_token);
 		if (!(*exec_args)[i++])
 			return (return_free_args(exec_args, i - 1, 1));
@@ -97,7 +95,7 @@ char	*get_exec_path(t_infos *infos, t_cmd **cmd, char ***exec_env,
 	if (!infos || !cmd)
 		return (return_null_error(1, "something went wrong", 0));
 	*exec_env = NULL;
-	*exec_token = move_to_exec(infos, cmd, exec_env);
+	*exec_token = move_to_exec_and_fill_env(infos, cmd, exec_env);
 	if (!*exec_token)
 		return (NULL);
 	path = ft_strdup_linked_string(*exec_token);

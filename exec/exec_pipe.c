@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/27 17:16:19 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/06 18:39:31 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/06 23:04:57 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	pipe_child_execution(t_infos *infos, t_cmd *cmd, int pipe_fd[2],
 			return_error(1, strerror(errno), 0, 0);
 	}
 	if (g_exit_status == 0)
-		res = launch_simple_cmd(infos, cmd, 1);
+		res = init_launch_simple_cmd(infos, cmd, 1);
 	exit(g_exit_status);
 }
 

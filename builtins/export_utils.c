@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/01 19:29:45 by hlichir           #+#    #+#             */
-/*   Updated: 2021/10/05 14:19:02 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/06 23:18:04 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ int	invalid_token(t_token **token, int is_export, int *res)
 	free(tmp);
 	if (!str)
 		return (return_error(1, "memory allocation error", 0, -1));
-	move_to_next_token(token, 1);
 	write(2, str, ft_strlen(str));
 	write(2, "\n", 1);
 	return (-1);
@@ -70,7 +69,7 @@ int	invalid_token(t_token **token, int is_export, int *res)
 /*
 ** Function to check if the argument to unset is valid or not.
 ** 1. Check if all the characters are '_' -> valid
-** 2. Check if all the characters are either 0-9 or '_' -> invalid
+*t 2. Check if all the characters are either 0-9 or '_' -> invalid
 ** 3. Check if all the characters are either alphanumeric or '_' -> valid
 ** 4. If the third check fails -> invalid
 */

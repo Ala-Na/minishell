@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/17 16:53:57 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/06 10:52:23 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/06 23:25:49 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,8 @@ int	add_elem_to_exec_env(t_infos *infos, char ***exec_env, t_token *new_elem)
 /*
 ** Function to complete env with assignements.
 */
-int	complete_exec_env_with_assignments(t_infos *infos, t_cmd *cmd, char ***exec_env)
+int	complete_exec_env_with_assignments(t_infos *infos, t_cmd *cmd,
+		char ***exec_env)
 {
 	t_token	*curr_token;
 	char	**env;
@@ -78,26 +79,23 @@ int	complete_exec_env_with_assignments(t_infos *infos, t_cmd *cmd, char ***exec_
 */
 int	get_exec_env_diff_size(t_infos *infos, t_cmd *cmd, int *modif)
 {
-	t_token	*curr_token;
-	char	**env;
 	int		diff_size;
 	char	*elem_name;
 	t_cmd	*prev_cmd;
+	t_token	*curr_token;
 
 	diff_size = 0;
-	*modif = 0;
 	prev_cmd = NULL;
 	curr_token = NULL;
 	if (!infos || !cmd || !infos->env)
 		return (return_error(1, "something went wrong", 0, -1));
-	env = infos->env;
 	curr_token = get_next_token(infos, cmd, &prev_cmd, curr_token);
 	while (curr_token->type == ASSIGNMENT)
 	{
 		elem_name = get_elem_name(curr_token);
 		if (!elem_name)
 			return (-1);
-		if (!get_env_elem(env, elem_name, ft_strlen(elem_name)))
+		if (!get_env_elem(infos->env, elem_name, ft_strlen(elem_name)))
 			diff_size++;
 		else
 			*modif = 1;

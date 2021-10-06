@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 15:55:23 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/06 17:33:53 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/06 23:09:36 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -316,7 +316,6 @@ int			parse_cmd(t_infos *infos);
 ** STRING UTILS
 */
 char		*ft_strdup_linked_string(t_token *token);
-void		move_to_next_token(t_token **token, int one_more);
 void		get_string_loop(t_token *elem, char **str, int fill_str);
 
 /*
@@ -368,7 +367,9 @@ int			check_if_pipes(t_infos *infos);
 int			check_assignments(t_infos *infos, t_cmd *head_cmd, t_cmd *cmd,
 				t_token *first_non_redir);
 int			is_only_assignments(t_infos *infos, t_cmd *cmd, t_token *first_non_redir);
-int			launch_simple_cmd(t_infos *infos, t_cmd *cmd, int from_pipe);
+int			init_launch_simple_cmd(t_infos *infos, t_cmd *cmd, int from_pipe);
+int			launch_simple_cmd(t_infos *infos, t_cmd *cmd, t_token *exec_token,
+				int from_pipe);
 int			assignments_management(t_infos *infos, t_cmd *head_cmd, t_cmd *cmd, \
 				t_token **exec_token);
 
@@ -378,7 +379,7 @@ int			assignments_management(t_infos *infos, t_cmd *head_cmd, t_cmd *cmd, \
 int			execute_simple_cmd(t_infos *infos);
 char		*get_exec_path(t_infos *infos, t_cmd **cmd, char ***exec_env,
 				t_token **exec_token);
-t_token		*move_to_exec(t_infos *infos, t_cmd **cmd, char ***exec_env);
+t_token		*move_to_exec_and_fill_env(t_infos *infos, t_cmd **cmd, char ***exec_env);
 int			return_free_args(char ***env, int i, int error_msg);
 char		**get_exec_args(t_infos *infos, t_cmd *cmd, t_token *exec_token);
 int			get_args_nbr(t_infos *infos, t_cmd *cmd, t_token *exec_token);

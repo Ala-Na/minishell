@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/03 21:22:56 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/06 12:23:53 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/06 23:19:16 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	check_if_end_pipeline(t_cmd *cmd, t_token *token)
 	if (!cmd || !token)
 		return (return_error(1, "something went wrong", 0, -1));
 	if (token == cmd->end
-			&& (cmd->next_operator == PIPE || cmd->next_operator == -1))
+		&& (cmd->next_operator == PIPE || cmd->next_operator == -1))
 		return (1);
 	return (0);
 }

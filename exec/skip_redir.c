@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/03 21:22:56 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/06 10:20:20 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/06 12:23:53 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,7 +125,7 @@ t_token	*get_next_token(t_infos *infos, t_cmd *head_cmd,
 		return (curr_token);
 	else if (prev_token && prev_token != (*prev_cmd)->end)
 	{
-		if (!prev_token->prev || !prev_token->linked_to_next)
+		if (!prev_token || !prev_token->linked_to_next)
 			return (prev_token->next);
 		else if (prev_token->next != (*prev_cmd)->end)
 			return (prev_token->next->next);

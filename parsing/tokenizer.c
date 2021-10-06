@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/05 14:12:00 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/04 21:26:23 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/06 13:21:37 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,16 @@ int	browse_string(char *begin_token, char stop_char, int *syntax_error,
 {
 	int	i;
 
+	printf("%s\n", begin_token);
+	if (begin_token[0] && begin_token[1] && begin_token[2] &&
+			begin_token[0] == '$' && begin_token[1] == '$' && begin_token[2] == '$')
+	{
+		begin_token[0] = '\'';
+		begin_token[2] = '\'';
+		stop_char = '\'';
+		printf("%s\n", begin_token);
+		return (3);
+	}
 	i = 0;
 	if (!begin_token || !stop_char)
 		return (-1);
@@ -49,25 +59,19 @@ int	browse_string(char *begin_token, char stop_char, int *syntax_error,
 int	browse_token(char *token, int *syntax_error, char **error_pos)
 {
 	int		i;
-	char	var_char;
 	char	ope_char;
 
 	i = 0;
-	var_char = 0;
 	ope_char = 0;
 	if (!token)
 		return (-1);
-	if (ft_strchr("\"'", token[i]))
+	if (ft_strchr("\"'$", token[i]))
 		return (browse_string(token, token[i], syntax_error, error_pos));
 	else if (ft_strchr("|><", token[i]))
 		ope_char = token[i++];
-	else if (token[i] == '$')
-		var_char = token[i];
 	while (!ope_char && token[i] && ++i)
 	{
-		if (var_char == '$' && !ft_isalnum(token[i]) && token[i] != '_')
-			break ;
-		else if (ft_strchr("\"' \t$|><", token[i]))
+		if (ft_strchr("\"' \t|><", token[i]))
 			break ;
 	}
 	if (ope_char && ft_strchr("><", ope_char) && ope_char == token[i])

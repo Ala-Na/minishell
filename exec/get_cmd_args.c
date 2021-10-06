@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/21 11:03:41 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/05 18:05:57 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/06 10:43:59 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	sub_get_args(t_infos *infos, t_cmd *exec_cmd, t_token *exec_token,
 	curr_cmd = exec_cmd;
 	while (curr_cmd && exec_token)
 	{
-		printf("curr token is %s\n", exec_token->token);
+		//printf("curr token is %s\n", exec_token->token);
 		(*exec_args)[i] = ft_strdup_linked_string(exec_token);
 		if (!(*exec_args)[i++])
 			return (return_free_args(exec_args, i - 1, 1));

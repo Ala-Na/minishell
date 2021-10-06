@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 15:55:23 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/06 17:14:11 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/06 17:33:53 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -249,7 +249,7 @@ int			invalid_token(t_token **token, int is_export, int *res);
 /*
 ** BUILT IN UNSET
 */
-int			unset_var(t_infos *infos, t_cmd *cmd);
+int			unset_var(t_infos *infos, t_cmd *head_cmd, t_token *builtin_token);
 int			sub_unset_var(t_infos *infos, t_token *to_unset);
 int			delete_elem_from_env(char ***env, char *elem);
 int			delete_elem_from_var_lst(t_var **var_lst, char *elem_name);

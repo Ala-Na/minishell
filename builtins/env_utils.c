@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/31 15:39:01 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/05 14:11:55 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/06 17:37:42 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,11 +53,12 @@ char	*get_elem_name(t_token *elem)
 {
 	char	*elem_name;
 
+	elem_name = NULL;
 	if (!elem)
 		return (return_null_error(1, "something went wrong", 0));
 	get_elem_name_loop(elem, &elem_name, 0);
 	if (!elem_name)
-		return (return_null_error(1, "something went wrong", 0));
+		return (return_null_error(1, "memory allocation error", 0));
 	get_elem_name_loop(elem, &elem_name, 1);
 	return (elem_name);
 }

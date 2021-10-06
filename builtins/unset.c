@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/01 21:57:01 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/04 18:22:32 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/06 17:30:59 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,18 +115,17 @@ int	sub_unset_var(t_infos *infos, t_token *to_unset)
 	return (tmp_res);
 }
 
-int	unset_var(t_infos *infos, t_cmd *cmd)
+int	unset_var(t_infos *infos, t_cmd *head_cmd, t_token *builtin_token)
 {
 	t_token	*to_unset;
+	t_cmd	*cmd;
 	char	*elem_name;
 	int		tmp_res;
 
 	if (!infos || !cmd)
 		return (return_error(1, "something went wrong", 0, -1));
-	to_unset = NULL;
-	if (cmd->next_operator != PIPE)
-		to_unset = cmd->start;
-	move_to_next_token(&to_unset, 1);
+	cmd = head_cmd;
+	to_unset = get_next_token(infos, head_cmd, &cmd, builtin_token);
 	while (to_unset)
 	{
 		if (check_validity_token(&to_unset, 0, NULL) < 0)
@@ -134,9 +133,7 @@ int	unset_var(t_infos *infos, t_cmd *cmd)
 		tmp_res = sub_unset_var(infos, to_unset);
 		if (tmp_res < 0)
 			return (-1);
-		if (to_unset == cmd->end)
-			break ;
-		move_to_next_token(&to_unset, 1);
+		to_unset = get_next_token(infos, head_cmd, &cmd, to_unset);
 	}
 	return (0);
 }

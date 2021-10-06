@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/22 17:28:50 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/05 16:32:54 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/06 17:55:07 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int	launch_simple_cmd(t_infos *infos, t_cmd *cmd, int from_pipe)
 	if (!exec_token && g_exit_status == 0)
 		return (add_redirections(cmd, 0));
 	else if (!exec_token)
-		return (-1); // CREER FONCTION POUR VERIF SI QUE REDIR
+		return (-1);
 	only_assignments = assignments_management(infos, cmd, curr_cmd, &exec_token);
 	if (only_assignments <= 0)
 		return (only_assignments);
@@ -72,7 +72,7 @@ int	launch_simple_cmd(t_infos *infos, t_cmd *cmd, int from_pipe)
 	if (builtin == -1)
 		return (-1);
 	else if (builtin != NONE)
-		return (launch_builtin(infos, cmd, builtin)); //RESTE BUILTIN A VERIF A PART CD
+		return (launch_builtin(infos, cmd, builtin));
 	if (!from_pipe)
 		return (execute_simple_cmd(infos));
 	else

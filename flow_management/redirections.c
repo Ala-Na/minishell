@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 12:59:47 by hlichir           #+#    #+#             */
-/*   Updated: 2021/10/01 12:48:47 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/06 18:14:12 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,30 +111,30 @@ int	add_input(t_cmd **cmd, t_cmd *curr)
 
 /*
 ** Check all the command until it arrives at the end (next_operqtor = - 1)
-** 	or encounters a pipe.
-** If an error occurs -> returns -1	& 0 if everything is fine.
+** or encounters a pipe.
+** If an error occurs -> returns -1, 0 if everything is fine.
 */
-int	add_redirections(t_cmd *cmd, int is_not_builtin)
+int	add_redirections(t_cmd *head_cmd, int is_not_builtin)
 {
 	t_cmd	*curr;
 	int		fd;
 
-	curr = cmd;
+	curr = head_cmd;
 	while (curr && curr->next_operator != -1 && curr->next_operator != PIPE)
 	{
-		if (add_input(&cmd, curr) < 0)
+		if (add_input(&head_cmd, curr) < 0)
 			return (-1);
-		else if (add_output(&cmd, curr) < 0)
+		else if (add_output(&head_cmd, curr) < 0)
 			return (-1);
 		curr = curr->next;
 	}
 	if (is_not_builtin)
 	{
-		if (cmd->fd_output > 1)
-			if (dup2(cmd->fd_output, 1) < 0)
+		if (head_cmd->fd_input > 1)
+			if (dup2(head_cmd->fd_input, 0) < 0)
 				return (return_error(1, strerror(errno), 0, -1));
-		if (cmd->fd_input > 1)
-			if (dup2(cmd->fd_input, 0) < 0)
+		if (head_cmd->fd_output > 1)
+			if (dup2(head_cmd->fd_output, 1) < 0)
 				return (return_error(1, strerror(errno), 0, -1));
 	}
 	return (0);

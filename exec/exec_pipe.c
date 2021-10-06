@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/27 17:16:19 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/30 21:33:25 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/06 18:23:50 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@
 void	pipe_child_execution(t_infos *infos, t_cmd *cmd, int pipe_fd[2],
 		int prev_fd[2])
 {
-	int	res;
+	int		res;
 
 	if (prev_fd[READ_SIDE] != UNSET && prev_fd[WRITE_SIDE] != UNSET)
 	{
@@ -46,7 +46,7 @@ void	pipe_child_execution(t_infos *infos, t_cmd *cmd, int pipe_fd[2],
 		if (close(prev_fd[READ_SIDE]) == -1)
 			return_error(1, strerror(errno), 0, 0);
 	}
-	if (cmd->next)
+	if (get_next_cmd(cmd) != NULL)
 	{
 		if (close(pipe_fd[READ_SIDE]) == -1)
 			return_error(1, strerror(errno), 0, 0);
@@ -77,7 +77,7 @@ int	pipe_parent_fd_manipulation(t_infos *infos, t_cmd *cmd, int pipe_fd[2],
 		(*prev_fd)[READ_SIDE] = UNSET;
 		(*prev_fd)[WRITE_SIDE] = UNSET;
 	}
-	if (cmd->next)
+	if (get_next_cmd(cmd) != NULL)
 	{
 		(*prev_fd)[READ_SIDE] = pipe_fd[READ_SIDE];
 		(*prev_fd)[WRITE_SIDE] = pipe_fd[WRITE_SIDE];
@@ -144,4 +144,4 @@ int	launch_pipes_cmds(t_infos *infos, t_cmd *cmd, int nbr_pipes)
 		return (-1);
 	}
 	return (wait_for_pipeline_childs(infos, nbr_pipes, &child_pids));
-}
+

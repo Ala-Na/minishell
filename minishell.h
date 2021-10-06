@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 15:55:23 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/06 16:19:21 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/06 17:14:11 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -195,7 +195,7 @@ int			handle_cd_path(char **env, char **path, int *is_alloc);
 */
 int			cmd_echo(t_infos *infos, t_cmd *cmd, t_token *builtin_token);
 int			echo_builtin(t_infos *infos, t_cmd *cmd, t_token *builtin_token);
-int			echo_builtin_loop(t_infos *infos, t_cmd *cmd, t_token *tmp, int i);
+int			echo_builtin_loop(t_infos *infos, t_cmd *head_cmd, t_cmd *cmd, t_token *token);
 int			check_n_option(t_token *first);
 void		skip_n_option(t_infos *infos, t_cmd **cmd, t_token **tmp);
 
@@ -218,9 +218,9 @@ int			show_current_dir(t_infos *infos, t_cmd *cmd);
 /*
 ** BUILT IN ENV
 */
-int			show_env(t_infos *infos, t_cmd *cmd, int export);
+int			show_env(t_infos *infos, t_cmd *cmd, t_token *builtin_token, int export);
 int			show_env_for_export(t_infos *infos, t_cmd *cmd, char **env, int i);
-int			show_env_loop(t_infos *infos, t_cmd *cmd, int export, int fd);
+int			show_env_loop(t_infos *infos, t_cmd *cmd, int fd, int export);
 int			check_for_assignment(char *str);
 
 void		free_env(char ***env, int last);
@@ -232,7 +232,8 @@ void		get_elem_name_loop(t_token *elem, char **elem_name, int fill_str);
 /*
 ** BUILT IN EXPORT
 */
-int			add_elem_to_env(t_infos *infos, t_cmd *cmd, int env_size);
+int			add_elem_to_env(t_infos *infos, t_cmd *builtin_cmd,
+				t_token *builtin_token, int env_size);
 int			sub_add_elem_to_env(t_infos *infos, t_token *new_elem,
 				int env_size, int *ptr_res);
 int			add_not_existing_elem_to_env(char ***env, t_token *new_elem,

@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/15 17:18:48 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/05 14:11:52 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/06 17:04:58 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	check_for_assignment(char *str)
 /*
 ** Loop function for show_env (thank you norminette)
 */
-int	show_env_loop(t_infos *infos, t_cmd *cmd, int export, int fd)
+int	show_env_loop(t_infos *infos, t_cmd *cmd, int fd, int export)
 {
 	int	i;
 	int	exist;
@@ -92,17 +92,18 @@ int	show_env_loop(t_infos *infos, t_cmd *cmd, int export, int fd)
 ** To call when the built in "env" is inside the commande line.
 ** Need to received infos->env as argument.
 */
-int	show_env(t_infos *infos, t_cmd *cmd, int export)
+int	show_env(t_infos *infos, t_cmd *head_cmd, t_token *builtin_token, int export)
 {
 	t_token	*curr;
+	t_cmd	*cmd;
 
-	if (!infos || !infos->env || !cmd)
+	if (!infos || !infos->env || !head_cmd || !builtin_token)
 		return (return_error(1, "something went wrong", 0, -1));
-	curr = cmd->start;
-	move_to_next_token(&curr, 0);
-	if (!export && curr != cmd->end)
+	cmd = head_cmd;
+	curr = get_next_token(infos, head_cmd, &cmd, builtin_token);
+	if (!export && curr)
 		return (return_error(127, "env : take no options or arguments", 0, -1));
-	if (show_env_loop(infos, cmd, export, cmd->fd_output) < 0)
+	if (show_env_loop(infos, head_cmd, head_cmd->fd_output, export) < 0)
 		return (-1);
 	return (0);
 }

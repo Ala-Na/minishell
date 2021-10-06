@@ -88,7 +88,7 @@ int	handle_cd_path(char **env, char **path, int *is_alloc)
 	if (stat(str, &buf) != -1 && S_ISDIR(buf.st_mode))
 	{
 		{
-			if (is_alloc)
+			if (*is_alloc)
 				free(*path);
 			*path = ft_strdup_free(str, 1);
 			if (!(path))

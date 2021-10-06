@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 21:45:16 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/06 15:04:42 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/06 15:28:20 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	get_var(t_infos *infos, char *cmd, char **var, int dbl)
 	if (cmd[i++] == '~')
 	{
 		sub_get_var(var, "HOME", infos->env, infos->lst_var);
-		return (ft_strlen(*var) - 1 + 2);
+		return (ft_strlen(*var) - 1);
 	}
 	while (cmd[i])
 	{
@@ -141,7 +141,7 @@ void	get_cmd_with_var(t_infos *infos, int new_size, int ignore, int dbl)
 		else if (infos->curr_cmd[i[0]] == '~' && ignore == 0
 				&& (i[0] == 0 || infos->curr_cmd[i[0] - 1] == ' ')
 				&& (!infos->curr_cmd[i[0] + 1] || infos->curr_cmd[i[0] + 1] == ' '))
-				add_var(infos, &new_cmd, &i[0], &i[1], dbl);
+				add_var(infos, &new_cmd, &i[0], &i[1], 1);
 		else
 			new_cmd[i[1]++] = infos->curr_cmd[i[0]++];
 	}
@@ -172,7 +172,7 @@ void	expand_variables(t_infos *infos, int dbl, int ignore, int new_size)
 		{
 			if ((i == 0 || infos->curr_cmd[i - 1] == ' ')
 				&& (!infos->curr_cmd[i + 1] || infos->curr_cmd[i + 1] == ' '))
-				new_size += get_var(infos, &infos->curr_cmd[i], &var, dbl);
+				new_size += get_var(infos, &infos->curr_cmd[i], &var, 1);
 		}
 		i++;
 	}

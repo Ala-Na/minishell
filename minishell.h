@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 15:55:23 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/06 13:47:49 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/06 16:19:21 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -193,11 +193,11 @@ int			handle_cd_path(char **env, char **path, int *is_alloc);
 ** Receive the string "command" and it's size.
 ** Check for the option -n is made inside the built-in.
 */
-int			cmd_echo(t_infos *infos, t_cmd *cmd);
-int			echo_builtin(t_infos *infos, t_cmd *cmd);
+int			cmd_echo(t_infos *infos, t_cmd *cmd, t_token *builtin_token);
+int			echo_builtin(t_infos *infos, t_cmd *cmd, t_token *builtin_token);
 int			echo_builtin_loop(t_infos *infos, t_cmd *cmd, t_token *tmp, int i);
 int			check_n_option(t_token *first);
-void		skip_n_option(t_token **tmp);
+void		skip_n_option(t_infos *infos, t_cmd **cmd, t_token **tmp);
 
 /*
 ** BUILT IN PWD

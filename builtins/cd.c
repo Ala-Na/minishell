@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/30 16:59:11 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/06 11:15:16 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/06 15:51:36 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 ** Return -1 and display corresponding error if an error
 ** occurs, 0 otherwise.
 ** Exit = 126 > command is found but not executable
-** Exit = 1 Somehing went wrong (memory allocation error)
+** Exit = 1 Something went wrong (memory allocation error)
 */
 int	change_directory(t_infos *infos, char *new_path, int is_alloc)
 {
@@ -36,11 +36,11 @@ int	change_directory(t_infos *infos, char *new_path, int is_alloc)
 		return (return_error(1, "memory allocation error", 0, -1));
 	if (chdir(new_path) == -1)
 	{
-		if (is_alloc)
-			free(new_path);
 		ft_puterr("cd: ", 0);
 		ft_puterr(new_path, 0);
 		ft_puterr(": ", 0);
+		if (is_alloc)
+			free(new_path);
 		return (return_error(1, strerror(errno), 0, -1));
 	}
 	modify_pwd(infos, "OLDPWD", tmp_path, 0);
@@ -68,7 +68,7 @@ int	cmd_change_directory(t_infos *infos, t_cmd *cmd, t_token *token)
 	curr = get_next_token(infos, cmd, &cmd, token);
 	if (!curr && g_exit_status != 0)
 		return (-1);
-	if (!curr && g_exit_status == 0)
+	if ((!curr && g_exit_status == 0))
 	{
 		home_path = get_env_elem(infos->env, "HOME", ft_strlen("HOME"));
 		if (!home_path)

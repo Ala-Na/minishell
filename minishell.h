@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 15:55:23 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/06 23:09:36 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/06 23:32:52 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -195,7 +195,8 @@ int			handle_cd_path(char **env, char **path, int *is_alloc);
 */
 int			cmd_echo(t_infos *infos, t_cmd *cmd, t_token *builtin_token);
 int			echo_builtin(t_infos *infos, t_cmd *cmd, t_token *builtin_token);
-int			echo_builtin_loop(t_infos *infos, t_cmd *head_cmd, t_cmd *cmd, t_token *token);
+int			echo_builtin_loop(t_infos *infos, t_cmd *head_cmd, t_cmd *cmd,
+				t_token *token);
 int			check_n_option(t_token *first);
 void		skip_n_option(t_infos *infos, t_cmd **cmd, t_token **tmp);
 
@@ -205,20 +206,10 @@ void		skip_n_option(t_infos *infos, t_cmd **cmd, t_token **tmp);
 int			show_current_dir(t_infos *infos, t_cmd *cmd);
 
 /*
-** BUILT IN ENV / EXPORT / UNSET
-** Reminder : Call save_end at launch of minishell programm in order to
-** stock environmentals variables.
-** The function add_elem_to_env must be called when EXPORT is called IF
-** the format is correct.
-** The function show_env must be called when the built in ENV is called.
-** The function delete_elem_from_env must be called when the built
-** in UNSET is called.
-*/
-
-/*
 ** BUILT IN ENV
 */
-int			show_env(t_infos *infos, t_cmd *cmd, t_token *builtin_token, int export);
+int			show_env(t_infos *infos, t_cmd *cmd, t_token *builtin_token,
+				int export);
 int			show_env_for_export(t_infos *infos, t_cmd *cmd, char **env, int i);
 int			show_env_loop(t_infos *infos, t_cmd *cmd, int fd, int export);
 int			check_for_assignment(char *str);
@@ -366,7 +357,8 @@ int			launch_cmds(t_infos *infos);
 int			check_if_pipes(t_infos *infos);
 int			check_assignments(t_infos *infos, t_cmd *head_cmd, t_cmd *cmd,
 				t_token *first_non_redir);
-int			is_only_assignments(t_infos *infos, t_cmd *cmd, t_token *first_non_redir);
+int			is_only_assignments(t_infos *infos, t_cmd *cmd,
+				t_token *first_non_redir);
 int			init_launch_simple_cmd(t_infos *infos, t_cmd *cmd, int from_pipe);
 int			launch_simple_cmd(t_infos *infos, t_cmd *cmd, t_token *exec_token,
 				int from_pipe);
@@ -379,7 +371,8 @@ int			assignments_management(t_infos *infos, t_cmd *head_cmd, t_cmd *cmd, \
 int			execute_simple_cmd(t_infos *infos);
 char		*get_exec_path(t_infos *infos, t_cmd **cmd, char ***exec_env,
 				t_token **exec_token);
-t_token		*move_to_exec_and_fill_env(t_infos *infos, t_cmd **cmd, char ***exec_env);
+t_token		*move_to_exec_and_fill_env(t_infos *infos, t_cmd **cmd,
+				char ***exec_env);
 int			return_free_args(char ***env, int i, int error_msg);
 char		**get_exec_args(t_infos *infos, t_cmd *cmd, t_token *exec_token);
 int			get_args_nbr(t_infos *infos, t_cmd *cmd, t_token *exec_token);
@@ -429,8 +422,11 @@ int			wait_for_pipeline_childs(t_infos *infos, int nbr_pipes, \
 				pid_t **child_pids);
 t_cmd		*get_next_cmd(t_cmd *cmd);
 
+/*
+** OBTAINING TOKENS
+*/
 t_token		*get_next_token(t_infos *infos, t_cmd *head_cmd,
-		t_cmd **prev_cmd, t_token *prev_token);
+				t_cmd **prev_cmd, t_token *prev_token);
 int			check_if_end_pipeline(t_cmd *cmd, t_token *token);
 t_token		*get_exec_token(t_infos *infos, t_cmd *head_cmd, t_cmd **exec_cmd);
 

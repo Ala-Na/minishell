@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/01 21:56:08 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/06 10:57:43 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/06 17:16:27 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,17 +102,17 @@ int	sub_add_elem_to_env(t_infos *infos, t_token *new_elem,
 ** env.
 ** Returns -1 if an errors occurs, 0 otherwise.
 */
-int	add_elem_to_env(t_infos *infos, t_cmd *cmd, int env_size)
+int	add_elem_to_env(t_infos *infos, t_cmd *builtin_cmd,
+		t_token *builtin_token, int env_size)
 {
 	t_token	*new_elem;
 	int		res;
+	t_cmd	*cmd;
 
-	if (!infos->env || !cmd || !cmd->start)
+	if (!infos->env || !builtin_cmd || !builtin_token)
 		return (return_error(1, "something went wrong", 0, -1));
-	new_elem = NULL;
-	if (cmd->next_operator != PIPE)
-		new_elem = cmd->start;
-	move_to_next_token(&new_elem, 1);
+	cmd = builtin_cmd;
+	new_elem = get_next_token(infos, builtin_cmd, &cmd, builtin_token);
 	res = -1;
 	while (new_elem)
 	{
@@ -122,11 +122,9 @@ int	add_elem_to_env(t_infos *infos, t_cmd *cmd, int env_size)
 			env_size++;
 		if (sub_add_elem_to_env(infos, new_elem, env_size, &res) < 0)
 			return (-1);
-		if (new_elem == cmd->end)
-			break ;
-		move_to_next_token(&new_elem, 1);
+		new_elem = get_next_token(infos, builtin_cmd, &cmd, new_elem);
 	}
 	if (res == -1)
-		return (show_env(infos, cmd, 1));
+		return (show_env(infos, builtin_cmd, builtin_token, 1));
 	return (res);
 }

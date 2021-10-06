@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 15:55:23 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/06 17:01:06 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/06 17:14:11 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -232,7 +232,8 @@ void		get_elem_name_loop(t_token *elem, char **elem_name, int fill_str);
 /*
 ** BUILT IN EXPORT
 */
-int			add_elem_to_env(t_infos *infos, t_cmd *cmd, int env_size);
+int			add_elem_to_env(t_infos *infos, t_cmd *builtin_cmd,
+				t_token *builtin_token, int env_size);
 int			sub_add_elem_to_env(t_infos *infos, t_token *new_elem,
 				int env_size, int *ptr_res);
 int			add_not_existing_elem_to_env(char ***env, t_token *new_elem,

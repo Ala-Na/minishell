@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/07 12:14:01 by hlichir           #+#    #+#             */
-/*   Updated: 2021/10/06 16:25:05 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/06 16:55:55 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	check_n_option(t_token *first)
 /*
 ** Split the echo_builtin in two -> tmp loop
 */
-int	echo_builtin_loop(t_infos *infos, t_cmd *cmd, t_token *tmp, int i)
+int	echo_builtin_loop(t_infos *infos, t_cmd *head_cmd, t_cmd *cmd, t_token *tmp)
 {
 	char	*str;
 
@@ -53,10 +53,10 @@ int	echo_builtin_loop(t_infos *infos, t_cmd *cmd, t_token *tmp, int i)
 		str = ft_strdup_linked_string(tmp);
 		if (!str)
 			return (-1);
-		write(cmd->fd_output, str, ft_strlen(str));
-		tmp = get_next_token(infos, cmd, &cmd, tmp);
+		write(head_cmd->fd_output, str, ft_strlen(str));
+		tmp = get_next_token(infos, head_cmd, &cmd, tmp);
 		if (tmp)
-			write(cmd->fd_output, " ", 1);
+			write(head_cmd->fd_output, " ", 1);
 		free(str);
 	}
 	return (0);
@@ -94,22 +94,22 @@ void	skip_n_option(t_infos *infos, t_cmd **cmd, t_token **tmp)
 **   checking whitespaces.
 ** This function return an int 0 but could return a void.
 */
-int	echo_builtin(t_infos *infos, t_cmd *cmd, t_token *builtin_token)
+int	echo_builtin(t_infos *infos, t_cmd *builtin_cmd, t_token *builtin_token)
 {
 	int		n_option;
-	int		i;
 	t_token	*tmp;
 	char	*new;
+	t_cmd	*moving_cmd;
 
-	i = 0;
-	tmp = get_next_token(infos, cmd, &cmd, builtin_token);
+	moving_cmd = builtin_cmd;
+	tmp = get_next_token(infos, builtin_cmd, &moving_cmd, builtin_token);
 	n_option = check_n_option(tmp);
 	if (n_option)
-		skip_n_option(infos, &cmd, &tmp);
-	if (echo_builtin_loop(infos, cmd, tmp, i) < 0)
+		skip_n_option(infos, &moving_cmd, &tmp);
+	if (echo_builtin_loop(infos, builtin_cmd, moving_cmd, tmp) < 0)
 		return (-1);
 	if (n_option == 0)
-		write(cmd->fd_output, "\n", 1);
+		write(builtin_cmd->fd_output, "\n", 1);
 	return (0);
 }
 

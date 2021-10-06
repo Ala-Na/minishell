@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/06 14:50:47 by hlichir           #+#    #+#             */
-/*   Updated: 2021/10/06 11:15:29 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/06 17:25:09 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,11 @@ int	show_current_dir(t_infos *infos, t_cmd *cmd)
 	if (!str)
 	{
 		if (pos < 0)
-			str = strerror(errno);
+			str = ft_strdup(strerror(errno));
 		else
-			str = ft_strdup_free("memory allocation issue", 0);
-		str = ft_strjoin("pwd : ", str);
+			str = ft_strdup("memory allocation issue");
+		if (str)
+			str = ft_strjoin_free("pwd : ", str, 0, 1);
 		if (!str)
 			return (return_error(1, "memory allocation error", 0, -1));
 		return (return_error(1, str, 1, -1));

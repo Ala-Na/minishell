@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/05 13:05:41 by hlichir           #+#    #+#             */
-/*   Updated: 2021/10/06 15:04:22 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/06 15:47:51 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,10 @@ char	*check_oldpwd_cdpath(t_infos *infos, char **path, int *is_alloc)
 		*is_alloc = 2;
 	}
 	else if (get_env_elem(infos->env, "CDPATH", ft_strlen("CDPATH")))
+	{
 		if (handle_cd_path(infos->env, path, is_alloc) < 0)
 			return (return_null_error(1, "error", 0));
+	}
 	return (get_curr_dir(infos, 0));
 }
 
@@ -87,14 +89,12 @@ int	handle_cd_path(char **env, char **path, int *is_alloc)
 		return (return_error(1, "memory allocation error", 0, -1));
 	if (stat(str, &buf) != -1 && S_ISDIR(buf.st_mode))
 	{
-		{
-			if (*is_alloc)
-				free(*path);
-			*path = ft_strdup_free(str, 1);
-			if (!(path))
-				return (return_error(1, "memory allocation error", 0, -1));
-			*is_alloc = 2;
-		}
+		if (*is_alloc)
+			free(*path);
+		*path = ft_strdup_free(str, 1);
+		if (!(path))
+			return (return_error(1, "memory allocation error", 0, -1));
+		*is_alloc = 2;
 	}
 	return (0);
 }

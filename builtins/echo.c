@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/07 12:14:01 by hlichir           #+#    #+#             */
-/*   Updated: 2021/10/01 21:43:42 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/06 16:25:05 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,18 +19,26 @@
 */
 int	check_n_option(t_token *first)
 {
-	int	i;
+	int		i;
+	char	*str;
 
 	i = 2;
-	if (!first || first->token[0] != '-')
+	if (!first)
 		return (0);
-	if (first->token[1] && first->token[1] != 'n')
+	str = ft_strdup_linked_string(first);
+	if (!str)
+		return (-1);
+	if (str[0] != '-' || (str[1] && str[1] != 'n'))
 		return (0);
-	while (i < first->length && first->token[i] == 'n')
+	while (str[i] && str[i] == 'n')
 		i++;
-	if (i != first->length)
-		return (0);
-	return (1);
+	if (!str[i])
+	{
+		free(str);
+		return (1);
+	}
+	free(str);
+	return (0);
 }
 
 /*
@@ -38,39 +46,44 @@ int	check_n_option(t_token *first)
 */
 int	echo_builtin_loop(t_infos *infos, t_cmd *cmd, t_token *tmp, int i)
 {
-	char	*new;
+	char	*str;
 
 	while (tmp)
 	{
-		if (tmp->type == OPERATOR)
-			break ;
-		write(cmd->fd_output, &tmp->token[i], tmp->length);
-		if (tmp == cmd->end)
-			break ;
-		tmp = tmp->next;
-		if (tmp->prev->linked_to_next)
-			continue ;
+		str = ft_strdup_linked_string(tmp);
+		if (!str)
+			return (-1);
+		write(cmd->fd_output, str, ft_strlen(str));
+		tmp = get_next_token(infos, cmd, &cmd, tmp);
 		if (tmp)
 			write(cmd->fd_output, " ", 1);
+		free(str);
 	}
 	return (0);
 }
 
-void	skip_n_option(t_token **tmp)
+void	skip_n_option(t_infos *infos, t_cmd **cmd, t_token **tmp)
 {
-	int	i;
+	char	*str;
+	int		i;
 
-	*tmp = (*tmp)->next;
-	i = 1;
 	while (*tmp)
 	{
-		if (!(*tmp) || (*tmp)->token[0] != '-')
+		i = 1;
+		if ((*tmp)->token[0] != '-')
 			break ;
-		while (i < (*tmp)->length && (*tmp)->token[i] == 'n')
+		str = ft_strdup_linked_string(*tmp);
+		if (!str)
+			return ;
+		while (str[i] && str[i] == 'n')
 			i++;
-		if (i != (*tmp)->length)
+		if (str[i])
+		{
+			free(str);
 			break ;
-		*tmp = (*tmp)->next;
+		}
+		free(str);
+		*tmp = get_next_token(infos, *cmd, cmd, *tmp);
 	}
 }
 
@@ -81,7 +94,7 @@ void	skip_n_option(t_token **tmp)
 **   checking whitespaces.
 ** This function return an int 0 but could return a void.
 */
-int	echo_builtin(t_infos *infos, t_cmd *cmd)
+int	echo_builtin(t_infos *infos, t_cmd *cmd, t_token *builtin_token)
 {
 	int		n_option;
 	int		i;
@@ -89,10 +102,10 @@ int	echo_builtin(t_infos *infos, t_cmd *cmd)
 	char	*new;
 
 	i = 0;
-	tmp = cmd->start;
+	tmp = get_next_token(infos, cmd, &cmd, builtin_token);
 	n_option = check_n_option(tmp);
 	if (n_option)
-		skip_n_option(&tmp);
+		skip_n_option(infos, &cmd, &tmp);
 	if (echo_builtin_loop(infos, cmd, tmp, i) < 0)
 		return (-1);
 	if (n_option == 0)
@@ -103,16 +116,13 @@ int	echo_builtin(t_infos *infos, t_cmd *cmd)
 /*
 ** Functions to call when the built in echo is correctly called (4 letters = echo
 ** followed by a whitespace or '\0') in the string *str.
-** WARNING : echo print a whitespace when a tab is meeted
-** (generalized to blanks ?) by default.
 */
-int	cmd_echo(t_infos *infos, t_cmd *cmd)
+int	cmd_echo(t_infos *infos, t_cmd *cmd, t_token *builtin_token)
 {
 	int		str_size;
 	char	*str_begin;
 
-	if (!infos || !cmd || !cmd->start)
+	if (!infos || !cmd || !builtin_token)
 		return (return_error(1, "something went wrong", 0, -1));
-	move_to_next_token(&cmd->start, 1);
-	return (echo_builtin(infos, cmd));
+	return (echo_builtin(infos, cmd, builtin_token));
 }

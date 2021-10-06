@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/02 14:46:17 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/01 22:00:53 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/05 13:20:13 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,17 +23,17 @@ t_builtin	check_builtin(char *first_elem)
 	if (!first_elem)
 		return (return_error(1, "something went wrong", 0, -1));
 	size = ft_strlen(first_elem);
-	if (!ft_strncmp(first_elem, "echo", size))
+	if (!ft_strncmp(first_elem, "echo", ft_max(size, 5)))
 		return (ECHO);
-	else if (!ft_strncmp(first_elem, "cd", size))
+	else if (!ft_strncmp(first_elem, "cd", ft_max(size, 3)))
 		return (CD);
-	else if (!ft_strncmp(first_elem, "pwd", size))
+	else if (!ft_strncmp(first_elem, "pwd", ft_max(size, 4)))
 		return (PWD);
-	else if (!ft_strncmp(first_elem, "export", size))
+	else if (!ft_strncmp(first_elem, "export", ft_max(size, 7)))
 		return (EXPORT);
-	else if (!ft_strncmp(first_elem, "unset", size))
+	else if (!ft_strncmp(first_elem, "unset", ft_max(size, 6)))
 		return (UNSET);
-	else if (!ft_strncmp(first_elem, "env", size))
+	else if (!ft_strncmp(first_elem, "env", ft_max(size, 4)))
 		return (ENV);
 	return (NONE);
 }

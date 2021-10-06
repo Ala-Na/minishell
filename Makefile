@@ -6,21 +6,21 @@
 #    By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/08/23 15:04:29 by anadege           #+#    #+#              #
-#    Updated: 2021/10/04 18:29:11 by hlichir          ###   ########.fr        #
+#    Updated: 2021/10/05 14:37:01 by hlichir          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-SRCS	= ./main.c \
-		  ./init.c \
-		  ./prompt.c \
-		  ./signals.c \
-		  ./history/history.c \
+SRCS	= ./architecture/main.c \
+		  ./architecture/init.c \
+		  ./architecture/prompt.c \
+		  ./architecture/signals.c \
+		  ./architecture/history/history.c \
 		  ./builtins/cd.c \
+		  ./builtins/cd_utils.c \
 		  ./builtins/env.c \
 		  ./builtins/export.c \
 		  ./builtins/export_utils.c \
 		  ./builtins/unset.c \
-		  ./builtins/unset_utils.c \
 		  ./builtins/echo.c \
 		  ./builtins/env_utils.c \
 		  ./builtins/pwd.c \
@@ -32,10 +32,12 @@ SRCS	= ./main.c \
 		  ./parsing/get_variables.c \
 		  ./parsing/tokenizer_utils.c \
 		  ./parsing/parsing_utils.c \
+		  ./parsing/string_utils.c \
 		  ./exec/assignment.c \
+		  ./exec/check_assignments.c \
+		  ./exec/assignment_utils.c \
 		  ./exec/exec_cmd.c \
 		  ./exec/seek_bin.c \
-		  ./exec/check_assignments.c \
 		  ./exec/launch_cmds.c \
 		  ./exec/check_builtin.c \
 		  ./exec/set_env_exec.c \

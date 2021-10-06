@@ -6,19 +6,19 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/12 21:48:31 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/05 13:59:27 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/06 11:18:08 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	simplify_prompt_curr_dir(char **prompt)
+void	simplify_prompt_curr_dir(t_infos *infos, char **prompt)
 {
 	char	*home;
 	char	*tmp_home;
 	char	*tmp_prompt;
 
-	home = getenv("HOME");
+	home = get_env_elem(infos->env, "HOME", 4);
 	if (!home)
 		return ;
 	tmp_home = ft_strdup(home);
@@ -32,7 +32,7 @@ void	simplify_prompt_curr_dir(char **prompt)
 	free(tmp_home);
 }
 
-char	*get_curr_dir(int prompt)
+char	*get_curr_dir(t_infos *infos, int prompt)
 {
 	char	*res;
 	size_t	size_buffer_dir;
@@ -54,17 +54,17 @@ char	*get_curr_dir(int prompt)
 		res = getcwd(buffer_dir, size_buffer_dir - 1);
 	}
 	if (prompt)
-		simplify_prompt_curr_dir(&buffer_dir);
+		simplify_prompt_curr_dir(infos, &buffer_dir);
 	return (buffer_dir);
 }
 
-char	*get_prompt(void)
+char	*get_prompt(t_infos *infos)
 {
 	char	*curr_dir;
 	char	*tmp_msg;
 	char	*msg;
 
-	curr_dir = get_curr_dir(1);
+	curr_dir = get_curr_dir(infos, 1);
 	if (!curr_dir)
 		return (NULL);
 	msg = ft_strjoin(PROMPT_MSG, "\001\033[38;5;31m\002");

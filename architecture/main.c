@@ -59,9 +59,6 @@ void	parse_and_execute(t_infos *infos)
 	if (res != 0)
 		return ;
 	launch_cmds(infos);
-	final_cmd = infos->lst_cmds;
-	while (final_cmd->next)
-		final_cmd = final_cmd->next;
 }
 
 /*
@@ -81,7 +78,7 @@ int	minishell_loop(t_infos *infos)
 {
 	while (1)
 	{
-		infos->prompt = get_prompt();
+		infos->prompt = get_prompt(infos);
 		if (!infos->prompt)
 			return (return_error(1, "minshell : fatal error", 0, 1));
 		infos->curr_cmd = readline(infos->prompt);

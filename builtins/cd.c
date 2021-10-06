@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/30 16:59:11 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/05 14:06:09 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/06 11:15:16 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	change_directory(t_infos *infos, char *new_path, int is_alloc)
 			free(new_path);
 		return (return_error(1, "something went wrong", 0, -1));
 	}
-	tmp_path = check_oldpwd_cdpath(infos->env, &new_path, &is_alloc);
+	tmp_path = check_oldpwd_cdpath(infos, &new_path, &is_alloc);
 	if (!tmp_path)
 		return (return_error(1, "memory allocation error", 0, -1));
 	if (chdir(new_path) == -1)
@@ -44,7 +44,7 @@ int	change_directory(t_infos *infos, char *new_path, int is_alloc)
 		return (return_error(1, strerror(errno), 0, -1));
 	}
 	modify_pwd(infos, "OLDPWD", tmp_path, 0);
-	modify_pwd(infos, "PWD", get_curr_dir(0), is_alloc);
+	modify_pwd(infos, "PWD", get_curr_dir(infos, 0), is_alloc);
 	if (is_alloc)
 		free(new_path);
 	return (0);
@@ -55,27 +55,28 @@ int	change_directory(t_infos *infos, char *new_path, int is_alloc)
 ** Exit status = 1 : something went wrong (memory allocation ...)
 ** Exit status = 2 : Misuse of a Shell builtin
 */
-int	cmd_change_directory(t_infos *infos, t_cmd *cmd)
+int	cmd_change_directory(t_infos *infos, t_cmd *cmd, t_token *token)
 {
 	int		i;
 	char	*home_path;
 	t_token	*curr;
+	t_token	*next;
 
 	i = -1;
 	if (!infos || !cmd)
 		return (return_error(1, "something went wrong", 0, -1));
-	curr = cmd->start;
-	move_to_next_token(&curr, 0);
-	if (curr == cmd->end)
+	curr = get_next_token(infos, cmd, &cmd, token);
+	if (!curr && g_exit_status != 0)
+		return (-1);
+	if (!curr && g_exit_status == 0)
 	{
 		home_path = get_env_elem(infos->env, "HOME", ft_strlen("HOME"));
 		if (!home_path)
 			return (return_error(1, "cd: « HOME » not defined", 0, -1));
 		return (change_directory(infos, home_path, 0));
 	}
-	curr = curr->next;
-	move_to_next_token(&curr, 0);
-	if (curr && curr->next && curr->next != cmd->end)
+	next = get_next_token(infos, cmd, &cmd, curr);
+	if (curr && next)
 		return (return_error(1, "cd: too many arguments", 0, -1));
 	home_path = ft_strdup_linked_string(curr);
 	if (!home_path)

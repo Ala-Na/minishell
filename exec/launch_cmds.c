@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/22 17:28:50 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/01 21:24:55 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/05 16:32:54 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,29 +15,25 @@
 /*
 ** Function to check and do assignments when cmd is not called inside a pipeline.
 ** Set exec_token to the first non assignment token.
-** Return -1 in case of error, 0 otherwise.
+** Return -1 in case of error, 0 if only assignments are presents in the command
+** 1 otherwise.
 */
-int	assignments_management(t_infos *infos, t_cmd *cmd, t_token **exec_token)
+int	assignments_management(t_infos *infos, t_cmd *head_cmd, t_cmd *cmd,
+		t_token **exec_token)
 {
 	int		assignments;
-	t_token	*first_non_assignment;
+	t_token	*curr_token;
+	t_cmd	*curr_cmd;
 
-	assignments = check_assignments(infos, cmd);
+	assignments = check_assignments(infos, head_cmd, cmd, *exec_token);
 	if (assignments == 1)
-		return (1);
+		return (0);
 	else if (assignments == -1)
 		return (-1);
-	first_non_assignment = cmd->start;
-	while (first_non_assignment && first_non_assignment->type == ASSIGNMENT)
-	{
-		first_non_assignment = first_non_assignment->next;
-		if (first_non_assignment == infos->lst_cmds->end)
-			break ;
-	}
-	if (!first_non_assignment || first_non_assignment->type == ASSIGNMENT)
-		return (return_error(1, "something went wrong", 0, -1));
-	*exec_token = first_non_assignment;
-	return (0);
+	curr_cmd = NULL;
+	if ((*exec_token)->type == ASSIGNMENT)
+		*exec_token = get_exec_token(infos, head_cmd, &curr_cmd);
+	return (1);
 }
 
 /*
@@ -54,22 +50,29 @@ int	launch_simple_cmd(t_infos *infos, t_cmd *cmd, int from_pipe)
 	int			only_assignments;
 	char		*str;
 	t_builtin	builtin;
+	t_cmd		*curr_cmd;
+	t_token		*exec_token;
 
-	if (!infos || !cmd || !cmd->start)
+	curr_cmd = NULL;
+	exec_token = NULL;
+	if (!infos || !cmd)
 		return (return_error(1, "something went wrong", 0, -1));
-	only_assignments = assignments_management(infos, cmd, &cmd->start);
-	if (only_assignments == -1)
-		return (-1);
-	else if (only_assignments == 1)
-		return (0);
-	str = ft_strdup_linked_string(cmd->start);
+	exec_token = get_next_token(infos, cmd, &curr_cmd, exec_token);
+	if (!exec_token && g_exit_status == 0)
+		return (add_redirections(cmd, 0));
+	else if (!exec_token)
+		return (-1); // CREER FONCTION POUR VERIF SI QUE REDIR
+	only_assignments = assignments_management(infos, cmd, curr_cmd, &exec_token);
+	if (only_assignments <= 0)
+		return (only_assignments);
+	str = ft_strdup_linked_string(exec_token);
 	if (!str)
 		return (return_error(1, "memory allocation error", 0, -1));
 	builtin = check_builtin(str);
 	if (builtin == -1)
 		return (-1);
 	else if (builtin != NONE)
-		return (launch_builtin(infos, cmd, builtin));
+		return (launch_builtin(infos, cmd, builtin)); //RESTE BUILTIN A VERIF A PART CD
 	if (!from_pipe)
 		return (execute_simple_cmd(infos));
 	else
@@ -101,7 +104,6 @@ int	check_if_pipes(t_infos *infos)
 
 /*
 ** Function to start launch of commands.
-** WARNING : Remplace return(0) par return (launch_pipes)
 */
 int	launch_cmds(t_infos *infos)
 {

@@ -43,6 +43,7 @@ SRCS	= ./architecture/main.c \
 		  ./exec/set_env_exec.c \
 		  ./exec/get_cmd_args.c \
 		  ./exec/exec_pipe.c \
+		  ./exec/skip_redir.c \
 		  ./exec/exception_cmd.c \
 		  ./flow_management/redirections.c \
 		  ./flow_management/file_utils.c \

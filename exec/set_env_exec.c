@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/17 16:53:57 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/04 18:24:06 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/06 10:52:23 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,30 @@ int	add_elem_to_exec_env(t_infos *infos, char ***exec_env, t_token *new_elem)
 }
 
 /*
+** Function to complete env with assignements.
+*/
+int	complete_exec_env_with_assignments(t_infos *infos, t_cmd *cmd, char ***exec_env)
+{
+	t_token	*curr_token;
+	char	**env;
+	char	*elem_name;
+	t_cmd	*prev_cmd;
+
+	prev_cmd = NULL;
+	curr_token = NULL;
+	if (!infos || !cmd || !infos->env || !exec_env || !*exec_env)
+		return (return_error(1, "something went wrong", 0, -1));
+	curr_token = get_next_token(infos, cmd, &prev_cmd, curr_token);
+	while (curr_token && curr_token->type == ASSIGNMENT)
+	{
+		if (add_elem_to_exec_env(infos, exec_env, curr_token) == -1)
+			return (-1);
+		curr_token = get_next_token(infos, cmd, &prev_cmd, curr_token);
+	}
+	return (0);
+}
+
+/*
 ** Function to calculate the positive difference between minishell
 ** env and executable env.
 */
@@ -58,13 +82,16 @@ int	get_exec_env_diff_size(t_infos *infos, t_cmd *cmd, int *modif)
 	char	**env;
 	int		diff_size;
 	char	*elem_name;
+	t_cmd	*prev_cmd;
 
 	diff_size = 0;
 	*modif = 0;
-	if (!infos || !cmd || !cmd->start || !infos->env)
+	prev_cmd = NULL;
+	curr_token = NULL;
+	if (!infos || !cmd || !infos->env)
 		return (return_error(1, "something went wrong", 0, -1));
 	env = infos->env;
-	curr_token = cmd->start;
+	curr_token = get_next_token(infos, cmd, &prev_cmd, curr_token);
 	while (curr_token->type == ASSIGNMENT)
 	{
 		elem_name = get_elem_name(curr_token);
@@ -75,7 +102,7 @@ int	get_exec_env_diff_size(t_infos *infos, t_cmd *cmd, int *modif)
 		else
 			*modif = 1;
 		free(elem_name);
-		curr_token = curr_token->next;
+		curr_token = get_next_token(infos, cmd, &prev_cmd, curr_token);
 	}
 	return (diff_size);
 }

@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 15:55:23 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/05 14:36:40 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/06 11:14:52 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,9 +153,9 @@ int			get_shell_nbr(char *str);
 ** Set of function to display a "clean" prompt under the format :
 ** prompt_name > current_directory (with HOME replace by ~).
 */
-void		simplify_prompt_curr_dir(char **prompt);
-char		*get_curr_dir(int prompt);
-char		*get_prompt(void);
+void		simplify_prompt_curr_dir(t_infos *infos, char **prompt);
+char		*get_curr_dir(t_infos *infos, int prompt);
+char		*get_prompt(t_infos *infos);
 
 /*
 ** HISTORY MANAGEMENT
@@ -179,12 +179,12 @@ void		sig_handler_function(int signum);
 ** WARNING : Doesn't check if the path is correctly formated.
 */
 int			change_directory(t_infos *infos, char *new_dir_path, int is_alloc);
-int			cmd_change_directory(t_infos *infos, t_cmd *cmd);
+int			cmd_change_directory(t_infos *infos, t_cmd *cmd, t_token *token);
 int			modify_pwd(t_infos *infos, char *name, char *new_pwd, int is_old);
 
 int			create_tmp_new_elem(t_token **new_elem, char *name, char *value, \
 				 char *str);
-char		*check_oldpwd_cdpath(char **env, char **path, int *is_alloc);
+char		*check_oldpwd_cdpath(t_infos *infos, char **path, int *is_alloc);
 int			handle_cd_path(char **env, char **path, int *is_alloc);
 
 /*
@@ -363,22 +363,23 @@ int			free_lst_var(t_infos *infos);
 */
 int			launch_cmds(t_infos *infos);
 int			check_if_pipes(t_infos *infos);
-int			check_assignments(t_infos *infos, t_cmd *cmd);
-int			is_only_assignments(t_cmd *cmd);
+int			check_assignments(t_infos *infos, t_cmd *head_cmd, t_cmd *cmd,
+				t_token *first_non_redir);
+int			is_only_assignments(t_infos *infos, t_cmd *cmd, t_token *first_non_redir);
 int			launch_simple_cmd(t_infos *infos, t_cmd *cmd, int from_pipe);
-int			assignments_management(t_infos *infos, t_cmd *cmd, \
+int			assignments_management(t_infos *infos, t_cmd *head_cmd, t_cmd *cmd, \
 				t_token **exec_token);
 
 /*
 ** SIMPLE COMMAND EXECUTION
 */
 int			execute_simple_cmd(t_infos *infos);
-char		*get_exec_path(t_infos *infos, t_cmd *cmd, char ***exec_env,
+char		*get_exec_path(t_infos *infos, t_cmd **cmd, char ***exec_env,
 				t_token **exec_token);
-t_token		*move_to_exec(t_infos *infos, t_cmd *cmd, char ***exec_env);
+t_token		*move_to_exec(t_infos *infos, t_cmd **cmd, char ***exec_env);
 int			return_free_args(char ***env, int i, int error_msg);
 char		**get_exec_args(t_infos *infos, t_cmd *cmd, t_token *exec_token);
-int			get_args_nbr(t_cmd *cmd, t_token *exec_token, int nbr_args);
+int			get_args_nbr(t_infos *infos, t_cmd *cmd, t_token *exec_token);
 int			get_arg_loop(t_cmd **cmd, t_token **curr_token);
 int			check_add_input(t_infos *infos, char ***exec_args, int nbr_args);
 int			add_tmp_file_to_args(char ***exec_args);
@@ -414,6 +415,8 @@ void		child_execution(t_infos *infos, t_cmd *exec_cmd);
 int			get_exec_env_diff_size(t_infos *infos, t_cmd *cmd, int *modif);
 int			copy_env(t_infos *infos, char **env, char ***cpy_env,
 				int cpy_diff_size);
+int			complete_exec_env_with_assignments(t_infos *infos,
+				t_cmd *cmd, char ***exec_env);
 
 /*
 ** PIPELINE
@@ -422,5 +425,10 @@ int			launch_pipes_cmds(t_infos *infos, t_cmd *cmd, int nbr_pipes);
 int			wait_for_pipeline_childs(t_infos *infos, int nbr_pipes, \
 				pid_t **child_pids);
 t_cmd		*get_next_cmd(t_cmd *cmd);
+
+t_token		*get_next_token(t_infos *infos, t_cmd *head_cmd,
+		t_cmd **prev_cmd, t_token *prev_token);
+int			check_if_end_pipeline(t_cmd *cmd, t_token *token);
+t_token		*get_exec_token(t_infos *infos, t_cmd *head_cmd, t_cmd **exec_cmd);
 
 #endif

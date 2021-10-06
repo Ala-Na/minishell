@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/22 16:53:14 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/05 14:23:01 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/06 10:58:31 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,20 +41,25 @@ int	do_assignment(t_infos *infos, t_token *token)
 ** If it's the case, it returns 1. Else, it returns 0.
 ** Returns -1 in case of error.
 */
-int	is_only_assignments(t_cmd *cmd)
+int	is_only_assignments(t_infos *infos, t_cmd *cmd, t_token *first_non_redir)
 {
+	t_cmd	*curr_cmd;
 	t_token	*current;
+	int		prev_was_redir;
 
-	if (!cmd || ! cmd->start)
+	if (!cmd || !first_non_redir)
 		return (return_error(1, "something went wrong", 0, -1));
-	current = cmd->start;
-	while (current && current->type == ASSIGNMENT)
+	curr_cmd = cmd;
+	current = first_non_redir;
+	while (curr_cmd && current)
 	{
-		if (current == cmd->end)
+		if (current->type != ASSIGNMENT)
+			return (0);
+		if (check_if_end_pipeline(curr_cmd, current) == 1)
 			return (1);
-		current = current->next;
+		current = get_next_token(infos, cmd, &curr_cmd, current);
 	}
-	return (0);
+	return (1);
 }
 
 /*
@@ -64,24 +69,24 @@ int	is_only_assignments(t_cmd *cmd)
 ** Return -1 in cas of error, 1 if the command was only made of assignments,
 ** 0 otherwise.
 */
-int	check_assignments(t_infos *infos, t_cmd *cmd)
+int	check_assignments(t_infos *infos, t_cmd *head_cmd, t_cmd *cmd,
+		t_token *first_non_redir)
 {
 	int		assignments;
 	t_token	*curr_token;
+	t_cmd	*curr_cmd;
 
-	assignments = is_only_assignments(cmd);
-	if (assignments == -1)
-		return (-1);
-	else if (assignments == 0)
-		return (0);
-	curr_token = cmd->start;
-	while (curr_token)
+	assignments = is_only_assignments(infos, cmd, first_non_redir);
+	if (assignments <= 0)
+		return (assignments);
+	add_redirections(head_cmd, 0);
+	curr_token = first_non_redir;
+	curr_cmd = cmd;
+	while (cmd && curr_token)
 	{
 		if (do_assignment(infos, curr_token) == -1)
 			return (-1);
-		if (curr_token == cmd->end)
-			break ;
-		curr_token = curr_token->next;
+		curr_token = get_next_token(infos, cmd, &curr_cmd, curr_token);
 	}
 	return (1);
 }

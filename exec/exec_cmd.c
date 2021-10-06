@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 15:00:10 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/01 10:38:17 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/05 17:25:18 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,24 +33,24 @@ void	free_child_exec_var_and_exit(t_infos *infos, char **exec_path,
 ** Child should normally end inside the execve function. If not, we 
 ** arrive at the end of the function where an exit failure is issued.
 */
-void	child_execution(t_infos *infos, t_cmd *exec_cmd)
+void	child_execution(t_infos *infos, t_cmd *head_cmd)
 {
 	char	*exec_path;
 	char	**exec_env;
 	char	**exec_args;
 	t_token	*exec_token;
 
-	if (add_redirections(exec_cmd, 1) < 0)
+	if (add_redirections(head_cmd, 1) < 0)
 		free_child_exec_var_and_exit(infos, NULL, NULL, NULL);
-	if (!infos || !exec_cmd)
+	if (!infos || !head_cmd)
 	{
 		return_error(1, "something went wrong", 0, 0);
 		exit(g_exit_status);
 	}
-	exec_path = get_exec_path(infos, exec_cmd, &exec_env, &exec_token);
+	exec_path = get_exec_path(infos, &head_cmd, &exec_env, &exec_token);
 	if (!exec_path || !exec_env)
 		free_child_exec_var_and_exit(infos, NULL, &exec_env, NULL);
-	exec_args = get_exec_args(infos, exec_cmd, exec_token);
+	exec_args = get_exec_args(infos, head_cmd, exec_token);
 	if (!exec_args)
 		free_child_exec_var_and_exit(infos, &exec_path, &exec_env, NULL);
 	if (execve(exec_path, exec_args, exec_env) == -1)

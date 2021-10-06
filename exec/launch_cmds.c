@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/22 17:28:50 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/06 17:55:07 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/06 23:06:37 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,34 +37,17 @@ int	assignments_management(t_infos *infos, t_cmd *head_cmd, t_cmd *cmd,
 }
 
 /*
-** Function to start launch of a simple command.
-** First, redirections are checked and interpreted.
-** Secondary, a check is made to verify if the command is only made assignments
-** and assignments are made if it's the case.
+** Second an main part of launch_simple_cmd.
 ** Tertiary, the first token which is not an assignment is found. It's checked
 ** if it corresponds to a builtin. If it is, the builtin is called. If not,
 ** the command is executated as a programm.
 */
-int	launch_simple_cmd(t_infos *infos, t_cmd *cmd, int from_pipe)
+int	launch_simple_cmd(t_infos *infos, t_cmd *cmd,
+		t_token *exec_token, int from_pipe)
 {
-	int			only_assignments;
 	char		*str;
 	t_builtin	builtin;
-	t_cmd		*curr_cmd;
-	t_token		*exec_token;
 
-	curr_cmd = NULL;
-	exec_token = NULL;
-	if (!infos || !cmd)
-		return (return_error(1, "something went wrong", 0, -1));
-	exec_token = get_next_token(infos, cmd, &curr_cmd, exec_token);
-	if (!exec_token && g_exit_status == 0)
-		return (add_redirections(cmd, 0));
-	else if (!exec_token)
-		return (-1);
-	only_assignments = assignments_management(infos, cmd, curr_cmd, &exec_token);
-	if (only_assignments <= 0)
-		return (only_assignments);
 	str = ft_strdup_linked_string(exec_token);
 	if (!str)
 		return (return_error(1, "memory allocation error", 0, -1));
@@ -78,6 +61,34 @@ int	launch_simple_cmd(t_infos *infos, t_cmd *cmd, int from_pipe)
 	else
 		child_execution(infos, cmd);
 	return (0);
+}
+
+/*
+** Function to start launch of a simple command.
+** First, redirections are checked and interpreted.
+** Secondary, a check is made to verify if the command is only made assignments
+** and assignments are made if it's the case.
+*/
+int	init_launch_simple_cmd(t_infos *infos, t_cmd *cmd, int from_pipe)
+{
+	int			only_assignments;
+	t_cmd		*curr_cmd;
+	t_token		*exec_token;
+
+	curr_cmd = NULL;
+	exec_token = NULL;
+	if (!infos || !cmd)
+		return (return_error(1, "something went wrong", 0, -1));
+	exec_token = get_next_token(infos, cmd, &curr_cmd, exec_token);
+	if (!exec_token && g_exit_status == 0)
+		return (add_redirections(cmd, 0));
+	else if (!exec_token)
+		return (-1);
+	only_assignments = assignments_management(infos, cmd, curr_cmd,
+			&exec_token);
+	if (only_assignments <= 0)
+		return (only_assignments);
+	return (launch_simple_cmd(infos, cmd, exec_token, from_pipe));
 }
 
 /*
@@ -115,6 +126,6 @@ int	launch_cmds(t_infos *infos)
 	if (nbr_pipes == -1)
 		return (return_error(1, "something went wrong", 0, -1));
 	else if (nbr_pipes == 0)
-		return (launch_simple_cmd(infos, infos->lst_cmds, 0));
+		return (init_launch_simple_cmd(infos, infos->lst_cmds, 0));
 	return (launch_pipes_cmds(infos, infos->lst_cmds, nbr_pipes));
 }

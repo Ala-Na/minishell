@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 17:30:12 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/05 17:39:34 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/06 23:24:17 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,16 +43,18 @@ int	get_args_nbr(t_infos *infos, t_cmd *exec_cmd, t_token *exec_token)
 ** relative path and register assignments variables inside exec_env.
 ** Return NULL if error.
 */
-t_token	*move_to_exec(t_infos *infos, t_cmd **cmd, char ***exec_env)
+t_token	*move_to_exec_and_fill_env(t_infos *infos, t_cmd **cmd,
+		char ***exec_env)
 {
-	int	diff_exec_env_size;
-	int	modif;
+	int		diff_exec_env_size;
+	int		modif;
 	t_token	*exec_token;
 	t_cmd	*exec_cmd;
 
 	if (!infos || !cmd || !*cmd || !infos->env)
 		return ((t_token *)return_null_error(1, "something went wrong", 0));
 	*exec_env = NULL;
+	modif = 0;
 	diff_exec_env_size = get_exec_env_diff_size(infos, *cmd, &modif);
 	if (diff_exec_env_size < 0)
 		return (NULL);

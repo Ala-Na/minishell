@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/15 17:18:48 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/06 17:04:58 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/06 22:41:28 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,8 @@ int	show_env_loop(t_infos *infos, t_cmd *cmd, int fd, int export)
 ** To call when the built in "env" is inside the commande line.
 ** Need to received infos->env as argument.
 */
-int	show_env(t_infos *infos, t_cmd *head_cmd, t_token *builtin_token, int export)
+int	show_env(t_infos *infos, t_cmd *head_cmd, t_token *builtin_token,
+		int export)
 {
 	t_token	*curr;
 	t_cmd	*cmd;

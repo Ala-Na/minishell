@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 21:45:16 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/06 15:28:20 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/06 18:40:10 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,8 @@ int	get_var(t_infos *infos, char *cmd, char **var, int dbl)
 	if (cmd[i++] == '~')
 	{
 		sub_get_var(var, "HOME", infos->env, infos->lst_var);
+		if (!*var)
+			*var = "~";
 		return (ft_strlen(*var) - 1);
 	}
 	while (cmd[i])

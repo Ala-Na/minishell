@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/27 17:16:19 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/06 18:23:50 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/06 18:39:31 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,4 +144,4 @@ int	launch_pipes_cmds(t_infos *infos, t_cmd *cmd, int nbr_pipes)
 		return (-1);
 	}
 	return (wait_for_pipeline_childs(infos, nbr_pipes, &child_pids));
-
+}

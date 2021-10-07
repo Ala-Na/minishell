@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/31 15:39:01 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/06 17:37:42 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/07 12:07:15 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,13 +138,13 @@ int	save_env(t_infos *infos, char **env)
 	char	**tmp_env;
 
 	i = 0;
-	while (env[i])
+	while (env && env[i])
 		i++;
 	tmp_env = malloc(sizeof(*tmp_env) * (i + 1));
 	if (!tmp_env)
 		return (return_error(1, "memory allocation error", 0, -1));
 	i = 0;
-	while (env[i])
+	while (env && env[i])
 	{
 		y = 0;
 		tmp_env[i] = ft_strdup(env[i]);

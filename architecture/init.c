@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/02 11:52:56 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/05 13:59:23 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/07 12:11:31 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,9 @@ int	get_shell_nbr(char *str)
 	return (0);
 }
 
+/*
+** Function to modify SHLVL value to +1.
+*/
 int	add_new_shlvl(t_infos *infos, char **env)
 {
 	t_token	*new_elem;
@@ -73,16 +76,16 @@ int	init_minishell(t_infos *infos, char **env)
 	infos->lst_tokens = NULL;
 	infos->lst_cmds = NULL;
 	infos->lst_var = NULL;
-	if (add_new_var_to_list(infos, "?=0") < 0)
+	if (add_new_var_to_list(infos, "?=0") == -1)
 		return (-1);
 	infos->fd_history = 0;
 	infos->env = NULL;
 	infos->fd_history = get_previous_history();
-	if (infos->fd_history == 0)
+	if (infos->fd_history == -1)
 		return (-1);
 	if (save_env(infos, env) == -1 || infos->env == NULL)
 		return (-1);
-	if (add_new_shlvl(infos, env) < 0)
+	if (add_new_shlvl(infos, env) == -1)
 		return (-1);
 	return (0);
 }

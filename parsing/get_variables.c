@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 21:45:16 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/06 18:40:10 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/07 15:53:03 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int	get_var(t_infos *infos, char *cmd, char **var, int dbl)
 			break ;
 		i++;
 	}
-	if (i == 1)
+	if (i == 1 && cmd[1] != '\'' && cmd[1] != '"')
 	{
 		*var = "$";
 		return (0);
@@ -95,14 +95,14 @@ void	add_var(t_infos *infos, char **new_cmd, int *i, int *j, int dbl)
 	k = 0;
 	get_var(infos, &infos->curr_cmd[i[0]], &var, dbl);
 	var_size = ft_strlen(var);
-	if (dbl == 0)
+	if (dbl == 0 && var_size > 0)
 		(*new_cmd)[(*j)++] = '$';
 	while (k < var_size)
 	{
 		(*new_cmd)[*j] = var[k++];
 		*j += 1;
 	}
-	if (dbl == 0)
+	if (dbl == 0 && var_size > 0)
 		(*new_cmd)[(*j)++] = '$';
 	if (infos->curr_cmd[i[0]] == '~')
 	{

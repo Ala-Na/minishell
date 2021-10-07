@@ -74,7 +74,7 @@ int	get_next_token_loop(t_cmd **cmd, t_token **token)
 			*cmd = (*cmd)->next;
 			*token = (*cmd)->start;
 		}
-		else if ((*token)->prev && (*token)->prev->linked_to_next != NULL)
+		else if ((*token) && (*token)->linked_to_next != NULL)
 			*token = (*token)->next;
 		else
 		{

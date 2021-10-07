@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 21:45:16 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/07 15:53:03 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/07 16:06:36 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int	get_var(t_infos *infos, char *cmd, char **var, int dbl)
 			break ;
 		i++;
 	}
-	if (i == 1 && cmd[1] != '\'' && cmd[1] != '"')
+	if (i == 1 && ((cmd[1] != '\'' && cmd[1] != '"') || dbl == 1))
 	{
 		*var = "$";
 		return (0);

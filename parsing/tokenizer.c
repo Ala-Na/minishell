@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/05 14:12:00 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/07 14:39:07 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/07 16:24:10 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,6 @@ int	browse_string(char *begin_token, char stop_char, int *syntax_error,
 {
 	int	i;
 
-	if (begin_token[0] && begin_token[1] && begin_token[2] &&
-			begin_token[0] == '$' && begin_token[1] == '$' && begin_token[2] == '$')
-	{
-		begin_token[0] = '\'';
-		begin_token[2] = '\'';
-		stop_char = '\'';
-		return (3);
-	}
 	i = 0;
 	if (!begin_token || !stop_char)
 		return (-1);

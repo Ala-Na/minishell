@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 21:45:16 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/07 16:06:36 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/07 16:21:36 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,14 +96,24 @@ void	add_var(t_infos *infos, char **new_cmd, int *i, int *j, int dbl)
 	get_var(infos, &infos->curr_cmd[i[0]], &var, dbl);
 	var_size = ft_strlen(var);
 	if (dbl == 0 && var_size > 0)
-		(*new_cmd)[(*j)++] = '$';
+	{
+		if (var[0] == '$' && var_size == 1)
+			(*new_cmd)[(*j)++] = '\'';
+		else
+			(*new_cmd)[(*j)++] = '$';
+	}
 	while (k < var_size)
 	{
 		(*new_cmd)[*j] = var[k++];
 		*j += 1;
 	}
 	if (dbl == 0 && var_size > 0)
-		(*new_cmd)[(*j)++] = '$';
+	{
+		if (var[0] == '$' && var_size == 1)
+			(*new_cmd)[(*j)++] = '\'';
+		else
+			(*new_cmd)[(*j)++] = '$';
+	}
 	if (infos->curr_cmd[i[0]] == '~')
 	{
 		*i += 1;
@@ -150,6 +160,7 @@ void	get_cmd_with_var(t_infos *infos, int new_size, int ignore, int dbl)
 	new_cmd[i[1]] = 0;
 	free(infos->curr_cmd);
 	infos->curr_cmd = new_cmd;
+	printf("new cmd is %s\n", new_cmd);
 }
 
 void	expand_variables(t_infos *infos, int dbl, int ignore, int new_size)

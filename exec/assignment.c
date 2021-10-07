@@ -89,7 +89,7 @@ int	add_new_var_to_list(t_infos *infos, char *str)
 	if (!new)
 		return (return_error(1, "memory allocation error", 0, -1));
 	new->name = extract_name(str, ft_strlen(str));
-	if (!new_name)
+	if (!new->name)
 		return (-1);
 	new->value = get_elem_value(str);
 	if (!new->value)

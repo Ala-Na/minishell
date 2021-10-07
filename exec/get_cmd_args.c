@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/21 11:03:41 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/07 11:42:02 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/07 22:47:43 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,10 @@ char	*get_exec_path(t_infos *infos, t_cmd **cmd, char ***exec_env,
 		return (return_null_error(1, "memory allocation error", 0));
 	full_path = get_path(path, *exec_env);
 	if (!full_path)
+	{
+		free(path);
 		return (NULL);
+	}
 	else if (!stat(full_path, &buf) && !(buf.st_mode & S_IXUSR))
 		permission_denied_msg(&full_path, path);
 	if (path && (!full_path || full_path != path))

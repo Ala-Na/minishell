@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/13 16:06:44 by hlichir           #+#    #+#             */
-/*   Updated: 2021/10/06 12:31:01 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/07 11:30:33 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ char	*get_elem_value(char *str)
 	while (str[i] && str[i] != '=')
 		i++;
 	i++;
-	dest = malloc(sizeof(char) * (ft_strlen(str + i) + 1));
+	dest = malloc(sizeof(*dest) * (ft_strlen(str + i) + 1));
 	if (!dest)
 		return (return_null_error(1, "memory allocation error", 0));
 	while (str[i + j])
@@ -83,7 +83,7 @@ int	add_new_var_to_list(t_infos *infos, char *str)
 	current = infos->lst_var;
 	while (current && current->next)
 		current = current->next;
-	new = malloc(sizeof(t_var));
+	new = malloc(sizeof(*new));
 	if (!new)
 		return (return_error(1, "memory allocation error", 0, -1));
 	new->name = extract_name(str, ft_strlen(str));

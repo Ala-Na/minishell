@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/21 11:03:41 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/06 23:19:51 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/07 11:42:02 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,9 @@ int	sub_get_args(t_infos *infos, t_cmd *exec_cmd, t_token *exec_token,
 			return (return_free_args(exec_args, i - 1, 1));
 		exec_token = get_next_token(infos, exec_cmd, &curr_cmd, exec_token);
 	}
+	(*exec_args)[i] = NULL;
 	if (!exec_token && g_exit_status != 0)
 		return (-1);
-	(*exec_args)[i] = NULL;
 	return (0);
 }
 
@@ -55,7 +55,7 @@ char	**get_exec_args(t_infos *infos, t_cmd *exec_cmd, t_token *exec_token)
 	nbr_args = get_args_nbr(infos, exec_cmd, exec_token);
 	if (nbr_args < 0)
 		return (NULL);
-	exec_args = malloc(sizeof(*exec_args) * (nbr_args + 1));
+	exec_args = malloc(sizeof(*exec_args) * (nbr_args + 2));
 	if (!exec_args)
 		return ((char **)return_null_error(1, "memory allocation error", 0));
 	if (sub_get_args(infos, exec_cmd, exec_token, &exec_args) == -1)

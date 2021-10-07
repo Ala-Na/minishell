@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/05 14:12:00 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/06 15:14:32 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/07 13:47:45 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	browse_string(char *begin_token, char stop_char, int *syntax_error,
 		begin_token[0] = '\'';
 		begin_token[2] = '\'';
 		stop_char = '\'';
-		printf("%s\n", begin_token);
+	//	printf("%s\n", begin_token);
 		return (3);
 	}
 	i = 0;

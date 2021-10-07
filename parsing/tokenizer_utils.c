@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/05 14:12:00 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/06 13:52:06 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/08 01:20:17 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,9 @@ void	free_token_list_from_extremity(t_token **tokens, int end)
 void	strings_manipulation(t_token **tokens)
 {
 	t_token	*curr_token;
+	t_token	*current;
 
+	add_tokens_for_variables(tokens);
 	curr_token = *tokens;
 	while (curr_token)
 	{

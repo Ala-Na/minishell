@@ -6,7 +6,7 @@
 #    By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/08/23 15:04:29 by anadege           #+#    #+#              #
-#    Updated: 2021/10/05 14:37:01 by hlichir          ###   ########.fr        #
+#    Updated: 2021/10/08 01:23:31 by hlichir          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,7 +30,9 @@ SRCS	= ./architecture/main.c \
 		  ./parsing/parsing.c \
 		  ./parsing/tokenizer.c \
 		  ./parsing/get_variables.c \
+		  ./parsing/get_var_utils.c \
 		  ./parsing/tokenizer_utils.c \
+		  ./parsing/tokenize_var.c \
 		  ./parsing/parsing_utils.c \
 		  ./parsing/string_utils.c \
 		  ./exec/assignment.c \
@@ -44,6 +46,7 @@ SRCS	= ./architecture/main.c \
 		  ./exec/get_cmd_args.c \
 		  ./exec/exec_pipe.c \
 		  ./exec/skip_redir.c \
+		  ./exec/skip_redir_utils.c \
 		  ./exec/exception_cmd.c \
 		  ./flow_management/redirections.c \
 		  ./flow_management/file_utils.c \
@@ -63,7 +66,7 @@ OBJS	= ${SRCS:.c=.o}
 LIB		= -L libft -lft -lreadline
 
 %.o: %.c
-			${CC} -g -o $@ -c $<
+			${CC} ${CFLAGS} -g -o $@ -c $<
 
 all:		${NAME}
 

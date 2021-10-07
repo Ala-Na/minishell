@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 13:49:03 by hlichir           #+#    #+#             */
-/*   Updated: 2021/09/30 22:32:32 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/07 23:55:24 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,13 @@ int	get_fd(t_cmd *curr)
 	char	*filename;
 
 	tmp = NULL;
-	filename = extract_name_in_string(curr->next);
+	fd = 0;
+	filename = extract_name_in_string(curr->next, &fd);
+	if (fd == -1)
+	{
+		display_next_lt_dbl(curr);
+		return (return_error(1, "Ambiguous redirect", 0, -1));
+	}
 	if (!filename)
 		return (return_error(1, "memory allocation error", 0, -1));
 	fd = open(filename, O_RDONLY);
@@ -93,25 +99,24 @@ int	check_if_end(char **str, char *end, char c, int i)
 **	fill_fd = 1.
 ** Returns the fd (or -1 if error) & 0 if fill_str = 0.
 */
-int	create_tmp_file(char *end_str, char *str, int fill_str, int *fd)
+int	create_tmp_file(char *end_str, char **str, int fill_str, int *fd)
 {
 	char	buffer[2];
 
 	while (read(1, buffer, 1) > 0)
 	{
 		buffer[1] = 0;
-		str = ft_strjoin_free(str, buffer, 1, 0);
-		if (!str)
+		(*str) = ft_strjoin_free(*str, buffer, 1, 0);
+		if (!(*str))
 		{
 			free(end_str);
 			return (return_error(1, "memory allocation error", 0, -1));
 		}
-		if (check_if_end(&str, end_str, buffer[0], 0) > 0)
+		if (check_if_end(str, end_str, buffer[0], 0) > 0)
 			break ;
 	}
 	free(end_str);
-	fill_tmp_file(&str, fill_str, fd);
-	free(str);
+	fill_tmp_file(str, fill_str, fd);
 	return (*fd);
 }
 
@@ -126,7 +131,7 @@ int	extract_input_from_stdin(t_cmd *curr, int fill_str)
 	int		fd;
 
 	fd = 0;
-	end_str = extract_name_in_string(curr->next);
+	end_str = extract_name_in_string(curr->next, &fd);
 	if (!end_str)
 		return (return_error(1, "memory allocation error", 0, -1));
 	str = ft_strdup("");
@@ -136,7 +141,7 @@ int	extract_input_from_stdin(t_cmd *curr, int fill_str)
 		return (return_error(1, "memory allocation error", 0, -1));
 	}
 	write(1, "> ", 2);
-	fd = create_tmp_file(end_str, str, fill_str, &fd);
+	fd = create_tmp_file(end_str, &str, fill_str, &fd);
 	if (fd < 0)
 		return (-1);
 	return (fd);

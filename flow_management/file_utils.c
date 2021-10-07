@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 15:22:22 by hlichir           #+#    #+#             */
-/*   Updated: 2021/10/01 20:02:09 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/07 23:54:17 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,17 @@ int	file_error_input(char *filename, char **tmp)
 ** Function to extract the name of the file or of the string if the " " are
 **	used.
 */
-char	*extract_name_in_string(t_cmd *cmd)
+char	*extract_name_in_string(t_cmd *cmd, int *error)
 {
 	char	*name;
 	int		start_pos;
 
+	if (cmd->start->type == VARIABLE && cmd->start->next && \
+		cmd->start->next->type == VARIABLE)
+	{
+		*error = -1;
+		return (NULL);
+	}
 	name = ft_strdup_linked_string(cmd->start);
 	if (!name)
 		return (NULL);

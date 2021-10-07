@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 13:26:21 by hlichir           #+#    #+#             */
-/*   Updated: 2021/09/30 21:46:24 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/07 23:55:31 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,13 @@
 int	create_new_file(t_cmd *curr)
 {
 	int		fd;
+	int		error;
 	char	*filename;
 
-	filename = extract_name_in_string(curr->next);
+	error = 0;
+	filename = extract_name_in_string(curr->next, &error);
+	if (error == -1)
+		return (return_error(1, "Ambiguous redirect!", 0, -1));
 	if (!filename)
 		return (return_error(1, "memory allocation error", 0, -1));
 	fd = open(filename, O_RDWR | O_TRUNC | O_CREAT, S_IRWXG | S_IRWXU);
@@ -41,9 +45,13 @@ int	create_new_file(t_cmd *curr)
 int	append_to_file(t_cmd *curr)
 {
 	int		fd;
+	int		error;
 	char	*filename;
 
-	filename = extract_name_in_string(curr->next);
+	error = 0;
+	filename = extract_name_in_string(curr->next, &error);
+	if (error == -1)
+		return (return_error(1, "Ambiguous redirect!", 0, -1));
 	if (!filename)
 		return (return_error(1, "memory allocation error", 0, -1));
 	fd = open(filename, O_RDWR | O_APPEND | O_CREAT, S_IRWXG | S_IRWXU);

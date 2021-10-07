@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 15:22:22 by hlichir           #+#    #+#             */
-/*   Updated: 2021/10/01 20:02:09 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/07 22:27:50 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,18 @@
 */
 int	file_error_input(char *filename, char **tmp)
 {
+	char	*sep;
+	char	*err;
+
+	sep = ": ";
 	*tmp = ft_strdup(filename);
 	if (!(*tmp))
 		return (return_error(1, "memory allocation error", 0, -1));
-	*tmp = ft_strjoin_free(*tmp, ": ", 1, 0);
+	*tmp = ft_strjoin_free(tmp, &sep, 1, 0);
 	if (!(*tmp))
 		return (return_error(1, "memory allocation error", 0, -1));
-	*tmp = ft_strjoin_free(*tmp, strerror(errno), 1, 0);
+	err = strerror(errno);
+	*tmp = ft_strjoin_free(tmp, &err, 1, 0);
 	if (!(*tmp))
 		return (return_error(1, "memory allocation error", 0, -1));
 	return (0);

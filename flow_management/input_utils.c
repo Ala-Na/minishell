@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 13:49:03 by hlichir           #+#    #+#             */
-/*   Updated: 2021/09/30 22:32:32 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/07 22:46:12 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ int	get_fd(t_cmd *curr)
 int	check_if_end(char **str, char *end, char c, int i)
 {
 	char	*tmp;
+	char	*new;
 	int		start_pos;
 
 	if (c != '\n')
@@ -78,8 +79,12 @@ int	check_if_end(char **str, char *end, char c, int i)
 		return (return_error(1, "memory allocation error", 0, -1));
 	if (!ft_strncmp(tmp, end, ft_max(ft_strlen(tmp) - 1, ft_strlen(end))))
 	{
-		*str = ft_strndup(*str, ft_strlen(*str) - ft_strlen(tmp));
+		new = ft_strndup(*str, ft_strlen(*str) - ft_strlen(tmp));
+		free(*str);
+		if (!new)
+			return (return_error(1, "memory allocation error", 0, -1));
 		free(tmp);
+		*str = new;
 		return (1);
 	}
 	free(tmp);
@@ -93,25 +98,30 @@ int	check_if_end(char **str, char *end, char c, int i)
 **	fill_fd = 1.
 ** Returns the fd (or -1 if error) & 0 if fill_str = 0.
 */
-int	create_tmp_file(char *end_str, char *str, int fill_str, int *fd)
+int	create_tmp_file(char *end_str, char **str, int fill_str, int *fd)
 {
 	char	buffer[2];
+	char	*buff;
+	char	*new;
 
 	while (read(1, buffer, 1) > 0)
 	{
 		buffer[1] = 0;
-		str = ft_strjoin_free(str, buffer, 1, 0);
-		if (!str)
+		buff = buffer;
+		new = ft_strjoin(*str, buffer);
+		free(*str);
+		if (!new)
 		{
 			free(end_str);
 			return (return_error(1, "memory allocation error", 0, -1));
 		}
-		if (check_if_end(&str, end_str, buffer[0], 0) > 0)
+		*str = new;
+		if (check_if_end(str, end_str, buffer[0], 0) > 0)
 			break ;
 	}
 	free(end_str);
-	fill_tmp_file(&str, fill_str, fd);
-	free(str);
+	fill_tmp_file(str, fill_str, fd);
+	free(*str);
 	return (*fd);
 }
 
@@ -136,7 +146,7 @@ int	extract_input_from_stdin(t_cmd *curr, int fill_str)
 		return (return_error(1, "memory allocation error", 0, -1));
 	}
 	write(1, "> ", 2);
-	fd = create_tmp_file(end_str, str, fill_str, &fd);
+	fd = create_tmp_file(end_str, &str, fill_str, &fd);
 	if (fd < 0)
 		return (-1);
 	return (fd);

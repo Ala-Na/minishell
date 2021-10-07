@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 15:55:23 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/07 14:10:22 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/07 22:24:50 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,7 +146,7 @@ void		clean_to_continue(t_infos *infos);
 */
 int			init_minishell(t_infos *infos, char **env);
 void		init_variables(int *i1, int *i2);
-int			add_new_shlvl(t_infos *infos, char **env);
+int			add_new_shlvl(t_infos *infos, char *shlvl, char **env);
 int			get_shell_nbr(char *str);
 
 /*
@@ -205,7 +205,7 @@ void		skip_n_option(t_infos *infos, t_cmd **cmd, t_token **tmp);
 /*
 ** BUILT IN PWD
 */
-int			show_current_dir(t_infos *infos, t_cmd *cmd);
+int			show_current_dir(t_infos *infos, t_cmd *cmd, char *pwd_msg);
 
 /*
 ** BUILT IN ENV
@@ -237,7 +237,7 @@ int			modify_existing_elem_to_env(t_infos *infos, char **env,
 int			seek_elem_pos(char **env, char *elem_name);
 void		free_var(t_var **var);
 int			check_validity_token(t_token **token, int is_export, int *res);
-int			invalid_token(t_token **token, int is_export, int *res);
+int			invalid_token(t_token **token, int is_export, int *res, char **to_free);
 
 /*
 ** BUILT IN UNSET
@@ -396,7 +396,7 @@ int			check_file(char	*filename);
 int			append_to_file(t_cmd *curr);
 int			create_new_file(t_cmd *curr);
 int			extract_input_from_stdin(t_cmd *curr, int fill_str);
-int			create_tmp_file(char *end_str, char *str, int fill_str, int *fd);
+int			create_tmp_file(char *end_str, char **str, int fill_str, int *fd);
 int			fill_tmp_file(char **str, int fill_str, int *fd);
 int			check_if_end(char **str, char *end, char c, int i);
 int			get_fd(t_cmd *curr);

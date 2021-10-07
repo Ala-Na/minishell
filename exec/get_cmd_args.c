@@ -28,7 +28,6 @@ int	sub_get_args(t_infos *infos, t_cmd *exec_cmd, t_token *exec_token,
 	while (curr_cmd && exec_token)
 	{
 		(*exec_args)[i] = ft_strdup_linked_string(exec_token);
-		printf("arg is %s\n", (*exec_args)[i]);
 		if (!(*exec_args)[i++])
 			return (return_free_args(exec_args, i - 1, 1));
 		exec_token = get_next_token(infos, exec_cmd, &curr_cmd, exec_token);

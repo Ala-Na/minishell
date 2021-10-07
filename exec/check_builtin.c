@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/02 14:46:17 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/06 17:27:42 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/07 14:12:04 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,18 +47,20 @@ t_builtin	check_builtin(char *first_elem)
 int	launch_builtin(t_infos *infos, t_cmd *cmd, t_builtin builtin)
 {
 	t_token	*builtin_token;
+	t_cmd	*builtin_cmd;
 
 	if (!infos || !cmd)
 		return (return_error(1, "something went wrong", 0, -1));
 	if (add_redirections(cmd, 0) < 0)
 		return (-1);
-	builtin_token = get_exec_token(infos, cmd, &cmd);
+	builtin_cmd = NULL;
+	builtin_token = get_exec_token(infos, cmd, &builtin_cmd);
 	if (!builtin_token)
 		return (return_error(1, "something went wrong", 0, -1));
 	if (builtin == CD)
 		return (cmd_change_directory(infos, cmd, builtin_token));
 	else if (builtin == ECHO)
-		return (cmd_echo(infos, cmd, builtin_token));
+		return (cmd_echo(infos, cmd, builtin_cmd, builtin_token));
 	else if (builtin == ENV)
 		return (show_env(infos, cmd, builtin_token, 0));
 	else if (builtin == EXPORT)

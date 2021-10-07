@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/07 12:14:01 by hlichir           #+#    #+#             */
-/*   Updated: 2021/10/06 16:55:55 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/07 14:10:24 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,8 @@ void	skip_n_option(t_infos *infos, t_cmd **cmd, t_token **tmp)
 **   checking whitespaces.
 ** This function return an int 0 but could return a void.
 */
-int	echo_builtin(t_infos *infos, t_cmd *builtin_cmd, t_token *builtin_token)
+int	echo_builtin(t_infos *infos, t_cmd *head_cmd, t_cmd *builtin_cmd,
+		t_token *builtin_token)
 {
 	int		n_option;
 	t_token	*tmp;
@@ -106,10 +107,10 @@ int	echo_builtin(t_infos *infos, t_cmd *builtin_cmd, t_token *builtin_token)
 	n_option = check_n_option(tmp);
 	if (n_option)
 		skip_n_option(infos, &moving_cmd, &tmp);
-	if (echo_builtin_loop(infos, builtin_cmd, moving_cmd, tmp) < 0)
+	if (echo_builtin_loop(infos, head_cmd, moving_cmd, tmp) < 0)
 		return (-1);
 	if (n_option == 0)
-		write(builtin_cmd->fd_output, "\n", 1);
+		write(head_cmd->fd_output, "\n", 1);
 	return (0);
 }
 
@@ -117,12 +118,13 @@ int	echo_builtin(t_infos *infos, t_cmd *builtin_cmd, t_token *builtin_token)
 ** Functions to call when the built in echo is correctly called (4 letters = echo
 ** followed by a whitespace or '\0') in the string *str.
 */
-int	cmd_echo(t_infos *infos, t_cmd *cmd, t_token *builtin_token)
+int	cmd_echo(t_infos *infos, t_cmd *head_cmd, t_cmd *builtin_cmd,
+		t_token *builtin_token)
 {
 	int		str_size;
 	char	*str_begin;
 
-	if (!infos || !cmd || !builtin_token)
+	if (!infos || !head_cmd || !builtin_cmd || !builtin_token)
 		return (return_error(1, "something went wrong", 0, -1));
-	return (echo_builtin(infos, cmd, builtin_token));
+	return (echo_builtin(infos, head_cmd, builtin_cmd, builtin_token));
 }

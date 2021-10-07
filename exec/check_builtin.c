@@ -6,7 +6,11 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/02 14:46:17 by anadege           #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2021/10/08 10:30:56 by hlichir          ###   ########.fr       */
+=======
+/*   Updated: 2021/10/07 22:25:50 by anadege          ###   ########.fr       */
+>>>>>>> some leaks fixed
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +70,7 @@ int	launch_builtin(t_infos *infos, t_cmd *cmd, t_builtin builtin)
 	else if (builtin == EXPORT)
 		return (add_elem_to_env(infos, cmd, builtin_token, 0));
 	else if (builtin == PWD)
-		return (show_current_dir(infos, cmd));
+		return (show_current_dir(infos, cmd, "pwd : "));
 	else if (builtin == UNSET)
 		return (unset_var(infos, cmd, builtin_token));
 	return (return_error(1, "something went wrong", 0, -1));

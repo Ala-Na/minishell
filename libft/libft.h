@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/12 22:06:44 by elanna            #+#    #+#             */
-/*   Updated: 2021/10/04 19:17:49 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/07 22:21:22 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,9 +124,9 @@ char					*ft_strnjoin(char const *s1, char const *s2,
 							int length);
 size_t					ft_max(size_t n1, size_t n2);
 int						ft_isblanks(char *str);
-char					*ft_strjoin_free(char *s1, char *s2, int free_s1, \
+char					*ft_strjoin_free(char **s1, char **s2, int free_s1, \
 							int free_s2);
-char					*ft_strdup_free(char *s, int to_free);
+char					*ft_strdup_free(char **s, int to_free);
 
 /*
 ** Following : All prototypes functions for get_next_line-like.

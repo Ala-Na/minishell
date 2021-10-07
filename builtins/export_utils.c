@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/01 19:29:45 by hlichir           #+#    #+#             */
-/*   Updated: 2021/10/08 10:24:59 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/08 11:58:56 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,11 +43,13 @@ int	seek_elem_pos(char **env, char *elem_name)
 /*
 ** Function used to print when a invalid identifier is encountered.
 */
-int	invalid_token(t_token **token, int is_export, int *res)
+int	invalid_token(t_token **token, int is_export, int *res, char **to_free)
 {
 	char	*tmp;
 	char	*str;
 
+	if (*to_free)
+		free(*to_free);
 	g_exit_status = 1;
 	if (res)
 		*res = 1;
@@ -67,6 +69,17 @@ int	invalid_token(t_token **token, int is_export, int *res)
 }
 
 /*
+** Short function which returns 0 and free a char **
+** Used for check_validity_token in valid cases.
+*/
+int	return_valid_token(char **to_free)
+{
+	if (to_free && *to_free)
+		free(*to_free);
+	return (0);
+}
+
+/*
 ** Function to check if the argument to unset is valid or not.
 ** 1. Check if all the characters are '_' -> valid
 *t 2. Check if all the characters are either 0-9 or '_' -> invalid
@@ -83,7 +96,7 @@ int	check_validity_token(t_token **token, int is_export, int *res)
 	if (!str)
 		return (return_error(1, "memory allocation error", 0, -1));
 	if (ft_strlen(str) == 0)
-		return (invalid_token(token, is_export, res));
+		return (invalid_token(token, is_export, res, &str));
 	while (str[i] && str[i] == '_')
 		i++;
 	if (i == (int)ft_strlen(str))

@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/05 13:05:41 by hlichir           #+#    #+#             */
-/*   Updated: 2021/10/06 15:47:51 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/07 22:23:23 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	create_tmp_new_elem(t_token **new_elem, char *name, char *value, char *str)
 	str = ft_strjoin(name, "=");
 	if (!str)
 		return (return_error(1, "memory allocation error", 0, -1));
-	str = ft_strjoin_free(str, value, 1, 0);
+	str = ft_strjoin_free(&str, &value, 1, 0);
 	if (!str)
 		return (return_error(1, "memory allocation error", 0, -1));
 	*new_elem = malloc(sizeof(t_token));
@@ -31,7 +31,7 @@ int	create_tmp_new_elem(t_token **new_elem, char *name, char *value, char *str)
 		return (return_error(1, "memory allocation error", 0, -1));
 	}
 	(*new_elem)->type = ASSIGNMENT;
-	(*new_elem)->token = ft_strdup_free(str, 1);
+	(*new_elem)->token = ft_strdup_free(&str, 1);
 	if (!(*new_elem)->token)
 	{
 		free(str);
@@ -59,7 +59,10 @@ char	*check_oldpwd_cdpath(t_infos *infos, char **path, int *is_alloc)
 			return (return_null_error(1, "cd: OLDPWD not set", 0));
 		if (*is_alloc)
 			free(*path);
-		*path = ft_strdup_free(get_elem_value((infos->env)[nb]), 1);
+		*path = get_elem_value((infos->env)[nb]);
+		if (!*path)
+			return (NULL);
+		*path = ft_strdup_free(path, 1);
 		if (!(*path))
 			return (return_null_error(1, "memory allocation error", 0));
 		*is_alloc = 2;
@@ -84,14 +87,17 @@ int	handle_cd_path(char **env, char **path, int *is_alloc)
 	nb = seek_elem_pos(env, "CDPATH");
 	if (nb < 0)
 		return (-1);
-	str = ft_strjoin_free(get_elem_value(env[nb]), *path, 1, 0);
+	str = get_elem_value(env[nb]);
+	if (!str)
+		return (return_error(1, "memory allocation error", 0, -1));
+	str = ft_strjoin_free(&str, path, 1, 0);
 	if (!str)
 		return (return_error(1, "memory allocation error", 0, -1));
 	if (stat(str, &buf) != -1 && S_ISDIR(buf.st_mode))
 	{
 		if (*is_alloc)
 			free(*path);
-		*path = ft_strdup_free(str, 1);
+		*path = ft_strdup_free(&str, 1);
 		if (!(path))
 			return (return_error(1, "memory allocation error", 0, -1));
 		*is_alloc = 2;

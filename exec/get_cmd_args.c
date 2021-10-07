@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/21 11:03:41 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/07 11:38:33 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/07 11:42:02 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@ char	**get_exec_args(t_infos *infos, t_cmd *exec_cmd, t_token *exec_token)
 	nbr_args = get_args_nbr(infos, exec_cmd, exec_token);
 	if (nbr_args < 0)
 		return (NULL);
-	printf("nbr args is %i\n", nbr_args);
 	exec_args = malloc(sizeof(*exec_args) * (nbr_args + 2));
 	if (!exec_args)
 		return ((char **)return_null_error(1, "memory allocation error", 0));

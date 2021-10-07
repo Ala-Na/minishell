@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/07 12:14:01 by hlichir           #+#    #+#             */
-/*   Updated: 2021/10/08 12:00:20 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/08 12:03:24 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,10 @@ int	check_n_option(t_token *first)
 	{
 		free(str);
 		return (0);
+	}
 	if (str[0] == '-' && (!str[1] || (str[1] && str[1] != 'n')))
 		return (0);
+	}
 	while (str[i] && str[i] == 'n')
 		i++;
 	if (!str[i])

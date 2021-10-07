@@ -6,19 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 15:22:22 by hlichir           #+#    #+#             */
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-/*   Updated: 2021/10/08 10:34:50 by hlichir          ###   ########.fr       */
-=======
-/*   Updated: 2021/10/08 10:24:45 by anadege          ###   ########.fr       */
->>>>>>> some leaks fixed
-=======
-/*   Updated: 2021/10/08 10:29:24 by anadege          ###   ########.fr       */
->>>>>>> some leaks fixed
-=======
-/*   Updated: 2021/10/08 10:55:59 by anadege          ###   ########.fr       */
->>>>>>> errors Werror corrected
+/*   Updated: 2021/10/08 12:04:10 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

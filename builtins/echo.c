@@ -53,11 +53,7 @@ int	echo_builtin_loop(t_infos *infos, t_cmd *head_cmd, t_cmd *cmd, t_token *tmp)
 		str = ft_strdup_linked_string(tmp);
 		if (!str)
 			return (-1);
-		if (tmp->linked_to_next != NULL)
-			printf("token is linked to next");
-		printf("with content %s of size %i\nstr is %s\nGive :\n", tmp->token, tmp->length, str);
 		write(head_cmd->fd_output, str, ft_strlen(str));
-		printf("\n");
 		tmp = get_next_token(infos, head_cmd, &cmd, tmp);
 		if (tmp)
 			write(head_cmd->fd_output, " ", 1);
@@ -106,13 +102,11 @@ int	echo_builtin(t_infos *infos, t_cmd *head_cmd, t_cmd *builtin_cmd,
 	char	*new;
 	t_cmd	*moving_cmd;
 
-	printf("full token is %s\n", builtin_token->token);
 	moving_cmd = builtin_cmd;
 	tmp = get_next_token(infos, builtin_cmd, &moving_cmd, builtin_token);
 	n_option = check_n_option(tmp);
 	if (n_option)
 		skip_n_option(infos, &moving_cmd, &tmp);
-	printf("full token after skip option is %s\n", tmp->token);
 	if (echo_builtin_loop(infos, head_cmd, moving_cmd, tmp) < 0)
 		return (-1);
 	if (n_option == 0)

@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/27 17:16:19 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/08 12:08:23 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/08 12:21:10 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ void	pipe_child_execution(t_infos *infos, t_cmd *cmd, int pipe_fd[2],
 int	pipe_parent_fd_manipulation(t_cmd *cmd, int pipe_fd[2],
 		int (*prev_fd)[2])
 {
-	(void)infos;
 	if ((*prev_fd)[READ_SIDE] != UNSET && (*prev_fd)[WRITE_SIDE] != UNSET)
 	{
 		if (close((*prev_fd)[READ_SIDE]) == -1)
@@ -141,5 +140,5 @@ int	launch_pipes_cmds(t_infos *infos, t_cmd *cmd, int nbr_pipes)
 		free(child_pids);
 		return (-1);
 	}
-	return (wait_for_pipeline_childs(infos, nbr_pipes, &child_pids));
+	return (wait_for_pipeline_childs(nbr_pipes, &child_pids));
 }

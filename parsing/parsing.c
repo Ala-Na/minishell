@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/07 14:43:01 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/08 12:09:21 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/08 12:19:40 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ int	init_empty_cmd(t_cmd **new, t_token **lst_tokens)
 {
 	t_cmd	*empty;
 
-	(void)head_lst;
 	if ((*lst_tokens)->type == OPERATOR)
 	{
 		empty = malloc(sizeof(*empty));

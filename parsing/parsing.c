@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/07 14:43:01 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/08 10:27:06 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/08 12:01:39 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 /*
 ** Function to init empty command when redirection is meeted.
 */
-int	init_empty_cmd(t_cmd **new, t_token **lst_tokens, t_cmd **head_lst)
+int	init_empty_cmd(t_cmd **new, t_token **lst_tokens)
 {
 	t_cmd	*empty;
 
@@ -54,7 +54,7 @@ int	check_init_new_cmd(t_cmd **new, t_token *lst_tokens,
 	res = 0;
 	*new = NULL;
 	if (lst_tokens->type == OPERATOR)
-		res = init_empty_cmd(new, &lst_tokens, lst_cmds);
+		res = init_empty_cmd(new, &lst_tokens);
 	else
 		*new = init_new_cmd(lst_tokens, lst_cmds);
 	if (!*new || res == -1)

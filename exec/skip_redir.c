@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/03 21:22:56 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/08 10:33:56 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/08 12:01:14 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,8 @@ int	check_if_end_pipeline(t_cmd *cmd, t_token *token)
 {
 	if (!cmd || !token)
 		return (return_error(1, "something went wrong", 0, -1));
-	if (token == cmd->end && (cmd->next_operator == PIPE \
-		|| cmd->next_operator == (t_operator)(-1)))
+	if (token == cmd->end
+		&& (cmd->next_operator == PIPE || (int)cmd->next_operator == -1))
 		return (1);
 	return (0);
 }

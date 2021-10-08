@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/01 21:56:08 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/07 15:41:07 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/08 10:33:38 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,11 +73,9 @@ int	sub_add_elem_to_env(t_infos *infos, t_token *new_elem,
 {
 	int		res;
 	char	*elem_name;
-	int		i;
 
 	elem_name = NULL;
 	res = -1;
-	i = 0;
 	if (!infos || !new_elem)
 		return (return_error(1, "something went wrong", 0, -1));
 	elem_name = get_elem_name(new_elem);

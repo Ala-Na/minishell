@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   skip_redir.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/03 21:22:56 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/07 15:32:36 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/07 23:50:53 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,16 +124,7 @@ t_token	*get_next_token(t_infos *infos, t_cmd *head_cmd,
 	if (check_if_first_call(head_cmd, prev_cmd, &curr_token) != 0)
 		return (curr_token);
 	else if (prev_token && prev_token != (*prev_cmd)->end)
-	{
-		if (!prev_token || !prev_token->linked_to_next)
-			return (prev_token->next);
-		else
-		{
-			if (get_next_token_loop(prev_cmd, &prev_token) == -1)
-				return (NULL);
-			return (prev_token);
-		}
-	}
+		return (check_prev_token(prev_token, prev_cmd));
 	else if (prev_token && check_if_end_pipeline(*prev_cmd, prev_token) == 1)
 		return (NULL);
 	*prev_cmd = (*prev_cmd)->next;

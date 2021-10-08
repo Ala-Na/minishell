@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/07 14:43:01 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/05 14:43:07 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/08 00:56:52 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 /*
 ** Function to init empty command when redirection is meeted.
 */
-int		init_empty_cmd(t_cmd **new, t_token **lst_tokens, t_cmd **head_lst)
+int	init_empty_cmd(t_cmd **new, t_token **lst_tokens, t_cmd **head_lst)
 {
 	t_cmd	*empty;
 
@@ -67,21 +67,23 @@ int	check_init_new_cmd(t_cmd **new, t_token *lst_tokens,
 	return (0);
 }
 
+void	token_identifier(t_token *lst_tokens, t_cmd **new, int *new_cmd)
+{
+	(*new)->end = lst_tokens->prev;
+	(*new)->next_operator = identify_operator(lst_tokens);
+	*new_cmd = 1;
+}
+
 /*
 ** Function which browse the t_tokens linked list infos->lst_tokens
 ** and separate it inside a t_cmds structure depending on operators.
 ** Returns NULL if an errors occurs, the t_cmd structure lst_cmds otherwise.
 */
-t_cmd	*separate_simple_cmd(t_infos *infos)
+t_cmd	*separate_simple_cmd(t_infos *infos, t_cmd *lst_cmds, int new_cmd)
 {
 	t_cmd	*new;
-	t_cmd	*lst_cmds;
 	t_token	*lst_tokens;
-	int		new_cmd;
-	int		res;
 
-	new_cmd = 1;
-	lst_cmds = NULL;
 	lst_tokens = infos->lst_tokens;
 	if (check_init_new_cmd(&new, lst_tokens, &lst_cmds, &new_cmd) == -1)
 		return (NULL);
@@ -97,11 +99,7 @@ t_cmd	*separate_simple_cmd(t_infos *infos)
 			&& check_init_new_cmd(&new, lst_tokens, &lst_cmds, &new_cmd) == -1)
 			return (NULL);
 		else if (lst_tokens->type == OPERATOR)
-		{
-			new->end = lst_tokens->prev;
-			new->next_operator = identify_operator(lst_tokens);
-			new_cmd = 1;
-		}
+			token_identifier(lst_tokens, &new, &new_cmd);
 		else
 			new->end = lst_tokens;
 		lst_tokens = lst_tokens->next;
@@ -133,7 +131,7 @@ int	parse_cmd(t_infos *infos)
 			&error_pos);
 	if (!infos->lst_tokens || syntax_error < 0)
 		return (parsing_error(syntax_error, error_pos));
-	infos->lst_cmds = separate_simple_cmd(infos);
+	infos->lst_cmds = separate_simple_cmd(infos, NULL, 1);
 	if (!infos->lst_cmds)
 		return (parsing_error(0, NULL));
 	return (0);

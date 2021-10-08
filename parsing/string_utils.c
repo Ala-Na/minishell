@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/05 14:15:54 by hlichir           #+#    #+#             */
-/*   Updated: 2021/10/07 14:41:28 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/08 01:21:37 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,11 @@
 /*
 ** Function to get all tokens linked together.
 */
-void	get_string_loop(t_token *elem, char **str, int fill_str)
+void	get_string_loop(t_token *elem, char **str, int fill_str, int i)
 {
 	t_token	*curr;
-	int		i;
 	int		j;
 
-	i = 0;
 	j = 0;
 	curr = elem;
 	while (curr)
@@ -30,7 +28,9 @@ void	get_string_loop(t_token *elem, char **str, int fill_str)
 		while (j < curr->length)
 		{
 			if (fill_str)
-				(*str)[i] = curr->token[j];
+			{	
+				(*str)[i] = (curr->token)[j];
+			}
 			i++;
 			j++;
 		}
@@ -52,9 +52,39 @@ char	*ft_strdup_linked_string(t_token *token)
 	char	*str;
 
 	str = NULL;
-	get_string_loop(token, &str, 0);
+	get_string_loop(token, &str, 0, 0);
 	if (!str)
 		return (return_null_error(1, "memory allocation error", 0));
-	get_string_loop(token, &str, 1);
+	get_string_loop(token, &str, 1, 0);
 	return (str);
+}
+
+/*
+** Functions to handle the exception << $variable.
+*/
+char	*get_new_string_for_exception(char **cmd, int i)
+{
+	int		j;
+	int		new_size;
+	char	*new;
+
+	j = 0;
+	new_size = ft_strlen(*cmd) + 2;
+	new = malloc(sizeof(*new) * (new_size + 1));
+	if (!new)
+		return (NULL);
+	while (j < i)
+	{
+		new[j] = (*cmd)[j];
+		j++;
+	}
+	new[j++] = '\'';
+	while ((*cmd)[i] && !ft_strchr(" \t\n", (*cmd)[i]))
+		new[j++] = (*cmd)[i++];
+	new[j++] = '\'';
+	while (j < new_size)
+		new[j++] = (*cmd)[i++];
+	new[j] = 0;
+	free(*cmd);
+	return (new);
 }

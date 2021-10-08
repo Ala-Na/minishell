@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/07 12:14:01 by hlichir           #+#    #+#             */
-/*   Updated: 2021/10/08 10:26:25 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/08 11:07:34 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ int	check_n_option(t_token *first)
 	if (!str)
 		return (-1);
 	if (str[0] != '-' || (str[1] && str[1] != 'n'))
+		return (0);
+	if (str[0] == '-' && (!str[1] || (str[1] && str[1] != 'n')))
 		return (0);
 	while (str[i] && str[i] == 'n')
 		i++;
@@ -70,7 +72,9 @@ void	skip_n_option(t_infos *infos, t_cmd **cmd, t_token **tmp)
 	while (*tmp)
 	{
 		i = 1;
-		if ((*tmp)->token[0] != '-')
+		if ((*tmp)->token[0] != '-' || ((*tmp)->token[1] \
+			&& ft_strchr(" \t\n", (*tmp)->token[1])) \
+			|| !(*tmp)->token[1])
 			break ;
 		str = ft_strdup_linked_string(*tmp);
 		if (!str)

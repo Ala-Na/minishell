@@ -6,11 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 16:51:37 by anadege           #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2021/10/08 10:36:35 by hlichir          ###   ########.fr       */
-=======
-/*   Updated: 2021/10/08 11:01:47 by anadege          ###   ########.fr       */
->>>>>>> errors Werror corrected
+/*   Updated: 2021/10/08 12:05:27 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,20 +29,12 @@ t_cmd	*get_next_cmd(t_cmd *cmd)
 	next_cmd = cmd;
 	while (next_cmd)
 	{
-<<<<<<< HEAD
-		if (next_cmd->next_operator == PIPE \
-			|| next_cmd->next_operator == (t_operator)(-1))
-			break ;
-		next_cmd = next_cmd->next;
-	}
-	if (next_cmd->next_operator == (t_operator)(-1))
-=======
-		if (next_cmd->next_operator == PIPE || (int)next_cmd->next_operator == -1)
+		if (next_cmd->next_operator == PIPE
+			|| (int)next_cmd->next_operator == -1)
 			break ;
 		next_cmd = next_cmd->next;
 	}
 	if ((int)next_cmd->next_operator == -1)
->>>>>>> errors Werror corrected
 		return (NULL);
 	next_cmd = next_cmd->next;
 	return (next_cmd);

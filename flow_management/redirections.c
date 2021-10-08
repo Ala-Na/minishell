@@ -6,7 +6,15 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 12:59:47 by hlichir           #+#    #+#             */
-/*   Updated: 2021/10/08 10:34:36 by hlichir          ###   ########.fr       */
+<<<<<<< HEAD
+<<<<<<< HEAD
+/*   Updated: 2021/10/08 12:01:31 by hlichir          ###   ########.fr       */
+=======
+/*   Updated: 2021/10/08 11:45:59 by anadege          ###   ########.fr       */
+>>>>>>> size adapted
+=======
+/*   Updated: 2021/10/08 11:45:59 by anadege          ###   ########.fr       */
+>>>>>>> 4fb547a1c28d1ac866034c4b5c0cb8c61abc13f8
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,8 +127,8 @@ int	add_redirections(t_cmd *head_cmd, int is_not_builtin)
 	t_cmd	*curr;
 
 	curr = head_cmd;
-	while (curr && curr->next_operator != (t_operator)(-1) \
-		&& curr->next_operator != PIPE)
+	while (curr && (int)curr->next_operator != -1
+			&& curr->next_operator != PIPE)
 	{
 		if (add_input(&head_cmd, curr) < 0)
 			return (-1);

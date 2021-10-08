@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/07 23:56:52 by hlichir           #+#    #+#             */
-/*   Updated: 2021/10/08 00:42:24 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/08 11:40:52 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	add_ignore_dbl(char cmd_char, int *ignore, int *dbl)
 /*
 ** Functions to handle the exception << $variable.
 */
-int	check_for_redir_exception(t_infos *infos, int exception, int i)
+int	check_for_redir_exception(t_infos *infos, int *new_size, int exception, int i)
 {
 	char	*cmd;
 
@@ -65,7 +65,10 @@ int	check_for_redir_exception(t_infos *infos, int exception, int i)
 			i++;
 	}
 	if (exception == 1)
+	{
 		infos->curr_cmd = cmd;
+		*new_size = ft_strlen(cmd);
+	}
 	return (0);
 }
 

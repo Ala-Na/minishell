@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/06 14:50:47 by hlichir           #+#    #+#             */
-/*   Updated: 2021/10/06 17:25:09 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/07 22:25:47 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 ** To call for pwd built.
 ** Return -1 if an error occurs, 0 if not.
 */
-int	show_current_dir(t_infos *infos, t_cmd *cmd)
+int	show_current_dir(t_infos *infos, t_cmd *cmd, char *pwd_msg)
 {
 	char	*str;
 	int		pos;
@@ -34,7 +34,7 @@ int	show_current_dir(t_infos *infos, t_cmd *cmd)
 		else
 			str = ft_strdup("memory allocation issue");
 		if (str)
-			str = ft_strjoin_free("pwd : ", str, 0, 1);
+			str = ft_strjoin_free(&pwd_msg, &str, 0, 1);
 		if (!str)
 			return (return_error(1, "memory allocation error", 0, -1));
 		return (return_error(1, str, 1, -1));

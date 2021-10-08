@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/22 17:28:50 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/08 10:31:47 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/08 12:08:35 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,8 @@ int	launch_simple_cmd(t_infos *infos, t_cmd *cmd,
 	if (!str)
 		return (return_error(1, "memory allocation error", 0, -1));
 	builtin = check_builtin(str);
-	if (builtin == (t_builtin)(-1))
+	free(str);
+	if ((int)builtin == -1)
 		return (-1);
 	else if (builtin != NONE)
 		return (launch_builtin(infos, cmd, builtin));

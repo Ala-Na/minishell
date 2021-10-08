@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/27 11:42:23 by hlichir           #+#    #+#             */
-/*   Updated: 2021/09/27 11:56:05 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/07 22:13:50 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static void	check_and_free(char **s1, char **s2, int free_s1, int free_s2)
 		free(*s2);
 }
 
-char	*ft_strjoin_free(char *s1, char *s2, int free_s1, int free_s2)
+char	*ft_strjoin_free(char **s1, char **s2, int free_s1, int free_s2)
 {
 	char	*dest;
 	int		i;
@@ -28,18 +28,18 @@ char	*ft_strjoin_free(char *s1, char *s2, int free_s1, int free_s2)
 
 	i = 0;
 	j = 0;
-	dest = malloc(sizeof(*dest) * (ft_strlen(s1) + ft_strlen(s2) + 1));
+	dest = malloc(sizeof(*dest) * (ft_strlen(*s1) + ft_strlen(*s2) + 1));
 	if (!dest)
 	{
-		check_and_free(&s1, &s2, free_s1, free_s2);
+		check_and_free(s1, s2, free_s1, free_s2);
 		return (NULL);
 	}
-	while (s1[j])
-		dest[i++] = s1[j++];
+	while ((*s1)[j])
+		dest[i++] = (*s1)[j++];
 	j = 0;
-	while (s2[j])
-		dest[i++] = s2[j++];
+	while ((*s2)[j])
+		dest[i++] = (*s2)[j++];
 	dest[i] = '\0';
-	check_and_free(&s1, &s2, free_s1, free_s2);
+	check_and_free(s1, s2, free_s1, free_s2);
 	return (dest);
 }

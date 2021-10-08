@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/31 15:39:01 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/07 12:07:15 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/08 10:37:44 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,7 +134,6 @@ void	free_env(char ***env, int last)
 int	save_env(t_infos *infos, char **env)
 {
 	int		i;
-	int		y;
 	char	**tmp_env;
 
 	i = 0;
@@ -146,7 +145,6 @@ int	save_env(t_infos *infos, char **env)
 	i = 0;
 	while (env && env[i])
 	{
-		y = 0;
 		tmp_env[i] = ft_strdup(env[i]);
 		if (!tmp_env[i])
 		{

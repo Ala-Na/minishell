@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/27 17:16:19 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/08 10:32:48 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/08 12:08:23 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,6 @@
 void	pipe_child_execution(t_infos *infos, t_cmd *cmd, int pipe_fd[2],
 		int prev_fd[2])
 {
-	int		res;
-
 	if (prev_fd[READ_SIDE] != UNSET && prev_fd[WRITE_SIDE] != UNSET)
 	{
 		if (close(prev_fd[WRITE_SIDE]) == -1)
@@ -56,7 +54,7 @@ void	pipe_child_execution(t_infos *infos, t_cmd *cmd, int pipe_fd[2],
 			return_error(1, strerror(errno), 0, 0);
 	}
 	if (g_exit_status == 0)
-		res = init_launch_simple_cmd(infos, cmd, 1);
+		init_launch_simple_cmd(infos, cmd, 1);
 	exit(g_exit_status);
 }
 
@@ -65,7 +63,7 @@ void	pipe_child_execution(t_infos *infos, t_cmd *cmd, int pipe_fd[2],
 ** for next iteration of pipe_loop.
 ** Returns -1 in case of error, 0 otherwise.
 */
-int	pipe_parent_fd_manipulation(t_infos *infos, t_cmd *cmd, int pipe_fd[2],
+int	pipe_parent_fd_manipulation(t_cmd *cmd, int pipe_fd[2],
 		int (*prev_fd)[2])
 {
 	(void)infos;
@@ -110,7 +108,7 @@ int	pipe_loop(t_infos *infos, t_cmd *cmd, int **child_pids, int i)
 		else if (new_pid == 0)
 			pipe_child_execution(infos, cmd, pipe_fd, prev_fd);
 		(*child_pids)[i++] = new_pid;
-		if (pipe_parent_fd_manipulation(infos, cmd, pipe_fd, &prev_fd) == -1)
+		if (pipe_parent_fd_manipulation(cmd, pipe_fd, &prev_fd) == -1)
 			return (-1);
 		cmd = get_next_cmd(cmd);
 	}

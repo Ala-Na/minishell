@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 15:55:23 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/08 01:25:56 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/08 12:09:31 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,7 +146,7 @@ void		clean_to_continue(t_infos *infos);
 */
 int			init_minishell(t_infos *infos, char **env);
 void		init_variables(int *i1, int *i2);
-int			add_new_shlvl(t_infos *infos, char **env);
+int			add_new_shlvl(t_infos *infos, char *shlvl, char **env);
 int			get_shell_nbr(char *str);
 
 /*
@@ -205,7 +205,7 @@ void		skip_n_option(t_infos *infos, t_cmd **cmd, t_token **tmp);
 /*
 ** BUILT IN PWD
 */
-int			show_current_dir(t_infos *infos, t_cmd *cmd);
+int			show_current_dir(t_infos *infos, t_cmd *cmd, char *pwd_msg);
 
 /*
 ** BUILT IN ENV
@@ -237,7 +237,8 @@ int			modify_existing_elem_to_env(t_infos *infos, char **env,
 int			seek_elem_pos(char **env, char *elem_name);
 void		free_var(t_var **var);
 int			check_validity_token(t_token **token, int is_export, int *res);
-int			invalid_token(t_token **token, int is_export, int *res);
+int			invalid_token(t_token **token, int is_export,
+				int *res, char **to_free);
 
 /*
 ** BUILT IN UNSET
@@ -348,7 +349,8 @@ void		get_cmd_with_var(t_infos *infos, int new_size, int ignore, \
 void		expand_variable_for_home(t_infos *infos, int i, int *size, \
 				char **var);
 void		add_ignore_dbl(char cmd_char, int *ignore, int *dbl);
-int			check_for_redir_exception(t_infos *infos, int exception, int i);
+int			check_for_redir_exception(t_infos *infos, int *new_size,
+				int exception, int i);
 void		add_var_modify_string(char **new_cmd, char *var, int dbl, int i[2]);
 int			get_var_exception(t_infos *infos, char **var, char *cmd, int *i);
 
@@ -436,7 +438,7 @@ int			complete_exec_env_with_assignments(t_infos *infos,
 ** PIPELINE
 */
 int			launch_pipes_cmds(t_infos *infos, t_cmd *cmd, int nbr_pipes);
-int			wait_for_pipeline_childs(t_infos *infos, int nbr_pipes, \
+int			wait_for_pipeline_childs(int nbr_pipes, \
 				pid_t **child_pids);
 t_cmd		*get_next_cmd(t_cmd *cmd);
 

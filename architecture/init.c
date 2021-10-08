@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/02 11:52:56 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/08 10:21:53 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/08 12:07:31 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,15 +33,15 @@ int	get_shell_nbr(char *str)
 /*
 ** Function to modify SHLVL value to +1.
 */
-int	add_new_shlvl(t_infos *infos, char **env)
+int	add_new_shlvl(t_infos *infos, char *shlvl, char **env)
 {
 	t_token	*new_elem;
 	char	*str;
 	int		nb;
 
-	nb = seek_elem_pos(env, "SHLVL");
-	nb = get_shell_nbr(env[nb]) + 1;
-	str = ft_strjoin_free("SHLVL=", ft_itoa(nb), 0, 1);
+	nb = seek_elem_pos(env, shlvl);
+	str = ft_itoa(get_shell_nbr(env[nb]) + 1);
+	str = ft_strjoin_free(&shlvl, &str, 0, 1);
 	if (!str)
 		return (-1);
 	new_elem = malloc(sizeof(t_token));
@@ -56,7 +56,7 @@ int	add_new_shlvl(t_infos *infos, char **env)
 	new_elem->linked_to_next = NULL;
 	new_elem->prev = NULL;
 	new_elem->next = NULL;
-	nb = modify_existing_elem_to_env(infos, infos->env, new_elem, "SHLVL");
+	nb = modify_existing_elem_to_env(infos, infos->env, new_elem, shlvl);
 	free(str);
 	free(new_elem);
 	return (nb);
@@ -84,7 +84,7 @@ int	init_minishell(t_infos *infos, char **env)
 		return (-1);
 	if (save_env(infos, env) == -1 || infos->env == NULL)
 		return (-1);
-	if (add_new_shlvl(infos, env) == -1)
+	if (add_new_shlvl(infos, "SHLVL", env) == -1)
 		return (-1);
 	return (0);
 }

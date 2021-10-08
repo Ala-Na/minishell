@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 16:51:37 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/08 12:08:20 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/08 12:22:01 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ int	wait_for_pipeline_childs(int nbr_pipes, pid_t **child_pids)
 	int	res;
 	int	wstatus;
 
-	(void)infos;
 	i = 0;
 	while (i < nbr_pipes + 1)
 	{

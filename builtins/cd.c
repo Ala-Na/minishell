@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/30 16:59:11 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/07 14:07:11 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/08 10:24:16 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,9 +93,9 @@ int	modify_pwd(t_infos *infos, char *name, char *new_pwd, int is_old)
 {
 	t_token	*new_elem;
 	char	*str;
-	int		tmp;
 	int		env_size;
 
+	str = NULL;
 	if (!new_pwd)
 		return (return_error(1, "memory allocation error", 0, -1));
 	if (create_tmp_new_elem(&new_elem, name, new_pwd, str) < 0)

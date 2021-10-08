@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/01 19:29:45 by hlichir           #+#    #+#             */
-/*   Updated: 2021/10/06 23:18:04 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/08 10:24:59 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,17 +86,17 @@ int	check_validity_token(t_token **token, int is_export, int *res)
 		return (invalid_token(token, is_export, res));
 	while (str[i] && str[i] == '_')
 		i++;
-	if (i == ft_strlen(str))
+	if (i == (int)ft_strlen(str))
 		return (0);
 	i = 0;
 	while (str[i] && (str[i] == '_' || ft_isdigit(str[i])))
 		i++;
-	if (i == ft_strlen(str))
+	if (i == (int)ft_strlen(str))
 		return (invalid_token(token, is_export, res));
 	i = 0;
 	while (str[i] && (str[i] == '_' || ft_isalnum(str[i])))
 		i++;
-	if (i == ft_strlen(str))
+	if (i == (int)ft_strlen(str))
 		return (0);
 	return (invalid_token(token, is_export, res));
 }

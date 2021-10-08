@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_pipe.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/27 17:16:19 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/06 23:04:57 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/08 10:32:48 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ void	pipe_child_execution(t_infos *infos, t_cmd *cmd, int pipe_fd[2],
 int	pipe_parent_fd_manipulation(t_infos *infos, t_cmd *cmd, int pipe_fd[2],
 		int (*prev_fd)[2])
 {
+	(void)infos;
 	if ((*prev_fd)[READ_SIDE] != UNSET && (*prev_fd)[WRITE_SIDE] != UNSET)
 	{
 		if (close((*prev_fd)[READ_SIDE]) == -1)
@@ -125,7 +126,6 @@ int	pipe_loop(t_infos *infos, t_cmd *cmd, int **child_pids, int i)
 int	launch_pipes_cmds(t_infos *infos, t_cmd *cmd, int nbr_pipes)
 {
 	int		res;
-	int		wstatus;
 	pid_t	*child_pids;
 	int		i;
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   seek_bin.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 15:56:39 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/06 10:52:09 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/08 10:29:22 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,6 @@ char	*get_absolute_path(char *filepath, char **env, char in_home)
 {
 	char	*path;
 	char	*env_var;
-	char	*tmp;
 
 	if (!filepath || !env)
 		return (return_null_error(1, "something went wrong", 0));

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_pipe_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 16:51:37 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/30 21:33:27 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/08 10:36:35 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,12 @@ t_cmd	*get_next_cmd(t_cmd *cmd)
 	next_cmd = cmd;
 	while (next_cmd)
 	{
-		if (next_cmd->next_operator == PIPE || next_cmd->next_operator == -1)
+		if (next_cmd->next_operator == PIPE \
+			|| next_cmd->next_operator == (t_operator)(-1))
 			break ;
 		next_cmd = next_cmd->next;
 	}
-	if (next_cmd->next_operator == -1)
+	if (next_cmd->next_operator == (t_operator)(-1))
 		return (NULL);
 	next_cmd = next_cmd->next;
 	return (next_cmd);
@@ -51,6 +52,7 @@ int	wait_for_pipeline_childs(t_infos *infos, int nbr_pipes, pid_t **child_pids)
 	int	res;
 	int	wstatus;
 
+	(void)infos;
 	i = 0;
 	while (i < nbr_pipes + 1)
 	{

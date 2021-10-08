@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_args_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 17:30:12 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/06 23:24:17 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/08 10:35:52 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ int	get_args_nbr(t_infos *infos, t_cmd *exec_cmd, t_token *exec_token)
 {
 	t_token	*curr_token;
 	t_cmd	*cmd;
-	int		loop;
 	int		nbr_args;
 
 	if (!infos || !exec_cmd || !exec_token)

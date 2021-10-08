@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   set_env_exec.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/17 16:53:57 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/06 23:25:49 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/08 10:32:00 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,6 @@ int	complete_exec_env_with_assignments(t_infos *infos, t_cmd *cmd,
 		char ***exec_env)
 {
 	t_token	*curr_token;
-	char	**env;
-	char	*elem_name;
 	t_cmd	*prev_cmd;
 
 	prev_cmd = NULL;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit_status.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/21 15:27:47 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/27 11:40:07 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/08 10:26:33 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@
 */
 int	modify_exit_value_variable(t_infos *infos, int new_value)
 {
-	char	*full_var;
 	char	*value;
 	t_var	*curr_lst_var;
 

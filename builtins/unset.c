@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/01 21:57:01 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/06 23:17:46 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/08 10:25:58 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,6 @@ int	sub_unset_var(t_infos *infos, t_token *to_unset)
 {
 	int		tmp_res;
 	char	*elem_name;
-	char	*tmp;
 
 	tmp_res = -1;
 	if (!infos || !to_unset)
@@ -119,10 +118,9 @@ int	unset_var(t_infos *infos, t_cmd *head_cmd, t_token *builtin_token)
 {
 	t_token	*to_unset;
 	t_cmd	*cmd;
-	char	*elem_name;
 	int		tmp_res;
 
-	if (!infos || !cmd)
+	if (!infos || !head_cmd)
 		return (return_error(1, "something went wrong", 0, -1));
 	cmd = head_cmd;
 	to_unset = get_next_token(infos, head_cmd, &cmd, builtin_token);

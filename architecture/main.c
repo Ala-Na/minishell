@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 14:58:07 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/06 15:04:05 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/08 10:21:40 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ void	clean_to_continue(t_infos *infos)
 void	parse_and_execute(t_infos *infos)
 {
 	int		res;
-	t_cmd	*final_cmd;
 
 	if (!infos->curr_cmd || ft_isblanks(infos->curr_cmd) == 1)
 		return ;

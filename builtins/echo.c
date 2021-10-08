@@ -34,6 +34,8 @@ int	check_n_option(t_token *first)
 		return (0);
 	}
 	if (str[0] == '-' && (!str[1] || (str[1] && str[1] != 'n')))
+	{
+		free(str);
 		return (0);
 	}
 	while (str[i] && str[i] == 'n')

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_builtin.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/02 14:46:17 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/07 14:12:04 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/08 10:30:56 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ t_builtin	check_builtin(char *first_elem)
 	int	size;
 
 	if (!first_elem)
-		return (return_error(1, "something went wrong", 0, -1));
+		return ((t_builtin)(return_error(1, "something went wrong", 0, -1)));
 	size = ft_strlen(first_elem);
 	if (!ft_strncmp(first_elem, "echo", ft_max(size, 5)))
 		return (ECHO);

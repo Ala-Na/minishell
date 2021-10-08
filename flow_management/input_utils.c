@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 13:49:03 by hlichir           #+#    #+#             */
-/*   Updated: 2021/10/07 23:55:24 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/08 10:35:38 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@ int	display_next_lt_dbl(t_cmd *cmd)
 	t_cmd	*curr;
 
 	curr = cmd;
-	while (curr->next_operator != -1 && curr->next_operator != PIPE)
+	while (curr->next_operator != (t_operator)(-1) \
+		&& curr->next_operator != PIPE)
 	{
 		if (curr->next_operator == LT_DBL && curr->next)
 			if (extract_input_from_stdin(curr, 0) < 0)
@@ -125,7 +126,6 @@ int	create_tmp_file(char *end_str, char **str, int fill_str, int *fd)
 */
 int	extract_input_from_stdin(t_cmd *curr, int fill_str)
 {
-	char	buffer[2];
 	char	*end_str;
 	char	*str;
 	int		fd;

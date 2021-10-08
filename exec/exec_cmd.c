@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 15:00:10 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/06 17:58:56 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/08 10:29:04 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,6 @@ int	execute_simple_cmd(t_infos *infos)
 	pid_t	child_pid;
 	int		wstatus;
 	int		res;
-	char	*str;
 
 	child_pid = fork();
 	if (child_pid == -1)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_cmd_args.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/21 11:03:41 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/07 11:42:02 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/08 10:32:14 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ int	sub_get_args(t_infos *infos, t_cmd *exec_cmd, t_token *exec_token,
 		char ***exec_args)
 {
 	int		i;
-	int		loop;
 	t_cmd	*curr_cmd;
 
 	i = 0;
@@ -46,7 +45,6 @@ int	sub_get_args(t_infos *infos, t_cmd *exec_cmd, t_token *exec_token,
 */
 char	**get_exec_args(t_infos *infos, t_cmd *exec_cmd, t_token *exec_token)
 {
-	t_cmd	*cmd;
 	char	**exec_args;
 	int		nbr_args;
 

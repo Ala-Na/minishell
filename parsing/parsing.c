@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/07 14:43:01 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/08 00:56:52 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/08 10:27:06 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ int	init_empty_cmd(t_cmd **new, t_token **lst_tokens, t_cmd **head_lst)
 {
 	t_cmd	*empty;
 
+	(void)head_lst;
 	if ((*lst_tokens)->type == OPERATOR)
 	{
 		empty = malloc(sizeof(*empty));

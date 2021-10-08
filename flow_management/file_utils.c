@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   file_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 15:22:22 by hlichir           #+#    #+#             */
-/*   Updated: 2021/10/07 23:54:17 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/08 10:34:50 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ int	file_error_input(char *filename, char **tmp)
 char	*extract_name_in_string(t_cmd *cmd, int *error)
 {
 	char	*name;
-	int		start_pos;
 
 	if (cmd->start->type == VARIABLE && cmd->start->next && \
 		cmd->start->next->type == VARIABLE)

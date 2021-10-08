@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 15:55:23 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/08 10:28:42 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/08 11:02:07 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -436,7 +436,7 @@ int			complete_exec_env_with_assignments(t_infos *infos,
 ** PIPELINE
 */
 int			launch_pipes_cmds(t_infos *infos, t_cmd *cmd, int nbr_pipes);
-int			wait_for_pipeline_childs(t_infos *infos, int nbr_pipes, \
+int			wait_for_pipeline_childs(int nbr_pipes, \
 				pid_t **child_pids);
 t_cmd		*get_next_cmd(t_cmd *cmd);
 

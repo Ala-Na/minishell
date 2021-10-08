@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 21:45:16 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/08 00:41:54 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/08 10:40:08 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,6 @@ int	get_var(t_infos *infos, char *cmd, char **var, int dbl)
 void	add_var(t_infos *infos, char **new_cmd, int i[2], int dbl)
 {
 	char	*var;
-	int		var_size;
 
 	get_var(infos, &infos->curr_cmd[i[0]], &var, dbl);
 	add_var_modify_string(new_cmd, var, dbl, i);

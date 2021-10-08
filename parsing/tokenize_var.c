@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/08 00:59:39 by hlichir           #+#    #+#             */
-/*   Updated: 2021/10/08 01:20:33 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/08 10:42:44 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void	add_tokens_for_variables(t_token **tokens)
 	int		i;
 	int		size;
 
+	new = NULL;
 	current = *tokens;
 	while (current)
 	{

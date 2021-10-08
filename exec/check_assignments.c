@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/22 16:53:14 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/06 12:24:31 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/08 10:49:01 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ int	is_only_assignments(t_infos *infos, t_cmd *cmd, t_token *first_non_redir)
 {
 	t_cmd	*curr_cmd;
 	t_token	*current;
-	int		prev_was_redir;
 
 	if (!cmd || !first_non_redir)
 		return (return_error(1, "something went wrong", 0, -1));

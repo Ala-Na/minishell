@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/12 21:48:31 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/06 15:40:48 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/08 10:31:05 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ char	*get_curr_dir(t_infos *infos, int prompt)
 	char	*res;
 	size_t	size_buffer_dir;
 	char	*buffer_dir;
-	char	*user;
 
 	size_buffer_dir = 512;
 	buffer_dir = malloc(sizeof(*buffer_dir) * size_buffer_dir);

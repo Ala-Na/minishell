@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/13 16:06:44 by hlichir           #+#    #+#             */
-/*   Updated: 2021/10/07 23:46:36 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/08 10:48:41 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,15 +122,13 @@ int	add_new_var_to_list(t_infos *infos, char *str)
 int	assign_variable_to_list(t_infos *infos, t_token *current_token)
 {
 	char	*str;
-	int		i;
 	int		check;
 
-	i = 0;
 	check = 0;
-	get_string_loop(current_token, &str, 0);
+	get_string_loop(current_token, &str, 0, 0);
 	if (!str)
 		return (return_error(1, "memory allocation error", 0, -1));
-	get_string_loop(current_token, &str, 1);
+	get_string_loop(current_token, &str, 1, 0);
 	if (modify_var_in_list(infos, str, &check) < 0)
 		return (-1);
 	if (check == 0)

@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/01 19:29:45 by hlichir           #+#    #+#             */
-/*   Updated: 2021/10/07 22:01:07 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/08 10:34:20 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,8 +88,8 @@ int	return_valid_token(char **to_free)
 */
 int	check_validity_token(t_token **token, int is_export, int *res)
 {
-	char	*str;
-	int		i;
+	char				*str;
+	unsigned int		i;
 
 	i = 0;
 	str = get_elem_name(*token);

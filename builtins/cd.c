@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/30 16:59:11 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/07 14:07:11 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/08 10:33:16 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,12 +57,10 @@ int	change_directory(t_infos *infos, char *new_path, int is_alloc)
 */
 int	cmd_change_directory(t_infos *infos, t_cmd *cmd, t_token *token)
 {
-	int		i;
 	char	*home_path;
 	t_token	*curr;
 	t_token	*next;
 
-	i = -1;
 	if (!infos || !cmd)
 		return (return_error(1, "something went wrong", 0, -1));
 	curr = get_next_token(infos, cmd, &cmd, token);
@@ -93,9 +91,9 @@ int	modify_pwd(t_infos *infos, char *name, char *new_pwd, int is_old)
 {
 	t_token	*new_elem;
 	char	*str;
-	int		tmp;
 	int		env_size;
 
+	str = NULL;
 	if (!new_pwd)
 		return (return_error(1, "memory allocation error", 0, -1));
 	if (create_tmp_new_elem(&new_elem, name, new_pwd, str) < 0)

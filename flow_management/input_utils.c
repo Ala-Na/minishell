@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 13:49:03 by hlichir           #+#    #+#             */
-/*   Updated: 2021/10/08 10:29:10 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/08 11:00:44 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	display_next_lt_dbl(t_cmd *cmd)
 	t_cmd	*curr;
 
 	curr = cmd;
-	while (curr->next_operator != -1 && curr->next_operator != PIPE)
+	while ((int)curr->next_operator != -1 && curr->next_operator != PIPE)
 	{
 		if (curr->next_operator == LT_DBL && curr->next)
 			if (extract_input_from_stdin(curr, 0) < 0)
@@ -107,13 +107,11 @@ int	check_if_end(char **str, char *end, char c, int i)
 int	create_tmp_file(char *end_str, char **str, int fill_str, int *fd)
 {
 	char	buffer[2];
-	char	*buff;
 	char	*new;
 
 	while (read(1, buffer, 1) > 0)
 	{
 		buffer[1] = 0;
-		buff = buffer;
 		new = ft_strjoin(*str, buffer);
 		free(*str);
 		if (!new)
@@ -136,7 +134,6 @@ int	create_tmp_file(char *end_str, char **str, int fill_str, int *fd)
 */
 int	extract_input_from_stdin(t_cmd *curr, int fill_str)
 {
-	char	buffer[2];
 	char	*end_str;
 	char	*str;
 	int		fd;

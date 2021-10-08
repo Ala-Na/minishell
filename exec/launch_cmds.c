@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/22 17:28:50 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/07 21:55:41 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/08 10:50:41 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ int	assignments_management(t_infos *infos, t_cmd *head_cmd, t_cmd *cmd,
 		t_token **exec_token)
 {
 	int		assignments;
-	t_token	*curr_token;
 	t_cmd	*curr_cmd;
 
 	assignments = check_assignments(infos, head_cmd, cmd, *exec_token);
@@ -53,7 +52,7 @@ int	launch_simple_cmd(t_infos *infos, t_cmd *cmd,
 		return (return_error(1, "memory allocation error", 0, -1));
 	builtin = check_builtin(str);
 	free(str);
-	if (builtin == -1)
+	if ((int)builtin == -1)
 		return (-1);
 	else if (builtin != NONE)
 		return (launch_builtin(infos, cmd, builtin));

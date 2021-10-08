@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 21:45:16 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/08 10:40:08 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/08 11:43:53 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,10 +97,10 @@ void	get_cmd_with_var(t_infos *infos, int new_size, int ignore, int dbl)
 	char	*new_cmd;
 
 	init_variables(&i[0], &i[1]);
+	check_for_redir_exception(infos, &new_size, 0, 0);
 	new_cmd = malloc(sizeof(*new_cmd) * (new_size + 1));
 	if (!new_cmd)
 		return ;
-	check_for_redir_exception(infos, 0, 0);
 	while (infos->curr_cmd[i[0]])
 	{
 		add_ignore_dbl(infos->curr_cmd[i[0]], &ignore, &dbl);

@@ -6,7 +6,11 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 13:49:03 by hlichir           #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2021/10/08 11:00:44 by anadege          ###   ########.fr       */
+=======
+/*   Updated: 2021/10/07 22:46:12 by anadege          ###   ########.fr       */
+>>>>>>> 1542b83744ba2aa8d4747b21cd8d9cb87c4459c7
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,11 +111,19 @@ int	check_if_end(char **str, char *end, char c, int i)
 int	create_tmp_file(char *end_str, char **str, int fill_str, int *fd)
 {
 	char	buffer[2];
+<<<<<<< HEAD
+=======
+	char	*buff;
+>>>>>>> 1542b83744ba2aa8d4747b21cd8d9cb87c4459c7
 	char	*new;
 
 	while (read(1, buffer, 1) > 0)
 	{
 		buffer[1] = 0;
+<<<<<<< HEAD
+=======
+		buff = buffer;
+>>>>>>> 1542b83744ba2aa8d4747b21cd8d9cb87c4459c7
 		new = ft_strjoin(*str, buffer);
 		free(*str);
 		if (!new)

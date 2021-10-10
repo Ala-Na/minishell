@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   seek_bin.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
+/*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 15:56:39 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/08 12:08:41 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/10 15:44:40 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,22 +143,3 @@ char	*get_path(char *filepath, char **env)
 		return_error(1, "memory allocation error", 0, 0);
 	return (return_null_error(127, str, 1));
 }
-
-/*
-// TEST
-int main(int argc, char **argv, char **env)
-{
-	char	*filepath;
-
-	if (argc != 2)
-		return (0);
-	filepath = ft_strdup(argv[1]);
-	char *path = get_path(filepath, env);
-	if (path)
-	{
-		free(path);
-		printf("valid\n");
-	}
-	return (0);
-}
-*/

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
+/*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 15:55:23 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/08 12:09:31 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/10 16:11:18 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,6 +187,7 @@ int			create_tmp_new_elem(t_token **new_elem, char *name, char *value, \
 				char *str);
 char		*check_oldpwd_cdpath(t_infos *infos, char **path, int *is_alloc);
 int			handle_cd_path(char **env, char **path, int *is_alloc);
+int			free_return_zero(char **str);
 
 /*
 ** BUILT IN ECHO
@@ -297,6 +298,7 @@ void		add_tokens_for_variables(t_token **tokens);
 void		tokenize_variables(t_token **tokens, t_token **current, \
 			t_token *new, int size);
 int			set_parsing_error(char **error_pos, char *error, t_token **to_free);
+int			check_variable_sign(char **cmd, int *i, int *check);
 
 /*
 ** PARSING
@@ -317,6 +319,7 @@ int			parse_cmd(t_infos *infos);
 */
 char		*ft_strdup_linked_string(t_token *token);
 void		get_string_loop(t_token *elem, char **str, int fill_str, int i);
+void		print_error(char *str, char *s, char c, int new_line);
 
 /*
 ** GET FILE FULL PATH
@@ -416,7 +419,8 @@ int			create_new_file(t_cmd *curr);
 int			extract_input_from_stdin(t_cmd *curr, int fill_str);
 int			create_tmp_file(char *end_str, char **str, int fill_str, int *fd);
 int			fill_tmp_file(char **str, int fill_str, int *fd);
-int			check_if_end(char **str, char *end, char c, int i);
+int			check_if_end(char **str, char *end, char c);
+void		find_start_position(char **str, int *start_pos);
 int			get_fd(t_cmd *curr);
 int			display_next_lt_dbl(t_cmd *cmd);
 

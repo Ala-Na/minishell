@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
+/*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 13:49:03 by hlichir           #+#    #+#             */
-/*   Updated: 2021/10/08 12:21:43 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/10 16:00:36 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int	get_fd(t_cmd *curr)
 ** Sub-function for extract_input_from_stdin
 ** Check if the string "end" was written
 */
-int	check_if_end(char **str, char *end, char c, int i)
+int	check_if_end(char **str, char *end, char c)
 {
 	char	*tmp;
 	char	*new;
@@ -74,12 +74,7 @@ int	check_if_end(char **str, char *end, char c, int i)
 	if (c != '\n')
 		return (0);
 	start_pos = 0;
-	while ((*str)[i])
-	{
-		if ((*str)[i] == '\n' && (*str)[i + 1])
-			start_pos = i + 1;
-		i++;
-	}
+	find_start_position(str, &start_pos);
 	tmp = ft_strdup(*str + start_pos);
 	if (!tmp)
 		return (return_error(1, "memory allocation error", 0, -1));
@@ -120,7 +115,7 @@ int	create_tmp_file(char *end_str, char **str, int fill_str, int *fd)
 			return (return_error(1, "memory allocation error", 0, -1));
 		}
 		*str = new;
-		if (check_if_end(str, end_str, buffer[0], 0) > 0)
+		if (check_if_end(str, end_str, buffer[0]) > 0)
 			break ;
 	}
 	free(end_str);

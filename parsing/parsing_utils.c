@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
+/*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/07 14:43:01 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/08 12:14:15 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/10 16:13:27 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,18 +119,18 @@ int	parsing_error(int syntax_error, char *error_pos)
 {
 	g_exit_status = 258;
 	if (syntax_error <= -1 && syntax_error >= -5)
-		printf("minishell : syntax error with ");
+		ft_puterr("minishell : syntax error with ", 0);
 	if (syntax_error == -1)
-		printf("unclosed quotes %s\n", error_pos);
+		print_error("unclosed quotes ", error_pos, 0, 1);
 	else if (syntax_error == -2)
-		printf("consecutive operators found near %c\n", *error_pos);
+		print_error("consecutive operators found near ", NULL, *error_pos, 1);
 	else if (syntax_error == -3)
-		printf("undefined special character %c\n", *error_pos);
+		print_error("undefined special character ", NULL, *error_pos, 1);
 	else if (syntax_error == -4)
-		printf("operator at the end %s\n", error_pos);
+		print_error("operator at the end ", error_pos, 0, 1);
 	else if (syntax_error == -5)
-		printf("command starting with operator %c\n", *error_pos);
+		print_error("command starting with operator ", NULL, *error_pos, 1);
 	else
-		printf("minishell : parsing error\n");
+		ft_puterr("minishell : parsing error", 1);
 	return (1);
 }

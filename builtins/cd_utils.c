@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/05 13:05:41 by hlichir           #+#    #+#             */
-/*   Updated: 2021/10/07 22:23:23 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/10 15:51:09 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,5 +102,14 @@ int	handle_cd_path(char **env, char **path, int *is_alloc)
 			return (return_error(1, "memory allocation error", 0, -1));
 		*is_alloc = 2;
 	}
+	return (0);
+}
+
+/*
+**	Sub-function to free a variable & return NULL
+*/
+int	free_return_zero(char **str)
+{
+	free(*str);
 	return (0);
 }

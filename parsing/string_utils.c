@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/05 14:15:54 by hlichir           #+#    #+#             */
-/*   Updated: 2021/10/10 16:11:23 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/11 22:50:16 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,8 @@ char	*ft_strdup_linked_string(t_token *token)
 {
 	char	*str;
 
+	if (!token)
+		return (return_null_error(1, "something went wrong", 0));
 	str = NULL;
 	get_string_loop(token, &str, 0, 0);
 	if (!str)
@@ -68,6 +70,8 @@ char	*get_new_string_for_exception(char **cmd, int i)
 	int		new_size;
 	char	*new;
 
+	if (!cmd || !*cmd)
+		return (return_null_error(1, "something went wrong", 0));
 	j = 0;
 	new_size = ft_strlen(*cmd) + 2;
 	new = malloc(sizeof(*new) * (new_size + 1));

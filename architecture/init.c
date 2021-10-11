@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/02 11:52:56 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/08 12:07:31 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/09 16:18:16 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	add_new_shlvl(t_infos *infos, char *shlvl, char **env)
 	str = ft_strjoin_free(&shlvl, &str, 0, 1);
 	if (!str)
 		return (-1);
-	new_elem = malloc(sizeof(t_token));
+	new_elem = malloc(sizeof(*new_elem));
 	if (!new_elem)
 	{
 		free(str);

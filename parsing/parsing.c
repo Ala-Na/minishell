@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/07 14:43:01 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/08 12:19:40 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/09 23:19:41 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	init_empty_cmd(t_cmd **new, t_token **lst_tokens)
 	{
 		empty = malloc(sizeof(*empty));
 		if (!empty)
-			return (-1);
+			return (return_error(1, "memory allocation error", 0, -1));
 		empty->start = NULL;
 		empty->end = NULL;
 		empty->next_operator = identify_operator(*lst_tokens);
@@ -122,6 +122,8 @@ int	parse_cmd(t_infos *infos)
 	int		syntax_error;
 	char	*error_pos;
 
+	if (!infos)
+		return (return_error(1, "something went wrong", 0, -1));
 	syntax_error = 0;
 	error_pos = NULL;
 	expand_variables(infos, 0, 0, 0);

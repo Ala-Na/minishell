@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 14:58:07 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/08 12:07:32 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/09 17:40:05 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,11 @@ void	parse_and_execute(t_infos *infos)
 {
 	int		res;
 
+	if (!infos)
+	{
+		return_error(1, "something went wrong", 0, 0);
+		return ;
+	}
 	if (!infos->curr_cmd || ft_isblanks(infos->curr_cmd) == 1)
 		return ;
 	res = parse_cmd(infos);
@@ -79,22 +84,23 @@ int	minishell_loop(t_infos *infos)
 	{
 		infos->prompt = get_prompt(infos);
 		if (!infos->prompt)
-			return (return_error(1, "minshell : fatal error", 0, 1));
+			return (return_error(1, "minishell : fatal error", 0, 1));
 		infos->curr_cmd = readline(infos->prompt);
 		if (check_for_signal(infos) < 0)
-			return (return_error(1, "minshell : fatal error", 0, 1));
+			return (return_error(1, "minishell : fatal error", 0, 1));
 		else if (!infos->curr_cmd)
 		{
 			write(1, "exit\n", 5);
 			break ;
 		}
-		add_line_to_history(infos->fd_history, infos->curr_cmd);
+		if (add_line_to_history(infos->fd_history, infos->curr_cmd) < 0)
+			return (return_error(1, "minishell : fatal error", 0, 1));
 		if (!ft_strncmp(infos->curr_cmd, "exit", 5))
 			break ;
 		if (infos->curr_cmd[0] != 0)
 			parse_and_execute(infos);
 		if (modify_exit_value_variable(infos, g_exit_status) < 0)
-			return (return_error(1, "minshell : fatal error", 0, 1));
+			return (return_error(1, "minishell : fatal error", 0, 1));
 		clean_to_continue(infos);
 	}
 	write(1, "exit\n", 5);
@@ -117,9 +123,10 @@ int	main(int argc, char **argv, char **env)
 	(void)argc;
 	(void)argv;
 	if (init_minishell(&infos, env) == -1)
-		return (return_error(1, "minshell : fatal error", 0, 1));
+		return (return_error(1, "minishell : fatal error", 0, 1));
 	handle_signals();
 	return_value = minishell_loop(&infos);
-	clean_exit(&infos);
+	if (clean_exit(&infos) == -1)
+		return (return_error(1, "minishell : fatal error", 0, 1));
 	return (return_value);
 }

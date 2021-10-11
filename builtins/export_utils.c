@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/01 19:29:45 by hlichir           #+#    #+#             */
-/*   Updated: 2021/10/08 12:19:12 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/11 15:41:12 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ int	invalid_token(t_token **token, int is_export, int *res, char **to_free)
 		return (return_error(1, "memory allocation error", 0, -1));
 	write(2, str, ft_strlen(str));
 	write(2, "\n", 1);
+	free(str);
 	return (-1);
 }
 
@@ -100,7 +101,7 @@ int	check_validity_token(t_token **token, int is_export, int *res)
 	while (str[i] && str[i] == '_')
 		i++;
 	if (i == ft_strlen(str))
-		return (0);
+		return (return_valid_token(&str));
 	i = 0;
 	while (str[i] && (str[i] == '_' || ft_isdigit(str[i])))
 		i++;
@@ -110,7 +111,7 @@ int	check_validity_token(t_token **token, int is_export, int *res)
 	while (str[i] && (str[i] == '_' || ft_isalnum(str[i])))
 		i++;
 	if (i == ft_strlen(str))
-		return (0);
+		return (return_valid_token(&str));
 	return (invalid_token(token, is_export, res, &str));
 }
 

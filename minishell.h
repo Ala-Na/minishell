@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 15:55:23 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/11 22:36:34 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/11 22:39:18 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,6 @@
 # include <sys/stat.h>
 
 # define PROMPT_MSG "\001\033[1;38;5;51m\002Prompt > \001\033[0m\002"
-# define WRITE_SIDE 1
-# define READ_SIDE 0
-# define UNSET -1
 
 /*
 ** Use of one global variable to handle exit_status = 130 when ctrl+c is used

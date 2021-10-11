@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 15:55:23 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/11 21:13:17 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/11 22:54:09 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -295,6 +295,7 @@ void		add_tokens_for_variables(t_token **tokens);
 void		tokenize_variables(t_token **tokens, t_token **current, \
 			t_token *new, int size);
 int			set_parsing_error(char **error_pos, char *error, t_token **to_free);
+int			check_variable_sign(char **cmd, int *i, int *check);
 
 /*
 ** PARSING

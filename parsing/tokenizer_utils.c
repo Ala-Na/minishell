@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/05 14:12:00 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/11 16:53:52 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/11 22:57:12 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,11 +136,11 @@ void	strings_manipulation(t_token **tokens)
 		if (curr_token->type != STRING && curr_token->type != VARIABLE
 			&& curr_token->token[curr_token->length] && curr_token->next
 			&& ft_strchr("\"\'$", to_compare))
-				curr_token->linked_to_next = curr_token->next;
+			curr_token->linked_to_next = curr_token->next;
 		else if ((curr_token->type == STRING || curr_token->type == VARIABLE)
 			&& curr_token->token[curr_token->length] && curr_token->next
 			&& !ft_strchr(" \n\t", to_compare))
-				curr_token->linked_to_next = curr_token->next;
+			curr_token->linked_to_next = curr_token->next;
 		if (curr_token->type == STRING)
 		{
 			curr_token->length -= 2;

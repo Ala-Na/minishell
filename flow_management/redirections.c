@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 12:59:47 by hlichir           #+#    #+#             */
-/*   Updated: 2021/10/11 22:51:16 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/11 22:55:40 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ int	add_fd_to_cmd(t_cmd **cmd, int fd, int is_output, int is_tmpfile)
 int	add_output(t_cmd **cmd, t_cmd *curr)
 {
 	int		fd;
+
 	if (!cmd || !*cmd || !curr)
 		return (return_error(1, "something went wrong", 0, -1));
 	if (curr->next_operator == GT && curr->next)

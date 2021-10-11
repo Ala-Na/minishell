@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/22 16:53:14 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/10 22:08:01 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/11 22:55:02 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ int	check_assignments(t_infos *infos, t_cmd *head_cmd, t_cmd *cmd,
 	t_cmd	*curr_cmd;
 
 	if (!infos || !head_cmd || !cmd || !first_non_redir)
-		return (return_error(1, "something went wrong", 0 ,-1));
+		return (return_error(1, "something went wrong", 0, -1));
 	assignments = is_only_assignments(infos, cmd, first_non_redir);
 	if (assignments <= 0)
 		return (assignments);

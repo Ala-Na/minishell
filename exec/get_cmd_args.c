@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/21 11:03:41 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/08 12:19:59 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/11 21:49:27 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,10 @@ int	sub_get_args(t_infos *infos, t_cmd *exec_cmd, t_token *exec_token,
 	{
 		(*exec_args)[i] = ft_strdup_linked_string(exec_token);
 		if (!(*exec_args)[i++])
-			return (return_free_args(exec_args, i - 1, 1));
+		{
+			free_env(exec_args, i);
+			return (return_error(1, "memory allocation error", 0, -1));
+		}
 		exec_token = get_next_token(infos, exec_cmd, &curr_cmd, exec_token);
 	}
 	(*exec_args)[i] = NULL;
@@ -62,33 +65,14 @@ char	**get_exec_args(t_infos *infos, t_cmd *exec_cmd, t_token *exec_token)
 }
 
 /*
-** Sub function of get_exec_path to display "permission denied"
-** message and set g_exit_value to 126 when needed.
-*/
-void	permission_denied_msg(char **full_path, char *path)
-{
-	char	*str;
-
-	str = ft_strjoin(path, " : Permission denied");
-	if (!str)
-		return_error(1, "memory allocation error", 0, 0);
-	return_error(126, str, 1, 0);
-	if (*full_path != path)
-		free(*full_path);
-	*full_path = NULL;
-}
-
-/*
 ** Function which return exec_path and set up the executable environment
 ** variables inside exec_env.
-:x
 */
 char	*get_exec_path(t_infos *infos, t_cmd **cmd, char ***exec_env,
 		t_token **exec_token)
 {
 	char		*path;
 	char		*full_path;
-	struct stat	buf;
 
 	if (!infos || !cmd)
 		return (return_null_error(1, "something went wrong", 0));
@@ -105,9 +89,7 @@ char	*get_exec_path(t_infos *infos, t_cmd **cmd, char ***exec_env,
 		free(path);
 		return (NULL);
 	}
-	else if (!stat(full_path, &buf) && !(buf.st_mode & S_IXUSR))
-		permission_denied_msg(&full_path, path);
-	if (path && (!full_path || full_path != path))
+	if (path && full_path != path)
 		free(path);
 	return (full_path);
 }

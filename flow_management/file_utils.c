@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 15:22:22 by hlichir           #+#    #+#             */
-/*   Updated: 2021/10/08 12:09:05 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/10 22:28:07 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ char	*extract_name_in_string(t_cmd *cmd, int *error)
 {
 	char	*name;
 
+	if (!cmd || !cmd->start)
+		return (return_null_error(1, "something went wrong", 0));
 	if (cmd->start->type == VARIABLE && cmd->start->next && \
 		cmd->start->next->type == VARIABLE)
 	{
@@ -66,7 +68,7 @@ int	check_file(char	*filename)
 	if (fd < 0)
 		return (-1);
 	if (close(fd) < 0)
-		return (return_error(1, "Error while closing file", 0, -1));
+		return (return_error(1, "error while closing file", 0, -1));
 	return (0);
 }
 

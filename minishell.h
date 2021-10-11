@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 15:55:23 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/08 12:09:31 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/11 21:13:17 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,7 +166,7 @@ char		*get_prompt(t_infos *infos);
 ** Each line of that file is added to readline when minishell is launched.
 */
 int			get_previous_history(void);
-void		add_line_to_history(int history_fd, char *str);
+int			add_line_to_history(int history_fd, char *str);
 
 /*
 ** HANDLING SIGNALS
@@ -179,7 +179,7 @@ void		sig_handler_function(int signum);
 ** BUILT IN CD
 ** WARNING : Doesn't check if the path is correctly formated.
 */
-int			change_directory(t_infos *infos, char *new_dir_path, int is_alloc);
+int			change_directory(t_infos *infos, char **new_path, int is_alloc);
 int			cmd_change_directory(t_infos *infos, t_cmd *cmd, t_token *token);
 int			modify_pwd(t_infos *infos, char *name, char *new_pwd, int is_old);
 
@@ -195,8 +195,6 @@ int			handle_cd_path(char **env, char **path, int *is_alloc);
 */
 int			cmd_echo(t_infos *infos, t_cmd *head_cmd,
 				t_cmd *builtin_cmd, t_token *builtin_token);
-int			echo_builtin(t_infos *infos, t_cmd *head_cmd,
-				t_cmd *builtin_cmd, t_token *builtin_token);
 int			echo_builtin_loop(t_infos *infos, t_cmd *head_cmd, t_cmd *cmd,
 				t_token *token);
 int			check_n_option(t_token *first);
@@ -205,7 +203,7 @@ void		skip_n_option(t_infos *infos, t_cmd **cmd, t_token **tmp);
 /*
 ** BUILT IN PWD
 */
-int			show_current_dir(t_infos *infos, t_cmd *cmd, char *pwd_msg);
+int			show_current_dir(t_infos *infos, t_cmd *cmd);
 
 /*
 ** BUILT IN ENV
@@ -327,6 +325,7 @@ char		*get_absolute_path_from_path(char *filepath, char *env_var);
 char		*reconstitute_absolute_path(char *env_var, char *filepath);
 int			is_absolute_path(char *filepath);
 int			check_path_for_exceptions(char *file);
+int			print_file_type(char *file);
 
 /*
 ** CHECK FOR BUILTIN OR LAUNCH COMMAND

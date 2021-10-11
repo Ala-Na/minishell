@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/07 14:43:01 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/08 12:14:15 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/09 16:42:36 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ void	free_cmd_list_from_extremity(t_cmd **cmds, int end)
 				return_error(1, strerror(errno), 0, -1);
 		free(to_free);
 	}
+	*cmds = NULL;
 }
 
 /*

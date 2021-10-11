@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/31 15:39:01 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/08 10:37:44 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/09 17:03:01 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,6 @@ char	*get_elem_name(t_token *elem)
 ** element (ex : For HOME, returns "/home/user42").
 ** Do the same as getenv function but for minishell environment where variables
 ** can be added.
-** The argument char **env is infos->env.
 ** Returns NULL if the element is not found.
 */
 char	*get_env_elem(char **env, char *elem, int elem_size)
@@ -83,6 +82,8 @@ char	*get_env_elem(char **env, char *elem, int elem_size)
 		if (!ft_strncmp(env[i], elem, elem_size))
 		{
 			tmp = extract_name(env[i], ft_strlen(env[i]));
+			if (!tmp)
+				return (NULL);
 			if (ft_strncmp(tmp, elem, ft_max(elem_size, ft_strlen(tmp))))
 			{
 				free(tmp);
@@ -90,8 +91,7 @@ char	*get_env_elem(char **env, char *elem, int elem_size)
 				continue ;
 			}
 			free(tmp);
-			elem_value = env[i];
-			elem_value += elem_size + 1;
+			elem_value = env[i] + elem_size + 1;
 			return (elem_value);
 		}
 		i++;

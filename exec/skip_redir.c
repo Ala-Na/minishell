@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/03 21:22:56 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/08 12:08:54 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/11 15:00:42 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,19 +21,22 @@
 t_token	*get_exec_token(t_infos *infos, t_cmd *head_cmd, t_cmd **exec_cmd)
 {
 	t_token	*curr_token;
+	int		end;
 
 	curr_token = NULL;
 	*exec_cmd = NULL;
+	end = 0;
 	curr_token = get_next_token(infos, head_cmd, exec_cmd, curr_token);
 	while (1)
 	{
 		if (curr_token->type != ASSIGNMENT)
 			break ;
-		if (check_if_end_pipeline(*exec_cmd, curr_token) == 1)
+		end = check_if_end_pipeline(*exec_cmd, curr_token);
+		if (end != 0)
 			break ;
 		curr_token = get_next_token(infos, head_cmd, exec_cmd, curr_token);
 	}
-	if (!curr_token || curr_token->type == ASSIGNMENT)
+	if (!curr_token || curr_token->type == ASSIGNMENT || end == -1)
 		return ((t_token *)(return_null_error(1, "something went wrong", 0)));
 	return (curr_token);
 }

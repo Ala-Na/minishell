@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 12:59:47 by hlichir           #+#    #+#             */
-/*   Updated: 2021/10/08 12:21:23 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/10 22:49:59 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,8 @@ int	add_fd_to_cmd(t_cmd **cmd, int fd, int is_output, int is_tmpfile)
 int	add_output(t_cmd **cmd, t_cmd *curr)
 {
 	int		fd;
-
+	if (!cmd || !*cmd || !curr)
+		return (return_error(1, "something went wrong", 0, -1));
 	if (curr->next_operator == GT && curr->next)
 	{
 		fd = create_new_file(curr);
@@ -90,6 +91,8 @@ int	add_input(t_cmd **cmd, t_cmd *curr)
 {
 	int		fd;
 
+	if (!cmd || !*cmd || !curr)
+		return (return_error(1, "something went wrong", 0, -1));
 	if (curr->next_operator == LT && curr->next)
 	{
 		fd = get_fd(curr);
@@ -118,6 +121,8 @@ int	add_redirections(t_cmd *head_cmd, int is_not_builtin)
 {
 	t_cmd	*curr;
 
+	if (!head_cmd)
+		return (return_error(1, "something went wrong", 0, -1));
 	curr = head_cmd;
 	while (curr && (int)curr->next_operator != -1
 			&& curr->next_operator != PIPE)

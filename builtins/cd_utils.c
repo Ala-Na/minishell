@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/05 13:05:41 by hlichir           #+#    #+#             */
-/*   Updated: 2021/10/07 22:23:23 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/11 14:40:20 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ int	create_tmp_new_elem(t_token **new_elem, char *name, char *value, char *str)
 	(*new_elem)->token = ft_strdup_free(&str, 1);
 	if (!(*new_elem)->token)
 	{
+		free(new_elem);
 		free(str);
 		return (return_error(1, "memory allocation error", 0, -1));
 	}
@@ -62,9 +63,6 @@ char	*check_oldpwd_cdpath(t_infos *infos, char **path, int *is_alloc)
 		*path = get_elem_value((infos->env)[nb]);
 		if (!*path)
 			return (NULL);
-		*path = ft_strdup_free(path, 1);
-		if (!(*path))
-			return (return_null_error(1, "memory allocation error", 0));
 		*is_alloc = 2;
 	}
 	else if (get_env_elem(infos->env, "CDPATH", ft_strlen("CDPATH")))

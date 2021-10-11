@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 13:49:03 by hlichir           #+#    #+#             */
-/*   Updated: 2021/10/08 12:21:43 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/10 22:58:56 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,9 +87,9 @@ int	check_if_end(char **str, char *end, char c, int i)
 	{
 		new = ft_strndup(*str, ft_strlen(*str) - ft_strlen(tmp));
 		free(*str);
+		free(tmp);
 		if (!new)
 			return (return_error(1, "memory allocation error", 0, -1));
-		free(tmp);
 		*str = new;
 		return (1);
 	}
@@ -138,6 +138,8 @@ int	extract_input_from_stdin(t_cmd *curr, int fill_str)
 	char	*str;
 	int		fd;
 
+	if (!curr || !curr->next)
+		return (return_error(1, "something went wrong", 0, -1));
 	fd = 0;
 	end_str = extract_name_in_string(curr->next, &fd);
 	if (!end_str)

@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/07 23:56:52 by hlichir           #+#    #+#             */
-/*   Updated: 2021/10/08 11:40:52 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/10 16:06:20 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	add_ignore_dbl(char cmd_char, int *ignore, int *dbl)
 /*
 ** Functions to handle the exception << $variable.
 */
-int	check_for_redir_exception(t_infos *infos, int *new_size, int exception, int i)
+int	check_for_redir_exception(t_infos *infos, int *new_size, int check, int i)
 {
 	char	*cmd;
 
@@ -52,19 +52,13 @@ int	check_for_redir_exception(t_infos *infos, int *new_size, int exception, int 
 			i = i + 2;
 			while (cmd[i] && ft_strchr(" \t\n", cmd[i]))
 				i++;
-			if (cmd[i] && cmd[i] == '$')
-			{
-				cmd = get_new_string_for_exception(&cmd, i);
-				if (!cmd)
-					return (return_error(1, "memory allocation error", 0, -1));
-				exception = 1;
-				i = i + 2;
-			}
+			if (check_variable_sign(&cmd, &i, &check) < 0)
+				return (return_error(1, "memory allocation error", 0, -1));
 		}
 		if (cmd[i])
 			i++;
 	}
-	if (exception == 1)
+	if (check == 1)
 	{
 		infos->curr_cmd = cmd;
 		*new_size = ft_strlen(cmd);

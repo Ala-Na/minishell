@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/05 14:15:54 by hlichir           #+#    #+#             */
-/*   Updated: 2021/10/08 11:45:03 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/10 16:11:23 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,4 +87,18 @@ char	*get_new_string_for_exception(char **cmd, int i)
 	new[j] = 0;
 	free(*cmd);
 	return (new);
+}
+
+/*
+** Sub-function to print the error during the parsing if needed.
+*/
+void	print_error(char *str, char *s, char c, int new_line)
+{
+	ft_puterr(str, 0);
+	if (s)
+		ft_puterr(s, 0);
+	else if (c)
+		write(2, &c, 1);
+	if (new_line)
+		write(1, "\n", 1);
 }

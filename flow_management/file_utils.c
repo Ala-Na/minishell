@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   file_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
+/*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 15:22:22 by hlichir           #+#    #+#             */
-/*   Updated: 2021/10/08 12:09:05 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/10 16:00:59 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,4 +83,20 @@ int	fill_tmp_file(char **str, int fill_str, int *fd)
 		ft_putstr_fd(*str, *fd);
 	}
 	return (0);
+}
+
+/*
+**	Sub-function for the double LT redirection (in file input)
+*/
+void	find_start_position(char **str, int *start_pos)
+{
+	int	i;
+
+	i = 0;
+	while ((*str)[i])
+	{
+		if ((*str)[i] == '\n' && (*str)[i + 1])
+			*start_pos = i + 1;
+		i++;
+	}
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
+/*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 12:59:47 by hlichir           #+#    #+#             */
-/*   Updated: 2021/10/08 12:21:23 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/10 15:54:38 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ int	add_redirections(t_cmd *head_cmd, int is_not_builtin)
 
 	curr = head_cmd;
 	while (curr && (int)curr->next_operator != -1
-			&& curr->next_operator != PIPE)
+		&& curr->next_operator != PIPE)
 	{
 		if (add_input(&head_cmd, curr) < 0)
 			return (-1);

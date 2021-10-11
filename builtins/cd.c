@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
+/*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/30 16:59:11 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/11 15:01:34 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/12 22:50:27 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 /*
 ** Sub function of change_directory
 */
-int	call_chdir(t_infos *infos, char **new_path, int is_alloc,
+int	call_chdir(t_infos *infos, char **new_path, int *is_alloc,
 		char **old_path)
 {
 	if (!infos || !new_path || !*new_path)
@@ -24,19 +24,19 @@ int	call_chdir(t_infos *infos, char **new_path, int is_alloc,
 			free(new_path);
 		return (return_error(1, "something went wrong", 0, -1));
 	}
-	*old_path = check_oldpwd_cdpath(infos, new_path, &is_alloc);
+	*old_path = check_oldpwd_cdpath(infos, new_path, is_alloc);
 	if (!(*old_path))
 	{
-		if (is_alloc)
+		if (*is_alloc)
 			free(*new_path);
-		return (return_error(1, "memory allocation error", 0, -1));
+		return (return_error(1, strerror(errno), 0, -1));
 	}
 	if (chdir(*new_path) == -1)
 	{
 		ft_puterr("cd: ", 0);
 		ft_puterr(*new_path, 0);
 		ft_puterr(": ", 0);
-		if (is_alloc)
+		if (*is_alloc)
 			free(*new_path);
 		free(*old_path);
 		return (return_error(1, strerror(errno), 0, -1));
@@ -64,7 +64,7 @@ int	change_directory(t_infos *infos, char **new_path, int is_alloc)
 			free(new_path);
 		return (return_error(1, "something went wrong", 0, -1));
 	}
-	if (call_chdir(infos, new_path, is_alloc, &old_path) == -1)
+	if (call_chdir(infos, new_path, &is_alloc, &old_path) == -1)
 		return (-1);
 	modify_pwd(infos, "OLDPWD", old_path, 0);
 	tmp_path = get_curr_dir(infos, 0);
@@ -102,6 +102,8 @@ int	cmd_change_directory(t_infos *infos, t_cmd *cmd, t_token *token)
 		home_path = get_env_elem(infos->env, "HOME", ft_strlen("HOME"));
 		if (!home_path)
 			return (return_error(1, "cd: « HOME » not defined", 0, -1));
+		if (ft_strlen(home_path) == 0)
+			return (0);
 		return (change_directory(infos, &home_path, 0));
 	}
 	next = get_next_token(infos, cmd, &cmd, curr);

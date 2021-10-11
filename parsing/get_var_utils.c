@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/07 23:56:52 by hlichir           #+#    #+#             */
-/*   Updated: 2021/10/13 01:06:18 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/13 01:41:42 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,8 +115,10 @@ int	get_var_exception(t_infos *infos, char **var, char *cmd, int *i)
 	}
 	if (cmd[(*i)++] == '~')
 	{
-		char *str = ft_strdup("HOME");
-		sub_get_var(var, &str, infos->env, infos->lst_var);
+		cmd = ft_strdup("HOME");
+		if (!cmd)
+			return (return_error(1, "memory allocation error", 0, -1));
+		sub_get_var(var, &cmd, infos->env, infos->lst_var);
 		if (!*var)
 			*var = "~";
 		(*i) = -1;

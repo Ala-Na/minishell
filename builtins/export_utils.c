@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/01 19:29:45 by hlichir           #+#    #+#             */
-/*   Updated: 2021/10/11 15:41:12 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/13 00:21:13 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ int	invalid_token(t_token **token, int is_export, int *res, char **to_free)
 		return (return_error(1, "memory allocation error", 0, -1));
 	write(2, str, ft_strlen(str));
 	write(2, "\n", 1);
+	g_exit_status = 1;
 	free(str);
 	return (-1);
 }

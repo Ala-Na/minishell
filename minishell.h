@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
+/*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 15:55:23 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/13 00:14:49 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/13 00:45:03 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,7 +145,7 @@ void		clean_to_continue(t_infos *infos);
 */
 int			init_minishell(t_infos *infos, char **env);
 void		init_variables(int *i1, int *i2);
-int			add_new_shlvl(t_infos *infos, char *shlvl, char **env);
+int			add_new_shlvl(t_infos *infos, char *shlvl, char **env, int nb);
 int			get_shell_nbr(char *str);
 
 /*
@@ -179,7 +179,7 @@ void		sig_handler_function(int signum);
 int			change_directory(t_infos *infos, char **new_path, int is_alloc);
 int			cmd_change_directory(t_infos *infos, t_cmd *cmd, t_token *token);
 int			modify_pwd(t_infos *infos, char *name, char *new_pwd, int is_old);
-int			call_chdir(t_infos *infos, char **new_path, int is_alloc,
+int			call_chdir(t_infos *infos, char **new_path, int *is_alloc,
 				char **old_path);
 
 int			create_tmp_new_elem(t_token **new_elem, char *name, char *value, \
@@ -309,7 +309,7 @@ void		free_cmd_list_from_extremity(t_cmd **cmds, int end);
 /*
 ** VARIABLES AND STRINGS UTILITARY FUNCTIONS
 */
-void		sub_get_var(char **var, char **elem_name,
+void		sub_get_var(char **var, char *elem_name,
 				char **env, t_var *var_lst);
 int			get_var(t_infos *infos, char *cmd, char **var, int dbl);
 void		add_var(t_infos *infos, char **new_cmd, int i[2], int dbl);
@@ -419,7 +419,7 @@ int			add_input(t_cmd **cmd, t_cmd *curr);
 int			add_output(t_cmd **cmd, t_cmd *curr);
 int			add_fd_to_cmd(t_cmd **cmd, int fd, int is_output, int is_tmpfile);
 
-int			append_to_file(t_cmd *curr);
+int			append_to_file(t_cmd *curr, int fd);
 int			create_new_file(t_cmd *curr);
 
 int			extract_input_from_stdin(t_cmd *curr, int fill_str);

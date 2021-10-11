@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/05 14:12:00 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/08 12:09:25 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/11 22:59:52 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,7 @@ void	free_token_list_from_extremity(t_token **tokens, int end)
 			*tokens = (*tokens)->next;
 		free(to_free);
 	}
+	*tokens = NULL;
 }
 
 /*
@@ -123,22 +124,25 @@ void	free_token_list_from_extremity(t_token **tokens, int end)
 void	strings_manipulation(t_token **tokens)
 {
 	t_token	*curr_token;
+	char	to_compare;
 
 	add_tokens_for_variables(tokens);
 	curr_token = *tokens;
 	while (curr_token)
 	{
-		if (curr_token->type != STRING)
+		to_compare = curr_token->token[curr_token->length];
+		if (curr_token->type == VARIABLE)
+			to_compare = curr_token->token[curr_token->length + 1];
+		if (curr_token->type != STRING && curr_token->type != VARIABLE
+			&& curr_token->token[curr_token->length] && curr_token->next
+			&& ft_strchr("\"\'$", to_compare))
+			curr_token->linked_to_next = curr_token->next;
+		else if ((curr_token->type == STRING || curr_token->type == VARIABLE)
+			&& curr_token->token[curr_token->length] && curr_token->next
+			&& !ft_strchr(" \n\t", to_compare))
+			curr_token->linked_to_next = curr_token->next;
+		if (curr_token->type == STRING)
 		{
-			if (curr_token->token[curr_token->length] && curr_token->next && \
-				ft_strchr("\"\'$", curr_token->token[curr_token->length]))
-				curr_token->linked_to_next = curr_token->next;
-		}
-		else
-		{
-			if (curr_token->token[curr_token->length] && curr_token->next && \
-				!ft_strchr(" \n\t", curr_token->token[curr_token->length]))
-				curr_token->linked_to_next = curr_token->next;
 			curr_token->length -= 2;
 			curr_token->token = curr_token->token + 1;
 		}

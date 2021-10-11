@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 17:30:12 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/08 12:08:30 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/11 21:49:35 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,16 +69,4 @@ t_token	*move_to_exec_and_fill_env(t_infos *infos, t_cmd **cmd,
 		return ((t_token *)return_null_error(1, "something went wrong", 0));
 	*cmd = exec_cmd;
 	return (exec_token);
-}
-
-/*
-** Subfunction of get_cmd_args to free_env & return -1 with or without an 
-**	error.
-*/
-int	return_free_args(char ***env, int i, int error_msg)
-{
-	free_env(env, i);
-	if (error_msg)
-		return_error(1, "memory allocation error", 0, -1);
-	return (-1);
 }

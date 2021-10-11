@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/04 17:34:23 by hlichir           #+#    #+#             */
-/*   Updated: 2021/10/05 10:36:23 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/11 21:36:39 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,11 @@
 int	print_file_type(char *file)
 {
 	struct stat	buf;
-	char		*str;
 
 	if (stat(file, &buf) < 0)
 	{
 		ft_puterr(file, 0);
-		ft_puterr(": ", 0);
+		ft_puterr(" : ", 0);
 		if (errno != ENOENT)
 			return (return_error(126, strerror(errno), 0, -1));
 		else
@@ -31,10 +30,13 @@ int	print_file_type(char *file)
 	}
 	if (S_ISDIR(buf.st_mode))
 	{
-		str = ft_strjoin(file, ": is a directory");
-		if (!str)
-			return (return_error(1, "memory allocation error", 0, -1));
-		return (return_error(126, str, 1, -1));
+		ft_puterr(file, 0);
+		return (return_error(126, ": is a directory", 0, -1));
+	}
+	else if (!(buf.st_mode & S_IXUSR))
+	{
+		ft_puterr(file, 0);
+		return (return_error(126, ": permission denied", 0, -1));
 	}
 	return (1);
 }
@@ -49,7 +51,7 @@ int	check_path_for_exceptions(char *file)
 
 	i = 0;
 	check_type = 0;
-	while (file[i])
+	while (file[i] && file[0] != '~')
 	{
 		if (file[i] == '/')
 			check_type = 1;

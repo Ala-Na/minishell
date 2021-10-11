@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/01 21:57:01 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/08 12:08:05 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/11 17:00:22 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int	delete_elem_from_env(char ***env, char *elem_name)
 		return (return_error(1, "something went wrong", 0, -1));
 	elem_pos = seek_elem_pos(*env, elem_name);
 	if (elem_pos == -2)
-		return (0);
+		return (return_error(1, "something went wrong", 0, -1));
 	else if (elem_pos == -1)
 		return (-1);
 	env_size = 0;

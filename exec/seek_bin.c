@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 15:56:39 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/10 15:44:40 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/11 23:04:12 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 */
 int	is_absolute_path(char *filepath)
 {
-	if (!ft_strncmp("~", filepath, 1))
+	if (!ft_strncmp("~", filepath, 2) || !ft_strncmp("~/", filepath, 2))
 		return (2);
 	else if (!ft_strncmp("./", filepath, 2) || !ft_strncmp("../", filepath, 3)
 		|| !ft_strncmp("/", filepath, 1))
@@ -120,7 +120,6 @@ char	*get_path(char *filepath, char **env)
 {
 	int			res;
 	char		*path;
-	struct stat	buf;
 	char		*str;
 
 	path = filepath;
@@ -136,7 +135,7 @@ char	*get_path(char *filepath, char **env)
 		path = get_absolute_path(filepath, env, 1);
 	else if (res == 1)
 		path = get_absolute_path(filepath, env, 0);
-	if (path && !stat(path, &buf))
+	if (path && print_file_type(path) == 1)
 		return (path);
 	str = ft_strjoin(filepath, " : command not found");
 	if (!str)

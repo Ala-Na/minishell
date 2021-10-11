@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 16:51:37 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/08 12:22:01 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/11 13:58:34 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,7 @@ t_cmd	*get_next_cmd(t_cmd *cmd)
 	t_cmd	*next_cmd;
 
 	if (!cmd)
-	{
-		return_error(1, "something went wrong", 0, 0);
-		return (NULL);
-	}
+		return ((t_cmd *)(return_null_error(1, "something went wrong", 0)));
 	next_cmd = cmd;
 	while (next_cmd)
 	{

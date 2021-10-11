@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/21 15:27:47 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/08 12:09:01 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/09 17:14:42 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,12 @@ int	modify_exit_value_variable(t_infos *infos, int new_value)
 	char	*value;
 	t_var	*curr_lst_var;
 
+	if (!infos)
+		return (return_error(1, "something went wrong", 0, -1));
 	curr_lst_var = infos->lst_var;
 	value = ft_itoa(new_value);
 	if (!value)
-		return (-1);
+		return (return_error(1, "memory allocation error", 0, -1));
 	while (curr_lst_var)
 	{
 		if (!ft_strncmp(curr_lst_var->name, "?", 2))
@@ -45,9 +47,11 @@ int	modify_exit_value_variable(t_infos *infos, int new_value)
 */
 int	check_for_signal(t_infos *infos)
 {
+	if (!infos)
+		return (-1);
 	if (g_exit_status == 130)
 	{
-		if (modify_var_in_list(infos, "?=130", NULL) < 0)
+		if (modify_exit_value_variable(infos, 130) < 0)
 			return (-1);
 	}
 	g_exit_status = 0;

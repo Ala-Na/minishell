@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/07 23:56:52 by hlichir           #+#    #+#             */
-/*   Updated: 2021/10/10 16:06:20 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/11 23:02:41 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,10 @@ int	check_for_redir_exception(t_infos *infos, int *new_size, int check, int i)
 {
 	char	*cmd;
 
+	if (!infos || !infos->curr_cmd)
+		return (return_error(1, "something went wrong", 0, -1));
 	cmd = infos->curr_cmd;
-	while (cmd[i])
+	while (cmd && cmd[i])
 	{
 		if (cmd[i] == '<' && cmd[i + 1] && cmd[i + 1] == '<')
 		{
@@ -102,6 +104,8 @@ void	add_var_modify_string(char **new_cmd, char *var, int dbl, int i[2])
 */
 int	get_var_exception(t_infos *infos, char **var, char *cmd, int *i)
 {
+	if (!infos || !var || !cmd)
+		return (-1);
 	*i = 0;
 	if (cmd[*i] != '$' && cmd[*i] != '~')
 	{

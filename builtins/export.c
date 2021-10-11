@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/01 21:56:08 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/08 10:33:38 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/11 14:42:18 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	add_not_existing_elem_to_env(char ***env, t_token *new_elem, int env_size)
 	char	**tmp_env;
 	int		j;
 
-	if (!*env || !new_elem)
+	if (!env || !*env || !new_elem)
 		return (return_error(1, "something went wrong", 0, -1));
 	tmp_env = malloc(sizeof(*tmp_env) * (env_size + 2));
 	if (!tmp_env)
@@ -64,7 +64,7 @@ int	modify_existing_elem_to_env(t_infos *infos, char **env, t_token *new_elem,
 	free(env[elem_pos]);
 	env[elem_pos] = ft_strdup_linked_string(new_elem);
 	if (!env[elem_pos])
-		return (return_error(1, "memory allocation error", 0, -1));
+		return (-1);
 	return (0);
 }
 

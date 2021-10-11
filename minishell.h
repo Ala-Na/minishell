@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 15:55:23 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/13 00:45:03 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/13 01:43:54 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,9 @@
 # include <sys/stat.h>
 
 # define PROMPT_MSG "\001\033[1;38;5;51m\002Prompt > \001\033[0m\002"
+# define WRITE_SIDE 1
+# define READ_SIDE 0
+# define UNSET -1
 
 /*
 ** Use of one global variable to handle exit_status = 130 when ctrl+c is used
@@ -180,6 +183,7 @@ int			change_directory(t_infos *infos, char **new_path, int is_alloc);
 int			cmd_change_directory(t_infos *infos, t_cmd *cmd, t_token *token);
 int			modify_pwd(t_infos *infos, char *name, char *new_pwd, int is_old);
 int			call_chdir(t_infos *infos, char **new_path, int *is_alloc,
+int			call_chdir(t_infos *infos, char **new_path, int is_alloc,
 				char **old_path);
 
 int			create_tmp_new_elem(t_token **new_elem, char *name, char *value, \
@@ -419,11 +423,12 @@ int			add_input(t_cmd **cmd, t_cmd *curr);
 int			add_output(t_cmd **cmd, t_cmd *curr);
 int			add_fd_to_cmd(t_cmd **cmd, int fd, int is_output, int is_tmpfile);
 
-int			append_to_file(t_cmd *curr, int fd);
+int			append_to_file(t_cmd *curr);
 int			create_new_file(t_cmd *curr);
 
 int			extract_input_from_stdin(t_cmd *curr, int fill_str);
-int			create_tmp_file(void);
+int			create_tmp_file(char *end_str, char **str, int fill_str, int *fd);
+int			check_if_end(char **str, char *end, char c, int i);
 int			get_fd(t_cmd *curr);
 int			display_next_lt_dbl(t_cmd *cmd);
 int			fork_for_input(char *end_str, int fd);

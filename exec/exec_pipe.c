@@ -6,15 +6,11 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/27 17:16:19 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/08 12:21:10 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/11 22:35:06 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-#define WRITE_SIDE 1
-#define READ_SIDE 0
-#define UNSET -1
 
 /*
 ** Function for child execution of pipe_loop function.

@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 15:55:23 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/11 22:54:09 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/11 23:03:03 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@
 /*
 ** Use of one global variable to handle exit_status = 130 when ctrl+c is used
 */
-
 int					g_exit_status;
 
 /*
@@ -170,18 +169,18 @@ int			add_line_to_history(int history_fd, char *str);
 
 /*
 ** HANDLING SIGNALS
-** Set of functions
 */
 void		handle_signals(void);
 void		sig_handler_function(int signum);
 
 /*
 ** BUILT IN CD
-** WARNING : Doesn't check if the path is correctly formated.
 */
 int			change_directory(t_infos *infos, char **new_path, int is_alloc);
 int			cmd_change_directory(t_infos *infos, t_cmd *cmd, t_token *token);
 int			modify_pwd(t_infos *infos, char *name, char *new_pwd, int is_old);
+int			call_chdir(t_infos *infos, char **new_path, int is_alloc,
+				char **old_path);
 
 int			create_tmp_new_elem(t_token **new_elem, char *name, char *value, \
 				char *str);
@@ -190,8 +189,6 @@ int			handle_cd_path(char **env, char **path, int *is_alloc);
 
 /*
 ** BUILT IN ECHO
-** Receive the string "command" and it's size.
-** Check for the option -n is made inside the built-in.
 */
 int			cmd_echo(t_infos *infos, t_cmd *head_cmd,
 				t_cmd *builtin_cmd, t_token *builtin_token);
@@ -199,6 +196,7 @@ int			echo_builtin_loop(t_infos *infos, t_cmd *head_cmd, t_cmd *cmd,
 				t_token *token);
 int			check_n_option(t_token *first);
 void		skip_n_option(t_infos *infos, t_cmd **cmd, t_token **tmp);
+int			return_n_option(char **str, int return_value);
 
 /*
 ** BUILT IN PWD
@@ -237,6 +235,7 @@ void		free_var(t_var **var);
 int			check_validity_token(t_token **token, int is_export, int *res);
 int			invalid_token(t_token **token, int is_export,
 				int *res, char **to_free);
+int			return_valid_token(char **to_free);
 
 /*
 ** BUILT IN UNSET
@@ -266,56 +265,71 @@ int			return_signal(int signal_value);
 void		return_pipeline(int last_child_status);
 
 /*
-** [ TO CLEAN BELOW ]
-*/
-
-/*
-** COMMAND LINE INTERPRETER
-*/
-t_builtin	check_builtin(char *first_elem_cmd_line);
-
-/*
 ** TOKENIZER
 */
 t_token		*tokenize_cmd(char *cmd, int *syntax_error, char **error_pos);
-void		free_token_list_from_extremity(t_token **tokens, int end);
-t_token		*init_new_token(t_token **tokens, char *cmd, int *syntax_error,
-				char **error_pos);
 int			browse_string(char *begin_token, char stop_char, int *syntax_error,
 				char **error_pos);
 int			browse_token(char *begin_token, int *syntax_error,
 				char **error_pos);
-t_tokentype	identify_token_type(char *token, int length);
 int			check_operators_and_undefined_char(t_token *curr, t_token *prev,
 				int *syntax_error, char **error_pos);
+t_token		*check_cmd_extremity_is_not_operator(t_token **tokens,
+				int *syntax_error, char **error_pos);
+
 void		add_back_token(t_token **tokens, t_token *new);
+t_tokentype	identify_token_type(char *token, int length);
+t_token		*init_new_token(t_token **tokens, char *cmd, int *syntax_error,
+				char **error_pos);
+void		free_token_list_from_extremity(t_token **tokens, int end);
 void		strings_manipulation(t_token **tokens);
 
 void		add_tokens_for_variables(t_token **tokens);
 void		tokenize_variables(t_token **tokens, t_token **current, \
-			t_token *new, int size);
+				t_token *new, int size);
 int			set_parsing_error(char **error_pos, char *error, t_token **to_free);
 int			check_variable_sign(char **cmd, int *i, int *check);
 
 /*
 ** PARSING
 */
-int			parsing_error(int syntax_error, char *error_pos);
-t_cmd		*separate_simple_cmd(t_infos *infos, t_cmd *lst_cmds, int new_cmd);
-void		token_identifier(t_token *lst_tokens, t_cmd **new, int *new_cmd);
+int			parse_cmd(t_infos *infos);
+int			init_empty_cmd(t_cmd **new, t_token **lst_tokens);
 int			check_init_new_cmd(t_cmd **new, t_token *lst_tokens,
 				t_cmd **lst_cmds, int *new_cmd);
+void		token_identifier(t_token *lst_tokens, t_cmd **new, int *new_cmd);
+t_cmd		*separate_simple_cmd(t_infos *infos, t_cmd *lst_cmds, int new_cmd);
+
+int			parsing_error(int syntax_error, char *error_pos);
 t_cmd		*init_new_cmd(t_token *start, t_cmd **head_lst);
 void		add_back_cmd(t_cmd **cmds, t_cmd *new);
 t_operator	identify_operator(t_token *operator);
 void		free_cmd_list_from_extremity(t_cmd **cmds, int end);
-int			parse_cmd(t_infos *infos);
 
 /*
-** STRING UTILS
+** VARIABLES AND STRINGS UTILITARY FUNCTIONS
 */
+void		sub_get_var(char **var, char *elem_name,
+				char **env, t_var *var_lst);
+int			get_var(t_infos *infos, char *cmd, char **var, int dbl);
+void		add_var(t_infos *infos, char **new_cmd, int i[2], int dbl);
+void		get_cmd_with_var(t_infos *infos, int new_size, int ignore, \
+				int dbl);
+void		expand_variables(t_infos *infos, int dbl, int ignore, \
+				int new_size);
+
+void		expand_variable_for_home(t_infos *infos, int i, int *size, \
+				char **var);
+void		add_ignore_dbl(char cmd_char, int *ignore, int *dbl);
+int			check_for_redir_exception(t_infos *infos, int *new_size,
+				int exception, int i);
+void		add_var_modify_string(char **new_cmd, char *var, int dbl, int i[2]);
+int			get_var_exception(t_infos *infos, char **var, char *cmd, int *i);
+
 char		*ft_strdup_linked_string(t_token *token);
 void		get_string_loop(t_token *elem, char **str, int fill_str, int i);
+char		*get_new_string_for_exception(char **cmd, int i);
+void		print_error(char *str, char *s, char c, int new_line);
 
 /*
 ** GET FILE FULL PATH
@@ -325,6 +339,7 @@ char		*get_absolute_path(char *filepath, char **env, char in_home);
 char		*get_absolute_path_from_path(char *filepath, char *env_var);
 char		*reconstitute_absolute_path(char *env_var, char *filepath);
 int			is_absolute_path(char *filepath);
+
 int			check_path_for_exceptions(char *file);
 int			print_file_type(char *file);
 
@@ -335,33 +350,9 @@ int			launch_builtin(t_infos *infos, t_cmd *cmd, t_builtin builtin);
 t_builtin	check_builtin(char *first_elem);
 
 /*
-** REPLACE VARIABLES
-*/
-void		expand_variables(t_infos *infos, int dbl, int ignore, \
-				int new_size);
-int			get_var(t_infos *infos, char *cmd, char **var, int dbl);
-void		sub_get_var(char **var, char *elem_name,
-				char **env, t_var *var_lst);
-void		add_var(t_infos *infos, char **new_cmd, int i[2], int dbl);
-void		get_cmd_with_var(t_infos *infos, int new_size, int ignore, \
-				int dbl);
-
-void		expand_variable_for_home(t_infos *infos, int i, int *size, \
-				char **var);
-void		add_ignore_dbl(char cmd_char, int *ignore, int *dbl);
-int			check_for_redir_exception(t_infos *infos, int *new_size,
-				int exception, int i);
-void		add_var_modify_string(char **new_cmd, char *var, int dbl, int i[2]);
-int			get_var_exception(t_infos *infos, char **var, char *cmd, int *i);
-
-char		*get_new_string_for_exception(char **cmd, int i);
-
-/*
 ** ASSIGNMENTS HANDLING
 */
-int			do_assignment(t_infos *infos, t_token *token);
 int			assign_variable_to_list(t_infos *infos, t_token *current_token);
-
 int			add_new_var_to_list(t_infos *infos, char *str);
 int			add_name_value_to_var(t_var **new, char *str);
 int			modify_var_in_list(t_infos *infos, char *str, int *check);
@@ -370,15 +361,17 @@ char		*get_elem_value(char *str);
 char		*extract_name(char *elem, int size);
 int			free_lst_var(t_infos *infos);
 
+int			check_assignments(t_infos *infos, t_cmd *head_cmd, t_cmd *cmd,
+				t_token *first_non_redir);
+int			is_only_assignments(t_infos *infos, t_cmd *cmd,
+				t_token *first_non_redir);
+int			do_assignment(t_infos *infos, t_token *token);
+
 /*
 ** LAUNCH
 */
 int			launch_cmds(t_infos *infos);
 int			check_if_pipes(t_infos *infos);
-int			check_assignments(t_infos *infos, t_cmd *head_cmd, t_cmd *cmd,
-				t_token *first_non_redir);
-int			is_only_assignments(t_infos *infos, t_cmd *cmd,
-				t_token *first_non_redir);
 int			init_launch_simple_cmd(t_infos *infos, t_cmd *cmd, int from_pipe);
 int			launch_simple_cmd(t_infos *infos, t_cmd *cmd, t_token *exec_token,
 				int from_pipe);
@@ -389,16 +382,27 @@ int			assignments_management(t_infos *infos, t_cmd *head_cmd, t_cmd *cmd, \
 ** SIMPLE COMMAND EXECUTION
 */
 int			execute_simple_cmd(t_infos *infos);
+void		child_execution(t_infos *infos, t_cmd *head_cmd);
+void		free_child_exec_var_and_exit(t_infos *infos, char **exec_path,
+				char ***exec_env, char ***exec_args);
+
 char		*get_exec_path(t_infos *infos, t_cmd **cmd, char ***exec_env,
 				t_token **exec_token);
+char		**get_exec_args(t_infos *infos, t_cmd *cmd, t_token *exec_token);
+int			sub_get_args(t_infos *infos, t_cmd *exec_cmd, t_token *exec_token,
+				char ***exec_args);
+
 t_token		*move_to_exec_and_fill_env(t_infos *infos, t_cmd **cmd,
 				char ***exec_env);
-int			return_free_args(char ***env, int i, int error_msg);
-char		**get_exec_args(t_infos *infos, t_cmd *cmd, t_token *exec_token);
 int			get_args_nbr(t_infos *infos, t_cmd *cmd, t_token *exec_token);
-int			get_arg_loop(t_cmd **cmd, t_token **curr_token);
-int			check_add_input(t_infos *infos, char ***exec_args, int nbr_args);
-int			add_tmp_file_to_args(char ***exec_args);
+
+int			add_elem_to_exec_env(t_infos *infos, char ***exec_env,
+				t_token *new_elem);
+int			get_exec_env_diff_size(t_infos *infos, t_cmd *cmd, int *modif);
+int			copy_env(t_infos *infos, char **env, char ***cpy_env,
+				int cpy_diff_size);
+int			complete_exec_env_with_assignments(t_infos *infos,
+				t_cmd *cmd, char ***exec_env);
 
 /*
 ** REDIRECTIONS
@@ -408,48 +412,47 @@ int			add_redirections(t_cmd *cmd, int is_not_builtin);
 int			add_input(t_cmd **cmd, t_cmd *curr);
 int			add_output(t_cmd **cmd, t_cmd *curr);
 int			add_fd_to_cmd(t_cmd **cmd, int fd, int is_output, int is_tmpfile);
-char		*extract_name_in_string(t_cmd *cmd, int *error);
-int			file_error_input(char *filename, char **tmp);
-int			check_file(char	*filename);
+
 int			append_to_file(t_cmd *curr);
 int			create_new_file(t_cmd *curr);
+
 int			extract_input_from_stdin(t_cmd *curr, int fill_str);
 int			create_tmp_file(char *end_str, char **str, int fill_str, int *fd);
-int			fill_tmp_file(char **str, int fill_str, int *fd);
 int			check_if_end(char **str, char *end, char c, int i);
 int			get_fd(t_cmd *curr);
 int			display_next_lt_dbl(t_cmd *cmd);
 
-/*
-** MANAGEMENT OF ENV FOR EXECUTION
-*/
-int			add_elem_to_exec_env(t_infos *infos, char ***exec_env,
-				t_token *new_elem);
-void		free_child_exec_var_and_exit(t_infos *infos, char **exec_path,
-				char ***exec_env, char ***exec_args);
-void		child_execution(t_infos *infos, t_cmd *exec_cmd);
-int			get_exec_env_diff_size(t_infos *infos, t_cmd *cmd, int *modif);
-int			copy_env(t_infos *infos, char **env, char ***cpy_env,
-				int cpy_diff_size);
-int			complete_exec_env_with_assignments(t_infos *infos,
-				t_cmd *cmd, char ***exec_env);
+char		*extract_name_in_string(t_cmd *cmd, int *error);
+int			file_error_input(char *filename, char **tmp);
+int			check_file(char	*filename);
+int			fill_tmp_file(char **str, int fill_str, int *fd);
 
 /*
-** PIPELINE
+** PIPELINE MANAGEMENT
 */
 int			launch_pipes_cmds(t_infos *infos, t_cmd *cmd, int nbr_pipes);
+int			pipe_loop(t_infos *infos, t_cmd *cmd, int **child_pids, int i);
+int			pipe_parent_fd_manipulation(t_cmd *cmd, int pipe_fd[2],
+				int (*prev_fd)[2]);
+void		pipe_child_execution(t_infos *infos, t_cmd *cmd, int pipe_fd[2],
+				int prev_fd[2]);
+
 int			wait_for_pipeline_childs(int nbr_pipes, \
 				pid_t **child_pids);
 t_cmd		*get_next_cmd(t_cmd *cmd);
 
 /*
-** OBTAINING TOKENS
+** TOKENS MANIPULATION
 */
 t_token		*get_next_token(t_infos *infos, t_cmd *head_cmd,
 				t_cmd **prev_cmd, t_token *prev_token);
-t_token		*check_prev_token(t_token *prev_token, t_cmd **prev_cmd);
+int			check_if_first_call(t_cmd *head_cmd, t_cmd **prev_cmd,
+				t_token **curr_token);
 int			get_next_token_loop(t_cmd **cmd, t_token **token);
 int			check_if_end_pipeline(t_cmd *cmd, t_token *token);
-t_token		*get_exec_token(t_infos *infos, t_cmd *head_cmd, t_cmd **exec_cmd);
+t_token		*get_exec_token(t_infos *infos, t_cmd *head_cmd,
+				t_cmd **exec_cmd);
+
+t_token		*check_prev_token(t_token *prev_token, t_cmd **prev_cmd);
 
 #endif

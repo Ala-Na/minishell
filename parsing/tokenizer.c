@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/05 14:12:00 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/08 01:20:28 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/12 23:33:43 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,7 @@ t_token	*check_cmd_extremity_is_not_operator(t_token **tokens,
 	t_token	*first;
 	t_token	*last;
 
+	skip_empty_var(tokens);
 	first = *tokens;
 	last = *tokens;
 	if (first && first->type == OPERATOR && first->token[0] == '|')

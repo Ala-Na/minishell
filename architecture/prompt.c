@@ -29,9 +29,9 @@ void	simplify_prompt_curr_dir(t_infos *infos, char **prompt)
 	else if (!strncmp(tmp_home, *prompt, ft_strlen(tmp_home)))
 	{
 		tmp_prompt = ft_strdup(*prompt + ft_strlen(tmp_home));
-		free(*prompt);
 		if (tmp_prompt)
 		{
+			free(*prompt);
 			*prompt = ft_strjoin("~", tmp_prompt);
 			free(tmp_prompt);
 		}

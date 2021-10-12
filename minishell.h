@@ -309,7 +309,7 @@ void		free_cmd_list_from_extremity(t_cmd **cmds, int end);
 /*
 ** VARIABLES AND STRINGS UTILITARY FUNCTIONS
 */
-void		sub_get_var(char **var, char *elem_name,
+void		sub_get_var(char **var, char **elem_name,
 				char **env, t_var *var_lst);
 int			get_var(t_infos *infos, char *cmd, char **var, int dbl);
 void		add_var(t_infos *infos, char **new_cmd, int i[2], int dbl);
@@ -325,6 +325,12 @@ int			check_for_redir_exception(t_infos *infos, int *new_size,
 				int exception, int i);
 void		add_var_modify_string(char **new_cmd, char *var, int dbl, int i[2]);
 int			get_var_exception(t_infos *infos, char **var, char *cmd, int *i);
+
+void		skip_empty_var(t_token **tokens);
+void		skip_empty_var_in_middle(t_token **tokens, t_token **curr,
+				t_token **next);
+void		skip_empty_var_at_end(t_token **tokens, t_token **curr);
+int			is_empty_var(char *var);
 
 char		*ft_strdup_linked_string(t_token *token);
 void		get_string_loop(t_token *elem, char **str, int fill_str, int i);

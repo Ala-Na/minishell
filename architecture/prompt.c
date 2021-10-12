@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
+/*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/12 21:48:31 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/11 15:02:48 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/12 22:50:33 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,11 @@ void	simplify_prompt_curr_dir(t_infos *infos, char **prompt)
 	if (!infos || !prompt || !*prompt)
 		return ;
 	home = get_env_elem(infos->env, "HOME", 4);
+	if (!home)
+		return ;
 	tmp_home = ft_strdup(home);
-	if (!home || !tmp_home)
-		free(*prompt);
+	if (!tmp_home)
+		return ;
 	else if (!strncmp(tmp_home, *prompt, ft_strlen(tmp_home)))
 	{
 		tmp_prompt = ft_strdup(*prompt + ft_strlen(tmp_home));

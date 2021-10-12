@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/05 13:05:41 by hlichir           #+#    #+#             */
-/*   Updated: 2021/10/12 19:44:03 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/12 22:50:39 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,8 @@ char	*check_oldpwd_cdpath(t_infos *infos, char **path, int *is_alloc)
 			return (NULL);
 		*is_alloc = 2;
 	}
-	else if (get_env_elem(infos->env, "CDPATH", ft_strlen("CDPATH")))
+	else if (ft_strncmp(*path, ".", 2) && ft_strncmp(*path, "..", 3) && \
+		get_env_elem(infos->env, "CDPATH", ft_strlen("CDPATH")))
 	{
 		if (handle_cd_path(infos->env, path, is_alloc) < 0)
 			return (return_null_error(1, "error", 0));

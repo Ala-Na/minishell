@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 15:55:23 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/12 16:19:46 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/12 16:28:40 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -426,7 +426,6 @@ char		*extract_name_in_string(t_cmd *cmd, int *error);
 int			file_error_input(char *filename, char **tmp);
 int			check_file(char	*filename);
 int			check_end_or_fill_tmp_file(char **str, char *end, int fd);
-void		find_start_position(char **str, int *start_pos);
 
 void		handle_signal_in_input(int signum);
 void		extract_child(int fd, char *end_str);

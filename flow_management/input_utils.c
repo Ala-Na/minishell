@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 13:49:03 by hlichir           #+#    #+#             */
-/*   Updated: 2021/10/12 16:20:21 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/12 16:45:10 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,15 +114,18 @@ int	extract_input_from_stdin(t_cmd *curr, int fill_str)
 
 	if (!curr || !curr->next)
 		return (return_error(1, "something went wrong", 0, -1));
-	fd = 0;
 	end_str = extract_name_in_string(curr->next, &fd);
 	if (!end_str)
 		return (return_error(1, "memory allocation error", 0, -1));
+	if (!fill_str)
+		return (fd);
 	fd = create_tmp_file();
 	if (fd < 0)
+	{
+		free(end_str);
 		return (-1);
-	if (fill_str)
-		g_exit_status = fork_for_input(end_str, fd);
+	}
+	g_exit_status = fork_for_input(end_str, fd);
 	free(end_str);
 	if (g_exit_status != 0)
 	{

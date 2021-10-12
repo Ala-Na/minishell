@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 15:22:22 by hlichir           #+#    #+#             */
-/*   Updated: 2021/10/12 14:56:45 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/12 16:45:06 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ char	*extract_name_in_string(t_cmd *cmd, int *error)
 
 	if (!cmd || !cmd->start)
 		return (return_null_error(1, "something went wrong", 0));
+	*error = 0;
 	if (cmd->start->type == VARIABLE && cmd->start->next && \
 		cmd->start->next->type == VARIABLE)
 	{
@@ -85,20 +86,4 @@ int	check_end_or_fill_tmp_file(char **str, char *end, int fd)
 	ft_putstr_fd("\n", fd);
 	free(*str);
 	return (0);
-}
-
-/*
-**	Sub-function for the double LT redirection (in file input)
-*/
-void	find_start_position(char **str, int *start_pos)
-{
-	int	i;
-
-	i = 0;
-	while ((*str)[i])
-	{
-		if ((*str)[i] == '\n' && (*str)[i + 1])
-			*start_pos = i + 1;
-		i++;
-	}
 }

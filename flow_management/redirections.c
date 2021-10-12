@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 12:59:47 by hlichir           #+#    #+#             */
-/*   Updated: 2021/10/12 16:05:20 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/12 21:04:33 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ int	add_output(t_cmd **cmd, t_cmd *curr)
 	}
 	else if (curr->next_operator == GT_DBL && curr->next)
 	{
-		fd = append_to_file(curr);
+		fd = append_to_file(curr, 0);
 		if (fd < 0)
 			return (-1);
 		if (add_fd_to_cmd(cmd, fd, 1, 0))

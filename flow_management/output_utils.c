@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 13:26:21 by hlichir           #+#    #+#             */
-/*   Updated: 2021/10/12 20:47:18 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/12 21:03:56 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,8 @@ int	create_new_file(t_cmd *curr)
 ** Function to create the file when the redirection is used ">>"
 ** If the file doesn't exist, create it & return the file descriptor.
 */
-int	append_to_file(t_cmd *curr)
+int	append_to_file(t_cmd *curr, int fd)
 {
-	int		fd;
 	int		error;
 	char	*filename;
 	char	*msg_err;
@@ -67,6 +66,8 @@ int	append_to_file(t_cmd *curr)
 	if (fd < 0)
 	{
 		msg_err = ft_strdup("error while opening ");
+		if (!msg_err)
+			return (return_error(1, "Memory allocation error", 0, -1));
 		filename = ft_strjoin_free(&msg_err, &filename, 1, 1);
 		if (!filename)
 			return (return_error(1, "Memory allocation error", 0, -1));

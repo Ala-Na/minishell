@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 15:00:10 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/11 22:41:36 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/12 16:07:06 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,11 +73,13 @@ int	execute_simple_cmd(t_infos *infos)
 	int		res;
 
 	child_pid = fork();
+	signal(SIGINT, SIG_IGN);
 	if (child_pid == -1)
 		return (return_error(1, "fork failed", 0, -1));
 	else if (child_pid > 0)
 	{
 		res = waitpid(child_pid, &wstatus, 0);
+		signal(SIGINT, sig_handler_function);
 		if (res == -1)
 			return (return_error(1, strerror(errno), 0, -1));
 		else if (WIFEXITED(wstatus))
@@ -87,5 +89,6 @@ int	execute_simple_cmd(t_infos *infos)
 	}
 	else
 		child_execution(infos, infos->lst_cmds);
+	signal(SIGINT, sig_handler_function);
 	return (return_error(1, "something went wrong", 0, -1));
 }

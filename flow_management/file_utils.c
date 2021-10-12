@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 15:22:22 by hlichir           #+#    #+#             */
-/*   Updated: 2021/10/11 23:03:50 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/12 14:56:45 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,15 +75,15 @@ int	check_file(char	*filename)
 /*
 **	Sub-function of input_utils to fil tmp_file.
 */
-int	fill_tmp_file(char **str, int fill_str, int *fd)
+int	check_end_or_fill_tmp_file(char **str, char *end, int fd)
 {
-	if (fill_str)
-	{
-		*fd = open("tmp_file", O_RDWR | O_TRUNC | O_CREAT, 00777);
-		if (*fd < 0)
-			return (return_error(1, strerror(errno), 0, -1));
-		ft_putstr_fd(*str, *fd);
-	}
+	if (!str || !*str || !end || fd <= 1)
+		return (return_error(1, "something went wrong", 0, -1));
+	if (!ft_strncmp(*str, end, ft_max(ft_strlen(*str), ft_strlen(end))))
+		return (1);
+	ft_putstr_fd(*str, fd);
+	ft_putstr_fd("\n", fd);
+	free(*str);
 	return (0);
 }
 

@@ -6,7 +6,7 @@
 #    By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/08/23 15:04:29 by anadege           #+#    #+#              #
-#    Updated: 2021/10/08 01:23:31 by hlichir          ###   ########.fr        #
+#    Updated: 2021/10/12 16:19:03 by anadege          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -48,12 +48,13 @@ SRCS	= ./architecture/main.c \
 		  ./exec/skip_redir.c \
 		  ./exec/skip_redir_utils.c \
 		  ./exec/exception_cmd.c \
+		  ./exec/get_args_utils.c \
+		  ./exec/exec_pipe_utils.c \
 		  ./flow_management/redirections.c \
 		  ./flow_management/file_utils.c \
 		  ./flow_management/input_utils.c \
 		  ./flow_management/output_utils.c \
-		  ./exec/get_args_utils.c \
-		  ./exec/exec_pipe_utils.c
+		  ./flow_management/fork_utils.c 
 
 NAME = minishell
 

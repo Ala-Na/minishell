@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
+/*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/02 11:52:56 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/09 16:18:16 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/12 18:52:52 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,14 +33,14 @@ int	get_shell_nbr(char *str)
 /*
 ** Function to modify SHLVL value to +1.
 */
-int	add_new_shlvl(t_infos *infos, char *shlvl, char **env)
+int	add_new_shlvl(t_infos *infos, char *shlvl, char **env, int nb)
 {
 	t_token	*new_elem;
 	char	*str;
-	int		nb;
 
-	nb = seek_elem_pos(env, shlvl);
 	str = ft_itoa(get_shell_nbr(env[nb]) + 1);
+	if (!str)
+		return (-1);
 	str = ft_strjoin_free(&shlvl, &str, 0, 1);
 	if (!str)
 		return (-1);
@@ -84,7 +84,7 @@ int	init_minishell(t_infos *infos, char **env)
 		return (-1);
 	if (save_env(infos, env) == -1 || infos->env == NULL)
 		return (-1);
-	if (add_new_shlvl(infos, "SHLVL", env) == -1)
+	if (add_new_shlvl(infos, "SHLVL", env, seek_elem_pos(env, "SHLVL")) == -1)
 		return (-1);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/07 14:43:01 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/09 23:19:41 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/12 22:39:12 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ t_cmd	*separate_simple_cmd(t_infos *infos, t_cmd *lst_cmds, int new_cmd)
 
 /*
 ** Function to parse the command line received.
-** First, a tokenization is made and sytnax errors are checked. Infos are
+** First, a tokenization is made and syntax errors are checked. Infos are
 ** stocked inside a t_token structure.
 ** Then, a cutting by operators is made to get a linked list of simple commands.
 ** The function return 1 if an error occurs, 0 otherwise.

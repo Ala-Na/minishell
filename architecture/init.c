@@ -69,6 +69,8 @@ int	add_new_shlvl(t_infos *infos, char *shlvl, char **env, int nb)
 */
 int	init_minishell(t_infos *infos, char **env)
 {	
+	int	nbr;
+
 	g_exit_status = -1;
 	infos->prompt = NULL;
 	infos->curr_cmd = NULL;
@@ -84,7 +86,8 @@ int	init_minishell(t_infos *infos, char **env)
 		return (-1);
 	if (save_env(infos, env) == -1 || infos->env == NULL)
 		return (-1);
-	if (add_new_shlvl(infos, "SHLVL", env, seek_elem_pos(env, "SHLVL")) == -1)
+	nbr = seek_elem_pos(env, "SHLVL");
+	if (nbr < 0 || add_new_shlvl(infos, "SHLVL", env, nbr) == -1)
 		return (-1);
 	return (0);
 }

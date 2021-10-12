@@ -67,10 +67,10 @@ int	append_to_file(t_cmd *curr, int fd)
 	{
 		msg_err = ft_strdup("error while opening ");
 		if (!msg_err)
-			return (return_error(1, "Memory allocation error", 0, -1));
+			return (return_error(1, "memory allocation error", 0, -1));
 		filename = ft_strjoin_free(&msg_err, &filename, 1, 1);
 		if (!filename)
-			return (return_error(1, "Memory allocation error", 0, -1));
+			return (return_error(1, "memory allocation error", 0, -1));
 		return (return_error(1, filename, 1, -1));
 	}
 	free(filename);

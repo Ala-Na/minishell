@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/05 13:05:41 by hlichir           #+#    #+#             */
-/*   Updated: 2021/10/11 14:40:20 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/12 19:44:03 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ int	handle_cd_path(char **env, char **path, int *is_alloc)
 		if (*is_alloc)
 			free(*path);
 		*path = ft_strdup_free(&str, 1);
-		if (!(path))
+		if (!(*path))
 			return (return_error(1, "memory allocation error", 0, -1));
 		*is_alloc = 2;
 	}

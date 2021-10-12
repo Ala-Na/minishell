@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/07 23:56:52 by hlichir           #+#    #+#             */
-/*   Updated: 2021/10/12 17:54:21 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/13 01:06:18 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,8 @@ int	get_var_exception(t_infos *infos, char **var, char *cmd, int *i)
 	}
 	if (cmd[(*i)++] == '~')
 	{
-		sub_get_var(var, "HOME", infos->env, infos->lst_var);
+		char *str = ft_strdup("HOME");
+		sub_get_var(var, &str, infos->env, infos->lst_var);
 		if (!*var)
 			*var = "~";
 		(*i) = -1;

@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 21:45:16 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/13 00:14:51 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/13 01:28:28 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,9 +67,9 @@ int	get_var(t_infos *infos, char *cmd, char **var, int dbl)
 		return (-1);
 	}
 	sub_get_var(var, &elem_name, infos->env, infos->lst_var);
-	if (is_empty_var(*var) && (dbl == 1 || (cmd[i - 1] && cmd[i - 1] != ' ')))
+	if (is_empty_var(*var) && (dbl || (dbl  && *(cmd - 1) != ' ')))
 		*var = NULL;
-	if (dbl == 1)
+	if (dbl)
 		return (ft_strlen(*var) - i);
 	return ((int)(ft_strlen(*var) - i + 2));
 }
@@ -146,7 +146,7 @@ void	expand_variables(t_infos *infos, int dbl, int ignore, int new_size)
 		else if (infos->curr_cmd[i] == '\'' && ignore == 1 && dbl == 0)
 			ignore = 0;
 		else if (infos->curr_cmd[i] == '$' && ignore == 0)
-			new_size += get_var(infos, &infos->curr_cmd[i], &var, dbl);
+			new_size += get_var(infos, &infos->curr_cmd[i], &var, dbl * i);
 		else if (infos->curr_cmd[i] == '~' && ignore == 0)
 			expand_variable_for_home(infos, i, &new_size, &var);
 		i++;

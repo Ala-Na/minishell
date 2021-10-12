@@ -6,27 +6,33 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 21:45:16 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/11 23:02:26 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/13 00:14:51 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	sub_get_var(char **var, char *elem_name, char **env, t_var *var_lst)
+void	sub_get_var(char **var, char **elem_name, char **env, t_var *var_lst)
 {
-	*var = get_env_elem(env, elem_name, ft_strlen(elem_name));
+	int	elem_size;
+	int	var_size;
+
+	elem_size = ft_strlen(*elem_name);
+	*var = get_env_elem(env, *elem_name, ft_strlen(*elem_name));
 	if (!*var)
 	{
 		while (var_lst)
 		{
-			if (!ft_strncmp(var_lst->name, elem_name, ft_strlen(elem_name)))
-			{
+			var_size = ft_strlen(var_lst->name);
+			if (!ft_strncmp(var_lst->name, *elem_name, \
+				ft_max(elem_size, var_size)))
 				*var = var_lst->value;
-				return ;
-			}
 			var_lst = var_lst->next;
 		}
 	}
+	if (!*var || *var[0] == 0)
+		*var = "\"\'";
+	free(*elem_name);
 }
 
 /*
@@ -51,7 +57,7 @@ int	get_var(t_infos *infos, char *cmd, char **var, int dbl)
 	if (i == 1 && ((cmd[1] != '\'' && cmd[1] != '"') || dbl == 1))
 	{
 		*var = "$";
-		return (0);
+		return (2);
 	}
 	if (i > 1)
 		elem_name = ft_substr(cmd, 1, i - 1);
@@ -60,11 +66,12 @@ int	get_var(t_infos *infos, char *cmd, char **var, int dbl)
 		*var = NULL;
 		return (-1);
 	}
-	sub_get_var(var, elem_name, infos->env, infos->lst_var);
-	free(elem_name);
+	sub_get_var(var, &elem_name, infos->env, infos->lst_var);
+	if (is_empty_var(*var) && (dbl == 1 || (cmd[i - 1] && cmd[i - 1] != ' ')))
+		*var = NULL;
 	if (dbl == 1)
 		return (ft_strlen(*var) - i);
-	return (ft_strlen(*var) - i + 2);
+	return ((int)(ft_strlen(*var) - i + 2));
 }
 
 /*

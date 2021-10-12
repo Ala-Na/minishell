@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/22 17:28:50 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/12 16:07:28 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/12 22:30:37 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,9 @@ int	launch_simple_cmd(t_infos *infos, t_cmd *cmd,
 	char		*str;
 	t_builtin	builtin;
 
+	if (exec_token->type == VARIABLE
+		&& !ft_strncmp(exec_token->token, "\"\'", exec_token->length))
+		return (0);
 	str = ft_strdup_linked_string(exec_token);
 	if (!str)
 		return (return_error(1, "memory allocation error", 0, -1));

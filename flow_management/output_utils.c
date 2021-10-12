@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   output_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
+/*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 13:26:21 by hlichir           #+#    #+#             */
-/*   Updated: 2021/10/10 22:57:48 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/12 20:47:18 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,10 @@ int	append_to_file(t_cmd *curr)
 	fd = open(filename, O_RDWR | O_APPEND | O_CREAT, S_IRWXG | S_IRWXU);
 	if (fd < 0)
 	{
-		msg_err = "error while opening ";
-		filename = ft_strjoin_free(&msg_err, &filename, 0, 1);
+		msg_err = ft_strdup("error while opening ");
+		filename = ft_strjoin_free(&msg_err, &filename, 1, 1);
+		if (!filename)
+			return (return_error(1, "Memory allocation error", 0, -1));
 		return (return_error(1, filename, 1, -1));
 	}
 	free(filename);

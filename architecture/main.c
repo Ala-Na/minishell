@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 14:58:07 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/09 17:40:05 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/12 17:13:25 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ void	clean_to_continue(t_infos *infos)
 	char	*str;
 
 	g_exit_status = -1;
+	handle_signals();
 	if (infos->curr_cmd)
 		free(infos->curr_cmd);
 	if (infos->prompt)

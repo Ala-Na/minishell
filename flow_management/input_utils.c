@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 13:49:03 by hlichir           #+#    #+#             */
-/*   Updated: 2021/10/11 23:03:39 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/12 16:20:21 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,66 +62,46 @@ int	get_fd(t_cmd *curr)
 }
 
 /*
-** Sub-function for extract_input_from_stdin
-** Check if the string "end" was written
-*/
-int	check_if_end(char **str, char *end, char c)
-{
-	char	*tmp;
-	char	*new;
-	int		start_pos;
-
-	if (c != '\n')
-		return (0);
-	start_pos = 0;
-	find_start_position(str, &start_pos);
-	tmp = ft_strdup(*str + start_pos);
-	if (!tmp)
-		return (return_error(1, "memory allocation error", 0, -1));
-	if (!ft_strncmp(tmp, end, ft_max(ft_strlen(tmp) - 1, ft_strlen(end))))
-	{
-		new = ft_strndup(*str, ft_strlen(*str) - ft_strlen(tmp));
-		free(*str);
-		free(tmp);
-		if (!new)
-			return (return_error(1, "memory allocation error", 0, -1));
-		*str = new;
-		return (1);
-	}
-	free(tmp);
-	write(1, "> ", 2);
-	return (0);
-}
-
-/*
 ** Sub-function of extract_input_from_stdin:
 **	read the stdin and store the text in a file called "tmp_file" if
 **	fill_fd = 1.
 ** Returns the fd (or -1 if error) & 0 if fill_str = 0.
 */
-int	create_tmp_file(char *end_str, char **str, int fill_str, int *fd)
+int	create_tmp_file(void)
 {
-	char	buffer[2];
-	char	*new;
+	int	fd;
 
-	while (read(1, buffer, 1) > 0)
+	fd = open("tmp_file", O_RDWR | O_TRUNC | O_CREAT, 00777);
+	if (fd < 0)
 	{
-		buffer[1] = 0;
-		new = ft_strjoin(*str, buffer);
-		free(*str);
-		if (!new)
-		{
-			free(end_str);
-			return (return_error(1, "memory allocation error", 0, -1));
-		}
-		*str = new;
-		if (check_if_end(str, end_str, buffer[0]) > 0)
-			break ;
+		ft_puterr("redirection : ", 0);
+		return (return_error(1, strerror(errno), 0, -1));
 	}
-	free(end_str);
-	fill_tmp_file(str, fill_str, fd);
-	free(*str);
-	return (*fd);
+	return (fd);
+}
+
+int	fork_for_input(char *end_str, int fd)
+{
+	pid_t	child_pid;
+	int		wstatus;
+	int		res;
+
+	child_pid = fork();
+	if (child_pid == -1)
+		return (return_error(1, "fork failed", 0, -1));
+	else if (child_pid > 0)
+	{
+		res = waitpid(child_pid, &wstatus, 0);
+		if (res == -1)
+			return (return_error(1, strerror(errno), 0, -1));
+		else if (WIFEXITED(wstatus))
+			return (WEXITSTATUS(wstatus));
+		else if (WIFSIGNALED(wstatus))
+			return (WTERMSIG(wstatus) + 127);
+	}
+	else
+		extract_child(fd, end_str);
+	return (return_error(1, "something went wrong", 0, -1));
 }
 
 /*
@@ -130,7 +110,6 @@ int	create_tmp_file(char *end_str, char **str, int fill_str, int *fd)
 int	extract_input_from_stdin(t_cmd *curr, int fill_str)
 {
 	char	*end_str;
-	char	*str;
 	int		fd;
 
 	if (!curr || !curr->next)
@@ -139,15 +118,17 @@ int	extract_input_from_stdin(t_cmd *curr, int fill_str)
 	end_str = extract_name_in_string(curr->next, &fd);
 	if (!end_str)
 		return (return_error(1, "memory allocation error", 0, -1));
-	str = ft_strdup("");
-	if (!str)
-	{
-		free(end_str);
-		return (return_error(1, "memory allocation error", 0, -1));
-	}
-	write(1, "> ", 2);
-	fd = create_tmp_file(end_str, &str, fill_str, &fd);
+	fd = create_tmp_file();
 	if (fd < 0)
 		return (-1);
+	if (fill_str)
+		g_exit_status = fork_for_input(end_str, fd);
+	free(end_str);
+	if (g_exit_status != 0)
+	{
+		if (g_exit_status == 3)
+			g_exit_status = 0;
+		return (-1);
+	}
 	return (fd);
 }

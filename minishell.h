@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 15:55:23 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/11 23:14:20 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/12 16:19:46 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -417,16 +417,19 @@ int			append_to_file(t_cmd *curr);
 int			create_new_file(t_cmd *curr);
 
 int			extract_input_from_stdin(t_cmd *curr, int fill_str);
-int			create_tmp_file(char *end_str, char **str, int fill_str, int *fd);
-int			check_if_end(char **str, char *end, char c);
+int			create_tmp_file(void);
 int			get_fd(t_cmd *curr);
 int			display_next_lt_dbl(t_cmd *cmd);
+int			fork_for_input(char *end_str, int fd);
 
 char		*extract_name_in_string(t_cmd *cmd, int *error);
 int			file_error_input(char *filename, char **tmp);
 int			check_file(char	*filename);
-int			fill_tmp_file(char **str, int fill_str, int *fd);
+int			check_end_or_fill_tmp_file(char **str, char *end, int fd);
 void		find_start_position(char **str, int *start_pos);
+
+void		handle_signal_in_input(int signum);
+void		extract_child(int fd, char *end_str);
 
 /*
 ** PIPELINE MANAGEMENT

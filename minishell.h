@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 15:55:23 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/12 21:04:18 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/13 00:45:03 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,7 +179,7 @@ void		sig_handler_function(int signum);
 int			change_directory(t_infos *infos, char **new_path, int is_alloc);
 int			cmd_change_directory(t_infos *infos, t_cmd *cmd, t_token *token);
 int			modify_pwd(t_infos *infos, char *name, char *new_pwd, int is_old);
-int			call_chdir(t_infos *infos, char **new_path, int is_alloc,
+int			call_chdir(t_infos *infos, char **new_path, int *is_alloc,
 				char **old_path);
 
 int			create_tmp_new_elem(t_token **new_elem, char *name, char *value, \
@@ -309,7 +309,7 @@ void		free_cmd_list_from_extremity(t_cmd **cmds, int end);
 /*
 ** VARIABLES AND STRINGS UTILITARY FUNCTIONS
 */
-void		sub_get_var(char **var, char **elem_name,
+void		sub_get_var(char **var, char *elem_name,
 				char **env, t_var *var_lst);
 int			get_var(t_infos *infos, char *cmd, char **var, int dbl);
 void		add_var(t_infos *infos, char **new_cmd, int i[2], int dbl);

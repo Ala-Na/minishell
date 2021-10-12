@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
+/*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 15:55:23 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/13 00:14:49 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/12 21:04:18 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,7 +145,7 @@ void		clean_to_continue(t_infos *infos);
 */
 int			init_minishell(t_infos *infos, char **env);
 void		init_variables(int *i1, int *i2);
-int			add_new_shlvl(t_infos *infos, char *shlvl, char **env);
+int			add_new_shlvl(t_infos *infos, char *shlvl, char **env, int nb);
 int			get_shell_nbr(char *str);
 
 /*
@@ -419,7 +419,7 @@ int			add_input(t_cmd **cmd, t_cmd *curr);
 int			add_output(t_cmd **cmd, t_cmd *curr);
 int			add_fd_to_cmd(t_cmd **cmd, int fd, int is_output, int is_tmpfile);
 
-int			append_to_file(t_cmd *curr);
+int			append_to_file(t_cmd *curr, int fd);
 int			create_new_file(t_cmd *curr);
 
 int			extract_input_from_stdin(t_cmd *curr, int fill_str);

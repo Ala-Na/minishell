@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/07 23:56:52 by hlichir           #+#    #+#             */
-/*   Updated: 2021/10/13 02:10:41 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/13 14:00:41 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,24 +79,16 @@ void	add_var_modify_string(char **new_cmd, char *var, int dbl, int i[2])
 	var_size = ft_strlen(var);
 	k = 0;
 	if (dbl == 0 && var_size > 0)
-	{
-		if (var[0] == '$' && var_size == 1)
-			(*new_cmd)[i[1]++] = '\'';
-		else
-			(*new_cmd)[i[1]++] = '$';
-	}
+		add_var_symbol(new_cmd, var, var_size, &(i[1]));
 	while (k < var_size)
 	{
-		(*new_cmd)[i[1]] = var[k++];
-		i[1] += 1;
+		if (var_size > 1 && dbl == 0 && var[k] == '$')
+			var_in_var(new_cmd, &(i[1]), &k);
+		else
+			(*new_cmd)[i[1]++] = var[k++];
 	}
 	if (dbl == 0 && var_size > 0)
-	{
-		if (var[0] == '$' && var_size == 1)
-			(*new_cmd)[i[1]++] = '\'';
-		else
-			(*new_cmd)[i[1]++] = '$';
-	}
+		add_var_symbol(new_cmd, var, var_size, &(i[1]));
 }
 
 /*
@@ -104,16 +96,14 @@ void	add_var_modify_string(char **new_cmd, char *var, int dbl, int i[2])
 */
 int	get_var_exception(t_infos *infos, char **var, char *cmd, int *i)
 {
-	if (!infos || !var || !cmd)
-		return (-1);
 	*i = 0;
-	if (cmd[*i] != '$' && cmd[*i] != '~')
+	if (cmd && var && cmd[*i] != '$' && cmd[*i] != '~')
 	{
 		*var = NULL;
 		*i = -1;
 		return (0);
 	}
-	if (cmd[(*i)++] == '~')
+	if (cmd && infos && var && cmd[(*i)++] == '~')
 	{
 		cmd = ft_strdup("HOME");
 		if (!cmd)
@@ -124,7 +114,7 @@ int	get_var_exception(t_infos *infos, char **var, char *cmd, int *i)
 		(*i) = -1;
 		return (ft_strlen(*var) - 1);
 	}
-	while (cmd[*i])
+	while (cmd && infos && var && cmd[*i])
 	{
 		if (!ft_isalnum(cmd[*i]) && cmd[*i] != '_' && cmd[*i] != '?')
 			break ;

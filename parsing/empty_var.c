@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/12 23:20:11 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/13 01:31:03 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/13 13:48:34 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	skip_empty_var_at_end(t_token **tokens, t_token **curr)
 		prev->next = NULL;
 		free(*curr);
 	}
-	else if ((*curr)->prev  && (*curr)->prev->type != OPERATOR
+	else if ((*curr)->prev && (*curr)->prev->type != OPERATOR
 		&& (*curr)->type == VARIABLE
 		&& !ft_strncmp((*curr)->token, "$\"\'$", (*curr)->length)
 		&& (*curr)->next->type == OPERATOR)

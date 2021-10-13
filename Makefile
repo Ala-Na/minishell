@@ -6,7 +6,7 @@
 #    By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/08/23 15:04:29 by anadege           #+#    #+#              #
-#    Updated: 2021/10/12 23:23:46 by anadege          ###   ########.fr        #
+#    Updated: 2021/10/13 11:24:09 by anadege          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,6 +35,7 @@ SRCS	= ./architecture/main.c \
 		  ./parsing/tokenize_var.c \
 		  ./parsing/parsing_utils.c \
 		  ./parsing/string_utils.c \
+		  ./parsing/var_in_var.c \
 		  ./parsing/empty_var.c \
 		  ./exec/assignment.c \
 		  ./exec/check_assignments.c \

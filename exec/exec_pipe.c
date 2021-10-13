@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/27 17:16:19 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/13 01:44:34 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/13 13:47:13 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,17 @@
 #define WRITE_SIDE 1
 #define READ_SIDE 0
 #define UNSET -1
+
+int	last_close(int pipe_fd[2])
+{
+	if (close(pipe_fd[READ_SIDE]) == -1)
+		return (return_error(1, strerror(errno), 0, -1));
+	if (close(pipe_fd[WRITE_SIDE]) == -1)
+		return (return_error(1, strerror(errno), 0, -1));
+	if (g_exit_status != 0)
+		return (-1);
+	return (0);
+}
 
 /*
 ** Function for child execution of pipe_loop function.
@@ -111,9 +122,7 @@ int	pipe_loop(t_infos *infos, t_cmd *cmd, int **child_pids, int i)
 			return (-1);
 		cmd = get_next_cmd(cmd);
 	}
-	if (g_exit_status == 1)
-		return (-1);
-	return (0);
+	return (last_close(pipe_fd));
 }
 
 /*

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fork_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/12 16:15:52 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/13 18:07:54 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/13 19:13:18 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,17 +21,31 @@ void	handle_signal_in_input(int signum)
 	}
 }
 
-int	check_input_signal()
+int	check_input_signal(void)
 {
 	if (g_exit_status == 130)
 		return (1);
 	return (0);
 }
 
+int	check_if_end(char **str, char *end_str, int fd)
+{
+	int	end;
+
+	end = check_end_or_fill_tmp_file(str, end_str, fd);
+	if (end == 1)
+		return (1);
+	else if (end == -1)
+	{
+		g_exit_status = 1;
+		return (1);
+	}
+	return (0);
+}
+
 void	extract_child(t_infos *infos, int fd, char *end_str)
 {
 	char	*str;
-	int		end;
 
 	signal(SIGINT, handle_signal_in_input);
 	g_exit_status = 0;
@@ -46,14 +60,8 @@ void	extract_child(t_infos *infos, int fd, char *end_str)
 			g_exit_status = 3;
 			break ;
 		}
-		end = check_end_or_fill_tmp_file(&str, end_str, fd);
-		if (end == 1)
+		if (check_if_end(&str, end_str, fd) == 1)
 			break ;
-		else if (end == -1)
-		{
-			g_exit_status = 1;
-			break ;
-		}
 	}
 	clean_exit(infos);
 	exit(g_exit_status);

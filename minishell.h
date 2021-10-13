@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 15:55:23 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/13 20:08:18 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/13 20:34:09 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,7 +144,7 @@ void		clean_to_continue(t_infos *infos);
 ** MINISHELL INTIALIZATION
 */
 int			init_minishell(t_infos *infos, char **env);
-void		init_variables(int *i1, int *i2);
+void		init_variables(int *i1, int *i2, int value);
 int			add_new_shlvl(t_infos *infos, char *shlvl, char **env, int nb);
 int			get_shell_nbr(char *str);
 

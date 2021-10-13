@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 12:59:47 by hlichir           #+#    #+#             */
-/*   Updated: 2021/10/12 21:04:33 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/13 18:00:20 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ int	add_output(t_cmd **cmd, t_cmd *curr)
 **
 **	Returns -1 if error & 0 if everything is good.
 */
-int	add_input(t_cmd **cmd, t_cmd *curr)
+int	add_input(t_infos *infos, t_cmd **cmd, t_cmd *curr)
 {
 	int		fd;
 
@@ -96,7 +96,7 @@ int	add_input(t_cmd **cmd, t_cmd *curr)
 		return (return_error(1, "something went wrong", 0, -1));
 	if (curr->next_operator == LT && curr->next)
 	{
-		fd = get_fd(curr);
+		fd = get_fd(infos, curr);
 		if (fd < 0)
 			return (-1);
 		if (add_fd_to_cmd(cmd, fd, 0, 0))
@@ -104,7 +104,7 @@ int	add_input(t_cmd **cmd, t_cmd *curr)
 	}
 	if (curr->next_operator == LT_DBL && curr->next)
 	{
-		fd = extract_input_from_stdin(curr, 1);
+		fd = extract_input_from_stdin(infos, curr, 1);
 		if (fd <= 0)
 			return (-1);
 		if (add_fd_to_cmd(cmd, fd, 0, 1))
@@ -118,7 +118,7 @@ int	add_input(t_cmd **cmd, t_cmd *curr)
 ** or encounters a pipe.
 ** If an error occurs -> returns -1, 0 if everything is fine.
 */
-int	add_redirections(t_cmd *head_cmd, int is_not_builtin)
+int	add_redirections(t_infos *infos, t_cmd *head_cmd, int is_not_builtin)
 {
 	t_cmd	*curr;
 
@@ -128,7 +128,7 @@ int	add_redirections(t_cmd *head_cmd, int is_not_builtin)
 	while (curr && (int)curr->next_operator != -1
 		&& curr->next_operator != PIPE)
 	{
-		if (add_input(&head_cmd, curr) < 0)
+		if (add_input(infos, &head_cmd, curr) < 0)
 			return (-1);
 		else if (add_output(&head_cmd, curr) < 0)
 			return (-1);

@@ -6,13 +6,13 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 13:49:03 by hlichir           #+#    #+#             */
-/*   Updated: 2021/10/12 16:45:10 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/13 17:59:53 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	display_next_lt_dbl(t_cmd *cmd)
+int	display_next_lt_dbl(t_infos *infos, t_cmd *cmd)
 {
 	t_cmd	*curr;
 
@@ -20,7 +20,7 @@ int	display_next_lt_dbl(t_cmd *cmd)
 	while ((int)curr->next_operator != -1 && curr->next_operator != PIPE)
 	{
 		if (curr->next_operator == LT_DBL && curr->next)
-			if (extract_input_from_stdin(curr, 0) < 0)
+			if (extract_input_from_stdin(infos, curr, 0) < 0)
 				return (-1);
 		curr = curr->next;
 	}
@@ -32,7 +32,7 @@ int	display_next_lt_dbl(t_cmd *cmd)
 ** If the file doesn't exist -> execute any "<<" left just for the display.
 ** Then returns -2 to the child execution for exit.
 */
-int	get_fd(t_cmd *curr)
+int	get_fd(t_infos *infos, t_cmd *curr)
 {
 	int		fd;
 	char	*tmp;
@@ -43,7 +43,7 @@ int	get_fd(t_cmd *curr)
 	filename = extract_name_in_string(curr->next, &fd);
 	if (fd == -1)
 	{
-		display_next_lt_dbl(curr);
+		display_next_lt_dbl(infos, curr);
 		return (return_error(1, "Ambiguous redirect", 0, -1));
 	}
 	if (!filename)
@@ -53,7 +53,7 @@ int	get_fd(t_cmd *curr)
 	{
 		if (file_error_input(filename, &tmp) < 0)
 			return (-1);
-		display_next_lt_dbl(curr);
+		display_next_lt_dbl(infos, curr);
 		free(filename);
 		return (return_error(1, tmp, 1, -1));
 	}
@@ -80,7 +80,7 @@ int	create_tmp_file(void)
 	return (fd);
 }
 
-int	fork_for_input(char *end_str, int fd)
+int	fork_for_input(t_infos *infos, char *end_str, int fd)
 {
 	pid_t	child_pid;
 	int		wstatus;
@@ -100,14 +100,14 @@ int	fork_for_input(char *end_str, int fd)
 			return (WTERMSIG(wstatus) + 127);
 	}
 	else
-		extract_child(fd, end_str);
+		extract_child(infos, fd, end_str);
 	return (return_error(1, "something went wrong", 0, -1));
 }
 
 /*
 ** Function when "<<" is called.
 */
-int	extract_input_from_stdin(t_cmd *curr, int fill_str)
+int	extract_input_from_stdin(t_infos *infos, t_cmd *curr, int fill_str)
 {
 	char	*end_str;
 	int		fd;
@@ -125,7 +125,7 @@ int	extract_input_from_stdin(t_cmd *curr, int fill_str)
 		free(end_str);
 		return (-1);
 	}
-	g_exit_status = fork_for_input(end_str, fd);
+	g_exit_status = fork_for_input(infos, end_str, fd);
 	free(end_str);
 	if (g_exit_status != 0)
 	{

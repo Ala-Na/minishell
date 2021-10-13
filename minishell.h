@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 15:55:23 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/13 16:01:50 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/13 18:00:39 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -421,19 +421,19 @@ int			complete_exec_env_with_assignments(t_infos *infos,
 ** REDIRECTIONS
 */
 
-int			add_redirections(t_cmd *cmd, int is_not_builtin);
-int			add_input(t_cmd **cmd, t_cmd *curr);
+int			add_redirections(t_infos *infos, t_cmd *cmd, int is_not_builtin);
+int			add_input(t_infos *infos, t_cmd **cmd, t_cmd *curr);
 int			add_output(t_cmd **cmd, t_cmd *curr);
 int			add_fd_to_cmd(t_cmd **cmd, int fd, int is_output, int is_tmpfile);
 
 int			append_to_file(t_cmd *curr, int fd);
 int			create_new_file(t_cmd *curr);
 
-int			extract_input_from_stdin(t_cmd *curr, int fill_str);
+int			extract_input_from_stdin(t_infos *infos, t_cmd *curr, int fill_str);
 int			create_tmp_file(void);
-int			get_fd(t_cmd *curr);
-int			display_next_lt_dbl(t_cmd *cmd);
-int			fork_for_input(char *end_str, int fd);
+int			get_fd(t_infos *infos, t_cmd *curr);
+int			display_next_lt_dbl(t_infos *infos, t_cmd *cmd);
+int			fork_for_input(t_infos *infos, char *end_str, int fd);
 
 char		*extract_name_in_string(t_cmd *cmd, int *error);
 int			file_error_input(char *filename, char **tmp);
@@ -441,7 +441,7 @@ int			check_file(char	*filename);
 int			check_end_or_fill_tmp_file(char **str, char *end, int fd);
 
 void		handle_signal_in_input(int signum);
-void		extract_child(int fd, char *end_str);
+void		extract_child(t_infos *infos, int fd, char *end_str);
 
 /*
 ** PIPELINE MANAGEMENT

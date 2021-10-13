@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 13:49:03 by hlichir           #+#    #+#             */
-/*   Updated: 2021/10/13 17:59:53 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/13 20:27:10 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,13 +118,10 @@ int	extract_input_from_stdin(t_infos *infos, t_cmd *curr, int fill_str)
 	if (!end_str)
 		return (return_error(1, "memory allocation error", 0, -1));
 	if (!fill_str)
-		return (fd);
+		free_end_str_return(&end_str, fd);
 	fd = create_tmp_file();
 	if (fd < 0)
-	{
-		free(end_str);
-		return (-1);
-	}
+		free_end_str_return(&end_str, -1)
 	g_exit_status = fork_for_input(infos, end_str, fd);
 	free(end_str);
 	if (g_exit_status != 0)

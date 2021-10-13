@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 15:55:23 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/13 18:00:39 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/13 20:08:18 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -289,6 +289,7 @@ void		tokenize_variables(t_token **tokens, t_token **current, \
 				t_token *new, int size);
 int			set_parsing_error(char **error_pos, char *error, t_token **to_free);
 int			check_variable_sign(char **cmd, int *i, int *check);
+void		change_token_as_string(t_token **string_token);
 
 /*
 ** PARSING
@@ -347,13 +348,13 @@ void		add_var_symbol(char **new_cmd, char *var, int var_size, int *i);
 /*
 ** GET FILE FULL PATH
 */
-char		*get_path(char *filepath, char **env);
+char		*get_path(t_infos *infos, char *filepath, char **env);
 char		*get_absolute_path(char *filepath, char **env, char in_home);
 char		*get_absolute_path_from_path(char *filepath, char *env_var);
 char		*reconstitute_absolute_path(char *env_var, char *filepath);
 int			is_absolute_path(char *filepath);
 
-int			check_path_for_exceptions(char *file);
+int			check_path_for_exceptions(t_infos *infos, char *file);
 int			print_file_type(char *file);
 
 /*

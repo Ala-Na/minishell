@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exception_cmd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/04 17:34:23 by hlichir           #+#    #+#             */
-/*   Updated: 2021/10/13 17:18:44 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/13 20:07:24 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,18 @@ int	print_file_type(char *file)
 }
 
 /*
+**	Subfunction to free & exit properly from child
+*/
+void	free_and_exit(t_infos *infos, int status)
+{
+	clean_exit(infos);
+	exit(status);
+}
+
+/*
 **	Function to check if the filepath is an exception to a classic execution.
 */
-int	check_path_for_exceptions(char *file)
+int	check_path_for_exceptions(t_infos *infos, char *file)
 {
 	int	i;
 	int	check_type;
@@ -68,7 +77,7 @@ int	check_path_for_exceptions(char *file)
 		else if (!ft_strncmp(file, "..", 3))
 			return (return_error(127, "..: command_not_found", 0, -1));
 		else if (!ft_strncmp(file, "exit", 5))
-			exit(0);
+			free_and_exit(infos, 0);
 	}
 	return (0);
 }

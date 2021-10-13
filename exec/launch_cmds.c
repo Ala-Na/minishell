@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/22 17:28:50 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/12 22:30:37 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/13 17:59:07 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ int	init_launch_simple_cmd(t_infos *infos, t_cmd *cmd, int from_pipe)
 		return (return_error(1, "something went wrong", 0, -1));
 	exec_token = get_next_token(infos, cmd, &curr_cmd, exec_token);
 	if (!exec_token && g_exit_status == 0)
-		return (add_redirections(cmd, 0));
+		return (add_redirections(infos, cmd, 0));
 	else if (!exec_token)
 		return (-1);
 	only_assignments = assignments_management(infos, cmd, curr_cmd,

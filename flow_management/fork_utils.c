@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/12 16:15:52 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/13 19:13:18 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/13 20:23:57 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,4 +65,13 @@ void	extract_child(t_infos *infos, int fd, char *end_str)
 	}
 	clean_exit(infos);
 	exit(g_exit_status);
+}
+
+/*
+**	Subfunction to free & return in extract_input_from_stdin (input_utils)
+*/
+int	free_end_str_return(char **end_str, int result)
+{
+	free(*end_str);
+	return (result);
 }

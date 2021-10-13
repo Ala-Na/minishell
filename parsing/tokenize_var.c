@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/08 00:59:39 by hlichir           #+#    #+#             */
-/*   Updated: 2021/10/10 16:06:50 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/13 01:37:31 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	tokenize_variables(t_token **tokens, t_token **current, t_token *new, \
 	t_token	*tmp;
 
 	i = 0;
-	while (i < size)
+	while (i < size - 1)
 	{
 		while (i < size && ((*current)->token)[i] \
 			&& !ft_strchr(" \n\t", ((*current)->token)[i]))
@@ -59,6 +59,8 @@ void	tokenize_variables(t_token **tokens, t_token **current, t_token *new, \
 		if (i < size - 1)
 		{
 			new = init_new_token(tokens, (*current)->token + i, NULL, NULL);
+			if (!new)
+				return ;
 			new->type = VARIABLE;
 			tmp = (*current)->next;
 			(*current)->next = new;

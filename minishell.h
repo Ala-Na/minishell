@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 15:55:23 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/13 00:45:03 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/13 02:08:08 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -311,7 +311,7 @@ void		free_cmd_list_from_extremity(t_cmd **cmds, int end);
 */
 void		sub_get_var(char **var, char *elem_name,
 				char **env, t_var *var_lst);
-int			get_var(t_infos *infos, char *cmd, char **var, int dbl);
+int			get_var(t_infos *infos, int start, char **var, int dbl);
 void		add_var(t_infos *infos, char **new_cmd, int i[2], int dbl);
 void		get_cmd_with_var(t_infos *infos, int new_size, int ignore, \
 				int dbl);

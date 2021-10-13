@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/07 23:56:52 by hlichir           #+#    #+#             */
-/*   Updated: 2021/10/13 00:56:02 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/13 02:10:41 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	expand_variable_for_home(t_infos *infos, int i, int *size, char **var)
 {
 	if ((i == 0 || infos->curr_cmd[i - 1] == ' ')
 		&& (!infos->curr_cmd[i + 1] || infos->curr_cmd[i + 1] == ' '))
-		*size += get_var(infos, &infos->curr_cmd[i], var, 1);
+		*size += get_var(infos, i, var, 1);
 }
 
 /*

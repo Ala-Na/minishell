@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   seek_bin.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 15:56:39 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/11 23:04:12 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/13 20:11:09 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ char	*get_absolute_path(char *filepath, char **env, char in_home)
 ** path of the file pointed by filepath.
 ** If the file is not found or a directory is not accessible, NULL is returned.
 */
-char	*get_path(char *filepath, char **env)
+char	*get_path(t_infos *infos, char *filepath, char **env)
 {
 	int			res;
 	char		*path;
@@ -125,7 +125,7 @@ char	*get_path(char *filepath, char **env)
 	path = filepath;
 	if (!path || !env)
 		return (return_null_error(1, "something went wrong", 0));
-	res = check_path_for_exceptions(path);
+	res = check_path_for_exceptions(infos, path);
 	if (res < 0)
 		return (return_null_error(127, NULL, 0));
 	else if (res == 1)

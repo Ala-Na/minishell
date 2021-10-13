@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 15:55:23 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/13 13:31:58 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/13 13:55:52 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -341,6 +341,7 @@ int			return_diff_size(char *var, int dbl, int i);
 int			size_var_if_var(char *var, int nbr_var);
 int			check_var_in_var(char *var);
 void		var_in_var(char **new_cmd, int *i, int *k);
+void		add_var_symbol(char **new_cmd, char *var, int var_size, int *i);
 
 /*
 ** GET FILE FULL PATH

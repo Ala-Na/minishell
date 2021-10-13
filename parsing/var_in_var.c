@@ -6,11 +6,23 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/13 11:04:35 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/13 13:43:26 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/13 13:56:04 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+void	add_var_symbol(char **new_cmd, char *var, int var_size, int *i)
+{
+	int	j;
+
+	j = *i;
+	if (var[0] == '$' && var_size == 1)
+		(*new_cmd)[j++] = '\'';
+	else
+		(*new_cmd)[j++] = '$';
+	*i = j;
+}
 
 void	var_in_var(char **new_cmd, int *i, int *k)
 {
@@ -21,10 +33,11 @@ void	var_in_var(char **new_cmd, int *i, int *k)
 	(*new_cmd)[j++] = '\'';
 	(*new_cmd)[j++] = '$';
 	(*new_cmd)[j++] = '\'';
-	(*new_cmd)[j] = '$';
+	(*new_cmd)[j++] = '$';
 	*i = j;
 	*k += 1;
 }
+
 int	return_diff_size(char *var, int dbl, int i)
 {
 	int	nbr_var;

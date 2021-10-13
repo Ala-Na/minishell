@@ -309,7 +309,7 @@ void		free_cmd_list_from_extremity(t_cmd **cmds, int end);
 /*
 ** VARIABLES AND STRINGS UTILITARY FUNCTIONS
 */
-void		sub_get_var(char **var, char **elem_name,
+void		sub_get_var(char **var, char *elem_name,
 				char **env, t_var *var_lst);
 int			get_var(t_infos *infos, int start, char **var, int dbl);
 void		add_var(t_infos *infos, char **new_cmd, int i[2], int dbl);

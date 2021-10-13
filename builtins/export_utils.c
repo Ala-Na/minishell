@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/01 19:29:45 by hlichir           #+#    #+#             */
-/*   Updated: 2021/10/13 00:21:13 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/13 20:47:19 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ int	check_validity_token(t_token **token, int is_export, int *res)
 	str = get_elem_name(*token);
 	if (!str)
 		return (return_error(1, "memory allocation error", 0, -1));
-	if (ft_strlen(str) == 0)
+	if (ft_strlen(str) == 0 || (str[0] && ft_isdigit(str[0])))
 		return (invalid_token(token, is_export, res, &str));
 	while (str[i] && str[i] == '_')
 		i++;

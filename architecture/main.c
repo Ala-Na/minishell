@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 14:58:07 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/13 20:28:16 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/13 20:36:46 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ int	minishell_loop(t_infos *infos)
 		if (!infos->prompt)
 			return (return_error(1, "minishell : fatal error", 0, 1));
 		//infos->curr_cmd = readline(infos->prompt); // DECOMMENTER
-		infos->curr_cmd = ft_strdup("ls < yo << end | exit"); //RETIRER
+		infos->curr_cmd = ft_strdup("ls | exit"); //RETIRER
 		if (check_for_signal(infos) < 0)
 			return (return_error(1, "minishell : fatal error", 0, 1));
 		else if (!infos->curr_cmd)

@@ -84,8 +84,12 @@ char	*get_exec_path(t_infos *infos, t_cmd **cmd, char ***exec_env,
 	if (!path)
 		return (return_null_error(1, "memory allocation error", 0));
 	full_path = get_path(infos, &path, *exec_env);
-	free(path);
 	if (!full_path)
+	{
+		free(path);
 		return (NULL);
+	}
+	if (path && full_path != path)
+		free(path);
 	return (full_path);
 }

@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 15:55:23 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/13 20:24:30 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/13 20:58:44 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -348,13 +348,13 @@ void		add_var_symbol(char **new_cmd, char *var, int var_size, int *i);
 /*
 ** GET FILE FULL PATH
 */
-char		*get_path(t_infos *infos, char *filepath, char **env);
+char		*get_path(t_infos *infos, char **filepath, char **env);
 char		*get_absolute_path(char *filepath, char **env, char in_home);
 char		*get_absolute_path_from_path(char *filepath, char *env_var);
 char		*reconstitute_absolute_path(char *env_var, char *filepath);
 int			is_absolute_path(char *filepath);
 
-int			check_path_for_exceptions(t_infos *infos, char *file);
+int			check_path_for_exceptions(t_infos *infos, char **file);
 int			print_file_type(char *file);
 
 /*

@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/13 11:04:35 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/13 13:56:04 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/13 15:55:22 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ int	return_diff_size(char *var, int dbl, int i)
 	int	size;
 
 	size = (int)ft_strlen(var);
+	if (size == 1 && var[0] == '$')
+		return (2);
 	nbr_var = 0;
 	if (!dbl)
 		nbr_var = check_var_in_var(var);

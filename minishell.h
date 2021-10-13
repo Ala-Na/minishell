@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 15:55:23 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/13 13:55:52 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/13 16:01:50 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -309,7 +309,7 @@ void		free_cmd_list_from_extremity(t_cmd **cmds, int end);
 /*
 ** VARIABLES AND STRINGS UTILITARY FUNCTIONS
 */
-void		sub_get_var(char **var, char *elem_name,
+void		sub_get_var(char **var, char **elem_name,
 				char **env, t_var *var_lst);
 int			get_var(t_infos *infos, int start, char **var, int dbl);
 void		add_var(t_infos *infos, char **new_cmd, int i[2], int dbl);
@@ -331,6 +331,7 @@ void		skip_empty_var_in_middle(t_token **tokens, t_token **curr,
 				t_token **next);
 void		skip_empty_var_at_end(t_token **tokens, t_token **curr);
 int			is_empty_var(char *var);
+int			set_and_return_size_var(char **var, char *value, int size);
 
 char		*ft_strdup_linked_string(t_token *token);
 void		get_string_loop(t_token *elem, char **str, int fill_str, int i);

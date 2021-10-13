@@ -6,11 +6,20 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/12 23:20:11 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/13 13:48:34 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/13 16:00:18 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+int	set_and_return_size_var(char **var, char *value, int size)
+{
+	if (value)
+		*var = value;
+	else
+		*var = NULL;
+	return (size);
+}
 
 int	is_empty_var(char *var)
 {

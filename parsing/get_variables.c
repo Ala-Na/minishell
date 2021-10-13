@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 21:45:16 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/13 11:22:27 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/13 16:01:14 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,19 +57,14 @@ int	get_var(t_infos *infos, int start, char **var, int dbl)
 	if (res != -1)
 		return (res);
 	if (i == 1 && ((cmd[1] != '\'' && cmd[1] != '"') || dbl == 1))
-	{
-		*var = "$";
-		return (2);
-	}
+		return (set_and_return_size_var(var, "$", 2));
 	if (i > 1)
 		elem_name = ft_substr(cmd, 1, i - 1);
 	if (i <= 1 || !elem_name)
-	{
-		*var = NULL;
-		return (-1);
-	}
+		return (set_and_return_size_var(var, NULL, -1));
 	sub_get_var(var, &elem_name, infos->env, infos->lst_var);
-	if (is_empty_var(*var) && (dbl || (start && cmd[start - 1] != ' ')))
+	if (*var && is_empty_var(*var)
+		&& (dbl || (start > 0 && infos->curr_cmd[start - 1] != ' ')))
 		*var = NULL;
 	return (return_diff_size(*var, dbl, i));
 }

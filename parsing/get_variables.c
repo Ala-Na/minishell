@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 21:45:16 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/13 01:28:28 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/13 02:08:34 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,12 +45,14 @@ void	sub_get_var(char **var, char **elem_name, char **env, t_var *var_lst)
 ** Return -1 (size of single char $) and fill var with NULL if the variable isn't
 ** found or an error occurs.
 */
-int	get_var(t_infos *infos, char *cmd, char **var, int dbl)
+int	get_var(t_infos *infos, int start, char **var, int dbl)
 {
 	int		i;
 	int		res;
 	char	*elem_name;
+	char	*cmd;
 
+	cmd = &infos->curr_cmd[start];
 	res = get_var_exception(infos, var, cmd, &i);
 	if (res != -1)
 		return (res);
@@ -67,7 +69,7 @@ int	get_var(t_infos *infos, char *cmd, char **var, int dbl)
 		return (-1);
 	}
 	sub_get_var(var, &elem_name, infos->env, infos->lst_var);
-	if (is_empty_var(*var) && (dbl || (dbl  && *(cmd - 1) != ' ')))
+	if (is_empty_var(*var) && (dbl || (start && cmd[start - 1] != ' ')))
 		*var = NULL;
 	if (dbl)
 		return (ft_strlen(*var) - i);
@@ -81,7 +83,7 @@ void	add_var(t_infos *infos, char **new_cmd, int i[2], int dbl)
 {
 	char	*var;
 
-	get_var(infos, &infos->curr_cmd[i[0]], &var, dbl);
+	get_var(infos, i[0], &var, dbl);
 	add_var_modify_string(new_cmd, var, dbl, i);
 	if (infos->curr_cmd[i[0]] == '~')
 	{
@@ -146,7 +148,7 @@ void	expand_variables(t_infos *infos, int dbl, int ignore, int new_size)
 		else if (infos->curr_cmd[i] == '\'' && ignore == 1 && dbl == 0)
 			ignore = 0;
 		else if (infos->curr_cmd[i] == '$' && ignore == 0)
-			new_size += get_var(infos, &infos->curr_cmd[i], &var, dbl * i);
+			new_size += get_var(infos, i, &var, dbl);
 		else if (infos->curr_cmd[i] == '~' && ignore == 0)
 			expand_variable_for_home(infos, i, &new_size, &var);
 		i++;

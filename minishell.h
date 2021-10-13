@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 15:55:23 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/13 02:08:08 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/13 12:09:21 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -337,6 +337,10 @@ void		get_string_loop(t_token *elem, char **str, int fill_str, int i);
 char		*get_new_string_for_exception(char **cmd, int i);
 void		print_error(char *str, char *s, char c, int new_line);
 
+int			return_diff_size(char *var, int dbl, int i);
+int			size_var_if_var(char *var, int nbr_var);
+int			check_var_in_var(char *var);
+
 /*
 ** GET FILE FULL PATH
 */
@@ -445,6 +449,7 @@ int			pipe_parent_fd_manipulation(t_cmd *cmd, int pipe_fd[2],
 				int (*prev_fd)[2]);
 void		pipe_child_execution(t_infos *infos, t_cmd *cmd, int pipe_fd[2],
 				int prev_fd[2]);
+int			last_close(int pipe_fd[2]);
 
 int			wait_for_pipeline_childs(int nbr_pipes, \
 				pid_t **child_pids);

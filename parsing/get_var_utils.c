@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/07 23:56:52 by hlichir           #+#    #+#             */
-/*   Updated: 2021/10/13 02:10:41 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/13 13:35:06 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,10 @@ void	add_var_modify_string(char **new_cmd, char *var, int dbl, int i[2])
 	}
 	while (k < var_size)
 	{
-		(*new_cmd)[i[1]] = var[k++];
+		if (dbl == 0 && var[k] == '$')
+			var_in_var(new_cmd, &(i[1]), &k);
+		else
+			(*new_cmd)[i[1]] = var[k++];
 		i[1] += 1;
 	}
 	if (dbl == 0 && var_size > 0)

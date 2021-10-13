@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 15:55:23 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/13 12:09:21 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/13 13:31:58 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -340,6 +340,7 @@ void		print_error(char *str, char *s, char c, int new_line);
 int			return_diff_size(char *var, int dbl, int i);
 int			size_var_if_var(char *var, int nbr_var);
 int			check_var_in_var(char *var);
+void		var_in_var(char **new_cmd, int *i, int *k);
 
 /*
 ** GET FILE FULL PATH

@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 15:00:10 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/13 20:53:29 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/14 16:58:50 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	free_child_exec_var_and_exit(t_infos *infos, char **exec_path,
 		free_env(exec_env, -1);
 	if (exec_args && *exec_args)
 		free_env(exec_args, -1);
-	clean_exit(infos);
+	clean_exit(infos, 0);
 	exit(g_exit_status);
 }
 

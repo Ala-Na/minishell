@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 15:55:23 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/14 16:21:17 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/14 16:59:33 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,7 +138,7 @@ typedef struct s_infos
 */
 int			minishell_loop(t_infos *infos);
 void		parse_and_execute(t_infos *infos);
-void		clean_to_continue(t_infos *infos);
+void		clean_to_continue(t_infos *infos, int init_exit);
 
 /*
 ** MINISHELL INTIALIZATION
@@ -258,7 +258,7 @@ int			fill_env_with_deletion(char ***env, int elem_pos, int env_size);
 int			check_for_signal(t_infos *infos);
 int			modify_exit_value_variable(t_infos *infos, int new_value);
 
-int			clean_exit(t_infos *infos);
+int			clean_exit(t_infos *infos, int init_exit);
 
 int			return_error(int exit_status, char *error_msg, char **alloc_msg,
 				int return_value);

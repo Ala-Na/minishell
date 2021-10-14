@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/31 15:39:01 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/13 16:51:42 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/15 00:57:25 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,12 @@ char	*get_env_elem(char **env, char *elem, int elem_size)
 				continue ;
 			}
 			free(tmp);
-			elem_value = env[i] + elem_size + 1;
+			if (env[i][elem_size] != '=')
+				elem_value = NULL;
+			else if (env[i][elem_size] == '=')
+				elem_value = "\0";
+			else
+				elem_value = env[i] + elem_size + 1;
 			return (elem_value);
 		}
 		i++;

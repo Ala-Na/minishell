@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 21:45:16 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/13 20:34:40 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/15 00:52:32 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,21 +16,29 @@ void	sub_get_var(char **var, char **elem_name, char **env, t_var *var_lst)
 {
 	int	elem_size;
 	int	var_size;
+	int	case_home;
 
+	case_home = 0;
 	elem_size = ft_strlen(*elem_name);
 	*var = get_env_elem(env, *elem_name, ft_strlen(*elem_name));
+	if (!*var && !ft_strncmp(*elem_name, "HOME", ft_max(4, elem_size)))
+		case_home = 1;
 	if (!*var)
 	{
 		while (var_lst)
 		{
 			var_size = ft_strlen(var_lst->name);
-			if (!ft_strncmp(var_lst->name, *elem_name, \
+			if (!case_home && !ft_strncmp(var_lst->name, *elem_name, \
 				ft_max(elem_size, var_size)))
+				*var = var_lst->value;
+			else if (case_home && !ft_strncmp(var_lst->name, "~", ft_max(elem_size, 2)))
 				*var = var_lst->value;
 			var_lst = var_lst->next;
 		}
 	}
-	if (!*var || *var[0] == 0)
+	if (*var && *var[0] == 0 && !ft_strncmp(*elem_name, "HOME", ft_max(4, elem_size)))
+		*var = "''";
+	else if (!*var || *var[0] == 0)
 		*var = "\"\'";
 	free(*elem_name);
 }

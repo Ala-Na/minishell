@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 13:49:03 by hlichir           #+#    #+#             */
-/*   Updated: 2021/10/14 11:27:50 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/14 16:24:05 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	display_next_lt_dbl(t_infos *infos, t_cmd *cmd)
 	while ((int)curr->next_operator != -1 && curr->next_operator != PIPE)
 	{
 		if (curr->next_operator == LT_DBL && curr->next)
-			if (extract_input_from_stdin(infos, curr, 0) < 0)
+			if (extract_input_from_stdin(infos, curr) < 0)
 				return (-1);
 		curr = curr->next;
 	}
@@ -88,12 +88,12 @@ int	fork_for_input(t_infos *infos, char *end_str, int fd)
 
 	child_pid = fork();
 	if (child_pid == -1)
-		return (return_error(1, "fork failed", 0, -1));
+		return (return_error(1, "fork failed", 0, 1));
 	else if (child_pid > 0)
 	{
 		res = waitpid(child_pid, &wstatus, 0);
 		if (res == -1)
-			return (return_error(1, strerror(errno), 0, -1));
+			return (return_error(1, strerror(errno), 0, 1));
 		else if (WIFEXITED(wstatus))
 			return (WEXITSTATUS(wstatus));
 		else if (WIFSIGNALED(wstatus))
@@ -101,13 +101,13 @@ int	fork_for_input(t_infos *infos, char *end_str, int fd)
 	}
 	else
 		extract_child(infos, fd, end_str);
-	return (return_error(1, "something went wrong", 0, -1));
+	return (return_error(1, "something went wrong", 0, 1));
 }
 
 /*
 ** Function when "<<" is called.
 */
-int	extract_input_from_stdin(t_infos *infos, t_cmd *curr, int fill_str)
+int	extract_input_from_stdin(t_infos *infos, t_cmd *curr)
 {
 	char	*end_str;
 	int		fd;
@@ -117,8 +117,6 @@ int	extract_input_from_stdin(t_infos *infos, t_cmd *curr, int fill_str)
 	end_str = extract_name_in_string(curr->next, &fd);
 	if (!end_str)
 		return (return_error(1, "memory allocation error", 0, -1));
-	if (!fill_str)
-		free_end_str_return(&end_str, fd);
 	fd = create_tmp_file();
 	if (fd < 0)
 		free_end_str_return(&end_str, -1);

@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 15:55:23 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/14 16:59:33 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/14 18:33:48 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,7 +172,7 @@ int			add_line_to_history(int history_fd, char *str);
 /*
 ** HANDLING SIGNALS
 */
-void		handle_signals(void);
+void		handle_signals(int is_child);
 void		sig_handler_function(int signum);
 
 /*

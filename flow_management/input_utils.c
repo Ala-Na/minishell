@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 13:49:03 by hlichir           #+#    #+#             */
-/*   Updated: 2021/10/14 19:02:39 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/14 19:46:04 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,10 +97,7 @@ int	fork_for_input(t_infos *infos, char *end_str, int fd)
 		else if (WIFEXITED(wstatus))
 			return (WEXITSTATUS(wstatus));
 		else if (WIFSIGNALED(wstatus))
-		{
-			printf("status prent: %i\n", wstatus);
 			return (WTERMSIG(wstatus) + 127);
-		}
 	}
 	else
 		extract_child(infos, fd, end_str);

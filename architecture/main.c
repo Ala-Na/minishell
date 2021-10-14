@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 14:58:07 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/14 19:33:49 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/14 19:44:40 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	clean_to_continue(t_infos *infos, int init_exit)
 		free_cmd_list_from_extremity(&infos->lst_cmds, 0);
 	if (infos->lst_tokens)
 		free_token_list_from_extremity(&infos->lst_tokens, 0);
-	if (check_file("./tmp_file") == 0)
+	if (init_exit && check_file("./tmp_file") == 0)
 	{
 		if (unlink("./tmp_file") < 0)
 		{

@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/12 16:15:52 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/13 20:23:57 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/14 16:24:15 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ int	check_if_end(char **str, char *end_str, int fd)
 void	extract_child(t_infos *infos, int fd, char *end_str)
 {
 	char	*str;
+	int		tmp_status;
 
 	signal(SIGINT, handle_signal_in_input);
 	g_exit_status = 0;
@@ -63,8 +64,9 @@ void	extract_child(t_infos *infos, int fd, char *end_str)
 		if (check_if_end(&str, end_str, fd) == 1)
 			break ;
 	}
+	tmp_status = g_exit_status;
 	clean_exit(infos);
-	exit(g_exit_status);
+	exit(tmp_status);
 }
 
 /*

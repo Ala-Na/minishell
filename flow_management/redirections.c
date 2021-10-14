@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 12:59:47 by hlichir           #+#    #+#             */
-/*   Updated: 2021/10/13 18:00:20 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/14 16:26:08 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,21 +23,18 @@ int	add_fd_to_cmd(t_cmd **cmd, int fd, int is_output, int is_tmpfile)
 	if (is_output)
 	{
 		if ((*cmd)->fd_output > 1)
-		{
 			if (close((*cmd)->fd_output) < 0)
 				return (return_error(1, strerror(errno), 0, -1));
-		}
 		(*cmd)->fd_output = fd;
 	}
 	else
 	{	
 		if ((*cmd)->fd_input > 1)
-		{
 			if (close((*cmd)->fd_input) < 0)
 				return (return_error(1, strerror(errno), 0, -1));
-		}
 		if (is_tmpfile)
 		{
+			close(fd);
 			fd = open("./tmp_file", O_RDONLY);
 			if (fd < 0)
 				return (return_error(1, strerror(errno), 0, -1));
@@ -104,7 +101,7 @@ int	add_input(t_infos *infos, t_cmd **cmd, t_cmd *curr)
 	}
 	if (curr->next_operator == LT_DBL && curr->next)
 	{
-		fd = extract_input_from_stdin(infos, curr, 1);
+		fd = extract_input_from_stdin(infos, curr);
 		if (fd <= 0)
 			return (-1);
 		if (add_fd_to_cmd(cmd, fd, 0, 1))

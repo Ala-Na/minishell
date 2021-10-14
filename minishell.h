@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 15:55:23 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/14 13:58:15 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/14 16:21:17 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -434,7 +434,7 @@ int			add_fd_to_cmd(t_cmd **cmd, int fd, int is_output, int is_tmpfile);
 int			append_to_file(t_cmd *curr, int fd);
 int			create_new_file(t_cmd *curr);
 
-int			extract_input_from_stdin(t_infos *infos, t_cmd *curr, int fill_str);
+int			extract_input_from_stdin(t_infos *infos, t_cmd *curr);
 int			create_tmp_file(void);
 int			get_fd(t_infos *infos, t_cmd *curr);
 int			display_next_lt_dbl(t_infos *infos, t_cmd *cmd);

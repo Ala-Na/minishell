@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/27 17:16:19 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/11 22:39:20 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/14 16:58:55 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,17 @@
 #define WRITE_SIDE 1
 #define READ_SIDE 0
 #define UNSET -1
+
+int	last_close(int pipe_fd[2])
+{
+	if (close(pipe_fd[READ_SIDE]) == -1)
+		return (return_error(1, strerror(errno), 0, -1));
+	if (close(pipe_fd[WRITE_SIDE]) == -1)
+		return (return_error(1, strerror(errno), 0, -1));
+	if (g_exit_status != 0)
+		return (-1);
+	return (0);
+}
 
 /*
 ** Function for child execution of pipe_loop function.
@@ -55,6 +66,7 @@ void	pipe_child_execution(t_infos *infos, t_cmd *cmd, int pipe_fd[2],
 	}
 	if (g_exit_status == 0)
 		init_launch_simple_cmd(infos, cmd, 1);
+	clean_exit(infos, 0);
 	exit(g_exit_status);
 }
 
@@ -95,8 +107,7 @@ int	pipe_loop(t_infos *infos, t_cmd *cmd, int **child_pids, int i)
 
 	if (!infos || !cmd || !*child_pids)
 		return (return_error(1, "something went wrong", 0, -1));
-	prev_fd[READ_SIDE] = UNSET;
-	prev_fd[WRITE_SIDE] = UNSET;
+	init_variables(&(prev_fd[READ_SIDE]), &(prev_fd[WRITE_SIDE]), UNSET);
 	while (cmd)
 	{
 		if (pipe(pipe_fd) == -1)
@@ -105,15 +116,16 @@ int	pipe_loop(t_infos *infos, t_cmd *cmd, int **child_pids, int i)
 		if (new_pid == -1)
 			return (return_error(1, "fork failed", 0, -1));
 		else if (new_pid == 0)
+		{
+			free(*child_pids);
 			pipe_child_execution(infos, cmd, pipe_fd, prev_fd);
+		}
 		(*child_pids)[i++] = new_pid;
 		if (pipe_parent_fd_manipulation(cmd, pipe_fd, &prev_fd) == -1)
 			return (-1);
 		cmd = get_next_cmd(cmd);
 	}
-	if (g_exit_status == 1)
-		return (-1);
-	return (0);
+	return (last_close(pipe_fd));
 }
 
 /*

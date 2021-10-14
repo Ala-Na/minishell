@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/02 11:52:56 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/12 18:52:52 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/14 13:57:33 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,13 +87,13 @@ int	init_minishell(t_infos *infos, char **env)
 	if (save_env(infos, env) == -1 || infos->env == NULL)
 		return (-1);
 	nbr = seek_elem_pos(env, "SHLVL");
-	if (nbr < 0 || add_new_shlvl(infos, "SHLVL", env, nbr) == -1)
+	if (nbr < 0 || add_new_shlvl(infos, "SHLVL=", env, nbr) == -1)
 		return (-1);
 	return (0);
 }
 
-void	init_variables(int *i1, int *i2)
+void	init_variables(int *i1, int *i2, int value)
 {
-	*i1 = 0;
-	*i2 = 0;
+	*i1 = value;
+	*i2 = value;
 }

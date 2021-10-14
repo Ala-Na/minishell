@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/30 16:59:11 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/12 22:50:27 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/14 13:48:23 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ int	change_directory(t_infos *infos, char **new_path, int is_alloc)
 		return (-1);
 	modify_pwd(infos, "OLDPWD", old_path, 0);
 	tmp_path = get_curr_dir(infos, 0);
+	check_if_currdir_exist(&tmp_path, old_path);
 	if (!tmp_path)
 	{
 		free(old_path);

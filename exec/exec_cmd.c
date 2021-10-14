@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 15:00:10 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/12 17:12:10 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/14 18:36:44 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ void	free_child_exec_var_and_exit(t_infos *infos, char **exec_path,
 		free_env(exec_env, -1);
 	if (exec_args && *exec_args)
 		free_env(exec_args, -1);
+	clean_exit(infos, 0);
 	exit(g_exit_status);
 }
 
@@ -40,17 +41,17 @@ void	child_execution(t_infos *infos, t_cmd *head_cmd)
 	char	**exec_args;
 	t_token	*exec_token;
 
-	if (add_redirections(head_cmd, 1) < 0)
+	if (add_redirections(infos, head_cmd, 1) < 0)
 		free_child_exec_var_and_exit(infos, NULL, NULL, NULL);
-	signal(SIGINT, sig_handler_function);
+	handle_signals(1);
 	if (!infos || !head_cmd)
 	{
 		return_error(1, "something went wrong", 0, 0);
-		exit(g_exit_status);
+		free_child_exec_var_and_exit(infos, NULL, NULL, NULL);
 	}
 	exec_path = get_exec_path(infos, &head_cmd, &exec_env, &exec_token);
 	if (!exec_path || !exec_env)
-		free_child_exec_var_and_exit(infos, NULL, &exec_env, NULL);
+		free_child_exec_var_and_exit(infos, &exec_path, &exec_env, NULL);
 	exec_args = get_exec_args(infos, head_cmd, exec_token);
 	if (!exec_args)
 		free_child_exec_var_and_exit(infos, &exec_path, &exec_env, NULL);

@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/13 16:06:44 by hlichir           #+#    #+#             */
-/*   Updated: 2021/10/11 11:17:08 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/14 17:33:15 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ char	*get_elem_value(char *str)
 		return (return_null_error(1, "something went wrong", 0));
 	while (str[i] && str[i] != '=')
 		i++;
+	if (str[i] == 0)
+		return (NULL);
 	i++;
 	dest = malloc(sizeof(*dest) * (ft_strlen(str + i) + 1));
 	if (!dest)
@@ -77,13 +79,16 @@ int	modify_var_in_list(t_infos *infos, char *str, int *check)
 */
 int	add_name_value_to_var(t_var **new, char *str)
 {
-	(*new)->name = extract_name(str, ft_strlen(str));
-	if (!(*new)->name)
+	t_var	*elem;
+
+	elem = *new;
+	elem->name = extract_name(str, ft_strlen(str));
+	if (!elem->name)
 		return (-1);
-	(*new)->value = get_elem_value(str);
-	if (!(*new)->value)
+	elem->value = get_elem_value(str);
+	if (!elem->value)
 	{
-		free((*new)->name);
+		free(elem->name);
 		return (-1);
 	}
 	return (0);
@@ -106,7 +111,10 @@ int	add_new_var_to_list(t_infos *infos, char *str)
 	if (!new)
 		return (return_error(1, "memory allocation error", 0, -1));
 	if (add_name_value_to_var(&new, str) < 0)
+	{
+		free(new);
 		return (-1);
+	}
 	new->next = NULL;
 	if (current == NULL)
 		infos->lst_var = new;

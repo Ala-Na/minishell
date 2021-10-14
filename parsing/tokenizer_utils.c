@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/05 14:12:00 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/13 00:51:43 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/13 19:10:59 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,8 +131,9 @@ void	strings_manipulation(t_token **tokens)
 	while (curr_token)
 	{
 		to_compare = curr_token->token[curr_token->length];
-		if (curr_token->type == VARIABLE)
-			to_compare = curr_token->token[curr_token->length];
+		if (curr_token->type == VARIABLE
+			&& curr_token->next && curr_token->next->type != VARIABLE)
+			to_compare = curr_token->token[curr_token->length + 1];
 		if (curr_token->type != STRING && curr_token->type != VARIABLE
 			&& curr_token->token[curr_token->length] && curr_token->next
 			&& ft_strchr("\"\'$", to_compare))
@@ -142,10 +143,7 @@ void	strings_manipulation(t_token **tokens)
 			&& !ft_strchr(" \n\t", to_compare))
 			curr_token->linked_to_next = curr_token->next;
 		if (curr_token->type == STRING)
-		{
-			curr_token->length -= 2;
-			curr_token->token = curr_token->token + 1;
-		}
+			change_token_as_string(&curr_token);
 		curr_token = curr_token->next;
 	}
 }

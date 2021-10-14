@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/22 16:53:14 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/12 16:06:30 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/13 17:58:20 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ int	check_assignments(t_infos *infos, t_cmd *head_cmd, t_cmd *cmd,
 	assignments = is_only_assignments(infos, cmd, first_non_redir);
 	if (assignments <= 0)
 		return (assignments);
-	add_redirections(head_cmd, 0);
+	add_redirections(infos, head_cmd, 0);
 	curr_token = first_non_redir;
 	curr_cmd = cmd;
 	while (cmd && curr_token)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/11 13:44:45 by hlichir           #+#    #+#             */
-/*   Updated: 2021/10/12 15:55:51 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/14 19:05:41 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,10 @@ void	sig_handler_function(int signum)
 **	Handling CTRL + C who print an new prompt line
 **	Ignore SIGQUIT
 */
-void	handle_signals(void)
+void	handle_signals(int in_child)
 {
 	signal(SIGINT, sig_handler_function);
 	signal(SIGQUIT, SIG_IGN);
+	if (in_child)
+		signal(SIGQUIT, SIG_DFL);
 }

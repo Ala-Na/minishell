@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   history.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/30 17:16:26 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/12 16:57:24 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/14 13:19:03 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	get_previous_history(void)
 		return (fd);
 	while (get_next_line(fd, &str) > 0)
 	{
-		add_history(str);
+		add_history(str); //DECOMMENTER
 		free(str);
 	}
 	if (str)
@@ -51,6 +51,6 @@ int	add_line_to_history(int history_fd, char *str)
 	}
 	write(history_fd, str, ft_strlen(str));
 	write(history_fd, "\n", 1);
-	add_history(str);
+	add_history(str); //DECOMMENTER
 	return (0);
 }

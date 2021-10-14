@@ -3,10 +3,11 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 15:55:23 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/13 00:59:36 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/14 23:06:50 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/14 18:33:48 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,13 +139,13 @@ typedef struct s_infos
 */
 int			minishell_loop(t_infos *infos);
 void		parse_and_execute(t_infos *infos);
-void		clean_to_continue(t_infos *infos);
+void		clean_to_continue(t_infos *infos, int init_exit);
 
 /*
 ** MINISHELL INTIALIZATION
 */
 int			init_minishell(t_infos *infos, char **env);
-void		init_variables(int *i1, int *i2);
+void		init_variables(int *i1, int *i2, int value);
 int			add_new_shlvl(t_infos *infos, char *shlvl, char **env, int nb);
 int			get_shell_nbr(char *str);
 
@@ -154,6 +155,8 @@ int			get_shell_nbr(char *str);
 ** prompt_name > current_directory (with HOME replace by ~).
 */
 void		simplify_prompt_curr_dir(t_infos *infos, char **prompt);
+int			loop_to_getcwd(char **res, char **buffer_dir, \
+				size_t *size_buffer_dir);
 char		*get_curr_dir(t_infos *infos, int prompt);
 char		*get_prompt(t_infos *infos);
 
@@ -170,7 +173,7 @@ int			add_line_to_history(int history_fd, char *str);
 /*
 ** HANDLING SIGNALS
 */
-void		handle_signals(void);
+void		handle_signals(int is_child);
 void		sig_handler_function(int signum);
 
 /*
@@ -186,6 +189,7 @@ int			create_tmp_new_elem(t_token **new_elem, char *name, char *value, \
 				char *str);
 char		*check_oldpwd_cdpath(t_infos *infos, char **path, int *is_alloc);
 int			handle_cd_path(char **env, char **path, int *is_alloc);
+void		check_if_currdir_exist(char **tmp_path, char *old_path);
 
 /*
 ** BUILT IN ECHO
@@ -202,6 +206,7 @@ int			return_n_option(char **str, int return_value);
 ** BUILT IN PWD
 */
 int			show_current_dir(t_infos *infos, t_cmd *cmd);
+char		*get_str_pwd(t_infos *infos);
 
 /*
 ** BUILT IN ENV
@@ -254,12 +259,12 @@ int			fill_env_with_deletion(char ***env, int elem_pos, int env_size);
 int			check_for_signal(t_infos *infos);
 int			modify_exit_value_variable(t_infos *infos, int new_value);
 
-int			clean_exit(t_infos *infos);
+int			clean_exit(t_infos *infos, int init_exit);
 
-int			return_error(int exit_status, char *error_msg, int msg_is_alloc,
+int			return_error(int exit_status, char *error_msg, char **alloc_msg,
 				int return_value);
 char		*return_null_error(int exit_status, char *error_msg, \
-				int msg_is_alloc);
+				char **alloc_msg);
 int			return_value(int exit_status);
 int			return_signal(int signal_value);
 void		return_pipeline(int last_child_status);
@@ -289,6 +294,7 @@ void		tokenize_variables(t_token **tokens, t_token **current, \
 				t_token *new, int size);
 int			set_parsing_error(char **error_pos, char *error, t_token **to_free);
 int			check_variable_sign(char **cmd, int *i, int *check);
+void		change_token_as_string(t_token **string_token);
 
 /*
 ** PARSING
@@ -311,7 +317,7 @@ void		free_cmd_list_from_extremity(t_cmd **cmds, int end);
 */
 void		sub_get_var(char **var, char **elem_name,
 				char **env, t_var *var_lst);
-int			get_var(t_infos *infos, char *cmd, char **var, int dbl);
+int			get_var(t_infos *infos, int start, char **var, int dbl);
 void		add_var(t_infos *infos, char **new_cmd, int i[2], int dbl);
 void		get_cmd_with_var(t_infos *infos, int new_size, int ignore, \
 				int dbl);
@@ -331,22 +337,29 @@ void		skip_empty_var_in_middle(t_token **tokens, t_token **curr,
 				t_token **next);
 void		skip_empty_var_at_end(t_token **tokens, t_token **curr);
 int			is_empty_var(char *var);
+int			set_and_return_size_var(char **var, char *value, int size);
 
 char		*ft_strdup_linked_string(t_token *token);
 void		get_string_loop(t_token *elem, char **str, int fill_str, int i);
 char		*get_new_string_for_exception(char **cmd, int i);
 void		print_error(char *str, char *s, char c, int new_line);
 
+int			return_diff_size(char *var, int dbl, int i);
+int			size_var_if_var(char *var, int nbr_var);
+int			check_var_in_var(char *var);
+void		var_in_var(char **new_cmd, int *i, int *k);
+void		add_var_symbol(char **new_cmd, char *var, int var_size, int *i);
+
 /*
 ** GET FILE FULL PATH
 */
-char		*get_path(char *filepath, char **env);
+char		*get_path(t_infos *infos, char **filepath, char **env);
 char		*get_absolute_path(char *filepath, char **env, char in_home);
 char		*get_absolute_path_from_path(char *filepath, char *env_var);
 char		*reconstitute_absolute_path(char *env_var, char *filepath);
 int			is_absolute_path(char *filepath);
 
-int			check_path_for_exceptions(char *file);
+int			check_path_for_exceptions(t_infos *infos, char **file);
 int			print_file_type(char *file);
 
 /*
@@ -414,19 +427,19 @@ int			complete_exec_env_with_assignments(t_infos *infos,
 ** REDIRECTIONS
 */
 
-int			add_redirections(t_cmd *cmd, int is_not_builtin);
-int			add_input(t_cmd **cmd, t_cmd *curr);
+int			add_redirections(t_infos *infos, t_cmd *cmd, int is_not_builtin);
+int			add_input(t_infos *infos, t_cmd **cmd, t_cmd *curr);
 int			add_output(t_cmd **cmd, t_cmd *curr);
 int			add_fd_to_cmd(t_cmd **cmd, int fd, int is_output, int is_tmpfile);
 
 int			append_to_file(t_cmd *curr, int fd);
 int			create_new_file(t_cmd *curr);
 
-int			extract_input_from_stdin(t_cmd *curr, int fill_str);
+int			extract_input_from_stdin(t_infos *infos, t_cmd *curr);
 int			create_tmp_file(void);
-int			get_fd(t_cmd *curr);
-int			display_next_lt_dbl(t_cmd *cmd);
-int			fork_for_input(char *end_str, int fd);
+int			get_fd(t_infos *infos, t_cmd *curr);
+int			display_next_lt_dbl(t_infos *infos, t_cmd *cmd);
+int			fork_for_input(t_infos *infos, char *end_str, int fd);
 
 char		*extract_name_in_string(t_cmd *cmd, int *error);
 int			file_error_input(char *filename, char **tmp);
@@ -434,7 +447,10 @@ int			check_file(char	*filename);
 int			check_end_or_fill_tmp_file(char **str, char *end, int fd);
 
 void		handle_signal_in_input(int signum);
-void		extract_child(int fd, char *end_str);
+void		extract_child(t_infos *infos, int fd, char *end_str);
+int			free_end_str_return(char **end_str, int result);
+int			check_if_end(char **str, char *end_str, int fd);
+int			check_input_signal(void);
 
 /*
 ** PIPELINE MANAGEMENT
@@ -445,6 +461,7 @@ int			pipe_parent_fd_manipulation(t_cmd *cmd, int pipe_fd[2],
 				int (*prev_fd)[2]);
 void		pipe_child_execution(t_infos *infos, t_cmd *cmd, int pipe_fd[2],
 				int prev_fd[2]);
+int			last_close(int pipe_fd[2]);
 
 int			wait_for_pipeline_childs(int nbr_pipes, \
 				pid_t **child_pids);

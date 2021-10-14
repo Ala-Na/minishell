@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/01 21:56:08 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/11 14:42:18 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/14 10:56:52 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,15 +54,27 @@ int	add_not_existing_elem_to_env(char ***env, t_token *new_elem, int env_size)
 int	modify_existing_elem_to_env(t_infos *infos, char **env, t_token *new_elem,
 		char *elem_name)
 {
-	int	elem_pos;
+	int		elem_pos;
+	char	*tmp;
+	int		i;
 
 	if (!infos || !env || !new_elem || !elem_name)
 		return (return_error(1, "something went wrong", 0, -1));
+	tmp = ft_strdup_linked_string(new_elem);
+	i = -1;
+	while (tmp[++i])
+		if (tmp[i] == '=')
+			break ;
+	if (i == (int)ft_strlen(tmp))
+	{
+		free(tmp);
+		return (0);
+	}
 	elem_pos = seek_elem_pos(env, elem_name);
 	if (elem_pos < 0)
 		return (return_error(1, "something went wrong", 0, -1));
 	free(env[elem_pos]);
-	env[elem_pos] = ft_strdup_linked_string(new_elem);
+	env[elem_pos] = tmp;
 	if (!env[elem_pos])
 		return (-1);
 	return (0);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/30 16:59:11 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/14 12:59:51 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/14 13:48:23 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@
 int	call_chdir(t_infos *infos, char **new_path, int *is_alloc,
 		char **old_path)
 {
-	char	buff_dir[1000];
 	if (!infos || !new_path || !*new_path)
 	{
 		if (is_alloc && *new_path)
@@ -32,8 +31,6 @@ int	call_chdir(t_infos *infos, char **new_path, int *is_alloc,
 			free(*new_path);
 		return (return_error(1, strerror(errno), 0, -1));
 	}
-	if (getcwd(buff_dir, 1000) == NULL && errno == ENOENT)
-		ft_puterr(strerror(errno), 1);
 	if (chdir(*new_path) == -1)
 	{
 		ft_puterr("cd: ", 0);
@@ -71,6 +68,7 @@ int	change_directory(t_infos *infos, char **new_path, int is_alloc)
 		return (-1);
 	modify_pwd(infos, "OLDPWD", old_path, 0);
 	tmp_path = get_curr_dir(infos, 0);
+	check_if_currdir_exist(&tmp_path, old_path);
 	if (!tmp_path)
 	{
 		free(old_path);

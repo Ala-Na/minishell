@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/06 14:50:47 by hlichir           #+#    #+#             */
-/*   Updated: 2021/10/14 12:22:28 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/14 12:37:32 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ char	*get_str_pwd(t_infos *infos)
 	if (pos == -2)
 		return (return_null_error(1, "something went wrong", 0));
 	else if (pos == -1)
-		return (-1);
+		return (NULL);
 	str = get_elem_value((infos->env)[pos]);
 	if (!str)
 		return (return_null_error(1, "memory allocation error", 0));

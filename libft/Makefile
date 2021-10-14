@@ -6,7 +6,7 @@
 #    By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/05/26 11:25:33 by anadege           #+#    #+#              #
-#    Updated: 2021/10/04 19:02:02 by hlichir          ###   ########.fr        #
+#    Updated: 2021/10/14 13:27:37 by anadege          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,7 +46,7 @@ SRC = ./ft_atoi.c ./ft_bzero.c ./ft_calloc.c \
 ./ft_iswhitespace.c ./ft_putstr.c ./ft_strndup.c \
 ./ft_puterr.c ./ft_strnjoin.c ./ft_max.c \
 ./ft_isblanks.c ./ft_strjoin_free.c \
-./ft_strdup_free.c
+./ft_strdup_free.c ./ft_isblank.c
 
 
 HEADER = 		../includes

@@ -72,7 +72,11 @@ int	add_tilde_to_var_list(t_infos *infos)
 	else
 		home_path = ft_strdup("~=/home/");
 	if (add_new_var_to_list(infos, home_path) == -1)
+	{
+		free(home_path);
 		return (-1);
+	}
+	free(home_path);
 	return (0);
 }
 

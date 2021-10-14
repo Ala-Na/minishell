@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 15:55:23 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/13 20:24:30 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/14 12:22:56 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -202,6 +202,7 @@ int			return_n_option(char **str, int return_value);
 ** BUILT IN PWD
 */
 int			show_current_dir(t_infos *infos, t_cmd *cmd);
+char		*get_str_pwd(t_infos *infos);
 
 /*
 ** BUILT IN ENV

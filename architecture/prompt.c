@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/12 21:48:31 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/12 22:50:33 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/14 12:35:26 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,11 @@ char	*get_curr_dir(t_infos *infos, int prompt)
 		if (!buffer_dir)
 			return (NULL);
 		res = getcwd(buffer_dir, size_buffer_dir - 1);
+	}
+	if (!res && errno == ENOENT)
+	{
+		free(buffer_dir);
+		buffer_dir = get_str_pwd(infos);
 	}
 	if (prompt)
 		simplify_prompt_curr_dir(infos, &buffer_dir);

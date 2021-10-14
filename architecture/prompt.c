@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/12 21:48:31 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/14 13:13:02 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/14 13:55:27 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,21 @@ void	simplify_prompt_curr_dir(t_infos *infos, char **prompt)
 		free(tmp_home);
 }
 
+int	loop_to_getcwd(char **res, char **buffer_dir, size_t *size_buffer_dir)
+{
+	*res = getcwd(*buffer_dir, *size_buffer_dir - 1);
+	while (!(*res) && errno == ERANGE)
+	{
+		free(*buffer_dir);
+		*size_buffer_dir *= 2;
+		*buffer_dir = malloc(sizeof(**buffer_dir) * *size_buffer_dir);
+		if (!(*buffer_dir))
+			return (return_error(1, "memory allocation error", 0, -1));
+		*res = getcwd(*buffer_dir, *size_buffer_dir - 1);
+	}
+	return (0);
+}
+
 char	*get_curr_dir(t_infos *infos, int prompt)
 {
 	char	*res;
@@ -54,21 +69,12 @@ char	*get_curr_dir(t_infos *infos, int prompt)
 	buffer_dir = malloc(sizeof(*buffer_dir) * size_buffer_dir);
 	if (!buffer_dir)
 		return (NULL);
-	res = getcwd(buffer_dir, size_buffer_dir - 1);
-	while (!res && errno == ERANGE)
-	{
-		free(buffer_dir);
-		size_buffer_dir *= 2;
-		buffer_dir = malloc(sizeof(*buffer_dir) * size_buffer_dir);
-		if (!buffer_dir)
-			return (NULL);
-		res = getcwd(buffer_dir, size_buffer_dir - 1);
-	}
+	if (loop_to_getcwd(&res, &buffer_dir, &size_buffer_dir) == -1)
+		return (NULL);
 	if (!res && errno == ENOENT)
 	{
 		free(buffer_dir);
-		buffer_dir = ft_strjoin(get_str_pwd(infos), "/..");
-
+		buffer_dir = get_str_pwd(infos);
 	}
 	if (prompt)
 		simplify_prompt_curr_dir(infos, &buffer_dir);

@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 15:55:23 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/14 12:22:56 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/14 13:58:15 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,6 +154,8 @@ int			get_shell_nbr(char *str);
 ** prompt_name > current_directory (with HOME replace by ~).
 */
 void		simplify_prompt_curr_dir(t_infos *infos, char **prompt);
+int			loop_to_getcwd(char **res, char **buffer_dir, \
+				size_t *size_buffer_dir);
 char		*get_curr_dir(t_infos *infos, int prompt);
 char		*get_prompt(t_infos *infos);
 
@@ -186,6 +188,7 @@ int			create_tmp_new_elem(t_token **new_elem, char *name, char *value, \
 				char *str);
 char		*check_oldpwd_cdpath(t_infos *infos, char **path, int *is_alloc);
 int			handle_cd_path(char **env, char **path, int *is_alloc);
+void		check_if_currdir_exist(char **tmp_path, char *old_path);
 
 /*
 ** BUILT IN ECHO

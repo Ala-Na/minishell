@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd_utils.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/05 13:05:41 by hlichir           #+#    #+#             */
-/*   Updated: 2021/10/12 22:50:39 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/14 13:48:32 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,4 +102,23 @@ int	handle_cd_path(char **env, char **path, int *is_alloc)
 		*is_alloc = 2;
 	}
 	return (0);
+}
+
+/*
+**	Subfunction to check if the current directory still exists.
+*/
+void	check_if_currdir_exist(char **tmp_path, char *old_path)
+{
+	char	buffer[1024];
+
+	if (*tmp_path)
+	{
+		if (getcwd(buffer, 1024) == NULL && errno == ENOENT)
+		{
+			ft_puterr("cd: ", 0);
+			ft_puterr(strerror(errno), 1);
+			free(*tmp_path);
+			*tmp_path = ft_strjoin(old_path, "/..");
+		}
+	}
 }

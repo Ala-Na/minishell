@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/04 17:34:23 by hlichir           #+#    #+#             */
-/*   Updated: 2021/10/13 21:00:50 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/14 16:58:46 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	print_file_type(char *file)
 void	free_and_exit(t_infos *infos, int status, char **file)
 {
 	free(*file);
-	clean_exit(infos);
+	clean_exit(infos, 0);
 	exit(status);
 }
 

@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/12 16:15:52 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/14 16:24:15 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/14 18:26:22 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ void	handle_signal_in_input(int signum)
 	if (signum == SIGINT)
 	{
 		ft_putstr("\n");
+		rl_replace_line(NULL, 0);
 		g_exit_status = 130;
 	}
 }
@@ -65,7 +66,7 @@ void	extract_child(t_infos *infos, int fd, char *end_str)
 			break ;
 	}
 	tmp_status = g_exit_status;
-	clean_exit(infos);
+	clean_exit(infos, 0);
 	exit(tmp_status);
 }
 

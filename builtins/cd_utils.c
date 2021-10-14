@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/05 13:05:41 by hlichir           #+#    #+#             */
-/*   Updated: 2021/10/14 13:48:32 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/14 18:30:54 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,14 +62,14 @@ char	*check_oldpwd_cdpath(t_infos *infos, char **path, int *is_alloc)
 			free(*path);
 		*path = get_elem_value((infos->env)[nb]);
 		if (!*path)
-			return (NULL);
+			return (return_null_error(1, "OLDPWD not assigned", 0));
 		*is_alloc = 2;
 	}
 	else if (ft_strncmp(*path, ".", 2) && ft_strncmp(*path, "..", 3) && \
 		get_env_elem(infos->env, "CDPATH", ft_strlen("CDPATH")))
 	{
 		if (handle_cd_path(infos->env, path, is_alloc) < 0)
-			return (return_null_error(1, "error", 0));
+			return (return_null_error(1, NULL, 0));
 	}
 	return (get_curr_dir(infos, 0));
 }
@@ -88,7 +88,7 @@ int	handle_cd_path(char **env, char **path, int *is_alloc)
 		return (-1);
 	str = get_elem_value(env[nb]);
 	if (!str)
-		return (return_error(1, "memory allocation error", 0, -1));
+		return (-1);
 	str = ft_strjoin_free(&str, path, 1, 0);
 	if (!str)
 		return (return_error(1, "memory allocation error", 0, -1));

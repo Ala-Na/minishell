@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/12 16:15:52 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/14 19:05:10 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/14 19:35:10 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,11 @@
 
 void	handle_signal_in_input(int signum)
 {
-//	char *str;
-
-
 	if (signum == SIGINT)
 	{
-		g_exit_status = 130;
 		ft_putstr("\n");
-//		str = NULL;
-//		rl_replace_line(str, 0);
+		g_exit_status = 130;
+		exit (130);
 	}
 }
 
@@ -55,6 +51,7 @@ void	extract_child(t_infos *infos, int fd, char *end_str)
 
 	signal(SIGINT, handle_signal_in_input);
 	signal(SIGQUIT, SIG_IGN);
+	clean_exit(infos, 0);
 	g_exit_status = 0;
 	while (1)
 	{
@@ -71,7 +68,6 @@ void	extract_child(t_infos *infos, int fd, char *end_str)
 			break ;
 	}
 	tmp_status = g_exit_status;
-	clean_exit(infos, 0);
 	exit(tmp_status);
 }
 

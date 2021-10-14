@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/23 16:14:03 by anadege           #+#    #+#             */
-/*   Updated: 2021/09/30 17:14:35 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/14 11:24:23 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,9 @@ void	return_pipeline(int last_child_status)
 /*
 ** Function which call return_error but return NULL instead of return_value.
 */
-char	*return_null_error(int exit_value, char *error_msg, int msg_is_alloc)
+char	*return_null_error(int exit_value, char *error_msg, char **alloc_msg)
 {
-	return_error(exit_value, error_msg, msg_is_alloc, 0);
+	return_error(exit_value, error_msg, alloc_msg, 0);
 	return (NULL);
 }
 
@@ -40,7 +40,7 @@ char	*return_null_error(int exit_value, char *error_msg, int msg_is_alloc)
 ** It free error_msg if msg_is_alloc is non zero.
 ** If g_exit_status was different of 0, it doesn't modify it.
 */
-int	return_error(int exit_value, char *error_msg, int msg_is_alloc,
+int	return_error(int exit_value, char *error_msg, char **alloc_msg,
 		int return_value)
 {
 	if (g_exit_status == 0 || g_exit_status == -1)
@@ -48,9 +48,11 @@ int	return_error(int exit_value, char *error_msg, int msg_is_alloc,
 		g_exit_status = exit_value;
 		if (error_msg)
 			ft_puterr(error_msg, 1);
+		else if (alloc_msg && *alloc_msg)
+			ft_puterr(*alloc_msg, 1);
 	}
-	if (error_msg && msg_is_alloc)
-		free(error_msg);
+	if (alloc_msg && *alloc_msg)
+		free(*alloc_msg);
 	return (return_value);
 }
 

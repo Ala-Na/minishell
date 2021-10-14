@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 13:26:21 by hlichir           #+#    #+#             */
-/*   Updated: 2021/10/12 21:03:56 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/14 11:28:37 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	create_new_file(t_cmd *curr)
 		filename = ft_strjoin_free(&msg_err, &filename, 0, 1);
 		if (!filename)
 			return (return_error(1, "memory allocation error", 0, -1));
-		return (return_error(1, filename, 1, -1));
+		return (return_error(1, 0, &filename, -1));
 	}
 	free(filename);
 	return (fd);
@@ -71,7 +71,7 @@ int	append_to_file(t_cmd *curr, int fd)
 		filename = ft_strjoin_free(&msg_err, &filename, 1, 1);
 		if (!filename)
 			return (return_error(1, "memory allocation error", 0, -1));
-		return (return_error(1, filename, 1, -1));
+		return (return_error(1, 0, &filename, -1));
 	}
 	free(filename);
 	return (fd);

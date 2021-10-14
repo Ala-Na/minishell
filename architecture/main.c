@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 14:58:07 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/13 18:02:47 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/14 11:26:03 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	clean_to_continue(t_infos *infos)
 		if (unlink("./tmp_file") < 0)
 		{
 			str = ft_strjoin("unlink : ", strerror(errno));
-			return_error(1, str, 1, -1);
+			return_error(1, 0, &str, -1);
 		}
 	}
 	infos->curr_cmd = NULL;
@@ -87,7 +87,7 @@ int	minishell_loop(t_infos *infos)
 		if (!infos->prompt)
 			return (return_error(1, "minishell : fatal error", 0, 1));
 		//infos->curr_cmd = readline(infos->prompt); // DECOMMENTER
-		infos->curr_cmd = ft_strdup("ls << end"); //RETIRER
+		infos->curr_cmd = ft_strdup("export $loop=chouette truc=machin | echo $loop"); //RETIRER
 		if (check_for_signal(infos) < 0)
 			return (return_error(1, "minishell : fatal error", 0, 1));
 		else if (!infos->curr_cmd)

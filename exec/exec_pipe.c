@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/27 17:16:19 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/13 20:02:30 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/13 20:33:51 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,8 +107,7 @@ int	pipe_loop(t_infos *infos, t_cmd *cmd, int **child_pids, int i)
 
 	if (!infos || !cmd || !*child_pids)
 		return (return_error(1, "something went wrong", 0, -1));
-	prev_fd[READ_SIDE] = UNSET;
-	prev_fd[WRITE_SIDE] = UNSET;
+	init_variables(&(prev_fd[READ_SIDE]), &(prev_fd[WRITE_SIDE]), UNSET);
 	while (cmd)
 	{
 		if (pipe(pipe_fd) == -1)
@@ -117,7 +116,10 @@ int	pipe_loop(t_infos *infos, t_cmd *cmd, int **child_pids, int i)
 		if (new_pid == -1)
 			return (return_error(1, "fork failed", 0, -1));
 		else if (new_pid == 0)
+		{
+			free(*child_pids);
 			pipe_child_execution(infos, cmd, pipe_fd, prev_fd);
+		}
 		(*child_pids)[i++] = new_pid;
 		if (pipe_parent_fd_manipulation(cmd, pipe_fd, &prev_fd) == -1)
 			return (-1);

@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 15:00:10 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/13 20:04:32 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/13 20:53:29 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	child_execution(t_infos *infos, t_cmd *head_cmd)
 	}
 	exec_path = get_exec_path(infos, &head_cmd, &exec_env, &exec_token);
 	if (!exec_path || !exec_env)
-		free_child_exec_var_and_exit(infos, NULL, &exec_env, NULL);
+		free_child_exec_var_and_exit(infos, &exec_path, &exec_env, NULL);
 	exec_args = get_exec_args(infos, head_cmd, exec_token);
 	if (!exec_args)
 		free_child_exec_var_and_exit(infos, &exec_path, &exec_env, NULL);

@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 13:49:03 by hlichir           #+#    #+#             */
-/*   Updated: 2021/10/13 20:29:20 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/14 11:27:50 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	get_fd(t_infos *infos, t_cmd *curr)
 			return (-1);
 		display_next_lt_dbl(infos, curr);
 		free(filename);
-		return (return_error(1, tmp, 1, -1));
+		return (return_error(1, 0, &tmp, -1));
 	}
 	free(filename);
 	return (fd);

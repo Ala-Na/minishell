@@ -144,7 +144,7 @@ void		clean_to_continue(t_infos *infos);
 ** MINISHELL INTIALIZATION
 */
 int			init_minishell(t_infos *infos, char **env);
-void		init_variables(int *i1, int *i2);
+void		init_variables(int *i1, int *i2, int value);
 int			add_new_shlvl(t_infos *infos, char *shlvl, char **env, int nb);
 int			get_shell_nbr(char *str);
 
@@ -257,10 +257,10 @@ int			modify_exit_value_variable(t_infos *infos, int new_value);
 
 int			clean_exit(t_infos *infos);
 
-int			return_error(int exit_status, char *error_msg, int msg_is_alloc,
+int			return_error(int exit_status, char *error_msg, char **alloc_msg,
 				int return_value);
 char		*return_null_error(int exit_status, char *error_msg, \
-				int msg_is_alloc);
+				char **alloc_msg);
 int			return_value(int exit_status);
 int			return_signal(int signal_value);
 void		return_pipeline(int last_child_status);
@@ -349,13 +349,13 @@ void		add_var_symbol(char **new_cmd, char *var, int var_size, int *i);
 /*
 ** GET FILE FULL PATH
 */
-char		*get_path(t_infos *infos, char *filepath, char **env);
+char		*get_path(t_infos *infos, char **filepath, char **env);
 char		*get_absolute_path(char *filepath, char **env, char in_home);
 char		*get_absolute_path_from_path(char *filepath, char *env_var);
 char		*reconstitute_absolute_path(char *env_var, char *filepath);
 int			is_absolute_path(char *filepath);
 
-int			check_path_for_exceptions(t_infos *infos, char *file);
+int			check_path_for_exceptions(t_infos *infos, char **file);
 int			print_file_type(char *file);
 
 /*

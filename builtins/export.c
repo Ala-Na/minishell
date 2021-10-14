@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/01 21:56:08 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/13 20:55:01 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/14 10:56:52 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int	modify_existing_elem_to_env(t_infos *infos, char **env, t_token *new_elem,
 	while (tmp[++i])
 		if (tmp[i] == '=')
 			break ;
-	if (i == ft_strlen(tmp))
+	if (i == (int)ft_strlen(tmp))
 	{
 		free(tmp);
 		return (0);

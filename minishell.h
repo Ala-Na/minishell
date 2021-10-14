@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 15:55:23 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/13 20:58:44 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/14 11:25:07 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -256,10 +256,10 @@ int			modify_exit_value_variable(t_infos *infos, int new_value);
 
 int			clean_exit(t_infos *infos);
 
-int			return_error(int exit_status, char *error_msg, int msg_is_alloc,
+int			return_error(int exit_status, char *error_msg, char **alloc_msg,
 				int return_value);
 char		*return_null_error(int exit_status, char *error_msg, \
-				int msg_is_alloc);
+				char **alloc_msg);
 int			return_value(int exit_status);
 int			return_signal(int signal_value);
 void		return_pipeline(int last_child_status);

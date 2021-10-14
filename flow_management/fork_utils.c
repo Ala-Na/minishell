@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/12 16:15:52 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/14 16:59:19 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/14 18:26:22 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ void	handle_signal_in_input(int signum)
 	if (signum == SIGINT)
 	{
 		ft_putstr("\n");
+		rl_replace_line(NULL, 0);
 		g_exit_status = 130;
 	}
 }

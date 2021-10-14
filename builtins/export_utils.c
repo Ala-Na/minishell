@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/01 19:29:45 by hlichir           #+#    #+#             */
-/*   Updated: 2021/10/14 11:21:20 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/14 13:42:26 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,19 +50,16 @@ int	invalid_token(t_token **token, int is_export, int *res, char **to_free)
 
 	if (*to_free)
 		free(*to_free);
-	g_exit_status = 1;
 	if (res)
 		*res = 1;
 	str = ft_strdup_linked_string(*token);
-	if (!str)
-		return (return_error(1, "memory allocation error", 0, -1));
-	if (is_export)
+	if (str && is_export)
 		tmp = ft_strjoin("export: « ", str);
-	else
+	else if (str)
 		tmp = ft_strjoin("unset: « ", str);
+	if (!str || !tmp)
+		return (return_error(1, "memory allocation error", &str, -1));
 	free(str);
-	if (!tmp)
-		return (return_error(1, "memory allocation error", 0, -1));
 	str = ft_strjoin(tmp, " » : not a valid identifier");
 	free(tmp);
 	if (!str)

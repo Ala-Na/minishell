@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   string_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/05 14:15:54 by hlichir           #+#    #+#             */
-/*   Updated: 2021/10/12 23:22:45 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/15 12:36:37 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,4 +105,16 @@ void	print_error(char *str, char *s, char c, int new_line)
 		write(2, &c, 1);
 	if (new_line)
 		write(1, "\n", 1);
+}
+
+/*
+**	Sub-function to check if the var is empty & modify it.
+*/
+void	modify_var_if_empty(char **var, char **elem_name, int elem_size)
+{
+	if (*var && *var[0] == 0
+		&& !ft_strncmp(*elem_name, "HOME", ft_max(4, elem_size)))
+		*var = "''";
+	else if (!*var || *var[0] == 0)
+		*var = "\"\'";
 }

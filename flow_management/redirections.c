@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 12:59:47 by hlichir           #+#    #+#             */
-/*   Updated: 2021/10/14 19:03:43 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/15 12:46:25 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	add_fd_to_cmd(t_cmd **cmd, int fd, int is_output, int is_tmpfile)
 			close(fd);
 			fd = open("./tmp_file", O_RDONLY);
 			if (fd < 0)
-				return (return_error(1, "hey1", 0, -1));
+				return (return_error(1, strerror(errno), 0, -1));
 		}
 		(*cmd)->fd_input = fd;
 	}

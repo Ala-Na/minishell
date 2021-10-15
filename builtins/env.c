@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/15 17:18:48 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/11 15:32:41 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/15 12:15:55 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,5 +106,38 @@ int	show_env(t_infos *infos, t_cmd *head_cmd, t_token *builtin_token,
 		return (return_error(127, "env : take no options or arguments", 0, -1));
 	if (show_env_loop(infos, head_cmd, head_cmd->fd_output, export) < 0)
 		return (-1);
+	return (0);
+}
+
+/*
+** Function which aim to save environment variables inside a structure
+** containing the minishell's informations.
+** Allocations are realised to free the array without complications.
+** Return -1 if an error occurs, 0 otherwise.
+*/
+int	save_env(t_infos *infos, char **env)
+{
+	int		i;
+	char	**tmp_env;
+
+	i = 0;
+	while (env && env[i])
+		i++;
+	tmp_env = malloc(sizeof(*tmp_env) * (i + 1));
+	if (!tmp_env)
+		return (return_error(1, "memory allocation error", 0, -1));
+	i = 0;
+	while (env && env[i])
+	{
+		tmp_env[i] = ft_strdup(env[i]);
+		if (!tmp_env[i])
+		{
+			free_env(&tmp_env, i);
+			return (return_error(1, "memory allocation error", 0, -1));
+		}
+		i++;
+	}
+	tmp_env[i] = NULL;
+	infos->env = tmp_env;
 	return (0);
 }

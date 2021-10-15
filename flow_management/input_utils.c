@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 13:49:03 by hlichir           #+#    #+#             */
-/*   Updated: 2021/10/15 12:50:48 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/15 12:53:23 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	display_next_lt_dbl(t_infos *infos, t_cmd *cmd)
 	{
 		if (curr->next_operator == LT_DBL && curr->next)
 		{
-			fd = extract_input_from_stdin(infos, curr)
+			fd = extract_input_from_stdin(infos, curr);
 			if (fd < 0)
 				return (-1);
 			close(fd);

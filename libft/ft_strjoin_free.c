@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/27 11:42:23 by hlichir           #+#    #+#             */
-/*   Updated: 2021/10/07 22:13:50 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/15 15:59:54 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,15 @@
 static void	check_and_free(char **s1, char **s2, int free_s1, int free_s2)
 {
 	if (free_s1)
+	{
 		free(*s1);
+		*s1 = NULL;
+	}
 	if (free_s2)
+	{
 		free(*s2);
+		*s2 = NULL;
+	}
 }
 
 char	*ft_strjoin_free(char **s1, char **s2, int free_s1, int free_s2)

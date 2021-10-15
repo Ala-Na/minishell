@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strdup_free.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/05 11:56:16 by elanna            #+#    #+#             */
-/*   Updated: 2021/10/07 22:21:07 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/15 15:59:09 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,9 @@ char	*ft_strdup_free(char **s, int to_free)
 	}
 	dest[i] = 0;
 	if (to_free)
+	{
 		free(*s);
+		*s = NULL;
+	}
 	return (dest);
 }

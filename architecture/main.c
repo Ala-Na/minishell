@@ -6,11 +6,13 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 14:58:07 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/15 12:58:07 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/15 20:06:54 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+int	g_exit_status = -1;
 
 /*
 ** Function to free allocated memory to prepare the next loop.

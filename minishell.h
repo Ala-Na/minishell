@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 15:55:23 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/15 19:10:35 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/15 20:06:35 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@
 /*
 ** Use of one global variable to handle exit_status = 130 when ctrl+c is used
 */
-int					g_exit_status;
+extern int					g_exit_status;
 
 /*
 ** Enum useful to check if the command line contains a built in.

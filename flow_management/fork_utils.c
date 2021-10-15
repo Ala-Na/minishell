@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/12 16:15:52 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/15 12:04:52 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/15 20:28:17 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ void	extract_child(t_infos *infos, int fd, char *end_str)
 		if (!str)
 		{
 			ft_puterr("premature end of file input", 1);
-			g_exit_status = 3;
 			break ;
 		}
 		if (check_if_end(&str, end_str, fd) == 1)

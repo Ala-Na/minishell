@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 13:49:03 by hlichir           #+#    #+#             */
-/*   Updated: 2021/10/15 12:53:23 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/15 20:26:11 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,10 +128,6 @@ int	extract_input_from_stdin(t_infos *infos, t_cmd *curr)
 	g_exit_status = fork_for_input(infos, end_str, fd);
 	free(end_str);
 	if (g_exit_status != 0)
-	{
-		if (g_exit_status == 3)
-			g_exit_status = 0;
 		return (-1);
-	}
 	return (fd);
 }

@@ -101,9 +101,7 @@ char	*get_env_elem(char **env, char *elem, int elem_size)
 
 void	set_value_for_get_env_elem(char *env_elem, int elem_size, char **value)
 {
-	if (env_elem[elem_size] != '=')
-		*value = NULL;
-	else if (env_elem[elem_size] == '=')
+	if ((int)ft_strlen(env[i]) == elem_size)
 		*value = "\0";
 	else
 		*value = env_elem + elem_size + 1;

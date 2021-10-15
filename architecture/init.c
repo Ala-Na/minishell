@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/02 11:52:56 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/14 13:57:33 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/15 11:49:55 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,24 @@ int	add_new_shlvl(t_infos *infos, char *shlvl, char **env, int nb)
 	return (nb);
 }
 
+int	add_tilde_to_var_list(t_infos *infos)
+{
+	char	*home_path;
+
+	home_path = get_env_elem(infos->env, "HOME", 4);
+	if (home_path)
+		home_path = ft_strjoin("~=", home_path);
+	else
+		home_path = ft_strdup("~=/home");
+	if (add_new_var_to_list(infos, home_path) == -1)
+	{
+		free(home_path);
+		return (-1);
+	}
+	free(home_path);
+	return (0);
+}
+
 /*
 ** Function to initialize minishell
 ** Will fill the structure 'infos' and add the previous history from file
@@ -88,6 +106,8 @@ int	init_minishell(t_infos *infos, char **env)
 		return (-1);
 	nbr = seek_elem_pos(env, "SHLVL");
 	if (nbr < 0 || add_new_shlvl(infos, "SHLVL=", env, nbr) == -1)
+		return (-1);
+	if (add_tilde_to_var_list(infos) == -1)
 		return (-1);
 	return (0);
 }

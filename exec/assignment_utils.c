@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/05 14:22:09 by hlichir           #+#    #+#             */
-/*   Updated: 2021/10/09 17:00:40 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/15 11:20:28 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ char	*extract_name(char *elem, int size)
 		return_null_error(1, "something went wrong", 0);
 	while (elem[i] != '=' && i < size)
 		i++;
+	if (elem[i] == '\0')
+		return (NULL);
 	elem_name = malloc(sizeof(*elem_name) * (i + 1));
 	if (!elem_name)
 		return_null_error(1, "memory allocation error", 0);

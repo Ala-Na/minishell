@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/13 16:06:44 by hlichir           #+#    #+#             */
-/*   Updated: 2021/10/14 17:33:15 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/15 13:59:38 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,8 @@ char	*get_elem_value(char *str)
 		return (return_null_error(1, "something went wrong", 0));
 	while (str[i] && str[i] != '=')
 		i++;
-	if (str[i] == 0)
-		return (NULL);
-	i++;
+	if (str[i] != 0)
+		i++;
 	dest = malloc(sizeof(*dest) * (ft_strlen(str + i) + 1));
 	if (!dest)
 		return (return_null_error(1, "memory allocation error", 0));

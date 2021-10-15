@@ -59,7 +59,6 @@ void	child_execution(t_infos *infos, t_cmd *head_cmd)
 		free_child_exec_var_and_exit(infos, &exec_path, &exec_env, NULL);
 	if (execve(exec_path, exec_args, exec_env) == -1)
 	{
-		printf("here\n");
 		return_error(126, strerror(errno), 0, 0);
 		free_child_exec_var_and_exit(infos, &exec_path, &exec_env, &exec_args);
 	}

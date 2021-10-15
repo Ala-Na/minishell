@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 21:45:16 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/15 13:53:49 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/15 15:30:02 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	sub_get_var(char **var, char **elem_name, char **env, t_var *var_lst)
 	{
 		while (var_lst)
 		{
-			var_size = ft_strlen(var_lst->name);;
+			var_size = ft_strlen(var_lst->name);
 			if (!ft_strncmp(var_lst->name, *elem_name, \
 				ft_max(elem_size, var_size)))
 				*var = var_lst->value;

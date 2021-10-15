@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 15:55:23 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/15 12:23:50 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/15 12:35:46 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -222,7 +222,8 @@ void		free_env(char ***env, int last);
 char		*get_elem_name(t_token *elem);
 char		*get_env_elem(char **env, char *elem, int elem_size);
 void		get_elem_name_loop(t_token *elem, char **elem_name, int fill_str);
-void		set_value_for_get_env_elem(char *env_elem, int elem_size, char **elem_value);
+void		set_value_for_get_env_elem(char *env_elem, int elem_size, \
+				char **value);
 
 /*
 ** BUILT IN EXPORT
@@ -344,6 +345,7 @@ char		*ft_strdup_linked_string(t_token *token);
 void		get_string_loop(t_token *elem, char **str, int fill_str, int i);
 char		*get_new_string_for_exception(char **cmd, int i);
 void		print_error(char *str, char *s, char c, int new_line);
+void		modify_var_if_empty(char **var, char **elem_name, int elem_size);
 
 int			return_diff_size(char *var, int dbl, int i);
 int			size_var_if_var(char *var, int nbr_var);

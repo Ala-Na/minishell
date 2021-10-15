@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 21:45:16 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/15 11:35:47 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/15 12:41:38 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,15 +31,13 @@ void	sub_get_var(char **var, char **elem_name, char **env, t_var *var_lst)
 			if (!case_home && !ft_strncmp(var_lst->name, *elem_name, \
 				ft_max(elem_size, var_size)))
 				*var = var_lst->value;
-			else if (case_home && !ft_strncmp(var_lst->name, "~", ft_max(elem_size, 2)))
+			else if (case_home
+				&& !ft_strncmp(var_lst->name, "~", ft_max(elem_size, 2)))
 				*var = var_lst->value;
 			var_lst = var_lst->next;
 		}
 	}
-	if (*var && *var[0] == 0 && !ft_strncmp(*elem_name, "HOME", ft_max(4, elem_size)))
-		*var = "''";
-	else if (!*var || *var[0] == 0)
-		*var = "\"\'";
+	modify_var_if_empty(var, elem_name, elem_size);
 	free(*elem_name);
 }
 

@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 15:55:23 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/15 12:35:46 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/15 16:22:22 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@
 # include <fcntl.h>
 # include <sys/stat.h>
 
-# define PROMPT_MSG "\001\033[1;38;5;51m\002Prompt > \001\033[0m\002"
+# define PROMPT_MSG "\001\033[1;38;5;51m\002Minishell > \001\033[0m\002"
 
 /*
 ** Use of one global variable to handle exit_status = 130 when ctrl+c is used

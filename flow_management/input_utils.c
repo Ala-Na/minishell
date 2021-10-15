@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 13:49:03 by hlichir           #+#    #+#             */
-/*   Updated: 2021/10/14 16:24:05 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/14 19:46:04 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ int	create_tmp_file(void)
 {
 	int	fd;
 
-	fd = open("tmp_file", O_RDWR | O_TRUNC | O_CREAT, 00777);
+	fd = open("./tmp_file", O_RDWR | O_TRUNC | O_CREAT, 00777);
 	if (fd < 0)
 	{
 		ft_puterr("redirection : ", 0);

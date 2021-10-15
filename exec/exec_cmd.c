@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 15:00:10 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/14 16:58:50 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/14 18:36:44 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	child_execution(t_infos *infos, t_cmd *head_cmd)
 
 	if (add_redirections(infos, head_cmd, 1) < 0)
 		free_child_exec_var_and_exit(infos, NULL, NULL, NULL);
-	signal(SIGINT, sig_handler_function);
+	handle_signals(1);
 	if (!infos || !head_cmd)
 	{
 		return_error(1, "something went wrong", 0, 0);

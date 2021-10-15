@@ -6,9 +6,10 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 15:55:23 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/14 16:59:33 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/15 11:30:46 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -172,7 +173,7 @@ int			add_line_to_history(int history_fd, char *str);
 /*
 ** HANDLING SIGNALS
 */
-void		handle_signals(void);
+void		handle_signals(int is_child);
 void		sig_handler_function(int signum);
 
 /*
@@ -378,6 +379,7 @@ char		*get_elem_value(char *str);
 
 char		*extract_name(char *elem, int size);
 int			free_lst_var(t_infos *infos);
+char		*extract_value(char *elem, int size);
 
 int			check_assignments(t_infos *infos, t_cmd *head_cmd, t_cmd *cmd,
 				t_token *first_non_redir);

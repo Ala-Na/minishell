@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/12 16:15:52 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/14 19:29:19 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/15 12:04:52 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ void	extract_child(t_infos *infos, int fd, char *end_str)
 	int		tmp_status;
 
 	signal(SIGINT, handle_signal_in_input);
+	signal(SIGQUIT, SIG_IGN);
 	clean_exit(infos, 0);
 	g_exit_status = 0;
 	while (1)

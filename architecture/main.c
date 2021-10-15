@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 14:58:07 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/14 19:27:45 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/15 12:05:50 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	clean_to_continue(t_infos *infos, int init_exit)
 		free_cmd_list_from_extremity(&infos->lst_cmds, 0);
 	if (infos->lst_tokens)
 		free_token_list_from_extremity(&infos->lst_tokens, 0);
-	if (check_file("./tmp_file") == 0)
+	if (init_exit && check_file("./tmp_file") == 0)
 	{
 		if (unlink("./tmp_file") < 0)
 		{
@@ -89,8 +89,7 @@ int	minishell_loop(t_infos *infos)
 		infos->prompt = get_prompt(infos);
 		if (!infos->prompt)
 			return (return_error(1, "minishell : fatal error", 0, 1));
-		infos->curr_cmd = readline(infos->prompt); // DECOMMENTER
-		//infos->curr_cmd = ft_strdup("env | grep SHLVL"); //RETIRER
+		infos->curr_cmd = readline(infos->prompt);
 		if (check_for_signal(infos) < 0)
 			return (return_error(1, "minishell : fatal error", 0, 1));
 		else if (!infos->curr_cmd)
@@ -107,7 +106,6 @@ int	minishell_loop(t_infos *infos)
 		if (modify_exit_value_variable(infos, g_exit_status) < 0)
 			return (return_error(1, "minishell : fatal error", 0, 1));
 		clean_to_continue(infos, 1);
-		//break ; // RETIRER
 	}
 	write(1, "exit\n", 5);
 	return (0);
@@ -130,9 +128,9 @@ int	main(int argc, char **argv, char **env)
 	(void)argv;
 	if (init_minishell(&infos, env) == -1)
 		return (return_error(1, "minishell : fatal error", 0, 1));
-	handle_signals();
+	handle_signals(0);
 	return_value = minishell_loop(&infos);
-	if (clean_exit(&infos, 0) == -1)
+	if (clean_exit(&infos, 1) == -1)
 		return (return_error(1, "minishell : fatal error", 0, 1));
 	return (return_value);
 }

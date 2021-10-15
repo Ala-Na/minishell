@@ -119,7 +119,7 @@ int	sub_add_elem_to_env(t_infos *infos, t_token *new_elem,
 	elem_name = get_elem_name(new_elem);
 	if (!elem_name)
 		return (-1);
-	if (!ft_strncmp(elem_name, "HOME", ft_max(ft_strlen(elem_name), 5)))
+	if (!ft_strncmp(elem_name, "HOME", ft_max(ft_strlen(elem_name) + 1, 5)))
 		add_home_to_var_lst(infos, new_elem);
 	delete_elem_from_var_lst(&infos->lst_var, elem_name);
 	if (!get_env_elem(infos->env, elem_name, ft_strlen(elem_name)))

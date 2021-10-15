@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/31 15:39:01 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/15 12:41:34 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/15 12:56:21 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ char	*get_env_elem(char **env, char *elem, int elem_size)
 
 void	set_value_for_get_env_elem(char *env_elem, int elem_size, char **value)
 {
-	if ((int)ft_strlen(env[i]) == elem_size)
+	if ((int)ft_strlen(env_elem) == elem_size)
 		*value = "\0";
 	else
 		*value = env_elem + elem_size + 1;

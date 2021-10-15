@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/12 21:48:31 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/15 11:58:38 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/15 15:41:32 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,8 @@ char	*get_curr_dir(t_infos *infos, int prompt)
 		free(buffer_dir);
 		buffer_dir = get_str_pwd(infos);
 	}
+	if (buffer_dir == NULL)
+		buffer_dir = ft_strdup(".");
 	if (prompt)
 		simplify_prompt_curr_dir(infos, &buffer_dir);
 	return (buffer_dir);

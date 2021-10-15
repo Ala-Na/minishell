@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 15:00:10 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/15 13:07:31 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/15 15:28:35 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ void	child_execution(t_infos *infos, t_cmd *head_cmd)
 		free_child_exec_var_and_exit(infos, &exec_path, &exec_env, NULL);
 	if (execve(exec_path, exec_args, exec_env) == -1)
 	{
+		printf("here\n");
 		return_error(126, strerror(errno), 0, 0);
 		free_child_exec_var_and_exit(infos, &exec_path, &exec_env, &exec_args);
 	}

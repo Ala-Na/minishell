@@ -15,9 +15,15 @@
 static void	check_and_free(char **s1, char **s2, int free_s1, int free_s2)
 {
 	if (free_s1)
+	{
 		free(*s1);
+		*s1 = NULL;
+	}
 	if (free_s2)
+	{
 		free(*s2);
+		*s2 = NULL;
+	}
 }
 
 char	*ft_strjoin_free(char **s1, char **s2, int free_s1, int free_s2)

@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/03 21:22:56 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/11 15:00:42 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/15 19:02:38 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ t_token	*get_exec_token(t_infos *infos, t_cmd *head_cmd, t_cmd **exec_cmd)
 		if (curr_token->type != ASSIGNMENT)
 			break ;
 		end = check_if_end_pipeline(*exec_cmd, curr_token);
-		if (end != 0)
+		if (end == 1)
 			break ;
 		curr_token = get_next_token(infos, head_cmd, exec_cmd, curr_token);
 	}
@@ -52,7 +52,12 @@ int	check_if_end_pipeline(t_cmd *cmd, t_token *token)
 		return (return_error(1, "something went wrong", 0, -1));
 	if (token == cmd->end
 		&& (cmd->next_operator == PIPE || (int)cmd->next_operator == -1))
+	{
+		if (token->type == VARIABLE && token->next
+			&& token->next->type == VARIABLE)
+			return (2);
 		return (1);
+	}
 	return (0);
 }
 
@@ -67,7 +72,7 @@ int	get_next_token_loop(t_cmd **cmd, t_token **token)
 		return (return_error(1, "something went wrong", 0, -1));
 	while (1)
 	{
-		if (check_if_end_pipeline(*cmd, *token) != 0)
+		if (check_if_end_pipeline(*cmd, *token) == 1)
 		{
 			*token = NULL;
 			return (0);
@@ -130,6 +135,11 @@ t_token	*get_next_token(t_infos *infos, t_cmd *head_cmd,
 		return (check_prev_token(prev_token, prev_cmd));
 	else if (prev_token && check_if_end_pipeline(*prev_cmd, prev_token) == 1)
 		return (NULL);
+	else if (prev_token && check_if_end_pipeline(*prev_cmd, prev_token) == 2)
+	{
+		(*prev_cmd)->end = prev_token->next;
+		return (prev_token->next);
+	}
 	*prev_cmd = (*prev_cmd)->next;
 	if (!*prev_cmd)
 		return (NULL);

@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 15:55:23 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/15 16:22:22 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/15 19:10:35 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -291,8 +291,8 @@ t_token		*init_new_token(t_token **tokens, char *cmd, int *syntax_error,
 void		free_token_list_from_extremity(t_token **tokens, int end);
 void		strings_manipulation(t_token **tokens);
 
-void		add_tokens_for_variables(t_token **tokens);
-void		tokenize_variables(t_token **tokens, t_token **current, \
+void		add_tokens_for_variables(t_token **tokens, int i, t_token *new);
+void		tokenize_variables(t_token **tokens, t_token **current,
 				t_token *new, int size);
 int			set_parsing_error(char **error_pos, char *error, t_token **to_free);
 int			check_variable_sign(char **cmd, int *i, int *check);

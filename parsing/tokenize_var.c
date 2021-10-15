@@ -6,20 +6,17 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/08 00:59:39 by hlichir           #+#    #+#             */
-/*   Updated: 2021/10/15 17:12:55 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/15 19:09:10 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	add_tokens_for_variables(t_token **tokens)
+void	add_tokens_for_variables(t_token **tokens, int i, t_token *new)
 {
 	t_token	*current;
-	t_token	*new;
-	int		i;
 	int		size;
 
-	new = NULL;
 	current = *tokens;
 	while (current)
 	{
@@ -27,11 +24,15 @@ void	add_tokens_for_variables(t_token **tokens)
 		{
 			current->token = current->token + 1;
 			size = current->length - 1;
-			tokenize_variables(tokens, &current, new, size);
+			while (current->token[0] && ft_strchr(" \t\n", current->token[0]))
+			{
+				current->token = current->token + 1;
+				size -= 1;
+			}
 			i = 0;
-			while ((current->token)[i] && \
-				!ft_strchr(" \n\t", (current->token)[i]) && \
-				(current->token)[i] != '$')
+			tokenize_variables(tokens, &current, new, size);
+			while ((current->token)[i] && (current->token)[i] != '$'
+				&& !ft_strchr(" \n\t", (current->token)[i]))
 				i++;
 			current->length = i;
 		}
@@ -46,12 +47,12 @@ void	tokenize_variables(t_token **start, t_token **cur, t_token *new, int s)
 	t_token	*tmp;
 
 	i = 0;
-	while (i < s)
+	while (i < s - 1)
 	{
-		while (i < s && !ft_strchr(" \n\t", ((*cur)->token)[i]))
+		while (i < s - 1 && !ft_strchr(" \n\t", ((*cur)->token)[i]))
 			i++;
 		(*cur)->length = i;
-		while (i < s && ((*cur)->token)[i] && ft_isblank((*cur)->token[i]))
+		while (i < s - 1 && ((*cur)->token)[i] && ft_isblank((*cur)->token[i]))
 			i++;
 		if (i < s - 1)
 		{

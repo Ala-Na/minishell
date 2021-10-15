@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/12 21:48:31 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/14 13:55:27 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/15 11:58:38 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,9 @@ void	simplify_prompt_curr_dir(t_infos *infos, char **prompt)
 
 	if (!infos || !prompt || !*prompt)
 		return ;
-	home = get_env_elem(infos->env, "HOME", 4);
-	if (!home)
+	tmp_home = ft_strdup("HOME");
+	sub_get_var(&home, &tmp_home, infos->env, infos->lst_var);
+	if (!home || home[0] == 0 || home[ft_strlen(home) - 1] == '/')
 		return ;
 	tmp_home = ft_strdup(home);
 	if (!tmp_home)

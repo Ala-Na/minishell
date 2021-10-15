@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/02 11:52:56 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/15 00:12:01 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/15 11:49:55 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int	add_tilde_to_var_list(t_infos *infos)
 	if (home_path)
 		home_path = ft_strjoin("~=", home_path);
 	else
-		home_path = ft_strdup("~=/home/");
+		home_path = ft_strdup("~=/home");
 	if (add_new_var_to_list(infos, home_path) == -1)
 	{
 		free(home_path);

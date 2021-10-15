@@ -6,10 +6,9 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 15:55:23 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/15 11:30:46 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/15 12:23:50 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -140,6 +139,7 @@ typedef struct s_infos
 int			minishell_loop(t_infos *infos);
 void		parse_and_execute(t_infos *infos);
 void		clean_to_continue(t_infos *infos, int init_exit);
+void		when_init_exit(void);
 
 /*
 ** MINISHELL INTIALIZATION
@@ -216,12 +216,13 @@ int			show_env(t_infos *infos, t_cmd *cmd, t_token *builtin_token,
 int			show_env_for_export(t_infos *infos, t_cmd *cmd, char **env, int i);
 int			show_env_loop(t_infos *infos, t_cmd *cmd, int fd, int export);
 int			check_for_assignment(char *str);
+int			save_env(t_infos *infos, char **env);
 
 void		free_env(char ***env, int last);
-int			save_env(t_infos *infos, char **env);
 char		*get_elem_name(t_token *elem);
 char		*get_env_elem(char **env, char *elem, int elem_size);
 void		get_elem_name_loop(t_token *elem, char **elem_name, int fill_str);
+void		set_value_for_get_env_elem(char *env_elem, int elem_size, char **elem_value);
 
 /*
 ** BUILT IN EXPORT

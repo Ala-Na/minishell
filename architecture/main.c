@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 14:58:07 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/14 19:44:40 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/15 12:13:07 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,8 @@
 */
 void	clean_to_continue(t_infos *infos, int init_exit)
 {
-	char	*str;
-
 	if (init_exit)
-	{
-		g_exit_status = -1;
-		handle_signals(0);
-	}
+		when_init_exit();
 	if (infos->curr_cmd)
 		free(infos->curr_cmd);
 	if (infos->prompt)
@@ -33,7 +28,19 @@ void	clean_to_continue(t_infos *infos, int init_exit)
 		free_cmd_list_from_extremity(&infos->lst_cmds, 0);
 	if (infos->lst_tokens)
 		free_token_list_from_extremity(&infos->lst_tokens, 0);
-	if (init_exit && check_file("./tmp_file") == 0)
+	infos->curr_cmd = NULL;
+	infos->prompt = NULL;
+	infos->lst_cmds = NULL;
+	infos->lst_tokens = NULL;
+}
+
+void	when_init_exit(void)
+{
+	char	*str;
+
+	g_exit_status = -1;
+	handle_signals(0);
+	if (check_file("./tmp_file") == 0)
 	{
 		if (unlink("./tmp_file") < 0)
 		{
@@ -41,10 +48,6 @@ void	clean_to_continue(t_infos *infos, int init_exit)
 			return_error(1, 0, &str, -1);
 		}
 	}
-	infos->curr_cmd = NULL;
-	infos->prompt = NULL;
-	infos->lst_cmds = NULL;
-	infos->lst_tokens = NULL;
 }
 
 /*

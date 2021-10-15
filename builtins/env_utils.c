@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/31 15:39:01 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/15 11:25:06 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/15 12:41:14 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,15 +91,22 @@ char	*get_env_elem(char **env, char *elem, int elem_size)
 				continue ;
 			}
 			free(tmp);
-			if ((int)ft_strlen(env[i]) == elem_size)
-				elem_value = "\0";
-			else
-				elem_value = env[i] + elem_size + 1;
+			set_value_for_get_env_elem(env[i], elem_size, &elem_value);
 			return (elem_value);
 		}
 		i++;
 	}
 	return (NULL);
+}
+
+void	set_value_for_get_env_elem(char *env_elem, int elem_size, char **elem_value)
+{
+	if (env_elem[elem_size] != '=')
+		*elem_value = NULL;
+	else if (env_elem[elem_size] == '=')
+		*elem_value = "\0";
+	else
+		*elem_value = env_elem + elem_size + 1;
 }
 
 /*
@@ -126,37 +133,4 @@ void	free_env(char ***env, int last)
 			free((*env)[i++]);
 	}
 	free(*env);
-}
-
-/*
-** Function which aim to save environment variables inside a structure
-** containing the minishell's informations.
-** Allocations are realised to free the array without complications.
-** Return -1 if an error occurs, 0 otherwise.
-*/
-int	save_env(t_infos *infos, char **env)
-{
-	int		i;
-	char	**tmp_env;
-
-	i = 0;
-	while (env && env[i])
-		i++;
-	tmp_env = malloc(sizeof(*tmp_env) * (i + 1));
-	if (!tmp_env)
-		return (return_error(1, "memory allocation error", 0, -1));
-	i = 0;
-	while (env && env[i])
-	{
-		tmp_env[i] = ft_strdup(env[i]);
-		if (!tmp_env[i])
-		{
-			free_env(&tmp_env, i);
-			return (return_error(1, "memory allocation error", 0, -1));
-		}
-		i++;
-	}
-	tmp_env[i] = NULL;
-	infos->env = tmp_env;
-	return (0);
 }

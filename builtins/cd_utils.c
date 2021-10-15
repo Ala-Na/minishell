@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/05 13:05:41 by hlichir           #+#    #+#             */
-/*   Updated: 2021/10/15 15:17:59 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/15 15:54:27 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,8 @@ int	handle_cd_path(char **env, char **path, int *is_alloc)
 			return (return_error(1, "memory allocation error", 0, -1));
 		*is_alloc = 2;
 	}
-	free(str);
+	if (str)
+		free(str);
 	return (0);
 }
 

@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 13:26:21 by hlichir           #+#    #+#             */
-/*   Updated: 2021/10/14 11:28:37 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/16 16:22:54 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	create_new_file(t_cmd *curr)
 		return (return_error(1, "Ambiguous redirect!", 0, -1));
 	if (!filename)
 		return (-1);
-	fd = open(filename, O_RDWR | O_TRUNC | O_CREAT, S_IRWXG | S_IRWXU);
+	fd = open(filename, O_RDWR | O_TRUNC | O_CREAT, 0644);
 	if (fd < 0)
 	{
 		msg_err = "error while opening ";

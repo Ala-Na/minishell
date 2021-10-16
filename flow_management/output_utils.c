@@ -31,7 +31,7 @@ int	create_new_file(t_cmd *curr)
 		return (return_error(1, "Ambiguous redirect!", 0, -1));
 	if (!filename)
 		return (-1);
-	fd = open(filename, O_RDWR | O_TRUNC | O_CREAT, S_IRWXG | S_IRWXU);
+	fd = open(filename, O_RDWR | O_TRUNC | O_CREAT, 0644);
 	if (fd < 0)
 	{
 		msg_err = "error while opening ";

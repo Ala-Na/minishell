@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 15:55:23 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/15 20:06:35 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/18 11:32:25 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,8 @@ typedef enum e_builtin
 	PWD,
 	EXPORT,
 	UNSET,
-	ENV
+	ENV,
+	EXIT
 }	t_builtin;
 
 /*
@@ -254,6 +255,13 @@ int			delete_elem_from_var_lst(t_var **var_lst, char *elem_name);
 int			fill_env_with_deletion(char ***env, int elem_pos, int env_size);
 
 /*
+** BUILT IN EXIT 
+*/
+int			exit_builtin(t_infos *infos, t_cmd *cmd, t_token *token);
+int			get_exit_value(t_token *token_value);
+int			print_non_numeric_error(char **str_value);
+
+/*
 ** EXIT MANAGEMENT
 ** WARNING : Proper clean of all allocated memory to check before
 ** submitting project.
@@ -369,6 +377,8 @@ int			print_file_type(char *file);
 ** CHECK FOR BUILTIN OR LAUNCH COMMAND
 */
 int			launch_builtin(t_infos *infos, t_cmd *cmd, t_builtin builtin);
+int			sub_launch_builtin(t_infos *infos, t_cmd *cmd,
+				t_token *builtin_token, t_builtin builtin);
 t_builtin	check_builtin(char *first_elem);
 
 /*

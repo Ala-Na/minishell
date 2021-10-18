@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/02 14:46:17 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/13 17:58:37 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/18 11:31:44 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,17 @@ t_builtin	check_builtin(char *first_elem)
 		return (UNSET);
 	else if (!ft_strncmp(first_elem, "env", ft_max(size, 4)))
 		return (ENV);
+	else if (!ft_strncmp(first_elem, "exit", ft_max(size, 5)))
+		return (EXIT);
 	return (NONE);
+}
+
+int	sub_launch_builtin(t_infos	*infos, t_cmd *cmd, t_token *builtin_token,
+		t_builtin builtin)
+{
+	if (builtin == EXIT)
+		return (exit_builtin(infos, cmd, builtin_token));
+	return (return_error(1, "something went wrong", 0, -1));
 }
 
 /*
@@ -69,5 +79,5 @@ int	launch_builtin(t_infos *infos, t_cmd *cmd, t_builtin builtin)
 		return (show_current_dir(infos, cmd));
 	else if (builtin == UNSET)
 		return (unset_var(infos, cmd, builtin_token));
-	return (return_error(1, "something went wrong", 0, -1));
+	return (sub_launch_builtin(infos, builtin_cmd, builtin_token, builtin));
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_var.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
+/*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/16 16:44:57 by hlichir           #+#    #+#             */
-/*   Updated: 2021/10/16 19:03:43 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/18 18:22:18 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,12 +86,19 @@ char	*extract_content_from_file(int fd)
 int	check_if_string(t_cmd *cmd_end_str)
 {
 	t_token	*token;
+	int		i;
 
 	token = cmd_end_str->start;
 	while (token)
 	{
 		if (token->type == STRING)
-			return (1);
+		{
+			i = 0;
+			while (i < token->length && token->token[i] != '$')
+				i++;
+			if (i == token->length)
+				return (1);
+		}
 		if (!(token->linked_to_next))
 			break ;
 		token = token->next;

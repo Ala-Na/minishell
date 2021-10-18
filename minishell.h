@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
+/*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 15:55:23 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/18 11:32:25 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/18 19:27:13 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -303,8 +303,15 @@ void		add_tokens_for_variables(t_token **tokens, int i, t_token *new);
 void		tokenize_variables(t_token **tokens, t_token **current,
 				t_token *new, int size);
 int			set_parsing_error(char **error_pos, char *error, t_token **to_free);
-int			check_variable_sign(char **cmd, int *i, int *check);
 void		change_token_as_string(t_token **string_token);
+
+int			check_for_heredoc_exception(t_infos *infos, int *new_size,
+				int check, int i);
+int			modify_cmd_for_heredoc(char **cmd, int *i, int *check);
+int			check_if_within_quotes(char **cmd, int *i);
+char		*split_string_for_heredoc(char **cmd, int i, int size, char quote);
+char		*get_new_string_for_exception(char **cmd, int *i, int size,
+				int tmp_i);
 
 /*
 ** PARSING
@@ -337,8 +344,6 @@ void		expand_variables(t_infos *infos, int dbl, int ignore, \
 void		expand_variable_for_home(t_infos *infos, int i, int *size, \
 				char **var);
 void		add_ignore_dbl(char cmd_char, int *ignore, int *dbl);
-int			check_for_redir_exception(t_infos *infos, int *new_size,
-				int exception, int i);
 void		add_var_modify_string(char **new_cmd, char *var, int dbl, int i[2]);
 int			get_var_exception(t_infos *infos, char **var, char *cmd, int *i);
 
@@ -351,7 +356,6 @@ int			set_and_return_size_var(char **var, char *value, int size);
 
 char		*ft_strdup_linked_string(t_token *token);
 void		get_string_loop(t_token *elem, char **str, int fill_str, int i);
-char		*get_new_string_for_exception(char **cmd, int i);
 void		print_error(char *str, char *s, char c, int new_line);
 void		modify_var_if_empty(char **var, char **elem_name, int elem_size);
 

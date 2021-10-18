@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   string_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
+/*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/05 14:15:54 by hlichir           #+#    #+#             */
-/*   Updated: 2021/10/15 12:36:37 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/18 18:51:28 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,38 +59,6 @@ char	*ft_strdup_linked_string(t_token *token)
 		return (return_null_error(1, "memory allocation error", 0));
 	get_string_loop(token, &str, 1, 0);
 	return (str);
-}
-
-/*
-** Functions to handle the exception << $variable.
-*/
-char	*get_new_string_for_exception(char **cmd, int i)
-{
-	int		j;
-	int		new_size;
-	char	*new;
-
-	if (!cmd || !*cmd)
-		return (return_null_error(1, "something went wrong", 0));
-	j = 0;
-	new_size = ft_strlen(*cmd) + 2;
-	new = malloc(sizeof(*new) * (new_size + 1));
-	if (!new)
-		return (NULL);
-	while (j < i)
-	{
-		new[j] = (*cmd)[j];
-		j++;
-	}
-	new[j++] = '\'';
-	while ((*cmd)[i] && !ft_strchr(" \t\n", (*cmd)[i]))
-		new[j++] = (*cmd)[i++];
-	new[j++] = '\'';
-	while (j < new_size)
-		new[j++] = (*cmd)[i++];
-	new[j] = 0;
-	free(*cmd);
-	return (new);
 }
 
 /*

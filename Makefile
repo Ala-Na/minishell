@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+         #
+#    By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/08/23 15:04:29 by anadege           #+#    #+#              #
-#    Updated: 2021/10/18 11:13:11 by anadege          ###   ########.fr        #
+#    Updated: 2021/10/18 19:27:53 by hlichir          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,6 +38,7 @@ SRCS	= ./architecture/main.c \
 		  ./parsing/string_utils.c \
 		  ./parsing/var_in_var.c \
 		  ./parsing/empty_var.c \
+		  ./parsing/heredoc_parsing.c \
 		  ./exec/assignment.c \
 		  ./exec/check_assignments.c \
 		  ./exec/assignment_utils.c \

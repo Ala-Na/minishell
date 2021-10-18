@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd_utils.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
+/*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/05 13:05:41 by hlichir           #+#    #+#             */
-/*   Updated: 2021/10/15 15:54:27 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/18 19:59:46 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,20 +75,16 @@ char	*check_oldpwd_cdpath(t_infos *infos, char **path, int *is_alloc)
 }
 
 /*
-** Function to handle CDPATH.
+**	Subfunction to see if one of the cdpath is valid. -
 */
-int	handle_cd_path(char **env, char **path, int *is_alloc)
+int	check_if_valid_cdpath(char *cdpath, char **path, int *is_alloc)
 {
-	int			nb;
-	char		*str;
 	struct stat	buf;
+	char		*str;
 
-	nb = seek_elem_pos(env, "CDPATH");
-	if (nb < 0)
-		return (-1);
-	str = get_elem_value(env[nb]);
+	str = ft_strdup(cdpath);
 	if (!str)
-		return (-1);
+		return (return_error(1, "memory allocation error", 0, -1));
 	str = ft_strjoin_free(&str, path, 1, 0);
 	if (!str)
 		return (return_error(1, "memory allocation error", 0, -1));
@@ -100,9 +96,40 @@ int	handle_cd_path(char **env, char **path, int *is_alloc)
 		if (!(*path))
 			return (return_error(1, "memory allocation error", 0, -1));
 		*is_alloc = 2;
+		return (1);
 	}
 	if (str)
 		free(str);
+	return (0);
+}
+
+/*
+** Function to handle CDPATH.
+*/
+int	handle_cd_path(char **env, char **path, int *is_alloc)
+{
+	int			nb;
+	char		*str;
+	char		**all_cdpath;
+
+	nb = seek_elem_pos(env, "CDPATH");
+	if (nb < 0)
+		return (-1);
+	str = get_elem_value(env[nb]);
+	if (!str)
+		return (-1);
+	all_cdpath = ft_split(str, ':');
+	free(str);
+	if (!all_cdpath)
+		return (return_error(1, "memory allocation error", 0, -1));
+	nb = -1;
+	while (all_cdpath[++nb])
+		if (check_if_valid_cdpath(all_cdpath[nb], path, is_alloc) == 1)
+			break ;
+	nb = -1;
+	while (all_cdpath[++nb])
+		free(all_cdpath[nb]);
+	free(all_cdpath);
 	return (0);
 }
 

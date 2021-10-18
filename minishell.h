@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 15:55:23 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/18 19:27:13 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/18 20:00:57 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,6 +190,7 @@ int			create_tmp_new_elem(t_token **new_elem, char *name, char *value, \
 				char *str);
 char		*check_oldpwd_cdpath(t_infos *infos, char **path, int *is_alloc);
 int			handle_cd_path(char **env, char **path, int *is_alloc);
+int			check_if_valid_cdpath(char *cdpath, char **path, int *is_alloc);
 void		check_if_currdir_exist(char **tmp_path, char *old_path);
 
 /*

@@ -466,6 +466,19 @@ int			free_end_str_return(char **end_str, int result);
 int			check_if_end(char **str, char *end_str, int fd);
 int			check_input_signal(void);
 
+int			expand_variable_to_heredoc(t_infos *infos, int fd,
+				t_cmd *cmd_end_str);
+int			check_if_string(t_cmd *cmd_end_str);
+char		*extract_content_from_file(int fd);
+void		get_new_content_size(t_infos *infos, char **new, char *old);
+void		get_new_content(t_infos *infos, char **new, char *old);
+
+int			get_new_var_size(t_infos *infos, char *start_var);
+char		*get_new_value(t_infos *infos, char *old);
+void		add_variable_to_new(t_infos *infos, char **new, int size,
+				char *start_var);
+char		*check_list_var(t_var *lstvar, char **name);
+
 /*
 ** PIPELINE MANAGEMENT
 */

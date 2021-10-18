@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 13:49:03 by hlichir           #+#    #+#             */
-/*   Updated: 2021/10/15 20:26:11 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/16 18:47:30 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,6 +127,7 @@ int	extract_input_from_stdin(t_infos *infos, t_cmd *curr)
 		free_end_str_return(&end_str, -1);
 	g_exit_status = fork_for_input(infos, end_str, fd);
 	free(end_str);
+	expand_variable_to_heredoc(infos, fd, curr->next);
 	if (g_exit_status != 0)
 		return (-1);
 	return (fd);

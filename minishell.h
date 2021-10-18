@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 15:55:23 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/18 20:00:57 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/18 21:56:34 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,9 +180,12 @@ void		sig_handler_function(int signum);
 /*
 ** BUILT IN CD
 */
-int			change_directory(t_infos *infos, char **new_path, int is_alloc);
-int			cmd_change_directory(t_infos *infos, t_cmd *cmd, t_token *token);
-int			modify_pwd(t_infos *infos, char *name, char *new_pwd, int is_old);
+int			change_directory(t_infos *infos, t_cmd *cmd, char **new_path,
+				int is_alloc);
+int			cmd_change_directory(t_infos *infos, t_cmd *cmd, t_cmd *head,
+				t_token *token);
+int			modify_pwd(t_infos *infos, t_cmd *cmd, char *new_pwd, int is_old);
+int			modify_old_pwd(t_infos *infos, char *new_pwd);
 int			call_chdir(t_infos *infos, char **new_path, int *is_alloc,
 				char **old_path);
 
@@ -191,7 +194,8 @@ int			create_tmp_new_elem(t_token **new_elem, char *name, char *value, \
 char		*check_oldpwd_cdpath(t_infos *infos, char **path, int *is_alloc);
 int			handle_cd_path(char **env, char **path, int *is_alloc);
 int			check_if_valid_cdpath(char *cdpath, char **path, int *is_alloc);
-void		check_if_currdir_exist(char **tmp_path, char *old_path);
+void		check_if_currdir_exist(t_infos *infos, char **tmp_path,
+				char *old_path, char *new_path);
 
 /*
 ** BUILT IN ECHO

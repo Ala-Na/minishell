@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/05 13:05:41 by hlichir           #+#    #+#             */
-/*   Updated: 2021/10/18 19:59:46 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/18 21:55:43 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,12 +90,14 @@ int	check_if_valid_cdpath(char *cdpath, char **path, int *is_alloc)
 		return (return_error(1, "memory allocation error", 0, -1));
 	if (stat(str, &buf) != -1 && S_ISDIR(buf.st_mode))
 	{
+		if (!(stat(*path, &buf) != -1 && S_ISDIR(buf.st_mode))
+			|| ((*path)[0] && (*path)[0] != '/'))
+			*is_alloc = 2;
 		if (*is_alloc)
 			free(*path);
 		*path = ft_strdup_free(&str, 1);
 		if (!(*path))
 			return (return_error(1, "memory allocation error", 0, -1));
-		*is_alloc = 2;
 		return (1);
 	}
 	if (str)
@@ -136,18 +138,27 @@ int	handle_cd_path(char **env, char **path, int *is_alloc)
 /*
 **	Subfunction to check if the current directory still exists.
 */
-void	check_if_currdir_exist(char **tmp_path, char *old_path)
+void	check_if_currdir_exist(t_infos *infos, char **tmp_path, char *old_path,
+			char *new_path)
 {
-	char	buffer[1024];
+	char		buffer[1024];
+	struct stat	buf;
 
-	if (*tmp_path)
+	if (getcwd(buffer, 1024) == NULL && errno == ENOENT)
 	{
-		if (getcwd(buffer, 1024) == NULL && errno == ENOENT)
+		if (stat(old_path, &buf) == -1)
 		{
 			ft_puterr("cd: ", 0);
 			ft_puterr(strerror(errno), 1);
-			free(*tmp_path);
-			*tmp_path = ft_strjoin(old_path, "/..");
+			*tmp_path = ft_strjoin(old_path, "/");
+			if (!*tmp_path)
+				return ;
+			*tmp_path = ft_strjoin_free(tmp_path, &new_path, 1, 0);
+			return ;
 		}
+		else
+			*tmp_path = ft_strdup(new_path);
 	}
+	else
+		*tmp_path = get_curr_dir(infos, 0);
 }

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+         #
+#    By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/08/23 15:04:29 by anadege           #+#    #+#              #
-#    Updated: 2021/10/13 11:24:09 by anadege          ###   ########.fr        #
+#    Updated: 2021/10/16 17:51:38 by hlichir          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -56,7 +56,9 @@ SRCS	= ./architecture/main.c \
 		  ./flow_management/file_utils.c \
 		  ./flow_management/input_utils.c \
 		  ./flow_management/output_utils.c \
-		  ./flow_management/fork_utils.c 
+		  ./flow_management/fork_utils.c \
+		  ./flow_management/heredoc_var.c \
+		  ./flow_management/heredoc_utils.c
 
 NAME = minishell
 

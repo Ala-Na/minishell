@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_builtin.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
+/*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/02 14:46:17 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/18 11:31:44 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/18 21:36:19 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int	launch_builtin(t_infos *infos, t_cmd *cmd, t_builtin builtin)
 	if (!builtin_token)
 		return (return_error(1, "something went wrong", 0, -1));
 	if (builtin == CD)
-		return (cmd_change_directory(infos, cmd, builtin_token));
+		return (cmd_change_directory(infos, cmd, cmd, builtin_token));
 	else if (builtin == ECHO)
 		return (cmd_echo(infos, cmd, builtin_cmd, builtin_token));
 	else if (builtin == ENV)

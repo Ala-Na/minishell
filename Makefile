@@ -24,6 +24,7 @@ SRCS	= ./architecture/main.c \
 		  ./builtins/echo.c \
 		  ./builtins/env_utils.c \
 		  ./builtins/pwd.c \
+		  ./builtins/exit_builtin.c \
 		  ./exit/exit.c \
 		  ./exit/exit_status.c \
 		  ./exit/returns.c \

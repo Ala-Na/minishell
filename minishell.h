@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 15:55:23 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/19 14:49:52 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/19 15:07:10 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,7 +168,7 @@ char		*get_prompt(t_infos *infos);
 ** Each line of that file is added to readline when minishell is launched.
 */
 int			get_previous_history(void);
-int			add_line_to_history(int history_fd, char *str);
+int			add_line_to_history(int history_fd, char *str, int exit);
 
 /*
 ** HANDLING SIGNALS

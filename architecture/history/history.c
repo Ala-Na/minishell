@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/30 17:16:26 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/15 15:29:37 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/19 15:14:50 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,15 +42,29 @@ int	get_previous_history(void)
 **	Function that will add a new line in the file minishell_history 
 ** when the command is executed.
 */
-int	add_line_to_history(int history_fd, char *str)
+int	add_line_to_history(int history_fd, char *str, int exit)
 {
+	static char	*previous;
+
+	if (exit)
+	{
+		if (previous)
+			free(previous);
+		return (0);
+	}
 	if (!history_fd || !str)
 	{
 		return_error(1, "something went wrong", 0, 0);
 		return (-1);
 	}
+	if (ft_isblanks(str) || (previous
+			&& !ft_strncmp(str, previous, ft_strlen(str))))
+		return (0);
 	write(history_fd, str, ft_strlen(str));
 	write(history_fd, "\n", 1);
 	add_history(str);
+	if (previous)
+		free(previous);
+	previous = ft_strdup(str);
 	return (0);
 }

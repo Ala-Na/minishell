@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/02 11:52:56 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/15 11:49:55 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/19 16:42:13 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ int	init_minishell(t_infos *infos, char **env)
 	if (save_env(infos, env) == -1 || infos->env == NULL)
 		return (-1);
 	nbr = seek_elem_pos(env, "SHLVL");
-	if (nbr < 0 || add_new_shlvl(infos, "SHLVL=", env, nbr) == -1)
+	if (nbr > 0 && add_new_shlvl(infos, "SHLVL=", env, nbr) == -1)
 		return (-1);
 	if (add_tilde_to_var_list(infos) == -1)
 		return (-1);

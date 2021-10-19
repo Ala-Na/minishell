@@ -6,7 +6,7 @@
 #    By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/08/23 15:04:29 by anadege           #+#    #+#              #
-#    Updated: 2021/10/16 17:51:38 by hlichir          ###   ########.fr        #
+#    Updated: 2021/10/19 15:27:32 by anadege          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ SRCS	= ./architecture/main.c \
 		  ./architecture/init.c \
 		  ./architecture/prompt.c \
 		  ./architecture/signals.c \
-		  ./architecture/history/history.c \
+		  ./architecture/history.c \
 		  ./builtins/cd.c \
 		  ./builtins/cd_utils.c \
 		  ./builtins/env.c \

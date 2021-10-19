@@ -105,7 +105,7 @@ int	init_minishell(t_infos *infos, char **env)
 	if (save_env(infos, env) == -1 || infos->env == NULL)
 		return (-1);
 	nbr = seek_elem_pos(env, "SHLVL");
-	if (nbr > 0 && add_new_shlvl(infos, "SHLVL=", env, nbr) == -1)
+	if (nbr >= 0 && add_new_shlvl(infos, "SHLVL=", env, nbr) == -1)
 		return (-1);
 	if (add_tilde_to_var_list(infos) == -1)
 		return (-1);

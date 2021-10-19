@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 14:58:07 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/19 15:34:20 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/19 15:38:29 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,10 +98,7 @@ int	minishell_loop(t_infos *infos)
 		if (check_for_signal(infos) < 0)
 			return (return_error(1, "minishell : fatal error", 0, 1));
 		else if (!infos->curr_cmd)
-		{
-			write(1, "exit\n", 5);
 			break ;
-		}
 		if (add_line_to_history(infos->fd_history, infos->curr_cmd, 0) < 0)
 			return (return_error(1, "minishell : fatal error", 0, 1));
 		if (!ft_strncmp(infos->curr_cmd, "exit", 5))

@@ -6,7 +6,7 @@
 #    By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/08/23 15:04:29 by anadege           #+#    #+#              #
-#    Updated: 2021/10/16 17:51:38 by hlichir          ###   ########.fr        #
+#    Updated: 2021/10/18 11:13:11 by anadege          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,6 +24,7 @@ SRCS	= ./architecture/main.c \
 		  ./builtins/echo.c \
 		  ./builtins/env_utils.c \
 		  ./builtins/pwd.c \
+		  ./builtins/exit_builtin.c \
 		  ./exit/exit.c \
 		  ./exit/exit_status.c \
 		  ./exit/returns.c \

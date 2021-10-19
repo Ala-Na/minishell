@@ -6,11 +6,11 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/30 17:16:26 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/15 15:29:37 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/19 15:34:34 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../minishell.h"
+#include "../minishell.h"
 
 /*
 ** Function that will open minishell_history, add a new line of history via
@@ -24,7 +24,7 @@ int	get_previous_history(void)
 	char	*str;
 
 	str = NULL;
-	fd = open("./architecture/history/minishell_history", \
+	fd = open("/tmp/minishell_history", \
 			O_RDWR | O_APPEND | O_CREAT, S_IRWXG | S_IRWXU);
 	if (fd == -1)
 		return (fd);
@@ -42,15 +42,29 @@ int	get_previous_history(void)
 **	Function that will add a new line in the file minishell_history 
 ** when the command is executed.
 */
-int	add_line_to_history(int history_fd, char *str)
+int	add_line_to_history(int history_fd, char *str, int exit)
 {
+	static char	*previous;
+
+	if (exit)
+	{
+		if (previous)
+			free(previous);
+		return (0);
+	}
 	if (!history_fd || !str)
 	{
 		return_error(1, "something went wrong", 0, 0);
 		return (-1);
 	}
+	if (ft_isblanks(str) || (previous
+			&& !ft_strncmp(str, previous, ft_strlen(str))))
+		return (0);
 	write(history_fd, str, ft_strlen(str));
 	write(history_fd, "\n", 1);
 	add_history(str);
+	if (previous)
+		free(previous);
+	previous = ft_strdup(str);
 	return (0);
 }

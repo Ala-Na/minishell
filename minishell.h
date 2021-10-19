@@ -169,13 +169,19 @@ char		*get_prompt(t_infos *infos);
 ** Each line of that file is added to readline when minishell is launched.
 */
 int			get_previous_history(void);
-int			add_line_to_history(int history_fd, char *str);
+int			add_line_to_history(int history_fd, char *str, int exit);
 
 /*
 ** HANDLING SIGNALS
 */
 void		handle_signals(int is_child);
 void		sig_handler_function(int signum);
+
+/*
+** HANDLING SIGNALS IN CHILD
+*/
+void		ignore_signals(void);
+void		restore_signals(void);
 
 /*
 ** BUILT IN CD

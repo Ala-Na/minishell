@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 15:00:10 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/15 15:28:35 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/19 14:42:04 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,30 @@ void	child_execution(t_infos *infos, t_cmd *head_cmd)
 	free_child_exec_var_and_exit(infos, &exec_path, &exec_env, &exec_args);
 }
 
+void	restore_signals(void)
+{
+	signal(SIGSEGV, SIG_DFL);
+	signal(SIGBUS, SIG_DFL);
+	signal(SIGABRT, SIG_DFL);
+	signal(SIGFPE, SIG_DFL);
+	signal(SIGILL, SIG_DFL);
+	signal(SIGSYS, SIG_DFL);
+	signal(SIGTRAP, SIG_DFL);
+	handle_signals(0);
+}
+
+void	ignore_signals(void)
+{
+	signal(SIGINT, SIG_IGN);
+	signal(SIGSEGV, SIG_IGN);
+	signal(SIGBUS, SIG_IGN);
+	signal(SIGABRT, SIG_IGN);
+	signal(SIGFPE, SIG_IGN);
+	signal(SIGILL, SIG_IGN);
+	signal(SIGSYS, SIG_IGN);
+	signal(SIGTRAP, SIG_IGN);
+}
+
 /*
 ** exec_elems[0] is equivalent to executable environmentals variables.
 ** exec_elems[1] is equivalent to executable arguments.
@@ -77,22 +101,19 @@ int	execute_simple_cmd(t_infos *infos)
 	int		res;
 
 	child_pid = fork();
-	signal(SIGINT, SIG_IGN);
 	if (child_pid == -1)
 		return (return_error(1, "fork failed", 0, -1));
 	else if (child_pid > 0)
 	{
+		ignore_signals();
 		res = waitpid(child_pid, &wstatus, 0);
-		signal(SIGINT, sig_handler_function);
+		restore_signals();
 		if (res == -1)
 			return (return_error(1, strerror(errno), 0, -1));
 		else if (WIFEXITED(wstatus))
 			return (return_value(WEXITSTATUS(wstatus)));
 		else if (WIFSIGNALED(wstatus))
-		{
-			ft_putstr("\n");
 			return (return_signal(WTERMSIG(wstatus)));
-		}
 	}
 	else
 		child_execution(infos, infos->lst_cmds);

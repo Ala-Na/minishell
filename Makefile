@@ -14,7 +14,7 @@ SRCS	= ./architecture/main.c \
 		  ./architecture/init.c \
 		  ./architecture/prompt.c \
 		  ./architecture/signals.c \
-		  ./architecture/history/history.c \
+		  ./architecture/history.c \
 		  ./builtins/cd.c \
 		  ./builtins/cd_utils.c \
 		  ./builtins/env.c \

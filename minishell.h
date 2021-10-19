@@ -31,7 +31,7 @@
 # include <fcntl.h>
 # include <sys/stat.h>
 
-# define PROMPT_MSG "\001\033[1;38;5;51m\002Minishell a la meche rebelle > \001\033[0m\002"
+# define PROMPT_MSG "\001\033[1;38;5;51m\002Minishell > \001\033[0m\002"
 
 /*
 ** Use of one global variable to handle exit_status = 130 when ctrl+c is used

@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/30 16:59:11 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/18 21:59:57 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/19 23:40:43 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,15 +27,15 @@ int	modify_pwd(t_infos *infos, t_cmd *cmd, char *new_pwd, int is_old)
 	str = NULL;
 	if (!new_pwd)
 		return (return_error(1, "memory allocation error", 0, -1));
-	if (create_tmp_new_elem(&new_elem, "OLD", new_pwd, str) < 0)
+	if (create_tmp_new_elem(&new_elem, "PWD", new_pwd, str) < 0)
 		return (-1);
 	env_size = 0;
 	while ((infos->env)[env_size])
 		env_size++;
-	if (!get_env_elem(infos->env, "OLD", ft_strlen("OLD")))
+	if (!get_env_elem(infos->env, "PWD", ft_strlen("PWD")))
 		add_not_existing_elem_to_env(&infos->env, new_elem, env_size);
 	else
-		modify_existing_elem_to_env(infos, infos->env, new_elem, "OLD");
+		modify_existing_elem_to_env(infos, infos->env, new_elem, "PWD");
 	free(new_elem->token);
 	free(new_elem);
 	if (is_old == 2)

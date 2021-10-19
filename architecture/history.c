@@ -6,11 +6,11 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/30 17:16:26 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/19 15:14:50 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/19 15:34:34 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../minishell.h"
+#include "../minishell.h"
 
 /*
 ** Function that will open minishell_history, add a new line of history via
@@ -24,7 +24,7 @@ int	get_previous_history(void)
 	char	*str;
 
 	str = NULL;
-	fd = open("./architecture/history/minishell_history", \
+	fd = open("/tmp/minishell_history", \
 			O_RDWR | O_APPEND | O_CREAT, S_IRWXG | S_IRWXU);
 	if (fd == -1)
 		return (fd);

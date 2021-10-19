@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/23 16:14:03 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/14 13:34:27 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/19 14:45:39 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,10 @@ int	return_signal(int signal_value)
 			ft_puterr("illegal instruction", 1);
 		else if (signal_value == SIGBUS)
 			ft_puterr("bus error", 1);
+		else if (signal_value == SIGINT)
+			ft_putstr("\n");
+		else
+			ft_puterr("error signal received", 1);
 	}
 	return (0);
 }

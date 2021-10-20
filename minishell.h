@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 15:55:23 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/20 16:49:01 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/20 17:40:09 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -466,8 +466,10 @@ int			add_fd_to_cmd(t_cmd **cmd, int fd, int is_output, int is_tmpfile);
 int			append_to_file(t_cmd *curr, int fd);
 int			create_new_file(t_cmd *curr);
 
+char		*get_tmp_file_name(int nbr_tmp_file);
+
 int			extract_input_from_stdin(t_infos *infos, t_cmd *curr);
-int			create_tmp_file(void);
+int			create_tmp_file(int nbr_tmp_file, char **tmp_file_name);
 int			get_fd(t_infos *infos, t_cmd *curr);
 int			display_next_lt_dbl(t_infos *infos, t_cmd *cmd);
 int			fork_for_input(t_infos *infos, char *end_str, int fd);
@@ -484,9 +486,9 @@ int			check_if_end(char **str, char *end_str, int fd);
 int			check_input_signal(void);
 
 int			expand_variable_to_heredoc(t_infos *infos, int fd,
-				t_cmd *cmd_end_str);
+				t_cmd *cmd_end_str, char *tmp_file_name);
 int			check_if_string(t_cmd *cmd_end_str);
-char		*extract_content_from_file(int fd);
+char		*extract_content_from_file(int fd, char *tmp_file_name);
 void		get_new_content_size(t_infos *infos, char **new, char *old);
 void		get_new_content(t_infos *infos, char **new, char *old);
 

@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/16 16:44:57 by hlichir           #+#    #+#             */
-/*   Updated: 2021/10/20 15:36:44 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/20 17:22:05 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	get_new_content_size(t_infos *infos, char **new, char *old)
 	*new = malloc(sizeof(**new) * (size + 1));
 }
 
-char	*extract_content_from_file(int fd)
+char	*extract_content_from_file(int fd, char *tmp_file_name)
 {
 	char	*content;
 	char	*tmp_str;
@@ -67,7 +67,7 @@ char	*extract_content_from_file(int fd)
 	if (!content)
 		return (return_null_error(1, "memory allocation error", 0));
 	close(fd);
-	fd = open("./tmp_file", O_RDWR);
+	fd = open(tmp_file_name, O_RDWR);
 	if (fd < 0)
 		return (return_null_error(1, "error while opening file", 0));
 	while (get_next_line(fd, &tmp_str) > 0)
@@ -113,7 +113,8 @@ int	check_if_string(t_cmd *cmd_end_str)
 	return (0);
 }
 
-int	expand_variable_to_heredoc(t_infos *infos, int fd, t_cmd *cmd_end_str)
+int	expand_variable_to_heredoc(t_infos *infos, int fd, t_cmd *cmd_end_str,
+		char *tmp_file_name)
 {
 	char	*old_content;
 	char	*new_content;
@@ -121,14 +122,14 @@ int	expand_variable_to_heredoc(t_infos *infos, int fd, t_cmd *cmd_end_str)
 	(void)infos;
 	if (check_if_string(cmd_end_str) == 1)
 		return (0);
-	old_content = extract_content_from_file(fd);
+	old_content = extract_content_from_file(fd, tmp_file_name);
 	get_new_content_size(infos, &new_content, old_content);
 	if (!new_content)
 		return (return_error(1, "memory allocation error", 0, -1));
 	get_new_content(infos, &new_content, old_content);
 	free(old_content);
 	close(fd);
-	fd = open("./tmp_file", O_RDWR);
+	fd = open(tmp_file_name, O_RDWR);
 	if (fd < 0)
 		return (return_error(1, "error while opening file", 0, -1));
 	ft_putstr_fd(new_content, fd);

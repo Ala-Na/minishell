@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 13:49:03 by hlichir           #+#    #+#             */
-/*   Updated: 2021/10/20 15:26:14 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/20 17:42:19 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,17 +72,20 @@ int	get_fd(t_infos *infos, t_cmd *curr)
 **	fill_fd = 1.
 ** Returns the fd (or -1 if error) & 0 if fill_str = 0.
 */
-int	create_tmp_file(void)
+int	create_tmp_file(int nbr_tmp_file, char **tmp_file_name)
 {
-	int	fd;
+	char	*tmp_name;
+	int		fd;
 
-	fd = open("./tmp_file", O_RDWR | O_TRUNC | O_CREAT, 00777);
+	tmp_name = get_tmp_file_name(nbr_tmp_file);
+	fd = open(tmp_name, O_RDWR | O_TRUNC | O_CREAT, 00777);
 	if (fd < 0)
 	{
+		free(tmp_name);
 		ft_puterr("redirection : ", 0);
 		return (return_error(1, strerror(errno), 0, -1));
 	}
-	fprintf(stderr, "was open in create\n");
+	*tmp_file_name = tmp_name;
 	return (fd);
 }
 
@@ -117,6 +120,7 @@ int	fork_for_input(t_infos *infos, char *end_str, int fd)
 int	extract_input_from_stdin(t_infos *infos, t_cmd *curr)
 {
 	char	*end_str;
+	char	*tmp_file_name;
 	int		fd;
 
 	if (!curr || !curr->next)
@@ -124,12 +128,13 @@ int	extract_input_from_stdin(t_infos *infos, t_cmd *curr)
 	end_str = extract_name_in_string(curr->next, &fd);
 	if (!end_str)
 		return (return_error(1, "memory allocation error", 0, -1));
-	fd = create_tmp_file();
+	fd = create_tmp_file(curr->nb_tmp_file, &tmp_file_name);
 	if (fd < 0)
-		free_end_str_return(&end_str, -1);
+		return (free_end_str_return(&end_str, -1));
 	g_exit_status = fork_for_input(infos, end_str, fd);
 	free(end_str);
-	expand_variable_to_heredoc(infos, fd, curr->next);
+	expand_variable_to_heredoc(infos, fd, curr->next, tmp_file_name);
+	free(tmp_file_name);
 	if (g_exit_status != 0)
 		return (-1);
 	return (fd);

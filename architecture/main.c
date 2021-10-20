@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 14:58:07 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/19 16:38:13 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/20 17:45:31 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,14 +42,6 @@ void	when_init_exit(void)
 
 	g_exit_status = -1;
 	handle_signals(0);
-	if (check_file("./tmp_file") == 0)
-	{
-		if (unlink("./tmp_file") < 0)
-		{
-			str = ft_strjoin("unlink : ", strerror(errno));
-			return_error(1, 0, &str, -1);
-		}
-	}
 }
 
 /*

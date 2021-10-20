@@ -6,11 +6,26 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 12:59:47 by hlichir           #+#    #+#             */
-/*   Updated: 2021/10/20 15:33:17 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/20 17:44:28 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+char	*get_tmp_file_name(int nbr_tmp_file)
+{
+	char	*tmp_path;
+	char	*tmp_name;
+
+	tmp_name = ft_itoa(nbr_tmp_file);
+	if (!tmp_name)
+		return (return_null_error(1, "memory allocation error", 0));
+	tmp_path = "./tmp_file_minishell_";
+	tmp_name = ft_strjoin_free(&tmp_path, &tmp_name, 0, 1);
+	if (!tmp_name)
+		return (return_null_error(1, "memory allocation error", 0));
+	return (tmp_name);
+}
 
 /*
 ** Add the correct fd to the cmd structure.
@@ -20,6 +35,8 @@
 */
 int	add_fd_to_cmd(t_cmd **cmd, int fd, int is_output, int is_tmpfile)
 {
+	char	*tmp_file;
+
 	if (is_output)
 	{
 		if ((*cmd)->fd_output > 1)
@@ -35,11 +52,13 @@ int	add_fd_to_cmd(t_cmd **cmd, int fd, int is_output, int is_tmpfile)
 		if (is_tmpfile)
 		{
 			close(fd);
-			fprintf(stderr, "close called in add_fd\n");
-			fd = open("./tmp_file", O_RDONLY);
-			if (fd < 0)
-				return (return_error(1, strerror(errno), 0, -1));
-			fprintf(stderr, "open in add_fd\n");
+			tmp_file = get_tmp_file_name((*cmd)->nb_tmp_file);
+			if (!tmp_file)
+				return (-1);
+			fd = open(tmp_file, O_RDONLY);
+			if (fd < 0 || unlink(tmp_file) == -1)
+				return (return_error(1, strerror(errno), &tmp_file, -1));
+			free(tmp_file);
 		}
 		(*cmd)->fd_input = fd;
 	}

@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/22 17:28:50 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/20 14:50:53 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/20 17:16:32 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,7 @@ int	check_if_pipes(t_infos *infos)
 	{
 		if (curr_cmd->next_operator == PIPE)
 			nbr_pipes += 1;
+		curr_cmd->nb_tmp_file = nbr_pipes + 1;
 		curr_cmd = curr_cmd->next;
 	}
 	return (nbr_pipes);

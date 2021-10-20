@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/07 14:43:01 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/11 23:00:23 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/20 16:58:36 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,7 @@ t_cmd	*init_new_cmd(t_token *start, t_cmd **head_lst)
 	new->prev = NULL;
 	new->fd_input = 0;
 	new->fd_output = 1;
+	new->nb_tmp_file = 0;
 	if (!*head_lst)
 		return (new);
 	prev = *head_lst;

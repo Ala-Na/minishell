@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/02 11:52:56 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/20 16:49:45 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/20 16:57:11 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ int	add_new_shlvl(t_infos *infos, char *shlvl, char **env, int nb)
 	new_elem->token = str;
 	new_elem->length = ft_strlen(str);
 	new_elem->linked_to_next = NULL;
-	new_elem->nb_tmp_file = -1;
 	new_elem->prev = NULL;
 	new_elem->next = NULL;
 	nb = modify_existing_elem_to_env(infos, infos->env, new_elem, shlvl);

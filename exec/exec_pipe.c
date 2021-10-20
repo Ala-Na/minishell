@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/27 17:16:19 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/20 15:52:05 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/20 17:32:41 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,6 @@ int	pipe_loop(t_infos *infos, t_cmd *cmd, int **child_pids, int i)
 			return (-1);
 		if (pipe(pipe_fd) == -1)
 			return (return_error(1, "pipe failed", 0, -1));
-		printf("new pipe are %i and %i for cmd %s\n", pipe_fd[0], pipe_fd[1], cmd->start->token);
 		new_pid = fork();
 		if (new_pid == -1)
 			return (return_error(1, "fork failed", 0, -1));

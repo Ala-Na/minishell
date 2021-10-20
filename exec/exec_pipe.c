@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/27 17:16:19 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/20 17:32:41 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/20 18:00:17 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,8 +112,6 @@ int	pipe_loop(t_infos *infos, t_cmd *cmd, int **child_pids, int i)
 	init_variables(&(prev_fd[READ_SIDE]), &(prev_fd[WRITE_SIDE]), UNSET);
 	while (cmd)
 	{
-		if (add_redirections(infos, cmd, 0) < 0)
-			return (-1);
 		if (pipe(pipe_fd) == -1)
 			return (return_error(1, "pipe failed", 0, -1));
 		new_pid = fork();
@@ -139,6 +137,7 @@ int	pipe_loop(t_infos *infos, t_cmd *cmd, int **child_pids, int i)
 int	launch_pipes_cmds(t_infos *infos, t_cmd *cmd, int nbr_pipes)
 {
 	int		res;
+	t_cmd	*redir_cmd;
 	pid_t	*child_pids;
 	int		i;
 
@@ -150,6 +149,13 @@ int	launch_pipes_cmds(t_infos *infos, t_cmd *cmd, int nbr_pipes)
 	i = 0;
 	while (i < nbr_pipes + 1)
 		child_pids[i++] = 0;
+	redir_cmd = cmd;
+	while (redir_cmd)
+	{
+		if (add_redirections(infos, redir_cmd, 0) < 0)
+			return (-1);
+		redir_cmd = get_next_cmd(redir_cmd);
+	}
 	res = pipe_loop(infos, cmd, &child_pids, 0);
 	if (res == -1)
 	{

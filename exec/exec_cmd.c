@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 15:00:10 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/19 14:42:04 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/20 14:48:13 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	child_execution(t_infos *infos, t_cmd *head_cmd)
 	char	**exec_args;
 	t_token	*exec_token;
 
-	if (add_redirections(infos, head_cmd, 1) < 0)
+	if (dup_redirections(infos, head_cmd) < 0)
 		free_child_exec_var_and_exit(infos, NULL, NULL, NULL);
 	handle_signals(1);
 	if (!infos || !head_cmd)

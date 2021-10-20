@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/12 16:15:52 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/15 20:28:17 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/20 15:55:01 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ void	extract_child(t_infos *infos, int fd, char *end_str)
 			break ;
 	}
 	tmp_status = g_exit_status;
+	close(fd);
 	exit(tmp_status);
 }
 

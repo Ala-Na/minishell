@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 15:55:23 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/18 21:56:34 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/20 16:49:01 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,7 @@ typedef struct s_cmd
 	t_operator		next_operator;
 	int				fd_input;
 	int				fd_output;
+	int				nb_tmp_file;
 	struct s_cmd	*prev;
 	struct s_cmd	*next;
 }	t_cmd;
@@ -457,6 +458,7 @@ int			complete_exec_env_with_assignments(t_infos *infos,
 */
 
 int			add_redirections(t_infos *infos, t_cmd *cmd, int is_not_builtin);
+int			dup_redirections(t_infos *infos, t_cmd *cmd);
 int			add_input(t_infos *infos, t_cmd **cmd, t_cmd *curr);
 int			add_output(t_cmd **cmd, t_cmd *curr);
 int			add_fd_to_cmd(t_cmd **cmd, int fd, int is_output, int is_tmpfile);

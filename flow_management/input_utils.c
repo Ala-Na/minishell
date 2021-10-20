@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 13:49:03 by hlichir           #+#    #+#             */
-/*   Updated: 2021/10/16 18:47:30 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/20 15:26:14 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ int	create_tmp_file(void)
 		ft_puterr("redirection : ", 0);
 		return (return_error(1, strerror(errno), 0, -1));
 	}
+	fprintf(stderr, "was open in create\n");
 	return (fd);
 }
 
@@ -97,6 +98,7 @@ int	fork_for_input(t_infos *infos, char *end_str, int fd)
 	else if (child_pid > 0)
 	{
 		res = waitpid(child_pid, &wstatus, 0);
+		close(fd);
 		if (res == -1)
 			return (return_error(1, strerror(errno), 0, 1));
 		else if (WIFEXITED(wstatus))

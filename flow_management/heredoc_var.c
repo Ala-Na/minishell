@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/16 16:44:57 by hlichir           #+#    #+#             */
-/*   Updated: 2021/10/18 18:22:18 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/20 15:36:44 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,12 +74,19 @@ char	*extract_content_from_file(int fd)
 	{
 		content = ft_strjoin_free(&content, &tmp_str, 1, 1);
 		if (!content)
+		{
+			close(fd);
 			return (return_null_error(1, "memory allocation error", 0));
+		}
 		tmp_str = "\n";
 		content = ft_strjoin_free(&content, &tmp_str, 1, 0);
 		if (!content)
+		{
+			close(fd);
 			return (return_null_error(1, "memory allocation error", 0));
+		}
 	}
+	close(fd);
 	return (content);
 }
 
@@ -126,5 +133,6 @@ int	expand_variable_to_heredoc(t_infos *infos, int fd, t_cmd *cmd_end_str)
 		return (return_error(1, "error while opening file", 0, -1));
 	ft_putstr_fd(new_content, fd);
 	free(new_content);
+	close(fd);
 	return (0);
 }

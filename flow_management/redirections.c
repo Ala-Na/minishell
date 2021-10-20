@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 12:59:47 by hlichir           #+#    #+#             */
-/*   Updated: 2021/10/15 12:46:25 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/20 15:33:17 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,11 @@ int	add_fd_to_cmd(t_cmd **cmd, int fd, int is_output, int is_tmpfile)
 		if (is_tmpfile)
 		{
 			close(fd);
+			fprintf(stderr, "close called in add_fd\n");
 			fd = open("./tmp_file", O_RDONLY);
 			if (fd < 0)
 				return (return_error(1, strerror(errno), 0, -1));
+			fprintf(stderr, "open in add_fd\n");
 		}
 		(*cmd)->fd_input = fd;
 	}
@@ -110,6 +112,22 @@ int	add_input(t_infos *infos, t_cmd **cmd, t_cmd *curr)
 	return (0);
 }
 
+int	dup_redirections(t_infos *infos, t_cmd *head_cmd)
+{
+	(void)infos;
+	if (head_cmd->fd_input > 1)
+	{
+		if (dup2(head_cmd->fd_input, 0) < 0)
+			return (return_error(1, strerror(errno), 0, -1));
+	}
+	if (head_cmd->fd_output > 1)
+	{
+		if (dup2(head_cmd->fd_output, 1) < 0)
+			return (return_error(1, strerror(errno), 0, -1));
+	}
+	return (0);
+}
+
 /*
 ** Check all the command until it arrives at the end (next_operqtor = - 1)
 ** or encounters a pipe.
@@ -132,13 +150,6 @@ int	add_redirections(t_infos *infos, t_cmd *head_cmd, int is_not_builtin)
 		curr = curr->next;
 	}
 	if (is_not_builtin)
-	{
-		if (head_cmd->fd_input > 1)
-			if (dup2(head_cmd->fd_input, 0) < 0)
-				return (return_error(1, strerror(errno), 0, -1));
-		if (head_cmd->fd_output > 1)
-			if (dup2(head_cmd->fd_output, 1) < 0)
-				return (return_error(1, strerror(errno), 0, -1));
-	}
+		return (dup_redirections(infos, head_cmd));
 	return (0);
 }

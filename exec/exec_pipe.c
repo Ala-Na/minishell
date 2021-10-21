@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/27 17:16:19 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/15 16:10:59 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/21 15:07:08 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,8 @@ void	pipe_child_execution(t_infos *infos, t_cmd *cmd, int pipe_fd[2],
 		if (close(pipe_fd[WRITE_SIDE]) == -1)
 			return_error(1, strerror(errno), 0, 0);
 	}
+	infos->pipe_read_side = pipe_fd[READ_SIDE];
+	infos->pipe_write_side = pipe_fd[WRITE_SIDE];
 	if (g_exit_status == 0)
 		init_launch_simple_cmd(infos, cmd, 1);
 	clean_exit(infos, 0);
@@ -137,6 +139,7 @@ int	pipe_loop(t_infos *infos, t_cmd *cmd, int **child_pids, int i)
 int	launch_pipes_cmds(t_infos *infos, t_cmd *cmd, int nbr_pipes)
 {
 	int		res;
+	t_cmd	*redir_cmd;
 	pid_t	*child_pids;
 	int		i;
 
@@ -148,6 +151,13 @@ int	launch_pipes_cmds(t_infos *infos, t_cmd *cmd, int nbr_pipes)
 	i = 0;
 	while (i < nbr_pipes + 1)
 		child_pids[i++] = 0;
+	redir_cmd = cmd;
+	while (redir_cmd)
+	{
+		if (add_redirections(infos, redir_cmd, 0) < 0)
+			return (-1);
+		redir_cmd = get_next_cmd(redir_cmd);
+	}
 	res = pipe_loop(infos, cmd, &child_pids, 0);
 	if (res == -1)
 	{

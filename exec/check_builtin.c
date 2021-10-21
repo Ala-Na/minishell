@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/02 14:46:17 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/18 21:36:19 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/21 14:01:28 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int	launch_builtin(t_infos *infos, t_cmd *cmd, t_builtin builtin)
 
 	if (!infos || !cmd)
 		return (return_error(1, "something went wrong", 0, -1));
-	if (add_redirections(infos, cmd, 0) < 0)
+	if (dup_redirections(infos, cmd) < 0)
 		return (-1);
 	builtin_cmd = NULL;
 	builtin_token = get_exec_token(infos, cmd, &builtin_cmd);

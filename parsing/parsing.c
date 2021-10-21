@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/07 14:43:01 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/14 23:46:22 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/20 16:58:04 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ int	init_empty_cmd(t_cmd **new, t_token **lst_tokens)
 		empty->prev = NULL;
 		empty->fd_input = 0;
 		empty->fd_output = 1;
+		empty->nb_tmp_file = 0;
 		*lst_tokens = (*lst_tokens)->next;
 		*new = empty;
 		return (1);

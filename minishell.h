@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 15:55:23 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/21 15:04:13 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/21 16:58:47 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,6 +144,13 @@ int			minishell_loop(t_infos *infos);
 void		parse_and_execute(t_infos *infos);
 void		clean_to_continue(t_infos *infos, int init_exit);
 void		when_init_exit(void);
+
+/*
+** ALTERNATIVE NON INTERACTIVE MODE
+*/
+int			check_mode(void);
+int			non_interactive_minishell_loop(t_infos *infos);
+void		exit_non_interactive(int signum);
 
 /*
 ** MINISHELL INTIALIZATION

@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 14:58:07 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/20 17:48:48 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/21 16:27:22 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,13 +115,18 @@ int	main(int argc, char **argv, char **env)
 {
 	t_infos	infos;
 	int		return_value;
+	int		mode;
 
 	(void)argc;
 	(void)argv;
-	if (init_minishell(&infos, env) == -1)
+	mode = check_mode();
+	if (mode == -1 || init_minishell(&infos, env) == -1)
 		return (return_error(1, "minishell : fatal error", 0, 1));
 	handle_signals(0);
-	return_value = minishell_loop(&infos);
+	if (mode == 0)
+		return_value = minishell_loop(&infos);
+	else
+		return_value = non_interactive_minishell_loop(&infos);
 	if (clean_exit(&infos, 1) == -1)
 		return (return_error(1, "minishell : fatal error", 0, 1));
 	return (return_value);

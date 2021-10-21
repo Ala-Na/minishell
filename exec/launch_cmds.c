@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/22 17:28:50 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/20 17:56:57 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/21 13:58:50 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,22 +79,28 @@ int	launch_simple_cmd(t_infos *infos, t_cmd *cmd,
 int	init_launch_simple_cmd(t_infos *infos, t_cmd *cmd, int from_pipe)
 {
 	int			only_assignments;
+	int			redir;
 	t_cmd		*curr_cmd;
 	t_token		*exec_token;
 
 	curr_cmd = NULL;
 	exec_token = NULL;
+	redir = 0;
 	if (!infos || !cmd)
 		return (return_error(1, "something went wrong", 0, -1));
+	if (!from_pipe)
+		redir = add_redirections(infos, cmd, 0);
 	exec_token = get_next_token(infos, cmd, &curr_cmd, exec_token);
 	if (!exec_token && g_exit_status == 0)
-		return (add_redirections(infos, cmd, 0));
+		return (redir);
 	else if (!exec_token)
 		return (-1);
 	only_assignments = assignments_management(infos, cmd, curr_cmd,
 			&exec_token);
 	if (only_assignments <= 0)
 		return (only_assignments);
+	if (redir == -1)
+		return(-1);
 	return (launch_simple_cmd(infos, cmd, exec_token, from_pipe));
 }
 

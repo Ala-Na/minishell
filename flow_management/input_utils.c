@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 13:49:03 by hlichir           #+#    #+#             */
-/*   Updated: 2021/10/21 15:26:50 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/21 15:38:40 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ int	create_tmp_file(int nbr_tmp_file, char **tmp_file_name)
 	int		fd;
 
 	tmp_name = get_tmp_file_name(nbr_tmp_file);
-	fd = open(tmp_name, O_RDWR | O_TRUNC | O_CREAT, 00700);
+	fd = open(tmp_name, O_RDWR | O_TRUNC | O_CREAT, 00777);
 	if (fd < 0)
 	{
 		free(tmp_name);

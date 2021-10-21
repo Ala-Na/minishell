@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 15:55:23 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/21 23:22:01 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/21 23:30:07 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,7 +144,6 @@ typedef struct s_infos
 int			minishell_loop(t_infos *infos);
 void		parse_and_execute(t_infos *infos);
 void		clean_to_continue(t_infos *infos, int init_exit);
-void		when_init_exit(void);
 
 /*
 ** ALTERNATIVE NON INTERACTIVE MODE

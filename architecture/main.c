@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 14:58:07 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/21 16:27:22 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/21 23:30:22 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,11 @@ int	g_exit_status = -1;
 void	clean_to_continue(t_infos *infos, int init_exit)
 {
 	if (init_exit)
-		when_init_exit();
+	{
+		g_exit_status = -1;
+		if (infos->mode == 0)
+			handle_signals(0);
+	}
 	if (infos->curr_cmd)
 		free(infos->curr_cmd);
 	if (infos->prompt)
@@ -34,12 +38,6 @@ void	clean_to_continue(t_infos *infos, int init_exit)
 	infos->prompt = NULL;
 	infos->lst_cmds = NULL;
 	infos->lst_tokens = NULL;
-}
-
-void	when_init_exit(void)
-{
-	g_exit_status = -1;
-	handle_signals(0);
 }
 
 /*

@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 15:00:10 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/21 16:55:36 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/21 23:47:18 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,8 @@ void	child_execution(t_infos *infos, t_cmd *head_cmd)
 
 	if (dup_redirections(infos, head_cmd) < 0)
 		free_child_exec_var_and_exit(infos, NULL, NULL, NULL);
-	handle_signals(1);
+	if (infos->mode == 0)
+		handle_signals(1);
 	if (!infos || !head_cmd)
 	{
 		return_error(1, "something went wrong", 0, 0);
@@ -69,8 +70,10 @@ void	child_execution(t_infos *infos, t_cmd *head_cmd)
 	free_child_exec_var_and_exit(infos, &exec_path, &exec_env, &exec_args);
 }
 
-void	restore_signals(void)
+void	restore_signals(t_infos *infos)
 {
+	if (infos->mode == 1)
+		return ;
 	signal(SIGSEGV, SIG_DFL);
 	signal(SIGBUS, SIG_DFL);
 	signal(SIGABRT, SIG_DFL);
@@ -81,8 +84,10 @@ void	restore_signals(void)
 	handle_signals(0);
 }
 
-void	ignore_signals(void)
+void	ignore_signals(t_infos *infos)
 {
+	if (infos->mode == 1)
+		return ;
 	signal(SIGINT, SIG_IGN);
 	signal(SIGSEGV, SIG_IGN);
 	signal(SIGBUS, SIG_IGN);
@@ -96,7 +101,6 @@ void	ignore_signals(void)
 /*
 ** exec_elems[0] is equivalent to executable environmentals variables.
 ** exec_elems[1] is equivalent to executable arguments.
-** WARNING : Value of ? may need to be modified in case of errors.
 */
 int	execute_simple_cmd(t_infos *infos)
 {
@@ -109,9 +113,9 @@ int	execute_simple_cmd(t_infos *infos)
 		return (return_error(1, "fork failed", 0, -1));
 	else if (child_pid > 0)
 	{
-		ignore_signals();
+		ignore_signals(infos);
 		res = waitpid(child_pid, &wstatus, 0);
-		restore_signals();
+		restore_signals(infos);
 		if (res == -1)
 			return (return_error(1, strerror(errno), 0, -1));
 		else if (WIFEXITED(wstatus))

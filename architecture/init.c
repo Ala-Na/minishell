@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/02 11:52:56 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/20 16:57:11 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/21 15:05:08 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,8 @@ int	init_minishell(t_infos *infos, char **env)
 		return (-1);
 	if (add_tilde_to_var_list(infos) == -1)
 		return (-1);
+	infos->pipe_read_side = 0;
+	infos->pipe_write_side = 1;
 	return (0);
 }
 

@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/27 17:16:19 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/20 18:00:17 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/21 15:07:08 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,8 @@ void	pipe_child_execution(t_infos *infos, t_cmd *cmd, int pipe_fd[2],
 		if (close(pipe_fd[WRITE_SIDE]) == -1)
 			return_error(1, strerror(errno), 0, 0);
 	}
+	infos->pipe_read_side = pipe_fd[READ_SIDE];
+	infos->pipe_write_side = pipe_fd[WRITE_SIDE];
 	if (g_exit_status == 0)
 		init_launch_simple_cmd(infos, cmd, 1);
 	clean_exit(infos, 0);

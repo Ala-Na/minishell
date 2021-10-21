@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 15:55:23 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/20 17:40:09 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/21 15:04:13 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,6 +131,8 @@ typedef struct s_infos
 	t_token	*lst_tokens;
 	t_cmd	*lst_cmds;
 	int		fd_history;
+	int		pipe_read_side;
+	int		pipe_write_side;
 	char	**env;
 	t_var	*lst_var;
 }	t_infos;

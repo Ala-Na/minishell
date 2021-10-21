@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 12:59:47 by hlichir           #+#    #+#             */
-/*   Updated: 2021/10/20 17:44:28 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/21 15:23:28 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	*get_tmp_file_name(int nbr_tmp_file)
 	tmp_name = ft_itoa(nbr_tmp_file);
 	if (!tmp_name)
 		return (return_null_error(1, "memory allocation error", 0));
-	tmp_path = "./tmp_file_minishell_";
+	tmp_path = "/tmp/tmp_file_minishell_";
 	tmp_name = ft_strjoin_free(&tmp_path, &tmp_name, 0, 1);
 	if (!tmp_name)
 		return (return_null_error(1, "memory allocation error", 0));

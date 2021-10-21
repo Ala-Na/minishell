@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/22 17:28:50 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/21 13:58:50 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/21 14:53:23 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,11 +60,7 @@ int	launch_simple_cmd(t_infos *infos, t_cmd *cmd,
 	else if (builtin != NONE)
 		return (launch_builtin(infos, cmd, builtin));
 	if (!from_pipe)
-	{
-		if (add_redirections(infos, cmd, 0) < 0)
-			return (-1);
 		return (execute_simple_cmd(infos));
-	}
 	else
 		child_execution(infos, cmd);
 	return (0);

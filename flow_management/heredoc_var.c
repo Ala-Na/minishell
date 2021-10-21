@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/16 16:44:57 by hlichir           #+#    #+#             */
-/*   Updated: 2021/10/20 17:22:05 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/21 14:50:24 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,8 @@ char	*extract_content_from_file(int fd, char *tmp_file_name)
 			return (return_null_error(1, "memory allocation error", 0));
 		}
 	}
+	if (tmp_str)
+		free(tmp_str);
 	close(fd);
 	return (content);
 }

@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/21 15:20:31 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/21 17:01:38 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/21 23:21:19 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,17 @@
 void	exit_non_interactive(int signum)
 {
 	if (signum == SIGINT)
+	{
+		ft_putstr("\n");
 		exit(130);
+	}
 }
 
 int	non_interactive_minishell_loop(t_infos *infos)
 {
-	signal(SIGINT, exit_non_interactive);
+	infos->mode = 1;
 	g_exit_status = 0;
+	signal(SIGINT, exit_non_interactive);
 	while (get_next_line(STDIN_FILENO, &(infos->curr_cmd)) > 0)
 	{
 		infos->prompt = get_prompt(infos);

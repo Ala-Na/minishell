@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 15:55:23 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/21 16:58:47 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/21 23:22:01 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,6 +126,7 @@ typedef struct s_var
 */
 typedef struct s_infos
 {
+	int		mode;
 	char	*prompt;
 	char	*curr_cmd;
 	t_token	*lst_tokens;
@@ -190,8 +191,8 @@ void		sig_handler_function(int signum);
 /*
 ** HANDLING SIGNALS IN CHILD
 */
-void		ignore_signals(void);
-void		restore_signals(void);
+void		ignore_signals(t_infos *infos);
+void		restore_signals(t_infos *infos);
 
 /*
 ** BUILT IN CD

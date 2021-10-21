@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 15:00:10 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/21 23:20:56 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/21 23:47:18 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,8 @@ void	child_execution(t_infos *infos, t_cmd *head_cmd)
 
 	if (dup_redirections(infos, head_cmd) < 0)
 		free_child_exec_var_and_exit(infos, NULL, NULL, NULL);
-	handle_signals(1);
+	if (infos->mode == 0)
+		handle_signals(1);
 	if (!infos || !head_cmd)
 	{
 		return_error(1, "something went wrong", 0, 0);
@@ -100,7 +101,6 @@ void	ignore_signals(t_infos *infos)
 /*
 ** exec_elems[0] is equivalent to executable environmentals variables.
 ** exec_elems[1] is equivalent to executable arguments.
-** WARNING : Value of ? may need to be modified in case of errors.
 */
 int	execute_simple_cmd(t_infos *infos)
 {

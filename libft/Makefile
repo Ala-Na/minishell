@@ -13,8 +13,65 @@
 NAME = libft
 
 CC = gcc
+CFLAGS = -Wall -Wextra -Werror
 
-SRC = ./ft_atoi.c ./ft_bzero.c ./ft_calloc.c \
+SRCS = 								\
+		  $(SUB_SRCS_FILE_UTILS)	\
+		  $(SUB_SRCS_ID)			\
+		  $(SUB_SRCS_LST)			\
+		  $(SUB_SRCS_MATH)			\
+		  $(SUB_SRCS_MEM)			\
+		  $(SUB_SRCS_PRINT)			\
+		  $(SUB_SRCS_STR_UTILS)
+
+SUB_SRCS_FILES_UTILS =				\
+		  get_next_line.c			\
+		  get_next_line_utils.c
+
+SUB_SRCS_ID =						\
+		  ft_isalnum.c				\
+		  ft_isalpha.c				\
+		  ft_isascii.c				\
+		  ft_isblank.c				\
+		  ft_isblanks.c				\
+		  ft_isdigit.c				\
+		  ft_ishexa.c				\
+		  ft_isnumber.c				\
+		  ft_isprint.c				\
+		  ft_isprintable.c			\
+		  ft_iswhitespace
+
+SUB_SRCS_LST =						\
+		  ft_lstadd_back.c			\
+		  ft_lstadd_front.c			\
+		  ft_lstclear.c				\
+		  ft_lstdelone.c			\
+		  ft_lstiter.c				\
+		  ft_lstlast.c				\
+		  ft_lstmap.c				\
+		  ft_lstnew.c				\
+		  ft_lstsize.c
+
+SUB_SRCS_MATH =						\
+		  ft_bintodec.c 			\
+		  ft_max.c 					\
+		  ft_pow.c
+
+SUB_SRCS_MEM =						\
+		  ft_bzero.c 				\
+		  ft_calloc.c 				\
+		  ft_memccpy.c 				\
+		  ft_memcpy.c 				\
+		  ft_memchr.c				\
+		  ft_memcmp.c 				\
+		  ft_memmove.c 				\
+		  ft_memset.c
+
+SUB_SRCS_PRINT =					\
+		  
+
+
+./ft_atoi.c ./ft_bzero.c ./ft_calloc.c \
 ./ft_isalnum.c ./ft_isalpha.c ./ft_isascii.c \
 ./ft_isdigit.c ./ft_isprint.c ./ft_itoa.c \
 ./ft_memccpy.c ./ft_memchr.c ./ft_memcmp.c \
@@ -50,8 +107,6 @@ SRC = ./ft_atoi.c ./ft_bzero.c ./ft_calloc.c \
 
 
 HEADER = 		../includes
-
-CFLAGS = 		-Wall -Wextra -Werror
 
 OBJ = 			$(SRC:.c=.o)
 

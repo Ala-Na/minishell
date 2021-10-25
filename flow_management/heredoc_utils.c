@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
+/*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/16 17:46:32 by hlichir           #+#    #+#             */
-/*   Updated: 2021/10/16 19:05:25 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/25 19:14:25 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,4 +85,22 @@ int	get_new_var_size(t_infos *infos, char *start_var)
 	result = ft_strlen(value);
 	free(value);
 	return (result);
+}
+
+int	add_new_line_in_content(char **content, char **tmp_str, int fd)
+{
+	*content = ft_strjoin_free(content, tmp_str, 1, 1);
+	if (!(*content))
+	{
+		close(fd);
+		return (return_error(1, "memory allocation error", 0, -1));
+	}
+	*tmp_str = "\n";
+	*content = ft_strjoin_free(content, tmp_str, 1, 0);
+	if (!(*content))
+	{
+		close(fd);
+		return (return_error(1, "memory allocation error", 0, -1));
+	}
+	return (0);
 }

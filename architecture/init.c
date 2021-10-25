@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/02 11:52:56 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/21 22:03:24 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/25 19:08:02 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ int	init_minishell(t_infos *infos, char **env)
 	int	nbr;
 
 	g_exit_status = -1;
-	infos->mode  = 0;
+	infos->mode = 0;
 	infos->prompt = NULL;
 	infos->curr_cmd = NULL;
 	infos->lst_tokens = NULL;
@@ -101,9 +101,8 @@ int	init_minishell(t_infos *infos, char **env)
 	infos->fd_history = 0;
 	infos->env = NULL;
 	infos->fd_history = get_previous_history();
-	if (infos->fd_history == -1)
-		return (-1);
-	if (save_env(infos, env) == -1 || infos->env == NULL)
+	if (infos->fd_history == -1 || save_env(infos, env) == -1
+		|| infos->env == NULL)
 		return (-1);
 	nbr = seek_elem_pos(env, "SHLVL");
 	if (nbr >= 0 && add_new_shlvl(infos, "SHLVL=", env, nbr) == -1)

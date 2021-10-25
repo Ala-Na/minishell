@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   launch_cmds.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
+/*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/22 17:28:50 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/21 16:51:12 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/25 19:43:37 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ int	init_launch_simple_cmd(t_infos *infos, t_cmd *cmd, int from_pipe)
 	if (!infos || !cmd)
 		return (return_error(1, "something went wrong", 0, -1));
 	if (!from_pipe)
-		redir = add_redirections(infos, cmd, 0);
+		redir = add_redirections(infos, cmd);
 	exec_token = get_next_token(infos, cmd, &curr_cmd, exec_token);
 	if (!exec_token && g_exit_status == 0)
 		return (redir);
@@ -96,7 +96,7 @@ int	init_launch_simple_cmd(t_infos *infos, t_cmd *cmd, int from_pipe)
 	if (only_assignments <= 0)
 		return (only_assignments);
 	if (redir == -1)
-		return(-1);
+		return (-1);
 	return (launch_simple_cmd(infos, cmd, exec_token, from_pipe));
 }
 

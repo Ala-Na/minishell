@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/12 23:20:11 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/13 16:00:18 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/25 21:00:18 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,8 @@ void	skip_empty_var_in_middle(t_token **tokens, t_token **curr,
 	t_token	*prev;
 
 	prev = (*curr)->prev;
+	if (prev->type == OPERATOR)
+		return ;
 	(*next)->prev = prev;
 	if (prev)
 		prev->next = *next;

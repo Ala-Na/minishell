@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 15:55:23 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/25 18:54:00 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/25 19:33:49 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -470,12 +470,11 @@ int			add_redirections(t_infos *infos, t_cmd *cmd);
 int			dup_redirections(t_infos *infos, t_cmd *cmd);
 int			add_input(t_infos *infos, t_cmd **cmd, t_cmd *curr);
 int			add_output(t_cmd **cmd, t_cmd *curr);
-int			add_fd_to_cmd(t_cmd **cmd, int fd, int is_output, int is_tmpfile);
+int			add_input_fd_to_cmd(t_cmd **cmd, int fd, int is_tmpfile);
 
 int			append_to_file(t_cmd *curr, int fd);
 int			create_new_file(t_cmd *curr);
-
-char		*get_tmp_file_name(int nbr_tmp_file);
+int			add_output_fd_to_cmd(t_cmd **cmd, int fd);
 
 int			extract_input_from_stdin(t_infos *infos, t_cmd *curr);
 int			create_tmp_file(int nbr_tmp_file, char **tmp_file_name);
@@ -487,6 +486,7 @@ char		*extract_name_in_string(t_cmd *cmd, int *error);
 int			file_error_input(char *filename, char **tmp);
 int			check_file(char	*filename);
 int			check_end_or_fill_tmp_file(char **str, char *end, int fd);
+char		*get_tmp_file_name(int nbr_tmp_file);
 
 void		handle_signal_in_input(int signum);
 void		extract_child(t_infos *infos, int fd, char *end_str);
@@ -506,6 +506,7 @@ char		*get_new_value(t_infos *infos, char *old);
 void		add_variable_to_new(t_infos *infos, char **new, int size,
 				char *start_var);
 char		*check_list_var(t_var *lstvar, char **name);
+int			add_new_line_in_content(char **content, char **tmp_str, int fd);
 
 /*
 ** PIPELINE MANAGEMENT

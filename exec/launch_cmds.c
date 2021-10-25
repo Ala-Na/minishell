@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/22 17:28:50 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/25 18:54:05 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/25 19:43:37 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ int	init_launch_simple_cmd(t_infos *infos, t_cmd *cmd, int from_pipe)
 	if (only_assignments <= 0)
 		return (only_assignments);
 	if (redir == -1)
-		return(-1);
+		return (-1);
 	return (launch_simple_cmd(infos, cmd, exec_token, from_pipe));
 }
 

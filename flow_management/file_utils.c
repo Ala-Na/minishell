@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 15:22:22 by hlichir           #+#    #+#             */
-/*   Updated: 2021/10/25 18:09:00 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/25 19:10:27 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,8 @@ char	*extract_name_in_string(t_cmd *cmd, int *error)
 		*error = -1;
 		return (NULL);
 	}
-	else if (cmd->start->type == VARIABLE && cmd->start->length == 2 &&
-		!ft_strncmp(cmd->start->token, "\"\'$", 3))
+	else if (cmd->start->type == VARIABLE && cmd->start->length == 2
+		&& !ft_strncmp(cmd->start->token, "\"\'$", 3))
 	{
 		*error = -1;
 		return (NULL);
@@ -92,4 +92,19 @@ int	check_end_or_fill_tmp_file(char **str, char *end, int fd)
 	ft_putstr_fd("\n", fd);
 	free(*str);
 	return (0);
+}
+
+char	*get_tmp_file_name(int nbr_tmp_file)
+{
+	char	*tmp_path;
+	char	*tmp_name;
+
+	tmp_name = ft_itoa(nbr_tmp_file);
+	if (!tmp_name)
+		return (return_null_error(1, "memory allocation error", 0));
+	tmp_path = "/tmp/tmp_file_minishell_";
+	tmp_name = ft_strjoin_free(&tmp_path, &tmp_name, 0, 1);
+	if (!tmp_name)
+		return (return_null_error(1, "memory allocation error", 0));
+	return (tmp_name);
 }

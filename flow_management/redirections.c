@@ -6,26 +6,11 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 12:59:47 by hlichir           #+#    #+#             */
-/*   Updated: 2021/10/25 18:54:29 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/25 19:33:53 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-char	*get_tmp_file_name(int nbr_tmp_file)
-{
-	char	*tmp_path;
-	char	*tmp_name;
-
-	tmp_name = ft_itoa(nbr_tmp_file);
-	if (!tmp_name)
-		return (return_null_error(1, "memory allocation error", 0));
-	tmp_path = "/tmp/tmp_file_minishell_";
-	tmp_name = ft_strjoin_free(&tmp_path, &tmp_name, 0, 1);
-	if (!tmp_name)
-		return (return_null_error(1, "memory allocation error", 0));
-	return (tmp_name);
-}
 
 /*
 ** Add the correct fd to the cmd structure.
@@ -33,35 +18,26 @@ char	*get_tmp_file_name(int nbr_tmp_file)
 **	file descriptor is closed.
 ** Returns -1 if error on the close function or 0 if everthing is good.
 */
-int	add_fd_to_cmd(t_cmd **cmd, int fd, int is_output, int is_tmpfile)
+
+int	add_input_fd_to_cmd(t_cmd **cmd, int fd, int is_tmpfile)
 {
 	char	*tmp_file;
 
-	if (is_output)
+	if ((*cmd)->fd_input > 1)
+		if (close((*cmd)->fd_input) < 0)
+			return (return_error(1, strerror(errno), 0, -1));
+	if (is_tmpfile)
 	{
-		if ((*cmd)->fd_output > 1)
-			if (close((*cmd)->fd_output) < 0)
-				return (return_error(1, strerror(errno), 0, -1));
-		(*cmd)->fd_output = fd;
+		close(fd);
+		tmp_file = get_tmp_file_name((*cmd)->nb_tmp_file);
+		if (!tmp_file)
+			return (-1);
+		fd = open(tmp_file, O_RDONLY);
+		if (fd < 0 || unlink(tmp_file) == -1)
+			return (return_error(1, strerror(errno), &tmp_file, -1));
+		free(tmp_file);
 	}
-	else
-	{	
-		if ((*cmd)->fd_input > 1)
-			if (close((*cmd)->fd_input) < 0)
-				return (return_error(1, strerror(errno), 0, -1));
-		if (is_tmpfile)
-		{
-			close(fd);
-			tmp_file = get_tmp_file_name((*cmd)->nb_tmp_file);
-			if (!tmp_file)
-				return (-1);
-			fd = open(tmp_file, O_RDONLY);
-			if (fd < 0 || unlink(tmp_file) == -1)
-				return (return_error(1, strerror(errno), &tmp_file, -1));
-			free(tmp_file);
-		}
-		(*cmd)->fd_input = fd;
-	}
+	(*cmd)->fd_input = fd;
 	return (0);
 }
 
@@ -84,7 +60,7 @@ int	add_output(t_cmd **cmd, t_cmd *curr)
 		fd = create_new_file(curr);
 		if (fd < 0)
 			return (-1);
-		if (add_fd_to_cmd(cmd, fd, 1, 0))
+		if (add_output_fd_to_cmd(cmd, fd))
 			return (-1);
 	}
 	else if (curr->next_operator == GT_DBL && curr->next)
@@ -92,7 +68,7 @@ int	add_output(t_cmd **cmd, t_cmd *curr)
 		fd = append_to_file(curr, 0);
 		if (fd < 0)
 			return (-1);
-		if (add_fd_to_cmd(cmd, fd, 1, 0))
+		if (add_output_fd_to_cmd(cmd, fd))
 			return (-1);
 	}
 	return (0);
@@ -117,7 +93,7 @@ int	add_input(t_infos *infos, t_cmd **cmd, t_cmd *curr)
 		fd = get_fd(infos, curr);
 		if (fd < 0)
 			return (-1);
-		if (add_fd_to_cmd(cmd, fd, 0, 0))
+		if (add_input_fd_to_cmd(cmd, fd, 0))
 			return (-1);
 	}
 	if (curr->next_operator == LT_DBL && curr->next)
@@ -125,7 +101,7 @@ int	add_input(t_infos *infos, t_cmd **cmd, t_cmd *curr)
 		fd = extract_input_from_stdin(infos, curr);
 		if (fd <= 0)
 			return (-1);
-		if (add_fd_to_cmd(cmd, fd, 0, 1))
+		if (add_input_fd_to_cmd(cmd, fd, 1))
 			return (-1);
 	}
 	return (0);

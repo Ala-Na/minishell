@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 13:26:21 by hlichir           #+#    #+#             */
-/*   Updated: 2021/10/16 16:22:54 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/25 19:33:51 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,4 +75,20 @@ int	append_to_file(t_cmd *curr, int fd)
 	}
 	free(filename);
 	return (fd);
+}
+
+/*
+** Add the correct fd to the cmd structure.
+** If a file is already in the structure (fs_input/outpur != -1), the prev
+**	file descriptor is closed.
+** Returns -1 if error on the close function or 0 if everthing is good.
+*/
+int	add_output_fd_to_cmd(t_cmd **cmd, int fd)
+{
+	printf("in new function\n");
+	if ((*cmd)->fd_output > 1)
+		if (close((*cmd)->fd_output) < 0)
+			return (return_error(1, strerror(errno), 0, -1));
+	(*cmd)->fd_output = fd;
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 13:26:21 by hlichir           #+#    #+#             */
-/*   Updated: 2021/10/25 19:33:51 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/25 23:18:52 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,6 @@ int	append_to_file(t_cmd *curr, int fd)
 */
 int	add_output_fd_to_cmd(t_cmd **cmd, int fd)
 {
-	printf("in new function\n");
 	if ((*cmd)->fd_output > 1)
 		if (close((*cmd)->fd_output) < 0)
 			return (return_error(1, strerror(errno), 0, -1));

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
+/*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 12:59:47 by hlichir           #+#    #+#             */
-/*   Updated: 2021/10/21 15:23:28 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/25 18:54:29 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,7 +152,7 @@ int	dup_redirections(t_infos *infos, t_cmd *head_cmd)
 ** or encounters a pipe.
 ** If an error occurs -> returns -1, 0 if everything is fine.
 */
-int	add_redirections(t_infos *infos, t_cmd *head_cmd, int is_not_builtin)
+int	add_redirections(t_infos *infos, t_cmd *head_cmd)
 {
 	t_cmd	*curr;
 
@@ -168,7 +168,5 @@ int	add_redirections(t_infos *infos, t_cmd *head_cmd, int is_not_builtin)
 			return (-1);
 		curr = curr->next;
 	}
-	if (is_not_builtin)
-		return (dup_redirections(infos, head_cmd));
 	return (0);
 }

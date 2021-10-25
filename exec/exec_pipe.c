@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_pipe.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
+/*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/27 17:16:19 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/21 15:07:08 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/25 18:54:03 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,7 +154,7 @@ int	launch_pipes_cmds(t_infos *infos, t_cmd *cmd, int nbr_pipes)
 	redir_cmd = cmd;
 	while (redir_cmd)
 	{
-		if (add_redirections(infos, redir_cmd, 0) < 0)
+		if (add_redirections(infos, redir_cmd) < 0)
 			return (-1);
 		redir_cmd = get_next_cmd(redir_cmd);
 	}

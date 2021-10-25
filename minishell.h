@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 15:55:23 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/21 23:30:07 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/25 18:54:00 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -466,7 +466,7 @@ int			complete_exec_env_with_assignments(t_infos *infos,
 ** REDIRECTIONS
 */
 
-int			add_redirections(t_infos *infos, t_cmd *cmd, int is_not_builtin);
+int			add_redirections(t_infos *infos, t_cmd *cmd);
 int			dup_redirections(t_infos *infos, t_cmd *cmd);
 int			add_input(t_infos *infos, t_cmd **cmd, t_cmd *curr);
 int			add_output(t_cmd **cmd, t_cmd *curr);

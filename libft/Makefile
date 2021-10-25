@@ -6,7 +6,7 @@
 #    By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/05/26 11:25:33 by anadege           #+#    #+#              #
-#    Updated: 2021/10/14 13:27:37 by anadege          ###   ########.fr        #
+#    Updated: 2021/10/25 21:54:20 by anadege          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,14 +21,14 @@ SRCS = 								\
 		  $(SUB_SRCS_LST)			\
 		  $(SUB_SRCS_MATH)			\
 		  $(SUB_SRCS_MEM)			\
-		  $(SUB_SRCS_PRINT)			\
-		  $(SUB_SRCS_STR_UTILS)
+		  $(SUB_SRCS_STR_UTILS)		\
+		  $(SUB_SRCS_PRINT)
 
 SUB_SRCS_FILES_UTILS =				\
 		  get_next_line.c			\
 		  get_next_line_utils.c
 
-SUB_SRCS_ID =						\
+SUB_SRCS_IDS =						\
 		  ft_isalnum.c				\
 		  ft_isalpha.c				\
 		  ft_isascii.c				\
@@ -52,7 +52,7 @@ SUB_SRCS_LST =						\
 		  ft_lstnew.c				\
 		  ft_lstsize.c
 
-SUB_SRCS_MATH =						\
+SUB_SRCS_MATHS =						\
 		  ft_bintodec.c 			\
 		  ft_max.c 					\
 		  ft_pow.c
@@ -67,8 +67,43 @@ SUB_SRCS_MEM =						\
 		  ft_memmove.c 				\
 		  ft_memset.c
 
+SUB_SRCS_STR_UTILS =				\
+		  ft_atoi.c					\
+		  ft_split.c				\
+		  ft_strdup.c				\
+		  ft_strdup_free.c			\
+		  ft_strchr.c				\
+		  ft_strjoin.c				\
+		  ft_strjoin_free.c			\
+		  ft_strlcat.c				\
+		  ft_strlcpy.c				\
+		  ft_strlen.c				\
+		  ft_strmapi.c				\
+		  ft_strncmp.c				\
+		  ft_strndup.c				\
+		  ft_strnjoin.c				\
+		  ft_strnstr.c				\
+		  ft_strrchr.c				\
+		  ft_strtrim.c				\
+		  ft_strtrim_ult.c			\
+		  ft_substr.c				\
+
+
+
+
 SUB_SRCS_PRINT =					\
-		  
+		  ft_print_bin_rep.c		\
+		  ft_putchar.c				\
+		  ft_putchar_fd.c			\
+		  ft_putendl_fd.c			\
+		  ft_puterr.c				\
+		  ft_putlenstr_fd.c			\
+		  ft_putlenwstr_fd.c		\
+		  ft_putnbr_fd.c			\
+		  ft_putstr.c				\
+		  ft_putstr_fd.c			\
+		  ft_putwstr_fd.c			\
+
 
 
 ./ft_atoi.c ./ft_bzero.c ./ft_calloc.c \

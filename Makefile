@@ -6,17 +6,20 @@
 #    By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/08/23 15:04:29 by anadege           #+#    #+#              #
-#    Updated: 2021/10/21 16:35:39 by anadege          ###   ########.fr        #
+#    Updated: 2021/10/26 16:21:14 by anadege          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -g -MMD
+CFLAGS = -Wall -Wextra -Werror -g -MMD -I$(HEADER_DIR)
 LIB_FLAGS = -L libft -lft -lreadline
+MAKEFLAGS += --silent
+LIB_PATH = libft/.
 
 SRCS_DIR = .
+
 SRCS = 									\
 		  $(SUB_SRCS_ARCHITECTURE)		\
 		  $(SUB_SRCS_BUILTINS)			\
@@ -92,36 +95,45 @@ SUB_SRCS_FLOW_MANAGEMENT =			\
 OBJS = $(SRCS:%.c=$(OBJS_DIR)/%.o)
 OBJS_DIR = .objs
 
-DEPS = $(OBJS:%.o=%.d)
+HEADER_DIR = .
+
+PREREQ = $(OBJS:%.o=%.d)
 
 MAKE = make
 MAKE_DIR = mkdir -p
+MAKE_RM = rm -f
 
-all:		$(NAME) libft
+all: libft.a $(NAME)
 
-$(NAME):	$(OBJS) libft
-			$(CC) $(CFLAGS) $(OBJS) -o $(NAME) $(LIB_FLAGS)
+$(NAME):	$(OBJS) libft/libft.a
+			@echo "\nAssembling $(NAME)"
+			@$(CC) $(CFLAGS) $(OBJS) -o $(NAME) $(LIB_FLAGS)
+			@echo "Done !"
 
--include $(DEPS)
+-include $(PREREQ)
+
 $(OBJS_DIR)/%.o: %.c | $(OBJS_DIR)
-			$(CC) $(CFLAGS) -c $< -o $@
+			@$(CC) -I$(LIB_PATH) $(CFLAGS) -c $< -o $@
+			@echo -n "\rCreation of $(NAME) objects"
 
 $(OBJS_DIR):
-			$(MAKE_DIR) $@
+			@echo "Creation of $(NAME) $@ file"
+			@$(MAKE_DIR) $@
 
-libft:
-			$(MAKE) -C libft
+libft.a:
+			@$(MAKE) -C libft
 
 clean:
-			@$(MAKE) $@ -C libft
-			@rm -rf $(OBJS_DIR)
+			@echo "Deleting $(NAME) objects"
+			@$(MAKE_RM) -r $(OBJS_DIR)
 
 fclean: 	clean
-			@rm -f $(NAME)
+			@ echo "Deleting $(NAME) executable"
+			@$(MAKE_RM) $(NAME)
 
 re:			fclean all
 
-.PHONY: all clean re
+.PHONY: all clean fclean re
 
 vpath %.c ./architecture ./builtins ./exec ./exit ./flow_management ./parsing
 vpath %.h . ./libft

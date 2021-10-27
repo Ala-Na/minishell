@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 15:55:23 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/25 19:33:49 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/27 18:50:21 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,10 @@
 # include <sys/stat.h>
 
 # define PROMPT_MSG "\001\033[1;38;5;51m\002Minishell > \001\033[0m\002"
+
+# define WRITE_SIDE 1
+# define READ_SIDE 0
+# define FD_UNSET -1
 
 /*
 ** Use of one global variable to handle exit_status = 130 when ctrl+c is used
@@ -440,7 +444,7 @@ int			assignments_management(t_infos *infos, t_cmd *head_cmd, t_cmd *cmd, \
 ** SIMPLE COMMAND EXECUTION
 */
 int			execute_simple_cmd(t_infos *infos);
-void		child_execution(t_infos *infos, t_cmd *head_cmd);
+void		child_execution(t_infos *infos, t_cmd *head_cmd, char *exec_path);
 void		free_child_exec_var_and_exit(t_infos *infos, char **exec_path,
 				char ***exec_env, char ***exec_args);
 
@@ -522,6 +526,8 @@ int			last_close(int pipe_fd[2]);
 int			wait_for_pipeline_childs(int nbr_pipes, \
 				pid_t **child_pids);
 t_cmd		*get_next_cmd(t_cmd *cmd);
+void		close_and_duplicate_pipe_fd(int pipe_fd[2]);
+int			free_child_pids(pid_t **child_pids);
 
 /*
 ** TOKENS MANIPULATION

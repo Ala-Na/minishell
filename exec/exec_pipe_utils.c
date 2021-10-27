@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_pipe_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
+/*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 16:51:37 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/13 16:40:12 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/27 18:50:17 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,4 +64,26 @@ int	wait_for_pipeline_childs(int nbr_pipes, pid_t **child_pids)
 	return_pipeline(wstatus);
 	free(*child_pids);
 	return (0);
+}
+
+/*
+**	Sub_function for the function pipe_child_execution
+*/
+void	close_and_duplicate_pipe_fd(int pipe_fd[2])
+{
+	if (close(pipe_fd[READ_SIDE]) == -1)
+		return_error(1, strerror(errno), 0, 0);
+	if (dup2(pipe_fd[WRITE_SIDE], STDOUT_FILENO) == -1)
+		return_error(1, strerror(errno), 0, 0);
+	if (close(pipe_fd[WRITE_SIDE]) == -1)
+		return_error(1, strerror(errno), 0, 0);
+}
+
+/*
+**	Sub_function for the function 
+*/
+int	free_child_pids(pid_t **child_pids)
+{
+	free(*child_pids);
+	return (-1);
 }

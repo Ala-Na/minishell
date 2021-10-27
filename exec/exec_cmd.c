@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
+/*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 15:00:10 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/21 23:47:18 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/27 18:39:29 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,8 @@ void	free_child_exec_var_and_exit(t_infos *infos, char **exec_path,
 ** Child should normally end inside the execve function. If not, we 
 ** arrive at the end of the function where an exit failure is issued.
 */
-void	child_execution(t_infos *infos, t_cmd *head_cmd)
+void	child_execution(t_infos *infos, t_cmd *head_cmd, char *exec_path)
 {
-	char	*exec_path;
 	char	**exec_env;
 	char	**exec_args;
 	t_token	*exec_token;
@@ -104,11 +103,13 @@ void	ignore_signals(t_infos *infos)
 */
 int	execute_simple_cmd(t_infos *infos)
 {
+	char	*exec_path;
 	pid_t	child_pid;
 	int		wstatus;
 	int		res;
 
 	child_pid = fork();
+	exec_path = NULL;
 	if (child_pid == -1)
 		return (return_error(1, "fork failed", 0, -1));
 	else if (child_pid > 0)
@@ -124,6 +125,6 @@ int	execute_simple_cmd(t_infos *infos)
 			return (return_signal(WTERMSIG(wstatus)));
 	}
 	else
-		child_execution(infos, infos->lst_cmds);
+		child_execution(infos, infos->lst_cmds, exec_path);
 	return (return_error(1, "something went wrong", 0, -1));
 }

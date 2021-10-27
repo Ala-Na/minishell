@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/22 17:28:50 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/25 19:43:37 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/27 18:38:22 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,10 @@ int	launch_simple_cmd(t_infos *infos, t_cmd *cmd,
 		t_token *exec_token, int from_pipe)
 {
 	char		*str;
+	char		*exec_path;
 	t_builtin	builtin;
 
+	exec_path = NULL;
 	if (exec_token->type == VARIABLE
 		&& !ft_strncmp(exec_token->token, "\"\'", exec_token->length))
 		return (0);
@@ -62,7 +64,7 @@ int	launch_simple_cmd(t_infos *infos, t_cmd *cmd,
 	if (!from_pipe)
 		return (execute_simple_cmd(infos));
 	else
-		child_execution(infos, cmd);
+		child_execution(infos, cmd, exec_path);
 	return (0);
 }
 

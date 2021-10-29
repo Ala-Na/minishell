@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/30 17:16:26 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/19 15:34:34 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/29 14:53:06 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,8 @@ int	add_line_to_history(int history_fd, char *str, int exit)
 		return (-1);
 	}
 	if (ft_isblanks(str) || (previous
-			&& !ft_strncmp(str, previous, ft_strlen(str))))
+			&& !ft_strncmp(str, previous,
+				ft_max(ft_strlen(str), ft_strlen(previous)))))
 		return (0);
 	write(history_fd, str, ft_strlen(str));
 	write(history_fd, "\n", 1);

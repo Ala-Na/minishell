@@ -143,7 +143,8 @@ int	check_for_heredoc_exception(t_infos *infos, int *new_size, int check, int i)
 			i = i + 2;
 			while (cmd[i] && ft_strchr(" \t\n", cmd[i]))
 				i++;
-			if (modify_cmd_for_heredoc(&cmd, &i, &check) < 0)
+			if (cmd[i + 1] && !ft_strchr("\"\'", cmd[i + 1])
+				&& modify_cmd_for_heredoc(&cmd, &i, &check) < 0)
 				return (return_error(1, "memory allocation error", 0, -1));
 		}
 		if (cmd[i])

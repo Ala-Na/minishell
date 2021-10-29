@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 15:55:23 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/29 11:17:44 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/29 14:44:07 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -494,7 +494,7 @@ int			check_file(char	*filename);
 int			check_end_or_fill_tmp_file(char **str, char *end, int fd);
 char		*get_tmp_file_name(int nbr_tmp_file);
 
-void		handle_signal_in_input(int signum);
+void		handle_signal_in_input(int signum, int *fd);
 void		extract_child(t_infos *infos, int fd, char *end_str);
 int			free_end_str_return(char **end_str, int result);
 int			check_if_end(char **str, char *end_str, int fd);

@@ -59,6 +59,7 @@ int	browse_token(char *token, int *syntax_error, char **error_pos)
 		return (browse_string(token, token[i], syntax_error, error_pos));
 	else if (ft_strchr("|><", token[i]))
 		ope_char = token[i++];
+	printf("i is %i and ope is %c, token i is %s\n", i, ope_char, token + i);
 	while (!ope_char && token[i] && ++i)
 	{
 		if (ft_strchr("\"' \t|><$", token[i]))
@@ -66,6 +67,7 @@ int	browse_token(char *token, int *syntax_error, char **error_pos)
 	}
 	if (ope_char && ft_strchr("><", ope_char) && ope_char == token[i])
 		i++;
+	printf("i is %i\n", i);
 	return (i);
 }
 

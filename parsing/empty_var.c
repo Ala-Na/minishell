@@ -62,7 +62,7 @@ void	skip_empty_var_in_middle(t_token **tokens, t_token **curr,
 	t_token	*prev;
 
 	prev = (*curr)->prev;
-	if (prev->type == OPERATOR)
+	if (prev && prev->type == OPERATOR)
 		return ;
 	(*next)->prev = prev;
 	if (prev)

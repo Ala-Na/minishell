@@ -62,8 +62,8 @@ int	get_var(t_infos *infos, int start, char **var, int dbl)
 	if (i <= 1 || !elem_name)
 		return (set_and_return_size_var(var, NULL, -1));
 	sub_get_var(var, &elem_name, infos->env, infos->lst_var);
-	if (*var && is_empty_var(*var)
-		&& (dbl || (start > 0 && infos->curr_cmd[start - 1] != ' ')))
+	if (*var && is_empty_var(*var) && (dbl
+			|| (start > 0 && !ft_strchr(" ><|\t", infos->curr_cmd[start - 1]))))
 		*var = NULL;
 	return (return_diff_size(*var, dbl, i));
 }

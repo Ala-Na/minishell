@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit_builtin.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 10:48:26 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/21 15:31:12 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/29 13:52:59 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	print_non_numeric_error(char **str_value)
 	*str_value = ft_strjoin_free(str_value, &error_msg, 1, 0);
 	if (!str_value)
 		return (return_error(1, "memory allocation error", 0, -1));
-	return (return_error(2, 0, str_value, 2));
+	return (return_error(255, 0, str_value, 255));
 }
 
 int	get_exit_value(t_token *token_value)
@@ -68,12 +68,12 @@ int	exit_builtin(t_infos *infos, t_cmd *cmd, t_token *token)
 	if (!curr && g_exit_status != 0)
 		return (-1);
 	next = get_next_token(infos, cmd, &cmd, curr);
-	if (next)
-		return (return_error(1, "exit : too many arguments", 0, -1));
 	if (!curr)
 		value = 0;
 	else
 		value = get_exit_value(curr);
+	if (value != 255 && value != -1 && next)
+		return (return_error(1, "exit : too many arguments", 0, -1));
 	if (value == -1)
 		return (-1);
 	clean_exit(infos, 0);

@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/01 19:29:45 by hlichir           #+#    #+#             */
-/*   Updated: 2021/10/14 13:42:26 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/29 13:04:08 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,9 @@ int	seek_elem_pos(char **env, char *elem_name)
 	while (env[elem_pos])
 	{
 		if (!ft_strncmp(env[elem_pos], elem_name, ft_strlen(elem_name)))
-			break ;
+			if (env[elem_pos][ft_strlen(elem_name)] == 0
+				|| env[elem_pos][ft_strlen(elem_name)] == '=')
+				break ;
 		elem_pos++;
 	}
 	if (elem_pos == i)

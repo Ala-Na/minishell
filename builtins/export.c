@@ -6,37 +6,11 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/01 21:56:08 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/15 11:50:03 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/29 13:03:59 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-/*
-**	Subfunction to modify the ~ in our list of assigned variables in case
-**	a new home is exported.
-*/
-int	add_home_to_var_lst(t_infos *infos, t_token *elem)
-{
-	char	*new_elem;
-	char	*value;
-	int		check;
-
-	check = 0;
-	new_elem = ft_strdup_linked_string(elem);
-	if (!new_elem)
-		return (-1);
-	value = extract_value(new_elem, ft_strlen(new_elem));
-	free(new_elem);
-	if (!value)
-		return (1);
-	new_elem = "~=";
-	value = ft_strjoin_free(&new_elem, &value, 0, 1);
-	if (!value || (modify_var_in_list(infos, value, &check) < 0))
-		return (return_error(1, "memory allocation error", 0, -1));
-	free(value);
-	return (0);
-}
 
 /*
 ** Function which augment the size of env array in order to add a new element
@@ -119,8 +93,6 @@ int	sub_add_elem_to_env(t_infos *infos, t_token *new_elem,
 	elem_name = get_elem_name(new_elem);
 	if (!elem_name)
 		return (-1);
-	if (!ft_strncmp(elem_name, "HOME", ft_max(ft_strlen(elem_name) + 1, 5)))
-		add_home_to_var_lst(infos, new_elem);
 	delete_elem_from_var_lst(&infos->lst_var, elem_name);
 	if (!get_env_elem(infos->env, elem_name, ft_strlen(elem_name)))
 		res = add_not_existing_elem_to_env(&infos->env, new_elem,

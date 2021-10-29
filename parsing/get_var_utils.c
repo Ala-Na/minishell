@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_var_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/07 23:56:52 by hlichir           #+#    #+#             */
-/*   Updated: 2021/10/18 18:51:58 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/29 13:04:26 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,29 @@
 */
 void	expand_variable_for_home(t_infos *infos, int i, int *size, char **var)
 {
+	int	pos;
+
 	if ((i == 0 || infos->curr_cmd[i - 1] == ' ')
 		&& (!infos->curr_cmd[i + 1] || infos->curr_cmd[i + 1] == ' '))
-		*size += get_var(infos, i, var, 1);
+	{
+		pos = seek_elem_pos(infos->env, "HOME");
+		if (pos >= 0 && (infos->env)[pos][ft_strlen("HOME")] == '=')
+		{
+			*var = get_env_elem(infos->env, "HOME", ft_strlen("HOME"));
+			if (*var)
+			{
+				if (size)
+					*size += ft_strlen(*var) - 1;
+				return ;
+			}
+			else
+				return_error(1, "memory allocation error", 0, -1);
+		}
+		if (size)
+			*size += get_var(infos, i, var, 1);
+		else
+			get_var(infos, i, var, 1);
+	}
 }
 
 /*

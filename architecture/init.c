@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/02 11:52:56 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/25 19:08:02 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/29 12:31:20 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int	add_new_shlvl(t_infos *infos, char *shlvl, char **env, int nb)
 	new_elem->linked_to_next = NULL;
 	new_elem->prev = NULL;
 	new_elem->next = NULL;
-	nb = modify_existing_elem_to_env(infos, infos->env, new_elem, shlvl);
+	nb = modify_existing_elem_to_env(infos, infos->env, new_elem, "SHLVL");
 	free(str);
 	free(new_elem);
 	return (nb);

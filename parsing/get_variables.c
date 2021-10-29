@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_variables.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 21:45:16 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/18 18:52:38 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/29 12:45:40 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,8 +75,16 @@ void	add_var(t_infos *infos, char **new_cmd, int i[2], int dbl)
 {
 	char	*var;
 
-	get_var(infos, i[0], &var, dbl);
-	add_var_modify_string(new_cmd, var, dbl, i);
+	if (dbl == -1)
+	{
+		expand_variable_for_home(infos, i[0], NULL, &var);
+		add_var_modify_string(new_cmd, var, 1, i);
+	}
+	else
+	{
+		get_var(infos, i[0], &var, dbl);
+		add_var_modify_string(new_cmd, var, dbl, i);
+	}
 	if (infos->curr_cmd[i[0]] == '~')
 	{
 		*i += 1;
@@ -112,7 +120,7 @@ void	get_cmd_with_var(t_infos *infos, int new_size, int ignore, int dbl)
 		else if (infos->curr_cmd[i[0]] == '~' && ignore == 0
 			&& (i[0] == 0 || infos->curr_cmd[i[0] - 1] == ' ')
 			&& (!infos->curr_cmd[i[0] + 1] || infos->curr_cmd[i[0] + 1] == ' '))
-			add_var(infos, &new_cmd, i, 1);
+			add_var(infos, &new_cmd, i, -1);
 		else
 			new_cmd[i[1]++] = infos->curr_cmd[i[0]++];
 	}

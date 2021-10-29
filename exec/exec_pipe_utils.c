@@ -87,3 +87,11 @@ int	free_child_pids(pid_t **child_pids)
 	free(*child_pids);
 	return (-1);
 }
+
+void	close_pipe_fds(t_infos *infos)
+{
+	if (infos->pipe_write_side != 1)
+		close(infos->pipe_write_side);
+	if (infos->pipe_read_side != 0)
+		close(infos->pipe_read_side);
+}

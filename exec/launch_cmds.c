@@ -60,7 +60,10 @@ int	launch_simple_cmd(t_infos *infos, t_cmd *cmd,
 	if ((int)builtin == -1)
 		return (-1);
 	else if (builtin != NONE)
+	{
+		close_pipe_fds(infos);
 		return (launch_builtin(infos, cmd, builtin));
+	}
 	if (!from_pipe)
 		return (execute_simple_cmd(infos));
 	else

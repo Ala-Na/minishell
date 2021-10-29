@@ -530,6 +530,7 @@ int			wait_for_pipeline_childs(int nbr_pipes, \
 t_cmd		*get_next_cmd(t_cmd *cmd);
 void		close_and_duplicate_pipe_fd(int pipe_fd[2]);
 int			free_child_pids(pid_t **child_pids);
+void		close_pipe_fds(t_infos *infos);
 
 /*
 ** TOKENS MANIPULATION

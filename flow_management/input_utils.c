@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 13:49:03 by hlichir           #+#    #+#             */
-/*   Updated: 2021/10/21 15:38:40 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/29 16:01:41 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	get_fd(t_infos *infos, t_cmd *curr)
 	if (fd == -1)
 	{
 		display_next_lt_dbl(infos, curr);
-		return (return_error(1, "Ambiguous redirect", 0, -1));
+		return (return_error(1, "Ambiguous redirect!", 0, -1));
 	}
 	if (!filename)
 		return (return_error(1, "memory allocation error", 0, -1));

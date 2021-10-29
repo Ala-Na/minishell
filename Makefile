@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+         #
+#    By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/08/23 15:04:29 by anadege           #+#    #+#              #
-#    Updated: 2021/10/26 16:21:14 by anadege          ###   ########.fr        #
+#    Updated: 2021/10/29 11:18:17 by hlichir          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,6 +39,7 @@ SUB_SRCS_ARCHITECTURE = 				\
 SUB_SRCS_BUILTINS =						\
 		   cd.c							\
 		   cd_utils.c					\
+		   cd_utils2.c					\
 		   env.c						\
 		   export.c						\
 		   export_utils.c				\

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 15:55:23 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/27 18:50:21 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/29 11:17:44 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -216,6 +216,8 @@ int			handle_cd_path(char **env, char **path, int *is_alloc);
 int			check_if_valid_cdpath(char *cdpath, char **path, int *is_alloc);
 void		check_if_currdir_exist(t_infos *infos, char **tmp_path,
 				char *old_path, char *new_path);
+
+char		*get_correct_cdpath(char *cdpath);
 
 /*
 ** BUILT IN ECHO

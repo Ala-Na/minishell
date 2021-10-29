@@ -112,7 +112,8 @@ int	modify_cmd_for_heredoc(char **cmd, int *i, int *check)
 	{
 		if (check_if_within_quotes(cmd, i) < 0)
 			return (-1);
-		if ((*cmd)[*i] && (*cmd)[*i] == '$')
+		if ((*cmd)[*i] && (*cmd)[*i] == '$' && (*cmd)[*i + 1]
+			&& !ft_strchr("\"\'", (*cmd)[*i + 1]))
 		{
 			*cmd = get_new_string_for_exception(cmd, i, ft_strlen(*cmd) + 2, 0);
 			if (!(*cmd))

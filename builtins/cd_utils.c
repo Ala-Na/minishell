@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd_utils.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/05 13:05:41 by hlichir           #+#    #+#             */
-/*   Updated: 2021/10/18 21:55:43 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/29 11:17:17 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ int	check_if_valid_cdpath(char *cdpath, char **path, int *is_alloc)
 	struct stat	buf;
 	char		*str;
 
-	str = ft_strdup(cdpath);
+	str = get_correct_cdpath(cdpath);
 	if (!str)
 		return (return_error(1, "memory allocation error", 0, -1));
 	str = ft_strjoin_free(&str, path, 1, 0);

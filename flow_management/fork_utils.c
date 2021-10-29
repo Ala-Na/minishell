@@ -6,18 +6,23 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/12 16:15:52 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/20 17:29:17 by anadege          ###   ########.fr       */
+/*   Updated: 2021/10/29 14:45:47 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	handle_signal_in_input(int signum)
+void	handle_signal_in_input(int signum, int *fd)
 {
+	static int	saved = 0;
+
+	if (saved == 0)
+		saved = *fd;
 	if (signum == SIGINT)
 	{
 		ft_putstr("\n");
 		g_exit_status = 130;
+		close(saved);
 		exit (130);
 	}
 }
@@ -49,7 +54,8 @@ void	extract_child(t_infos *infos, int fd, char *end_str)
 	char	*str;
 	int		tmp_status;
 
-	signal(SIGINT, handle_signal_in_input);
+	signal(SIGINT, (void (*)(int))handle_signal_in_input);
+	handle_signal_in_input(-42, &fd);
 	signal(SIGQUIT, SIG_IGN);
 	clean_exit(infos, 0);
 	g_exit_status = 0;

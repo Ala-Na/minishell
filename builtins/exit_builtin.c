@@ -26,7 +26,7 @@ int	print_non_numeric_error(char **str_value)
 	*str_value = ft_strjoin_free(str_value, &error_msg, 1, 0);
 	if (!str_value)
 		return (return_error(1, "memory allocation error", 0, -1));
-	return (return_error(255, 0, str_value, 255));
+	return (return_error(2, 0, str_value, 2));
 }
 
 int	get_exit_value(t_token *token_value)
@@ -72,7 +72,7 @@ int	exit_builtin(t_infos *infos, t_cmd *cmd, t_token *token)
 		value = 0;
 	else
 		value = get_exit_value(curr);
-	if (value != 255 && value != -1 && next)
+	if (value != 2 && value != -1 && next)
 		return (return_error(1, "exit : too many arguments", 0, -1));
 	if (value == -1)
 		return (-1);

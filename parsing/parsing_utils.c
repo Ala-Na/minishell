@@ -119,7 +119,7 @@ t_cmd	*init_new_cmd(t_token *start, t_cmd **head_lst)
 */
 int	parsing_error(int syntax_error, char *error_pos)
 {
-	g_exit_status = 258;
+	g_exit_status = 2;
 	if (syntax_error <= -1 && syntax_error >= -5)
 		ft_puterr("minishell : syntax error with ", 0);
 	if (syntax_error == -1)

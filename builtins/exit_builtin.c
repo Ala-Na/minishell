@@ -6,7 +6,7 @@
 /*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 10:48:26 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/29 13:52:59 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/10/31 20:31:06 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int	exit_builtin(t_infos *infos, t_cmd *cmd, t_token *token)
 
 	if (!infos || !cmd)
 		return (return_error(1, "something went wrong", 0, -1));
-	ft_putstr("exit\n");
+	ft_putstr_fd("exit\n", infos->pipe_write_side);
 	curr = get_next_token(infos, cmd, &cmd, token);
 	if (!curr && g_exit_status != 0)
 		return (-1);

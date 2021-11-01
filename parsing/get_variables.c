@@ -51,6 +51,7 @@ int	get_var(t_infos *infos, int start, char **var, int dbl)
 	char	*elem_name;
 	char	*cmd;
 
+	elem_name = NULL;
 	cmd = &infos->curr_cmd[start];
 	res = get_var_exception(infos, var, cmd, &i);
 	if (res != -1)

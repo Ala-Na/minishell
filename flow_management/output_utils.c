@@ -15,19 +15,24 @@
 /*
 ** Display error message for opening
 */
-int	return_and_display_open_error(char **filename)
+int	return_and_display_open_error(char **filename, int free_filename)
 {
+	char	*filename_cpy;
 	char	*msg_err;
 
+	if (free_filename == 0)
+		filename_cpy = ft_strdup(*filename);
+	else
+		filename_cpy = *filename;
 	msg_err = ": ";
-	*filename = ft_strjoin_free(filename, &msg_err, 1, 0);
-	if (!*filename)
+	filename_cpy = ft_strjoin_free(&filename_cpy, &msg_err, 1, 0);
+	if (!filename_cpy)
 		return (return_error(1, "memory allocation error", 0, -1));
 	msg_err = strerror(errno);
-	*filename = ft_strjoin_free(filename, &msg_err, 1, 0);
-	if (!*filename)
+	filename_cpy = ft_strjoin_free(&filename_cpy, &msg_err, 1, 0);
+	if (!filename_cpy)
 		return (return_error(1, "memory allocation error", 0, -1));
-	return (return_error(1, 0, filename, -1));
+	return (return_error(1, 0, &filename_cpy, -1));
 }
 
 /*
@@ -50,7 +55,7 @@ int	create_new_file(t_cmd *curr)
 		return (-1);
 	fd = open(filename, O_RDWR | O_TRUNC | O_CREAT, 0644);
 	if (fd < 0)
-		return (return_and_display_open_error(&filename));
+		return (return_and_display_open_error(&filename, 1));
 	free(filename);
 	return (fd);
 }
@@ -74,7 +79,7 @@ int	append_to_file(t_cmd *curr, int fd)
 		return (-1);
 	fd = open(filename, O_RDWR | O_APPEND | O_CREAT, S_IRWXG | S_IRWXU);
 	if (fd < 0)
-		return (return_and_display_open_error(&filename));
+		return (return_and_display_open_error(&filename, 1));
 	free(filename);
 	return (fd);
 }

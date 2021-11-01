@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/05 13:05:41 by hlichir           #+#    #+#             */
-/*   Updated: 2021/10/29 11:17:17 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/11/01 13:18:09 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,10 +60,12 @@ char	*check_oldpwd_cdpath(t_infos *infos, char **path, int *is_alloc)
 			return (return_null_error(1, "cd: OLDPWD not set", 0));
 		if (*is_alloc)
 			free(*path);
-		*path = get_elem_value((infos->env)[nb]);
+		*path = extract_value((infos->env)[nb], ft_strlen((infos->env)[nb]));
 		if (!*path)
 			return (return_null_error(1, "OLDPWD not assigned", 0));
 		*is_alloc = 2;
+		if (ft_strlen(*path) == 0)
+			*is_alloc = 3;
 	}
 	else if (ft_strncmp(*path, ".", 2) && ft_strncmp(*path, "..", 3) && \
 		get_env_elem(infos->env, "CDPATH", ft_strlen("CDPATH")))
@@ -159,6 +161,8 @@ void	check_if_currdir_exist(t_infos *infos, char **tmp_path, char *old_path,
 		else
 			*tmp_path = ft_strdup(new_path);
 	}
+	else if (!ft_strncmp(new_path, "//", 3))
+		*tmp_path = ft_strdup(new_path);
 	else
 		*tmp_path = get_curr_dir(infos, 0);
 }

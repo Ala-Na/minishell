@@ -20,7 +20,7 @@ void	expand_variable_for_home(t_infos *infos, int i, int *size, char **var)
 	int	pos;
 
 	if ((i == 0 || infos->curr_cmd[i - 1] == ' ')
-		&& (!infos->curr_cmd[i + 1] || infos->curr_cmd[i + 1] == ' '))
+		&& (!infos->curr_cmd[i + 1] || ft_strchr(" /", infos->curr_cmd[i + 1])))
 	{
 		pos = seek_elem_pos(infos->env, "HOME");
 		if (pos >= 0 && (infos->env)[pos][ft_strlen("HOME")] == '=')

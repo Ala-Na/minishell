@@ -100,33 +100,33 @@ void	add_var(t_infos *infos, char **new_cmd, int i[2], int dbl)
 	}
 }
 
-void	get_cmd_with_var(t_infos *infos, int new_size, int ignore, int dbl)
+void	get_cmd_with_var(t_infos *inf, int new_size, int ign, int dbl)
 {
 	int		i[2];
 	char	*new_cmd;
 
 	init_variables(&i[0], &i[1], 0);
-	if (!infos || !infos->curr_cmd
-		|| check_for_heredoc_exception(infos, &new_size, 0, 0) == -1)
+	if (!inf || !inf->curr_cmd
+		|| check_for_heredoc_exception(inf, &new_size, 0, 0) == -1)
 		return ;
 	new_cmd = malloc(sizeof(*new_cmd) * (new_size + 1));
 	if (!new_cmd)
 		return ;
-	while (infos->curr_cmd[i[0]])
+	while (inf->curr_cmd[i[0]])
 	{
-		add_ignore_dbl(infos->curr_cmd[i[0]], &ignore, &dbl);
-		if (infos->curr_cmd[i[0]] == '$' && ignore == 0)
-			add_var(infos, &new_cmd, i, dbl);
-		else if (infos->curr_cmd[i[0]] == '~' && ignore == 0
-			&& (i[0] == 0 || infos->curr_cmd[i[0] - 1] == ' ')
-			&& (!infos->curr_cmd[i[0] + 1] || infos->curr_cmd[i[0] + 1] == ' '))
-			add_var(infos, &new_cmd, i, -1);
+		add_ignore_dbl(inf->curr_cmd[i[0]], &ign, &dbl);
+		if (inf->curr_cmd[i[0]] == '$' && ign == 0)
+			add_var(inf, &new_cmd, i, dbl);
+		else if (inf->curr_cmd[i[0]] == '~' && ign == 0 && (i[0] == 0 || \
+				inf->curr_cmd[i[0] - 1] == ' ') && (!inf->curr_cmd[i[0] + 1]
+				|| ft_strchr(" /", inf->curr_cmd[i[0] + 1])))
+			add_var(inf, &new_cmd, i, -1);
 		else
-			new_cmd[i[1]++] = infos->curr_cmd[i[0]++];
+			new_cmd[i[1]++] = inf->curr_cmd[i[0]++];
 	}
 	new_cmd[i[1]] = 0;
-	free(infos->curr_cmd);
-	infos->curr_cmd = new_cmd;
+	free(inf->curr_cmd);
+	inf->curr_cmd = new_cmd;
 }
 
 void	expand_variables(t_infos *infos, int dbl, int ignore, int new_size)

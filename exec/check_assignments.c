@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/22 16:53:14 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/21 13:56:47 by anadege          ###   ########.fr       */
+/*   Updated: 2021/11/01 15:28:20 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,4 +89,20 @@ int	check_assignments(t_infos *infos, t_cmd *head_cmd, t_cmd *cmd,
 		curr_token = get_next_token(infos, cmd, &curr_cmd, curr_token);
 	}
 	return (1);
+}
+
+char	*find_assignment(t_infos *infos, char *var_name)
+{
+	t_var	*current;
+	int		size;
+
+	current = infos->lst_var;
+	while (current)
+	{
+		size = ft_max(ft_strlen(current->name), ft_strlen(var_name));
+		if (!ft_strncmp(current->name, var_name, size))
+			return (current->value);
+		current = current->next;
+	}
+	return (NULL);
 }

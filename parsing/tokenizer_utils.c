@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/05 14:12:00 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/15 19:08:42 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/11/01 16:12:01 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,12 +126,12 @@ void	strings_manipulation(t_token **tokens)
 	t_token	*curr_token;
 	char	to_compare;
 
-	add_tokens_for_variables(tokens, 0, NULL);
+	add_tokens_for_variables(tokens, NULL);
 	curr_token = *tokens;
 	while (curr_token)
 	{
 		to_compare = curr_token->token[curr_token->length];
-		if (curr_token->type == VARIABLE && to_compare == '$')
+		if (to_compare == '$' && curr_token->token[curr_token->length + 1])
 			to_compare = curr_token->token[curr_token->length + 1];
 		if (curr_token->type != STRING && curr_token->type != VARIABLE
 			&& curr_token->token[curr_token->length] && curr_token->next

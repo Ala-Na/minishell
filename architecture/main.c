@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 14:58:07 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/21 23:51:16 by anadege          ###   ########.fr       */
+/*   Updated: 2021/11/01 15:26:49 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,7 @@ int	minishell_loop(t_infos *infos)
 int	main(int argc, char **argv, char **env)
 {
 	t_infos	infos;
+	char	*str;
 	int		return_value;
 	int		mode;
 
@@ -124,6 +125,13 @@ int	main(int argc, char **argv, char **env)
 		return_value = minishell_loop(&infos);
 	else
 		return_value = non_interactive_minishell_loop(&infos);
+	if (return_value == 0)
+	{
+		str = find_assignment(&infos, "?");
+		if (!str)
+			return (-1);
+		return_value = ft_atoi(str);
+	}
 	if (clean_exit(&infos, 1) == -1)
 		return (return_error(1, "minishell : fatal error", 0, 1));
 	return (return_value);

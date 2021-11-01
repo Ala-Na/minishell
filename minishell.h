@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 15:55:23 by anadege           #+#    #+#             */
-/*   Updated: 2021/11/01 12:28:10 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/11/01 16:09:49 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -327,7 +327,9 @@ t_token		*init_new_token(t_token **tokens, char *cmd, int *syntax_error,
 void		free_token_list_from_extremity(t_token **tokens, int end);
 void		strings_manipulation(t_token **tokens);
 
-void		add_tokens_for_variables(t_token **tokens, int i, t_token *new);
+void		add_tokens_for_variables(t_token **tokens, t_token *new);
+void		separate_var_for_tokenization(t_token **start, t_token **cur,
+				t_token *new, int size);
 void		tokenize_variables(t_token **tokens, t_token **current,
 				t_token *new, int size);
 int			set_parsing_error(char **error_pos, char *error, t_token **to_free);
@@ -431,6 +433,7 @@ int			check_assignments(t_infos *infos, t_cmd *head_cmd, t_cmd *cmd,
 int			is_only_assignments(t_infos *infos, t_cmd *cmd,
 				t_token *first_non_redir);
 int			do_assignment(t_infos *infos, t_token *token);
+char		*find_assignment(t_infos *infos, char *var_name);
 
 /*
 ** LAUNCH

@@ -25,7 +25,8 @@ void	get_new_content(t_infos *infos, char **new, char *old)
 		{
 			add_variable_to_new(infos, new, size, old + i + 1);
 			size = size + get_new_var_size(infos, old + i + 1);
-			while (old[i] && !ft_strchr(" \t\n\'\"", old[i]))
+			i++;
+			while (old[i] && (ft_isalnum(old[i]) || old[i] == '_'))
 				i++;
 		}
 		else
@@ -46,7 +47,8 @@ void	get_new_content_size(t_infos *infos, char **new, char *old)
 		if (old[i] == '$' && old[i + 1] && !ft_strchr(" \t\n\'\"", old[i + 1]))
 		{
 			size = size + get_new_var_size(infos, old + i + 1);
-			while (old[i] && !ft_strchr(" \t\n\'\"", old[i]))
+			i++;
+			while (old[i] && (ft_isalnum(old[i]) || old[i] == '_'))
 				i++;
 		}
 		else

@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/05 13:05:41 by hlichir           #+#    #+#             */
-/*   Updated: 2021/11/01 17:07:56 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/11/01 17:10:06 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ int	handle_cd_path(char **env, char **path, int *is_alloc)
 	char		*str;
 	char		**all_cdpath;
 
-	if (*path && *path[0] && *path[0] == '/')
+	if (*path && (*path)[0] && (*path)[0] == '/')
 		return (0);
 	nb = seek_elem_pos(env, "CDPATH");
 	if (nb < 0)

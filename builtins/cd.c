@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/30 16:59:11 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/19 23:40:43 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/11/01 13:28:46 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,9 @@ int	modify_pwd(t_infos *infos, t_cmd *cmd, char *new_pwd, int is_old)
 	free(new_elem->token);
 	free(new_elem);
 	if (is_old == 2)
-	{
 		write(cmd->fd_output, new_pwd, ft_strlen(new_pwd));
+	if (is_old >= 2)
 		write(cmd->fd_output, "\n", 1);
-	}
 	return (0);
 }
 
@@ -92,7 +91,7 @@ int	call_chdir(t_infos *infos, char **new_path, int *is_alloc,
 			free(*new_path);
 		return (return_error(1, strerror(errno), 0, -1));
 	}
-	if (chdir(*new_path) == -1)
+	if (*new_path && (*new_path)[0] && chdir(*new_path) == -1)
 	{
 		ft_puterr("cd: ", 0);
 		ft_puterr(*new_path, 0);
@@ -156,15 +155,9 @@ int	cmd_change_directory(t_infos *infos, t_cmd *cmd, t_cmd *head, t_token *tok)
 	curr = get_next_token(infos, cmd, &cmd, tok);
 	if (!curr && g_exit_status != 0)
 		return (-1);
-	if ((!curr && g_exit_status == 0))
-	{
-		home_path = get_env_elem(infos->env, "HOME", ft_strlen("HOME"));
-		if (!home_path)
-			return (return_error(1, "cd: « HOME » not defined", 0, -1));
-		if (ft_strlen(home_path) == 0)
-			return (0);
-		return (change_directory(infos, head, &home_path, 0));
-	}
+	if (g_exit_status == 0 && (!curr || (!ft_strncmp(curr->token, "--", 2)
+				&& curr->length == 2)))
+		return (go_to_home(infos, head));
 	next = get_next_token(infos, cmd, &cmd, curr);
 	if (curr && next)
 		return (return_error(1, "cd: too many arguments", 0, -1));

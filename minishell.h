@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 15:55:23 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/29 14:44:07 by anadege          ###   ########.fr       */
+/*   Updated: 2021/11/01 12:28:10 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -218,6 +218,7 @@ void		check_if_currdir_exist(t_infos *infos, char **tmp_path,
 				char *old_path, char *new_path);
 
 char		*get_correct_cdpath(char *cdpath);
+int			go_to_home(t_infos *infos, t_cmd *cmd);
 
 /*
 ** BUILT IN ECHO

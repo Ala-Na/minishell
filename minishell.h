@@ -482,6 +482,7 @@ int			add_input_fd_to_cmd(t_cmd **cmd, int fd, int is_tmpfile);
 int			append_to_file(t_cmd *curr, int fd);
 int			create_new_file(t_cmd *curr);
 int			add_output_fd_to_cmd(t_cmd **cmd, int fd);
+int			return_and_display_open_error(char **filename);
 
 int			extract_input_from_stdin(t_infos *infos, t_cmd *curr);
 int			create_tmp_file(int nbr_tmp_file, char **tmp_file_name);

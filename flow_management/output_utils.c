@@ -13,6 +13,24 @@
 #include "../minishell.h"
 
 /*
+** Display error message for opening
+*/
+int	return_and_display_open_error(char **filename)
+{
+	char	*msg_err;
+
+	msg_err = ": ";
+	*filename = ft_strjoin_free(filename, &msg_err, 1, 0);
+	if (!filename)
+		return (return_error(1, "memory allocation error", 0, -1));
+	msg_err = strerror(errno);
+	*filename = ft_strjoin_free(filename, &msg_err, 1, 0);
+	if (!*filename)
+		return (return_error(1, "memory allocation error", 0, -1));
+	return (return_error(1, 0, filename, -1));
+}
+
+/*
 ** Function to create the file when the redirection is used ">"
 ** Create a new file even if it already exist & return the file descriptor.
 */
@@ -21,7 +39,6 @@ int	create_new_file(t_cmd *curr)
 	int		fd;
 	int		error;
 	char	*filename;
-	char	*msg_err;
 
 	if (!curr || !curr->next)
 		return (return_error(1, "something went wrong", 0, -1));
@@ -33,13 +50,7 @@ int	create_new_file(t_cmd *curr)
 		return (-1);
 	fd = open(filename, O_RDWR | O_TRUNC | O_CREAT, 0644);
 	if (fd < 0)
-	{
-		msg_err = "error while opening ";
-		filename = ft_strjoin_free(&msg_err, &filename, 0, 1);
-		if (!filename)
-			return (return_error(1, "memory allocation error", 0, -1));
-		return (return_error(1, 0, &filename, -1));
-	}
+		return (return_and_display_open_error(&filename));
 	free(filename);
 	return (fd);
 }
@@ -52,7 +63,6 @@ int	append_to_file(t_cmd *curr, int fd)
 {
 	int		error;
 	char	*filename;
-	char	*msg_err;
 
 	if (!curr || !curr->next)
 		return (return_error(1, "something went wrong", 0, -1));
@@ -64,15 +74,7 @@ int	append_to_file(t_cmd *curr, int fd)
 		return (-1);
 	fd = open(filename, O_RDWR | O_APPEND | O_CREAT, S_IRWXG | S_IRWXU);
 	if (fd < 0)
-	{
-		msg_err = ft_strdup("error while opening ");
-		if (!msg_err)
-			return (return_error(1, "memory allocation error", 0, -1));
-		filename = ft_strjoin_free(&msg_err, &filename, 1, 1);
-		if (!filename)
-			return (return_error(1, "memory allocation error", 0, -1));
-		return (return_error(1, 0, &filename, -1));
-	}
+		return (return_and_display_open_error(&filename));
 	free(filename);
 	return (fd);
 }

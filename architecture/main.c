@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 14:58:07 by anadege           #+#    #+#             */
-/*   Updated: 2021/11/01 15:26:49 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/11/01 16:14:07 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,9 +128,8 @@ int	main(int argc, char **argv, char **env)
 	if (return_value == 0)
 	{
 		str = find_assignment(&infos, "?");
-		if (!str)
-			return (-1);
-		return_value = ft_atoi(str);
+		if (str)
+			return_value = ft_atoi(str);
 	}
 	if (clean_exit(&infos, 1) == -1)
 		return (return_error(1, "minishell : fatal error", 0, 1));

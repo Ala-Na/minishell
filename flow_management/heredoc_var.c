@@ -70,7 +70,7 @@ char	*extract_content_from_file(int fd, char *tmp_file_name)
 	fd = open(tmp_file_name, O_RDWR);
 	if (fd < 0)
 	{
-		return_and_display_open_error(&tmp_file_name);
+		return_and_display_open_error(&tmp_file_name, 0);
 		return (NULL);
 	}
 	while (get_next_line(fd, &tmp_str) > 0)
@@ -123,7 +123,7 @@ int	expand_variable_to_heredoc(t_infos *infos, int fd, t_cmd *cmd_end_str,
 	close(fd);
 	fd = open(tmp_file_name, O_RDWR);
 	if (fd < 0)
-		return (return_and_display_open_error(&tmp_file_name));
+		return (return_and_display_open_error(&tmp_file_name, 0));
 	ft_putstr_fd(new_content, fd);
 	free(new_content);
 	close(fd);

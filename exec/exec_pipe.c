@@ -145,7 +145,7 @@ int	launch_pipes_cmds(t_infos *infos, t_cmd *cmd, int nbr_pipes)
 	while (redir_cmd)
 	{
 		if (add_redirections(infos, redir_cmd) < 0)
-			return (-1);
+			return (free_child_pids(&child_pids));
 		redir_cmd = get_next_cmd(redir_cmd);
 	}
 	res = pipe_loop(infos, cmd, &child_pids, 0);

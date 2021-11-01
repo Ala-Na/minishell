@@ -50,6 +50,7 @@ int	wait_for_pipeline_childs(int nbr_pipes, pid_t **child_pids)
 	int	wstatus;
 
 	i = 0;
+	wstatus = 0;
 	while (i < nbr_pipes + 1)
 	{
 		if ((*child_pids)[i] != 0)

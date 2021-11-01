@@ -21,7 +21,7 @@ int	return_and_display_open_error(char **filename)
 
 	msg_err = ": ";
 	*filename = ft_strjoin_free(filename, &msg_err, 1, 0);
-	if (!filename)
+	if (!*filename)
 		return (return_error(1, "memory allocation error", 0, -1));
 	msg_err = strerror(errno);
 	*filename = ft_strjoin_free(filename, &msg_err, 1, 0);

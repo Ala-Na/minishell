@@ -30,12 +30,12 @@ int	fill_env_with_deletion(char ***env, int elem_pos, int env_size)
 	j = 0;
 	while (++i < env_size - 1)
 	{
-		tmp_env[i] = (*env)[j++];
 		if (j == elem_pos)
 		{
 			free((*env)[elem_pos]);
 			j++;
 		}
+		tmp_env[i] = (*env)[j++];
 	}
 	tmp_env[i] = NULL;
 	free(*env);

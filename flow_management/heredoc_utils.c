@@ -19,13 +19,13 @@ char	*get_new_value(t_infos *infos, char *old)
 	char	*name;
 
 	i = 0;
-	while (old[i] && !ft_strchr(" \t\n\'\"", old[i]))
+	while (old[i] && (ft_isalnum(old[i]) || old[i] == '_'))
 		i++;
 	name = malloc(sizeof(*name) * (i + 1));
 	if (!name)
 		return (return_null_error(1, "memory allocation error", 0));
 	i = 0;
-	while (old[i] && !ft_strchr(" \t\n\'\"", old[i]))
+	while (old[i] && (ft_isalnum(old[i]) || old[i] == '_'))
 	{
 		name[i] = old[i];
 		i++;

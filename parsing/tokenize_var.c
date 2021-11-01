@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   tokenize_var.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlichir <hlichir@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/08 00:59:39 by hlichir           #+#    #+#             */
-/*   Updated: 2021/10/18 18:51:23 by hlichir          ###   ########.fr       */
+/*   Updated: 2021/11/01 16:11:54 by hlichir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	add_tokens_for_variables(t_token **tokens, int i, t_token *new)
+void	add_tokens_for_variables(t_token **tokens, t_token *new)
 {
 	t_token	*current;
 	int		size;
@@ -24,21 +24,33 @@ void	add_tokens_for_variables(t_token **tokens, int i, t_token *new)
 		{
 			current->token = current->token + 1;
 			size = current->length - 1;
-			while (current->token[0] && ft_strchr(" \t\n", current->token[0]))
-			{
-				current->token = current->token + 1;
-				size -= 1;
-			}
-			i = 0;
-			tokenize_variables(tokens, &current, new, size);
-			while ((current->token)[i] && (current->token)[i] != '$'
-				&& !ft_strchr(" \n\t", (current->token)[i]))
-				i++;
-			current->length = i;
+			if (current->token[size]
+				&& !ft_strncmp(current->token + size, "'$'", 3))
+				current->length = current->length - 2;
+			else
+				separate_var_for_tokenization(tokens, &current, new, size);
 		}
 		if (current)
 			current = current->next;
 	}
+}
+
+void	separate_var_for_tokenization(t_token **tokens, t_token **current,
+			t_token *new, int size)
+{
+	int	i;
+
+	while ((*current)->token[0] && ft_strchr(" \t\n", (*current)->token[0]))
+	{
+		(*current)->token = (*current)->token + 1;
+		size -= 1;
+	}
+	i = 0;
+	tokenize_variables(tokens, current, new, size);
+	while (((*current)->token)[i] && ((*current)->token)[i] != '$'
+		&& !ft_strchr(" \n\t", ((*current)->token)[i]))
+		i++;
+	(*current)->length = i;
 }
 
 void	tokenize_variables(t_token **start, t_token **cur, t_token *new, int s)

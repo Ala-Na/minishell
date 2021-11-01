@@ -73,7 +73,7 @@ int	check_file(char	*filename)
 
 	fd = open(filename, O_RDONLY);
 	if (fd < 0)
-		return (-1);
+		return (return_and_display_open_error(&filename));
 	if (close(fd) < 0)
 		return (return_error(1, "error while closing file", 0, -1));
 	return (0);

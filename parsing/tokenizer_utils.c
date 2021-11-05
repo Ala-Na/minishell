@@ -133,9 +133,12 @@ void	strings_manipulation(t_token **tokens)
 		to_compare = curr_token->token[curr_token->length];
 		if (to_compare == '$' && curr_token->token[curr_token->length + 1])
 			to_compare = curr_token->token[curr_token->length + 1];
+		if (to_compare == '$' && curr_token->type == VARIABLE
+			&& curr_token->token[curr_token->length + 2])
+			to_compare = curr_token->token[curr_token->length + 2];
 		if (curr_token->type != STRING && curr_token->type != VARIABLE
 			&& curr_token->token[curr_token->length] && curr_token->next
-			&& ft_strchr("\"\'$", to_compare))
+			&& (ft_strchr("\"\'", to_compare) || !isblank(to_compare)))
 			curr_token->linked_to_next = curr_token->next;
 		else if ((curr_token->type == STRING || curr_token->type == VARIABLE)
 			&& curr_token->token[curr_token->length] && curr_token->next

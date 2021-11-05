@@ -6,7 +6,7 @@
 /*   By: hlichir < hlichir@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/01 21:57:01 by anadege           #+#    #+#             */
-/*   Updated: 2021/10/11 17:00:22 by anadege          ###   ########.fr       */
+/*   Updated: 2021/11/05 13:00:51 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ int	fill_env_with_deletion(char ***env, int elem_pos, int env_size)
 		}
 		tmp_env[i] = (*env)[j++];
 	}
+	if (j == elem_pos)
+		free((*env)[elem_pos]);
 	tmp_env[i] = NULL;
 	free(*env);
 	*env = tmp_env;

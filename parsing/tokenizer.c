@@ -127,6 +127,7 @@ t_token	*check_cmd_extremity_is_not_operator(t_token **tokens,
 		free_token_list_from_extremity(&last, 1);
 		return (NULL);
 	}
+	add_tokens_for_variables(tokens, NULL);
 	strings_manipulation(tokens);
 	return (*tokens);
 }
